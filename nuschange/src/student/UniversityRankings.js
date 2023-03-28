@@ -47,8 +47,8 @@ const UniversityRankings = ({ universitiesData }) => {
   const filteredUniversities = universities.filter(
     (university) =>
       university.name.toLowerCase().includes(filter.toLowerCase()) ||
-      university.region.toLowerCase().includes(filter.toLowerCase()) ||
-      university.country.toLowerCase().includes(filter.toLowerCase())
+      university.regionName.toLowerCase().includes(filter.toLowerCase()) ||
+      university.countryName.toLowerCase().includes(filter.toLowerCase())
   );
 
   const sortedUniversities = filteredUniversities.sort((a, b) => {

@@ -6,7 +6,7 @@ const University = ({ university, isFavorite, onToggleFavorite }) => {
       <div className="university__details">
         <div className="university__ranking">{university.puId}</div>
         <div className="university__name">{university.name}</div>
-        <div className="university__location">{university.region}, {university.country}</div>
+        <div className="university__location">{university.regionName}, {university.countryName}</div>
         <div className="university__rating">Rating: {university.rating}</div>
       </div>
       <div className="university__favorite">
@@ -20,7 +20,7 @@ const University = ({ university, isFavorite, onToggleFavorite }) => {
         </button>
       </div>
       <div className="university__image">
-        <img src={university.url} alt={university.name} />
+        <img src={university.images} alt={university.name} />
       </div>
     </div>
   );

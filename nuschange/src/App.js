@@ -1,26 +1,27 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import Enquiry from './admin/userSupportAdmin/pages/enquiry';
-import EnquiryDetails from './admin/userSupportAdmin/pages/enquiry/view';
-import FAQs from './admin/userSupportAdmin/pages/faq/index';
-import CreateFAQ from './admin/userSupportAdmin/pages/faq/create';
-import FAQDetails from './admin/userSupportAdmin/pages/faq/view';
+//import Enquiry from './admin/userSupportAdmin/pages/enquiry';
+//import EnquiryDetails from './admin/userSupportAdmin/pages/enquiry/view';
+//import FAQs from './admin/userSupportAdmin/pages/faq/index';
+//import CreateFAQ from './admin/userSupportAdmin/pages/faq/create';
+//import FAQDetails from './admin/userSupportAdmin/pages/faq/view';
 import './App.css';
 //import Login from './admin/Login';
-import './student/assets/base.scss';
+//import './student/assets/base.scss';
 //import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import ForumTopics from './student/ForumTopics';
-import TopicPosts from './student/TopicPosts';
-import Login from './admin/Login';
-import UniversityDescriptionPage from './student/components/Index/universityDescriptionPage';
-import MappableModule from './student/components/Index/mappableModules';
+//import ForumTopics from './student/ForumTopics';
+//import TopicPosts from './student/TopicPosts';
+//import Login from './admin/Login';
+//import UniversityDescriptionPage from './student/components/Index/universityDescriptionPage';
+//import MappableModule from './student/components/Index/mappableModules';
 
-import Main from './admin/Main';
-import PartnerUuniversity from './admin/systemSupportAdmin/pages/partnerUniversity';
+//import Main from './admin/Main';
+//import PartnerUuniversity from './admin/systemSupportAdmin/pages/partnerUniversity';
+import HomePage from './student/HomePage';
+import UniversityRankings from './student/UniversityRankings';
 
-// test comment
 const App = () => {
   return (
-    <Router basename='/admin'>
+    /*<Router basename='/admin'>
       <Routes>
         <Route path="/login" element={<Login />} />
         <Route path="/main" element={<Main />} />
@@ -31,8 +32,13 @@ const App = () => {
         <Route path="/enquiries/assigned" element={<Enquiry adminId={1} />} />
         <Route path="/enquiries/:id" element={<EnquiryDetails />} />
         <Route path="/partnerUniversities" element={<PartnerUuniversity />} />
-      </Routes>
-      {/* <div className="App"> */}
+      </Routes>*/
+      <Router basename='/student'>
+      {/*<Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/universityRankings" element={<UniversityRankings />} />
+  </Routes>*/}
+       <div className="App"> 
         {/* <ForumTopics /> */}
         {/* <TopicPosts /> */}
         {/* <Router>
@@ -57,7 +63,8 @@ const App = () => {
       </header> */}
         {/* <UniversityDescriptionPage/> */}
         {/* <MappableModule /> */}
-      {/* </div> */}
+        { <HomePage /> }
+       </div> 
     </Router>
 
   );
