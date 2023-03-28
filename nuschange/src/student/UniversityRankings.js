@@ -73,7 +73,7 @@ const UniversityRankings = ({ universitiesData }) => {
     : sortedUniversities.slice(0, displayLimit);
 
   return (
-    <div className="university-rankings">
+    <div className="universityRankings">
       <div className="university-rankings__header">
         <div className="university-rankings__filter">
           <input
