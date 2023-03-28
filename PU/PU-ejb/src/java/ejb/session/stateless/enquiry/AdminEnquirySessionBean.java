@@ -16,7 +16,7 @@ import javax.persistence.Query;
 import util.enumeration.EnquiryStatusEnum;
 /**
  *
- * @author wjahoward
+ * @author wjahoward hello
  */
 @Stateless
 public class AdminEnquirySessionBean implements AdminEnquirySessionBeanLocal {
