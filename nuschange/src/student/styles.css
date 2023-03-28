@@ -1,0 +1,85 @@
+.pagination {
+    cursor: pointer;
+  }
+  
+  .pagination a:hover,
+  .pagination button:hover {
+    background-color: #ddd;
+  }
+
+  .pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .pagination li {
+    margin: 0 5px;
+  }
+  
+  .pagination li a:hover {
+    cursor: pointer;
+  }
+
+  .search {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40%; /* or 30% */
+    margin: 0 auto;
+    border-radius: 1rem;
+    background-color: #1f2123;
+    padding: 0.5rem;
+    margin-bottom: 1rem;
+    margin-top: 1rem;
+  }
+  
+  .search input {
+    flex: 1;
+    border: none;
+    font-size: 1.2rem; /* or 1rem */
+    font-family: var(--font-raleway);
+    font-weight: 500;
+    padding-right: 1rem;
+    outline: none;
+    color: #a1a1a1;
+    background: none;
+  }
+  
+  .search img {
+    width: 25px;
+    height: 25px;
+    cursor: pointer;
+  }
+  
+  .searchButton {
+    padding: 10px 20px;
+    border-radius: 0.5rem;
+    margin-left: 15px;
+    color: #ffffff;
+    font-family: var(--font-raleway);
+    font-weight: 900;
+    letter-spacing: 1px;
+    cursor: pointer;
+    background: #3d71a5;
+  }
+
+  .card-header--title {
+    font-size: 1.5rem; /* adjust font size */
+  }
+  
+  .card-header--title small {
+    font-size: 0.875rem; /* adjust font size */
+  }
+  
+  .card-header--title b {
+    font-size: 1.5rem; /* adjust font size */
+  }
+
+  
+  
+  
+  
+  
+  
+  

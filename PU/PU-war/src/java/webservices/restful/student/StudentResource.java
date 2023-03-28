@@ -1,0 +1,151 @@
+package webservices.restful.student;
+
+import ejb.session.stateless.StudentSessionBean;
+import ejb.session.stateless.StudentSessionBeanLocal;
+import entity.Student;
+import error.NoResultException;
+import java.util.Date;
+import java.util.List;
+import javax.ejb.EJB;
+import javax.ws.rs.Path;
+import javax.enterprise.context.RequestScoped;
+import javax.json.Json;
+import javax.json.JsonObject;
+import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
+import javax.ws.rs.GET;
+import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
+import javax.ws.rs.core.GenericEntity;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+
+@Path("student")
+@RequestScoped
+public class StudentResource {
+
+    @EJB
+    private StudentSessionBeanLocal studentSessionLocal;
+
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public List<Student> getAllStudents() {
+        return studentSessionLocal.retrieveAllStudents();
+    }
+
+    @GET
+    @Path("/query")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response searchStudent(@QueryParam("firstName") String firstName, @QueryParam("lastName") String lastName, @QueryParam("phoneNumber") String phoneNumber, @QueryParam("email") String email) {
+
+        if (firstName != null) {
+            List<Student> results = studentSessionLocal.searchStudentByFirstName(firstName);
+            GenericEntity<List<Student>> entity = new GenericEntity<List<Student>>(results) {
+            };
+
+            return Response.status(200).entity(
+                    entity
+            ).build();
+
+        } else if (lastName != null) {
+            List<Student> results = studentSessionLocal.searchStudentByLastName(lastName);
+            GenericEntity<List<Student>> entity = new GenericEntity<List<Student>>(results) {
+            };
+
+            return Response.status(200).entity(
+                    entity
+            ).build();
+        } else if (phoneNumber != null) {
+            List<Student> results = studentSessionLocal.searchStudentByLastName(phoneNumber);
+            GenericEntity<List<Student>> entity = new GenericEntity<List<Student>>(results) {
+            };
+
+            return Response.status(200).entity(
+                    entity
+            ).build();
+        } else if (email != null) {
+            List<Student> results = studentSessionLocal.searchStudentByLastName(email);
+            GenericEntity<List<Student>> entity = new GenericEntity<List<Student>>(results) {
+            };
+
+            return Response.status(200).entity(
+                    entity
+            ).build();
+        } else {
+            JsonObject exception = Json.createObjectBuilder()
+                    .add("error", "No query conditions")
+                    .build();
+
+            return Response.status(400).entity(exception).build();
+        }
+    } //end searchStudents
+
+    @GET
+    @Path("/{id}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getStudent(@PathParam("id") Long cId) {
+        try {
+            Student c = studentSessionLocal.getStudent(cId);
+            return Response.status(200).entity(
+                    c
+            ).type(MediaType.APPLICATION_JSON).build();
+        } catch (NoResultException e) {
+            JsonObject exception = Json.createObjectBuilder()
+                    .add("error", "Not found")
+                    .build();
+
+            return Response.status(404).entity(exception)
+                    .type(MediaType.APPLICATION_JSON).build();
+        }
+    } //end getStudent
+
+
+    @POST
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Student createStudent(Student s) {
+        studentSessionLocal.createStudent(s);
+        return s;
+    } //end createStudent
+
+    @PUT
+    @Path("/{id}")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response editStudent(@PathParam("id") Long cId, Student c) {
+        c.setStudentId(cId);
+        try {
+            studentSessionLocal.updateStudent(c);
+            return Response.status(204).build();
+        } catch (NoResultException e) {
+            JsonObject exception = Json.createObjectBuilder()
+                    .add("error", "Not found")
+                    .build();
+
+            return Response.status(404).entity(exception)
+                    .type(MediaType.APPLICATION_JSON).build();
+        }
+    } //end editStudent
+
+    @DELETE
+    @Path("/{id}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response deleteStudent(@PathParam("id") Long studentId) {
+        try {
+            studentSessionLocal.deleteStudent(studentId);
+            return Response.status(204).build();
+        } catch (NoResultException e) {
+            JsonObject exception = Json.createObjectBuilder()
+                    .add("error", "Not found")
+                    .build();
+
+            return Response.status(404).entity(exception).build();
+        }
+    } //end deleteStudent
+
+
+    
+}
