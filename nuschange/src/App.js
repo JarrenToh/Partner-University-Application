@@ -18,10 +18,10 @@ import './App.css';
 
 //import Main from './admin/Main';
 //import PartnerUuniversity from './admin/systemSupportAdmin/pages/partnerUniversity';
-import HomePage from './student/HomePage';
-import UniversityRankings from './student/UniversityRankings';
+import HomePage from './student/homepage/HomePage';
+import UniversityRankings from './student/ranking/UniversityRankings';
 import NavbarComp from './student/components/NavbarComp';
-import StudentLogin from './student/StudentLogin';
+import StudentLogin from './student/login/StudentLogin';
 
 const App = () => {
   const API_URL = "http://localhost:8080/PU-war/webresources/pu";

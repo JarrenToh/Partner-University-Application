@@ -7,7 +7,7 @@ import logo from './NUSChange-logoV3.png';
 import './Navbar.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Button } from 'reactstrap';
-import UniversityRankings from '../UniversityRankings';
+import UniversityRankings from '../ranking/UniversityRankings';
 
 const NavbarComp = ({ isLoggedIn, setIsLoggedIn, user }) => {
   const API_URL = "http://localhost:8080/PU-war/webresources/pu";
