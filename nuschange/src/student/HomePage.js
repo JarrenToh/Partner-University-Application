@@ -7,6 +7,7 @@ import { Button } from 'reactstrap';
 import "bootstrap/dist/css/bootstrap.min.css"
 import UniversityRankings from "./UniversityRankings";
 import universities from "./universitiesData";
+import logo from '../NUSChange-logoV3.png';
 
 const HomePage = () => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -33,7 +34,6 @@ const HomePage = () => {
     const data = await response.json();
     console.log(data);
     setPUs(data);
-    //setPUs(universities);
   };
 
   useEffect(() => {
@@ -44,7 +44,13 @@ const HomePage = () => {
     <div className="wrapper">
       
           <div className="app">
-            <h1>NUSChange</h1>
+          <img
+              alt=""
+              src={logo}
+              width="300"
+              height="100"
+              className="d-inline-block align-top"
+            />{' '}
             <div className="search">
               <input
                 value={searchTerm}

@@ -21,10 +21,12 @@ import './App.css';
 import HomePage from './student/HomePage';
 import UniversityRankings from './student/UniversityRankings';
 import NavbarComp from './student/components/NavbarComp';
+import Login from './student/StudentLogin';
 
 const App = () => {
   const API_URL = "http://localhost:8080/PU-war/webresources/pu";
   const [pus, setPUs] = useState([]);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   useEffect(() => {
     searchPUs("");
@@ -38,7 +40,7 @@ const App = () => {
   };
 
   return (
- 
+    
     /*<Router basename='/admin'>
       <Routes>
         <Route path="/login" element={<Login />} />
@@ -53,10 +55,11 @@ const App = () => {
       </Routes>*/
 
     <div className="App">
-      <NavbarComp />
+      <NavbarComp isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />
       <Router basename='/student'>
         <Routes>
-          <Route path="/" element={<HomePage />} />
+          <Route path="/home-page" element={<HomePage />} />
+          <Route path="/login" element={<Login />} />
           <Route path="/university-rankings" element={<UniversityRankings universitiesData={pus}/>} />
         </Routes>
       </Router>
