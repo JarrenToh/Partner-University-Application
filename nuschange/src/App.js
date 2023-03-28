@@ -33,12 +33,12 @@ const App = () => {
         <Route path="/enquiries/:id" element={<EnquiryDetails />} />
         <Route path="/partnerUniversities" element={<PartnerUuniversity />} />
       </Routes>*/
-      <Router basename='/student'>
-      {/*<Routes>
+    <Router basename='/student'>
+      <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/universityRankings" element={<UniversityRankings />} />
-  </Routes>*/}
-       <div className="App"> 
+      </Routes>
+      <div className="App">
         {/* <ForumTopics /> */}
         {/* <TopicPosts /> */}
         {/* <Router>
@@ -63,10 +63,8 @@ const App = () => {
       </header> */}
         {/* <UniversityDescriptionPage/> */}
         {/* <MappableModule /> */}
-        { <HomePage /> }
-       </div> 
+      </div>
     </Router>
-
   );
 }
 

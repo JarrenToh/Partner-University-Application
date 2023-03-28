@@ -42,9 +42,7 @@ const HomePage = () => {
 
   return (
     <div className="wrapper">
-      <Routes>
-        <Route path="/university-rankings" element={<UniversityRankings universitiesData={pus} />} />
-        <Route path="/" element={
+      
           <div className="app">
             <h1>NUSChange</h1>
             <div className="search">
@@ -114,8 +112,7 @@ const HomePage = () => {
             </div>
 
           </div>
-        } />
-      </Routes>
+ 
     </div>
   );
 };
