@@ -1,12 +1,14 @@
 import React, { useState } from 'react';
-
+import { useNavigate } from 'react-router-dom';
 import API from '../util/API';
 import { LoginStyles } from './login/LoginStyles';
+
 
 const Login = ({ onLogin }) => {
 
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const navigate = useNavigate();
 
   const handleUsernameChange = (e) => {
     setUsername(e.target.value);
@@ -19,14 +21,23 @@ const Login = ({ onLogin }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await API.post('/admin/login', {
+      const response = await API.post('/student/login', {
         username,
         password,
       });
-
-      // TODO: need to do redirect to main page
-      alert("You have logged in successfully");
+       // assuming the server returns the student object after a successful login
+      if (response.status === 200) {
+        // TODO: need to do redirect to main page
+        alert('You have logged in successfully');
+        const student = response.data;
+        onLogin(student); // Call onLogin prop function with student object
+        console.log(student);
+        navigate('/home-page');
+      } else {
+        alert('Login failed. Please check your credentials and try again.');
+      }
     } catch (error) {
+      alert('Error logging in. Please try again.');
       console.error(error);
     }
   };

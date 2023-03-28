@@ -6,9 +6,10 @@ import NavDropdown from 'react-bootstrap/NavDropdown';
 import logo from './NUSChange-logoV3.png';
 import './Navbar.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import { Button } from 'reactstrap';
 import UniversityRankings from '../UniversityRankings';
 
-const NavbarComp = ({ isLoggedIn }) => {
+const NavbarComp = ({ isLoggedIn, setIsLoggedIn, user }) => {
   const API_URL = "http://localhost:8080/PU-war/webresources/pu";
   const [pus, setPUs] = useState([]);
 
@@ -23,10 +24,14 @@ const NavbarComp = ({ isLoggedIn }) => {
     setPUs(data);
   };
 
+  const handleLogout = () => {
+    setIsLoggedIn(false);
+  };
+
   return (
     <Navbar bg="light" variant="light">
 
-      <Navbar.Brand href="/student" className='navBrand'>
+      <Navbar.Brand href="/student/home-page" className='navBrand'>
         <img
           alt=""
           src={logo}
@@ -53,7 +58,9 @@ const NavbarComp = ({ isLoggedIn }) => {
           </NavDropdown>
           </Nav>
         {isLoggedIn ? (
-          <Navbar.Text style={{ paddingRight: "20px" }}>Logged in</Navbar.Text>
+          <Navbar.Text style={{ paddingRight: "20px" }}>Welcome, <a href="/student/profile">{user.firstName}{" "}{user.lastName}</a>{"!"}
+          <Button className='logoutButton' onClick={handleLogout}>Logout</Button>
+          </Navbar.Text>
         ) : (
           <Navbar.Text style={{ paddingRight: "20px" }}>
             Not signed in: <a href="/student/login">Sign in</a>

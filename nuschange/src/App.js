@@ -21,12 +21,13 @@ import './App.css';
 import HomePage from './student/HomePage';
 import UniversityRankings from './student/UniversityRankings';
 import NavbarComp from './student/components/NavbarComp';
-import Login from './student/StudentLogin';
+import StudentLogin from './student/StudentLogin';
 
 const App = () => {
   const API_URL = "http://localhost:8080/PU-war/webresources/pu";
   const [pus, setPUs] = useState([]);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [user, setUser] = useState(null);
 
   useEffect(() => {
     searchPUs("");
@@ -37,6 +38,16 @@ const App = () => {
     const data = await response.json();
     console.log(data);
     setPUs(data);
+  };
+
+  const handleLogin = (student) => {
+    setUser(student);
+    setIsLoggedIn(true);
+  };
+
+  const handleLogout = () => {
+    setUser(null);
+    setIsLoggedIn(false);
   };
 
   return (
@@ -54,13 +65,22 @@ const App = () => {
         <Route path="/partnerUniversities" element={<PartnerUuniversity />} />
       </Routes>*/
 
-    <div className="App">
-      <NavbarComp isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />
+      <div className="App">
+      <NavbarComp isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} user={user}/>
       <Router basename='/student'>
         <Routes>
-          <Route path="/home-page" element={<HomePage />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/university-rankings" element={<UniversityRankings universitiesData={pus}/>} />
+          <Route
+            path="/home-page"
+            element={<HomePage />}
+          />
+          <Route
+            path="/login"
+            element={<StudentLogin onLogin={handleLogin} />}
+          />
+          <Route
+            path="/university-rankings"
+            element={<UniversityRankings universitiesData={pus} />}
+          />
         </Routes>
       </Router>
       {/* <ForumTopics /> */}
