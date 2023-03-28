@@ -1,6 +1,6 @@
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
 import logo from './NUSChange-logoV3.png';
@@ -8,10 +8,12 @@ import './Navbar.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Button } from 'reactstrap';
 import UniversityRankings from '../ranking/UniversityRankings';
+import { AuthContext } from '../login/AuthContext';
 
-const NavbarComp = ({ isLoggedIn, setIsLoggedIn, user }) => {
+const NavbarComp = () => {
   const API_URL = "http://localhost:8080/PU-war/webresources/pu";
   const [pus, setPUs] = useState([]);
+  const { loggedInStudent, logout } = useContext(AuthContext);
 
   useEffect(() => {
     searchPUs("");
@@ -24,13 +26,8 @@ const NavbarComp = ({ isLoggedIn, setIsLoggedIn, user }) => {
     setPUs(data);
   };
 
-  const handleLogout = () => {
-    setIsLoggedIn(false);
-  };
-
   return (
     <Navbar bg="light" variant="light">
-
       <Navbar.Brand href="/student/home-page" className='navBrand'>
         <img
           alt=""
@@ -56,10 +53,11 @@ const NavbarComp = ({ isLoggedIn, setIsLoggedIn, user }) => {
               Contact Us
             </NavDropdown.Item>
           </NavDropdown>
-          </Nav>
-        {isLoggedIn ? (
-          <Navbar.Text style={{ paddingRight: "20px" }}>Welcome, <a href="/student/profile">{user.firstName}{" "}{user.lastName}</a>{"!"}
-          <Button className='logoutButton' onClick={handleLogout}>Logout</Button>
+        </Nav>
+        {loggedInStudent ? (
+          <Navbar.Text style={{ paddingRight: "20px" }}>
+            Welcome, <a href="/student/profile">{loggedInStudent.firstName}{" "}{loggedInStudent.lastName}</a>{"!"}
+            <Button className='logoutButton' onClick={logout}>Logout</Button>
           </Navbar.Text>
         ) : (
           <Navbar.Text style={{ paddingRight: "20px" }}>

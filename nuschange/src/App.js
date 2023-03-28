@@ -1,11 +1,17 @@
-import React, { useState, useEffect } from "react";
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { createContext, useContext, useState, useEffect } from "react";
+import './App.css';
+import HomePage from './student/homepage/HomePage';
+import UniversityRankings from './student/ranking/UniversityRankings';
+import NavbarComp from './student/components/NavbarComp';
+import StudentLogin from './student/login/StudentLogin';
+import { AuthProvider, useAuth } from './student/login/AuthContext';
+
 //import Enquiry from './admin/userSupportAdmin/pages/enquiry';
 //import EnquiryDetails from './admin/userSupportAdmin/pages/enquiry/view';
 //import FAQs from './admin/userSupportAdmin/pages/faq/index';
 //import CreateFAQ from './admin/userSupportAdmin/pages/faq/create';
 //import FAQDetails from './admin/userSupportAdmin/pages/faq/view';
-import './App.css';
 //import Login from './admin/Login';
 //import './student/assets/base.scss';
 //import 'bootstrap/dist/css/bootstrap.min.css';
@@ -15,19 +21,15 @@ import './App.css';
 //import Login from './admin/Login';
 //import UniversityDescriptionPage from './student/components/Index/universityDescriptionPage';
 //import MappableModule from './student/components/Index/mappableModules';
-
 //import Main from './admin/Main';
 //import PartnerUuniversity from './admin/systemSupportAdmin/pages/partnerUniversity';
-import HomePage from './student/homepage/HomePage';
-import UniversityRankings from './student/ranking/UniversityRankings';
-import NavbarComp from './student/components/NavbarComp';
-import StudentLogin from './student/login/StudentLogin';
 
 const App = () => {
   const API_URL = "http://localhost:8080/PU-war/webresources/pu";
   const [pus, setPUs] = useState([]);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [user, setUser] = useState(null);
+  const { loggedInStudent, login, logout } = useAuth();
 
   useEffect(() => {
     searchPUs("");
@@ -48,11 +50,22 @@ const App = () => {
   const handleLogout = () => {
     setUser(null);
     setIsLoggedIn(false);
+    logout(); // Call logout function from AuthContext
   };
 
   return (
-    
-    /*<Router basename='/admin'>
+    <AuthProvider> {/* Wrap the app in AuthProvider */}
+      <div className="App">
+        <NavbarComp isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} user={user} />
+        <Router basename='/student'>
+          <Routes>
+            <Route path="/home-page" element={<HomePage />} />
+            <Route path="/login" element={<StudentLogin onLogin={handleLogin} />} />
+            <Route path="/university-rankings" element={<UniversityRankings universitiesData={pus} />} />
+          </Routes>
+        </Router>
+
+        {/* <Router basename='/admin'>
       <Routes>
         <Route path="/login" element={<Login />} />
         <Route path="/main" element={<Main />} />
@@ -63,35 +76,17 @@ const App = () => {
         <Route path="/enquiries/assigned" element={<Enquiry adminId={1} />} />
         <Route path="/enquiries/:id" element={<EnquiryDetails />} />
         <Route path="/partnerUniversities" element={<PartnerUuniversity />} />
-      </Routes>*/
+      </Routes>*/}
 
-      <div className="App">
-      <NavbarComp isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} user={user}/>
-      <Router basename='/student'>
-        <Routes>
-          <Route
-            path="/home-page"
-            element={<HomePage />}
-          />
-          <Route
-            path="/login"
-            element={<StudentLogin onLogin={handleLogin} />}
-          />
-          <Route
-            path="/university-rankings"
-            element={<UniversityRankings universitiesData={pus} />}
-          />
-        </Routes>
-      </Router>
-      {/* <ForumTopics /> */}
-      {/* <TopicPosts /> */}
-      {/* <Router>
+        {/* <ForumTopics /> */}
+        {/* <TopicPosts /> */}
+        {/* <Router>
         <Routes>
           <Route path="/" element={<ForumTopics />} />
           <Route path="/post/:id" element={<TopicPosts />} />
         </Routes>
       </Router> */}
-      {/* <header className="App-header">
+        {/* <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
         <p>
           Edit <code>src/App.js</code> and save to reload.
@@ -105,10 +100,10 @@ const App = () => {
           Learn React
         </a>
       </header> */}
-      {/* <UniversityDescriptionPage/> */}
-      {/* <MappableModule /> */}
-    </div>
-
+        {/* <UniversityDescriptionPage/> */}
+        {/* <MappableModule /> */}
+      </div>
+    </AuthProvider>
   );
 }
 
