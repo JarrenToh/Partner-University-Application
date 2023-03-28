@@ -71,8 +71,6 @@ public class Country implements Serializable {
         this.region = region;
     }
 
-    public Country() {
-    }
 
     public List<PU> getPus() {
         return pus;
@@ -93,10 +91,6 @@ public class Country implements Serializable {
         return hash;
     }
 
-    public Country(String name, Region region) {
-        this.name = name;
-        this.region = region;
-    }
 
     @Override
     public boolean equals(Object object) {

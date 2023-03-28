@@ -37,11 +37,7 @@ public class PU implements Serializable {
     @NotNull
     private String name;
 
-<<<<<<< Updated upstream
-    @Column(nullable = false, columnDefinition = "VARCHAR(1024)")
-=======
     @Column(nullable = false, columnDefinition = "VARCHAR(5000)")
->>>>>>> Stashed changes
     @NotNull
     private String description;
 
@@ -199,7 +195,6 @@ public class PU implements Serializable {
     }
 
     /**
-<<<<<<< Updated upstream
      * @param name the name to set
      */
     public void setName(String name) {
@@ -220,9 +215,7 @@ public class PU implements Serializable {
         this.images = images;
     }
 
-=======
-     * @return the countryName
-     */
+
     public String getCountryName() {
         return countryName;
     }
@@ -263,5 +256,4 @@ public class PU implements Serializable {
     }
 
 
->>>>>>> Stashed changes
 }
