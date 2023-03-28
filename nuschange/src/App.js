@@ -35,7 +35,6 @@ const App = () => {
     const data = await response.json();
     console.log(data);
     setPUs(data);
-    //setPUs(universities);
   };
 
   return (

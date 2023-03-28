@@ -1,12 +1,28 @@
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
+import React, { useState, useEffect } from "react";
 import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
 import logo from './NUSChange-logoV3.png';
 import './Navbar.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import UniversityRankings from '../UniversityRankings';
 
 function BasicExample() {
+  const API_URL = "http://localhost:8080/PU-war/webresources/pu";
+  const [pus, setPUs] = useState([]);
+
+  useEffect(() => {
+    searchPUs("");
+  }, []);
+
+  const searchPUs = async (title) => {
+    const response = await fetch(`${API_URL}`);
+    const data = await response.json();
+    console.log(data);
+    setPUs(data);
+  };
+
   return (
     <Navbar bg="light" variant="light">
       
@@ -23,7 +39,7 @@ function BasicExample() {
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto">
             <Nav.Link href="/student" className='navLink'>Home</Nav.Link>
-            <Nav.Link href="/student/university-rankings" className='navLink'>Ranking</Nav.Link>
+            <Nav.Link href="/student/university-rankings?search=" className='navLink'>Ranking</Nav.Link>
             <NavDropdown title="Support" id="basic-nav-dropdown"className='navLinkDropDown' >
               <NavDropdown.Item href="#action/3.1">FAQs</NavDropdown.Item>
               <NavDropdown.Item href="#action/3.2">
