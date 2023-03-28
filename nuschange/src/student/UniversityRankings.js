@@ -65,68 +65,76 @@ const UniversityRankings = ({ universitiesData }) => {
       return a.name.localeCompare(b.name);
     }
   });
-  
-  
+
+
 
   const displayedUniversities = favoritesOnly
     ? sortedUniversities.filter((university) => university.isFavorite)
     : sortedUniversities.slice(0, displayLimit);
 
   return (
-    <div className="universityRankings">
-      <div className="university-rankings__header">
-        <div className="university-rankings__filter">
-          <input
-            type="text"
-            placeholder="Search "
-            value={filter}
-            onChange={handleFilterChange}
-          />
+    <div className="wrapper">
+      <div className="container">
+        <div className="universityRankings">
+          <div className="university-rankings__header">
+            <div className="university-rankings__filter">
+              <input
+                type="text"
+                placeholder="Search "
+                value={filter}
+                onChange={handleFilterChange}
+              />
+            </div>
+            <div className="university-rankings__sort-by">
+              Sort by:
+              <select value={sortBy} onChange={handleSortByChange}>
+                <option value="ranking">Ranking</option>
+                <option value="name">Name</option>
+              </select>
+            </div>
+            <div className="university-rankings__favorites">
+              <label>
+                <input
+                  type="checkbox"
+                  checked={favoritesOnly}
+                  onChange={(event) => setFavoritesOnly(event.target.checked)}
+                />
+                Favorites only
+              </label>
+            </div>
+          </div>
         </div>
-        <div className="university-rankings__sort-by">
-          Sort by:
-          <select value={sortBy} onChange={handleSortByChange}>
-            <option value="ranking">Ranking</option>
-            <option value="name">Name</option>
-          </select>
-        </div>
-        <div className="university-rankings__favorites">
-          <label>
-            <input
-              type="checkbox"
-              checked={favoritesOnly}
-              onChange={(event) => setFavoritesOnly(event.target.checked)}
-            />
-            Favorites only
-          </label>
-        </div>
-      </div>
-      {displayedUniversities.length > 0 ? (
-        <div className="university-rankings__grid">
-          {displayedUniversities.map((university) => (
-            <div className="university-card-wrapper" key={university.puId}>
-              <UniversityCard university={university} />
-              <button
-                className={`university-card__favorite-button ${
-                  university.isFavorite
+        {displayedUniversities.length > 0 ? (
+          <div className="university-rankings__grid">
+            <br/>
+            {displayedUniversities.map((university) => (
+              <div className="university-card-wrapper" key={university.puId}>
+                <UniversityCard university={university} />
+                <button
+                  className={`university-card__favorite-button ${university.isFavorite
                     ? "university-card__favorite-button--active"
                     : ""
-                }`}
-                onClick={() => handleToggleFavorite(university.puId)}
-              >
-                <i className="fas fa-heart"></i>
-              </button>
+                    }`}
+                  onClick={() => handleToggleFavorite(university.puId)}
+                >
+                  <i className="fas fa-heart"></i>
+                </button>
+              </div>
+            ))}
+          </div>
+        ) : (
+          <div className="university-rankings__noResult">
+            <div className="university-rankings__empty">
+              <br/>
+              <h2>No Results</h2>
             </div>
-          ))}
-        </div>
-      ) : (
-        <div className="university-rankings__empty">
-          <h2>No Results</h2>
-        </div>
-      )}
-      {sortedUniversities.length > displayLimit && (
-        <Button onClick={handleShowMore}>Show More</Button>
-      )}
+          </div>
+        )}
+        {sortedUniversities.length > displayLimit && (
+          <Button onClick={handleShowMore}>Show More</Button>
+        )}
+      </div>
+
     </div>
   );
 };

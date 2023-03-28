@@ -10,7 +10,7 @@ function BasicExample() {
   return (
     <Navbar bg="light" variant="light">
       
-      <Navbar.Brand href="#home" className='navBrand'>
+      <Navbar.Brand href="/student" className='navBrand'>
             <img
               alt=""
               src={logo}

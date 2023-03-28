@@ -89,6 +89,21 @@
     max-width: 1200px;
 }
 
+.university-rankings__noResult {
+    display: grid; 
+    gap: 20px;
+    width: 100%;
+    max-width: 1200px;
+}
+
+.university-rankings__empty{
+    text-align: -webkit-center;
+}
+
+.h2 {
+    text-align: center;
+}
+
 .university-card-wrapper {
     position: relative;
 }
