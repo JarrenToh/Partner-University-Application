@@ -37,13 +37,17 @@ h1 {
 }
 
 h2 {
-  font-size: 1rem;
-  letter-spacing: 0.9px;
-  background: rgb(38, 93, 221);
+  padding-top: 1rem;
+  font-size: 1.5rem;
+  letter-spacing: 1.5px;
+  background: rgb(252, 252, 252);
   background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   width: fit-content;
+  font-family :'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+  -webkit-text-stroke: 0px black;
+  text-stroke: 1px white;
 }
 
 .search {

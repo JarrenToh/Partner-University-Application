@@ -4,11 +4,27 @@ import API from '../../util/API';
 import { LoginStyles } from './LoginStyles';
 import { AuthContext } from './AuthContext';
 
+import {
+  Button,
+  Form,
+  FormGroup,
+  Input,
+  Label,
+  Card,
+  CardHeader,
+  CardBody,
+  CardFooter,
+  Alert,
+} from 'reactstrap';
+
 const Login = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
   const { login } = useContext(AuthContext);
+  const [alertVisible, setAlertVisible] = useState(false);
+  const [alertMessage, setAlertMessage] = useState('');
+  const [alertType, setAlertType] = useState('danger');
 
   const handleUsernameChange = (e) => {
     setUsername(e.target.value);
@@ -29,53 +45,92 @@ const Login = () => {
       if (response.status === 200) {
         const student = response.data;
         login(student); // Call login function with student object from AuthContext
-        alert('You have logged in successfully');
-        navigate('/home-page');
+        setAlertType('success');
+        setAlertMessage('You have logged in successfully');
+        setAlertVisible(true);
+        setTimeout(() => {
+          navigate('/home-page');
+        }, 2000);
       } else {
-        alert('Login failed. Please check your credentials and try again.');
+        setAlertType('danger');
+        setAlertMessage(
+          'Login failed. Please check your credentials and try again.'
+        );
+        setAlertVisible(true);
       }
     } catch (error) {
-      alert('Error logging in. Please try again.');
+      setAlertType('danger');
+      setAlertMessage('Error logging in. Please try again.');
+      setAlertVisible(true);
       console.error(error);
     }
   };
 
   return (
-    <div className="form" style={LoginStyles.formContainerStyle}>
-      <div className="card card-primary" style={LoginStyles.formStyle}>
-        <div className="card-header">
+    <div
+      className="form-container"
+      style={{
+        ...LoginStyles.formContainerStyle,
+        backgroundImage: `url('https://cde.nus.edu.sg/wp-content/uploads/2021/08/article-image-2048x1152-1.png')`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        minHeight: '100vh',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        borderRadius: '2%', // Set border radius to 50% to create curved edges
+        //overflow: 'hidden', // Hide anything that overflows the container
+      }}
+    >
+      <Card
+        className="form"
+        style={{
+          ...LoginStyles.formStyle,
+          backgroundColor: 'rgba(255,255,255,0.7)',
+          boxShadow: '0 0 10px rgba(0,0,0,0.3)',
+          maxWidth: '700px', // Set the maximum width of the card to 400px
+        }}
+      >
+        <CardHeader>
           <h3 className="card-title">Student Login</h3>
-        </div>
-        <form onSubmit={handleSubmit}>
-          <div className="card-body">
-            <div className="form-group" style={LoginStyles.formGroupStyle}>
-              <label htmlFor="exampleInputEmail1">Username</label>
-              <input
-                type="username"
-                className="form-control"
-                id="exampleInputEmail1"
+        </CardHeader>
+        <Form onSubmit={handleSubmit}>
+          <CardBody>
+            <FormGroup>
+              <Label for="username">Username</Label>
+              <Input
+                type="text"
+                name="username"
+                id="username"
                 placeholder="Enter username"
+                value={username}
                 onChange={handleUsernameChange}
               />
-            </div>
-            <div className="form-group" style={LoginStyles.formGroupStyle}>
-              <label htmlFor="exampleInputPassword1">Password</label>
-              <input
+            </FormGroup>
+            <FormGroup>
+              <Label for="password">Password</Label>
+              <Input
                 type="password"
-                className="form-control"
-                id="exampleInputPassword1"
-                placeholder="Password"
+                name="password"
+                id="password"
+                placeholder="Enter password"
+                value={password}
                 onChange={handlePasswordChange}
               />
-            </div>
-          </div>
-          <div className="card-footer">
-            <button type="submit" className="btn btn-primary">
+            </FormGroup>
+          </CardBody>
+          <CardFooter>
+            <Button color="primary" type="submit">
               Submit
-            </button>
-          </div>
-        </form>
-      </div>
+            </Button>
+          </CardFooter>
+        </Form>
+      </Card>
+      {alertVisible && (
+        <Alert color={alertType} toggle={() => setAlertVisible(false)}>
+          {alertMessage}
+        </Alert>
+      )}
     </div>
   );
 };

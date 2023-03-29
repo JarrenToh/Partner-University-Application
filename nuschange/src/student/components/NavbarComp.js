@@ -14,6 +14,10 @@ const NavbarComp = () => {
   const API_URL = "http://localhost:8080/PU-war/webresources/pu";
   const [pus, setPUs] = useState([]);
   const { loggedInStudent, logout } = useContext(AuthContext);
+  const [alertMessage, setAlertMessage] = useState('');
+  const [alertVisible, setAlertVisible] = useState(false);
+  const [alertType, setAlertType] = useState('danger');
+  const [isLoggedOut, setIsLoggedOut] = useState(false);
 
   useEffect(() => {
     searchPUs("");
@@ -24,6 +28,17 @@ const NavbarComp = () => {
     const data = await response.json();
     console.log(data);
     setPUs(data);
+  };
+
+  const handleLogout = () => {
+    setIsLoggedOut(true);
+    setTimeout(() => {
+      setIsLoggedOut(false);
+      logout();
+      setAlertType('success');
+      setAlertMessage('You have logged out successfully');
+      setAlertVisible(true);
+    }, 1000); // Remove the alert message after 3 seconds
   };
 
   return (
@@ -57,7 +72,7 @@ const NavbarComp = () => {
         {loggedInStudent ? (
           <Navbar.Text style={{ paddingRight: "20px" }}>
             Welcome, <a href="/student/profile">{loggedInStudent.firstName}{" "}{loggedInStudent.lastName}</a>{"!"}
-            <Button className='logoutButton' onClick={logout}>Logout</Button>
+            <Button className='logoutButton' onClick={handleLogout}>Logout</Button>
           </Navbar.Text>
         ) : (
           <Navbar.Text style={{ paddingRight: "20px" }}>

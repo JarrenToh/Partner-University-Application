@@ -41,84 +41,169 @@ const HomePage = () => {
   }, [searchQuery]);
 
   return (
-    <div className="wrapper">
-      
-          <div className="app">
-          <img
-              alt=""
-              src={logo}
-              width="300"
-              height="100"
-              className="d-inline-block align-top"
-            />{' '}
-            <div className="search">
-              <input
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                placeholder="Search for Partner Universities"
-              />
-              <Link to={`/university-rankings?search=${searchTerm}`}>
-                <img
-                  src={SearchIcon}
-                  alt="search"
-                  onClick={() => searchPUs(searchTerm)}
-                />
-              </Link>
-            </div>
+    <div className="wrapper" >
 
-            <div className="container">
-              <button className="searchButton">By Country</button>
-              <button className="searchButton">By Region</button>
-            </div>
+      <div className="app" style={{
 
-            <div className="container">
-              <h2>Top 5 Ranking Universities</h2>
-              <div className="container">
-                {pus
-                  .sort((a, b) => b.rating - a.rating)
-                  .slice(0, 5)
-                  .map((university) => (
-                    <div key={university.puId}>
-                      <Link to={`/university-rankings?search=${university.name}`}>
-                        <PUCard pu={university} />
-                      </Link>
-                    </div>
-                  ))}
-              </div>
-            </div>
+        backgroundImage: `url('https://gov-web.s3.ap-northeast-1.amazonaws.com/uploads/2018/04/NUS-ERC.jpg')`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        minHeight: '100vh',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        //borderRadius: '1%', // Set border radius to 50% to create curved edges
+        //overflow: 'hidden', // Hide anything that overflows the container
+      }}>
+        <img
+          alt=""
+          src={logo}
+          width="300"
+          height="100"
+          className="d-inline-block align-top"
+        />{' '}
+        <div className="search" >
+          <input
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            placeholder="Search for Partner Universities"
+          />
+          <Link to={`/university-rankings?search=${searchTerm}`}>
+            <img
+              src={SearchIcon}
+              alt="search"
+              onClick={() => searchPUs(searchTerm)}
+            />
+          </Link>
+        </div>
 
-            <div className="container">
-              <h2>Asia</h2>
-              <div className="container">
-                {pus
-                  .filter((university) => university.regionName === "Asia")
-                  .map((university) => (
-                    <div key={university.puId}>
-                      <Link to={`/university-rankings?search=${university.name}`}>
-                        <PUCard pu={university} />
-                      </Link>
-                    </div>
-                  ))}
-              </div>
-            </div>
+        <div className="container">
+          <button className="searchButton">By Country</button>
+          <button className="searchButton">By Region</button>
+        </div>
 
-            <div className="container">
-              <h2>Europe</h2>
-              <div className="container">
-                {pus
-                  .filter((university) => university.regionName === "Europe")
-                  .map((university) => (
-                    <div key={university.puId}>
-                      <Link to={`/university-rankings?search=${university.name}`}>
-                        <PUCard pu={university} />
-                      </Link>
-                    </div>
-                  ))}
-              </div>
-            </div>
-
+        <div className="container" style={{
+          backgroundColor: 'rgba(128, 128, 128,0.6)',
+          borderRadius: '0.5%',
+        }}>
+          <h2>Top 5 Ranking Universities</h2>
+          <div className="container">
+            {pus
+              .sort((a, b) => b.rating - a.rating)
+              .slice(0, 5)
+              .map((university) => (
+                <div key={university.puId}>
+                  <Link to={`/university-rankings?search=${university.name}`}>
+                    <PUCard pu={university} />
+                  </Link>
+                </div>
+              ))}
           </div>
- 
+        </div>
+
+        <div className="container" style={{
+          backgroundColor: 'rgba(128, 128, 128,0.6)',
+          borderRadius: '0.5%',
+        }}>
+          <h2>Asia</h2>
+          <div className="container">
+            {pus
+              .sort((a, b) => b.rating - a.rating)
+              .slice(0, 5)
+              .filter((university) => university.regionName === "Asia")
+              .map((university) => (
+                <div key={university.puId}>
+                  <Link to={`/university-rankings?search=${university.name}`}>
+                    <PUCard pu={university} />
+                  </Link>
+                </div>
+              ))}
+          </div>
+        </div>
+
+        <div className="container" style={{
+          backgroundColor: 'rgba(128, 128, 128,0.5)',
+          borderRadius: '0.5%',
+        }}>
+          <h2>Europe</h2>
+          <div className="container">
+            {pus
+              .sort((a, b) => b.rating - a.rating)
+              .slice(0, 5)
+              .filter((university) => university.regionName === "Europe")
+              .map((university) => (
+                <div key={university.puId}>
+                  <Link to={`/university-rankings?search=${university.name}`}>
+                    <PUCard pu={university} />
+                  </Link>
+                </div>
+              ))}
+          </div>
+        </div>
+
+        <div className="container" style={{
+          backgroundColor: 'rgba(128, 128, 128,0.5)',
+          borderRadius: '0.5%',
+        }}>
+          <h2>Africa</h2>
+          <div className="container">
+            {pus
+              .sort((a, b) => b.rating - a.rating)
+              .slice(0, 5)
+              .filter((university) => university.regionName === "Africa")
+              .map((university) => (
+                <div key={university.puId}>
+                  <Link to={`/university-rankings?search=${university.name}`}>
+                    <PUCard pu={university} />
+                  </Link>
+                </div>
+              ))}
+          </div>
+        </div>
+
+        <div className="container" style={{
+          backgroundColor: 'rgba(128, 128, 128,0.5)',
+          borderRadius: '0.5%',
+        }}>
+          <h2>Australia</h2>
+          <div className="container">
+            {pus
+              .sort((a, b) => b.rating - a.rating)
+              .slice(0, 5)
+              .filter((university) => university.regionName === "Australia")
+              .map((university) => (
+                <div key={university.puId}>
+                  <Link to={`/university-rankings?search=${university.name}`}>
+                    <PUCard pu={university} />
+                  </Link>
+                </div>
+              ))}
+          </div>
+        </div>
+
+        <div className="container" style={{
+          backgroundColor: 'rgba(128, 128, 128,0.5)',
+          borderRadius: '0.5%',
+        }}>
+          <h2>America</h2>
+          <div className="container">
+            {pus
+              .sort((a, b) => b.rating - a.rating)
+              .slice(0, 5)
+              .filter((university) => university.regionName === "America")
+              .map((university) => (
+                <div key={university.puId}>
+                  <Link to={`/university-rankings?search=${university.name}`}>
+                    <PUCard pu={university} />
+                  </Link>
+                </div>
+              ))}
+          </div>
+        </div>
+
+      </div>
+
+
     </div>
   );
 };
