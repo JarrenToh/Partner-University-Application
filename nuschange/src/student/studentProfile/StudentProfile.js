@@ -22,38 +22,50 @@ import {
   ListGroup,
   ListGroupItem,
   Card,
-  Container,
-  Accordion,
 } from "react-bootstrap";
+import ReviewModal from "./ReviewModal";
 
 const StudentProfile = () => {
   const { loggedInStudent, logout } = useContext(AuthContext);
+  const [reviewModalShow, setReviewModalShow] = useState(false);
+  
   if (!loggedInStudent) {
     return <div> Not Logged in</div>;
   }
+
+  // Concat first and last name to make full name
   const studentFullName =
     loggedInStudent.firstName + " " + loggedInStudent.lastName;
 
-  const dummyStudent = {
-    studentId: 1,
-    firstName: "Muhammad",
-    lastName: "Mursyid",
-    phoneNumber: "",
-    faculty: "School Of Computing",
-    socialMedia: [""],
-    lastActive: "2023-03-24",
-    email: "muhammad_mursyid@u.nus.edu",
-    partnerUniversity: "University Of Manchester",
+  // Component to show relevant information 
+  // depending on whether student is enrolled to a PU
+  const EnrolledField = (props) => {
+    const isEnrolled = props.isEnrolled;
+
+    if (isEnrolled) {
+      return (
+        <InputGroup>
+          <Form.Control
+            readOnly
+            defaultValue={loggedInStudent.partnerUniversity}
+          />
+          <Button onClick={() => setReviewModalShow(true)}>
+            <FontAwesomeIcon icon={faPenToSquare} /> Add Review
+          </Button>
+        </InputGroup>
+      );
+    } else {
+      return (
+        <InputGroup>
+          <Form.Control readOnly defaultValue="Unenrolled" />
+        </InputGroup>
+      );
+    }
   };
-
-  const dummyStudentFullName =
-    dummyStudent.firstName + " " + dummyStudent.lastName;
-
-  console.log(loggedInStudent);
 
   return (
     <div style={{ paddingLeft: "5%", paddingRight: "5%" }}>
-      <div style={{ textAlign: "center", paddingTop: "2.5%" }}>
+      <div className="container">
         <h1>User Profile</h1>
       </div>
       <Row>
@@ -73,6 +85,7 @@ const StudentProfile = () => {
             <Card>
               <Card.Header as="h5">Social Media</Card.Header>
               <ListGroup variant="flush">
+              
                 <ListGroupItem>
                   <FontAwesomeIcon icon={faLinkedin} size="xl" />
                 </ListGroupItem>
@@ -120,15 +133,11 @@ const StudentProfile = () => {
               </Form.Group>
               <Form.Group className="mb-3" controlId="formGroupEmail">
                 <Form.Label>Partner University</Form.Label>
-                <InputGroup>
-                  <Form.Control
-                    readOnly
-                    defaultValue={loggedInStudent.partnerUniversity}
-                  />
-                  <Button>
-                    <FontAwesomeIcon icon={faPenToSquare} /> Add Review
-                  </Button>
-                </InputGroup>
+                <EnrolledField
+                  isEnrolled={
+                    loggedInStudent.partnerUniversity == null
+                  }
+                />
               </Form.Group>
             </Form>
           </div>
@@ -138,8 +147,24 @@ const StudentProfile = () => {
         <br />
         <Button variant="secondary">Liked PUS</Button>
       </React.Fragment>
+
+      <ReviewModal
+       show={reviewModalShow}
+       onHide={() => setReviewModalShow(false)}
+      />
+
     </div>
   );
 };
 
 export default StudentProfile;
+
+
+/*
+  {loggedInStudent.social.map((socialMedia) => (
+                  <ListGroupItem>
+
+                  </ListGroupItem>
+                ))}
+
+*/
