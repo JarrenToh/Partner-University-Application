@@ -1,4 +1,5 @@
 import React, { Fragment} from 'react';
+import { Link } from 'react-router-dom';
 // import { useNavigate } from 'react-router-dom';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -7,7 +8,7 @@ import { far } from '@fortawesome/free-regular-svg-icons';
 import { fas } from '@fortawesome/free-solid-svg-icons';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import './styles.css';
-import SearchIcon from './search.svg';
+import SearchIcon from './homepage/search.svg';
 
 import {
   Table,
@@ -141,12 +142,8 @@ export default function ForumTopics() {
                     </td>
                     <td className="text-center">
                       <Button
-                        tag="a"
-                        href="#/"
-                        // onClick={(e) => {
-                        //   e.preventDefault();
-                        //   navigate(`/post/:id`, { state: { topic: item.id } });
-                        // }}
+                        tag={Link}
+                        to={`/forum-topics/${item.topicId}`}
                         size="sm"
                         color="link"
                         className="text-primary"

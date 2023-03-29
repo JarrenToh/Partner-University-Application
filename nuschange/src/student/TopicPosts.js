@@ -1,12 +1,12 @@
 import React, { Fragment, startTransition } from 'react';
-
+import { useParams } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { far } from '@fortawesome/free-regular-svg-icons';
 import { fas } from '@fortawesome/free-solid-svg-icons';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import './styles.css';
-import SearchIcon from './search.svg';
+import SearchIcon from './homepage/search.svg';
 
 import {
   Table,
@@ -36,7 +36,7 @@ const API_URL = 'http://localhost:8080/PU-war/webresources/forumPosts';
 library.add(far, fas, faPlus);
 
 export default function TopicPosts(props) {
-  // const {topic} = props.location.state;
+  const { id } = useParams();
   const [forumPosts, setForumPosts] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
   const [pageNumber, setPageNumber] = useState(0);
@@ -47,9 +47,11 @@ export default function TopicPosts(props) {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(`http://localhost:8080/PU-war/webresources/forumPosts`);
+        const response = await axios.get(`http://localhost:8080/PU-war/webresources/forumPosts/topic/${id}`);
+        
         setForumPosts(response.data);
       } catch (error) {
+        console.log({id})
         console.error(error);
       }
     };
