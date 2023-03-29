@@ -55,9 +55,8 @@ public class PU implements Serializable {
     @OneToMany(mappedBy = "pu", fetch = FetchType.EAGER)
     private List<PUReview> puReviews;
 
-    @ManyToOne(optional = true)
-    @JoinColumn(nullable = true)
-    private Student student;
+    @OneToMany(mappedBy = "pu", fetch = FetchType.EAGER)
+    private List<Student> students;
     
     private String countryName;
     private String regionName;
@@ -152,18 +151,12 @@ public class PU implements Serializable {
         return "entity.PU[ id=" + getPuId() + " ]";
     }
 
-    /**
-     * @return the student
-     */
-    public Student getStudent() {
-        return student;
+    public List<Student> getStudents() {
+        return students;
     }
 
-    /**
-     * @param student the student to set
-     */
-    public void setStudent(Student student) {
-        this.student = student;
+    public void setStudents(List<Student> students) {
+        this.students = students;
     }
 
     /**

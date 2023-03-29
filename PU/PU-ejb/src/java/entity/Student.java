@@ -7,6 +7,7 @@ package entity;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -16,7 +17,7 @@ import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-
+import javax.persistence.OneToOne;
 
 /**
  *
@@ -29,47 +30,47 @@ public class Student implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long studentId;
-    
+
     private String firstName;
-    
+
     private String lastName;
-    
+
     private String phoneNumber;
-    
+
     private String faculty;
-    
-    private String[] socialMedia;
-    
+
+    private List<String> socialMedia;
+
     private LocalDateTime lastActive;
-    
+
     private String email;
-    
+
     private String password;
+
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "student")
+    private List<Enquiry> enquiries;
+
+    @ManyToOne(optional = true)
+    @JoinColumn(nullable = true, name = "pu")
+    private PU puEnrolled;
+
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "student")
+    private List<PU> likedPUs;
+
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "student")
+    private List<ForumPost> posts;
+
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "student")
+    private List<ForumTopic> topics;
+
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "student")
+    private List<ForumComment> comments;
+
+    @ManyToOne
+    private PUModule modulesTaken;
 
     public Student() {
     }
-    
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "student")
-    private List<Enquiry> enquiries;
-    
-    @ManyToOne(optional = true, fetch = FetchType.EAGER)
-    @JoinColumn(nullable = true)
-    private PUModule puEnrolled;
-    
-    @ManyToOne
-    private PU likedPUs;
-    
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "student")
-    private List<ForumPost> posts;
-    
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "student")
-    private List<ForumTopic> topics;
-    
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "student")
-    private List<ForumComment> comments;
-    
-    @ManyToOne
-    private PUModule modulesTaken;
 
     public Long getStudentId() {
         return studentId;
@@ -172,14 +173,14 @@ public class Student implements Serializable {
     /**
      * @return the socialMedia
      */
-    public String[] getSocialMedia() {
+    public List<String> getSocialMedia() {
         return socialMedia;
     }
 
     /**
      * @param socialMedia the socialMedia to set
      */
-    public void setSocialMedia(String[] socialMedia) {
+    public void setSocialMedia(List<String> socialMedia) {
         this.socialMedia = socialMedia;
     }
 
@@ -242,28 +243,28 @@ public class Student implements Serializable {
     /**
      * @return the puEnrolled
      */
-    public PUModule getPuEnrolled() {
+    public PU getPuEnrolled() {
         return puEnrolled;
     }
 
     /**
      * @param puEnrolled the puEnrolled to set
      */
-    public void setPuEnrolled(PUModule puEnrolled) {
+    public void setPuEnrolled(PU puEnrolled) {
         this.puEnrolled = puEnrolled;
     }
 
     /**
      * @return the likedPUs
      */
-    public PU getLikedPUs() {
+    public List<PU> getLikedPUs() {
         return likedPUs;
     }
 
     /**
      * @param likedPUs the likedPUs to set
      */
-    public void setLikedPUs(PU likedPUs) {
+    public void setLikedPUs(List<PU> likedPUs) {
         this.likedPUs = likedPUs;
     }
 
@@ -280,8 +281,7 @@ public class Student implements Serializable {
     public void setModulesTaken(PUModule modulesTaken) {
         this.modulesTaken = modulesTaken;
     }
-    
-    
+
     /**
      * @return the posts
      */

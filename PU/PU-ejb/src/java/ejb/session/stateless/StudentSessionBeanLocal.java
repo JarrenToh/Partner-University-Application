@@ -23,7 +23,7 @@ public interface StudentSessionBeanLocal {
 
     public List<Student> retrieveAllStudents();
 
-    public void updateStudent(Long studentId, String firstName, String lastName, String phoneNumber, String faculty, String[] socialMedia, LocalDateTime lastActive, String email, String password);
+    public void updateStudent(Long studentId, String firstName, String lastName, String phoneNumber, String faculty, List<String> socialMedia, LocalDateTime lastActive, String email, String password);
 
     public void deleteStudent(Long studentId) throws NoResultException;
 

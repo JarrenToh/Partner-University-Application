@@ -24,13 +24,13 @@ public class PUReview implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long puReviewId;
-    
+
     private Long rating;
     private String review;
     private Integer noOfLikes;
     private Integer noOfDislikes;
     private Boolean isInappropriate;
-    
+
     @ManyToOne
     @JoinColumn(nullable = false)
     private PU pu;
@@ -167,5 +167,5 @@ public class PUReview implements Serializable {
     public void setPu(PU pu) {
         this.pu = pu;
     }
-    
+
 }
