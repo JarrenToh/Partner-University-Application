@@ -1,16 +1,6 @@
 import React from "react";
 import { createContext, useContext, useState, useEffect } from "react";
 import { AuthContext } from "../login/AuthContext";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faLinkedin,
-  faLinkedinIn,
-  faTelegram,
-  faInstagram,
-  faGithub,
-} from "@fortawesome/free-brands-svg-icons";
-
-import { faPenToSquare, faPen } from "@fortawesome/free-solid-svg-icons";
 
 import {
   Image,
@@ -25,10 +15,21 @@ import {
 } from "react-bootstrap";
 import ReviewModal from "./ReviewModal";
 
+// Icon imports
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faLinkedin,
+  faLinkedinIn,
+  faTelegram,
+  faInstagram,
+  faGithub,
+} from "@fortawesome/free-brands-svg-icons";
+import { faPenToSquare, faPen } from "@fortawesome/free-solid-svg-icons";
+
 const StudentProfile = () => {
   const { loggedInStudent, logout } = useContext(AuthContext);
   const [reviewModalShow, setReviewModalShow] = useState(false);
-  
+
   if (!loggedInStudent) {
     return <div> Not Logged in</div>;
   }
@@ -37,7 +38,7 @@ const StudentProfile = () => {
   const studentFullName =
     loggedInStudent.firstName + " " + loggedInStudent.lastName;
 
-  // Component to show relevant information 
+  // Component to show relevant information
   // depending on whether student is enrolled to a PU
   const EnrolledField = (props) => {
     const isEnrolled = props.isEnrolled;
@@ -85,7 +86,10 @@ const StudentProfile = () => {
             <Card>
               <Card.Header as="h5">Social Media</Card.Header>
               <ListGroup variant="flush">
-              
+                {loggedInStudent.socialMedia != null &&
+                  loggedInStudent.socialMedia.map((socialMedia) => (
+                    <ListGroupItem></ListGroupItem>
+                  ))}
                 <ListGroupItem>
                   <FontAwesomeIcon icon={faLinkedin} size="xl" />
                 </ListGroupItem>
@@ -106,6 +110,9 @@ const StudentProfile = () => {
                 </Button>
               </Card.Footer>
             </Card>
+            <div className="d-grid gap-2">
+              <Button variant="secondary">Liked PUS</Button>
+            </div>
           </div>
         </Col>
 
@@ -134,31 +141,23 @@ const StudentProfile = () => {
               <Form.Group className="mb-3" controlId="formGroupEmail">
                 <Form.Label>Partner University</Form.Label>
                 <EnrolledField
-                  isEnrolled={
-                    loggedInStudent.partnerUniversity == null
-                  }
+                  isEnrolled={loggedInStudent.partnerUniversity == null}
                 />
               </Form.Group>
             </Form>
           </div>
         </Col>
       </Row>
-      <React.Fragment>
-        <br />
-        <Button variant="secondary">Liked PUS</Button>
-      </React.Fragment>
 
       <ReviewModal
-       show={reviewModalShow}
-       onHide={() => setReviewModalShow(false)}
+        show={reviewModalShow}
+        onHide={() => setReviewModalShow(false)}
       />
-
     </div>
   );
 };
 
 export default StudentProfile;
-
 
 /*
   {loggedInStudent.social.map((socialMedia) => (
