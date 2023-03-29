@@ -86,12 +86,13 @@ public class Student implements Serializable {
         return hash;
     }
 
-    public Student(String firstName, String lastName, String phoneNumber, String email, String password) {
+    public Student(String firstName, String lastName, String phoneNumber, String email, String password, String faculty) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.phoneNumber = phoneNumber;
         this.email = email;
         this.password = password;
+        this.faculty = faculty;
     }
 
     @Override

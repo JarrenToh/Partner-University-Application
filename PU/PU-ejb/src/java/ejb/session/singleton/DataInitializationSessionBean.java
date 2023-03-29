@@ -136,9 +136,9 @@ public class DataInitializationSessionBean {
         faqSessionBeanLocal.createFAQ(faq2, usa1.getAdminId());
         faqSessionBeanLocal.createFAQ(faq3, usa2.getAdminId());
 
-        Student student1 = new Student("Ben", "Leong", "90002040", "benleongrules@comp.nus.edu.sg", "password");
-        Student student2 = new Student("Henry", "Chia", "90002040", "immutablepain@comp.nus.edu.sg", "password");
-        Student student3 = new Student("Steven", "Halim", "90002040", "competitive@comp.nus.edu.sg", "password");
+        Student student1 = new Student("Ben", "Leong", "90002040", "benleongrules@comp.nus.edu.sg", "password", "School Of Computing");
+        Student student2 = new Student("Henry", "Chia", "90002040", "immutablepain@comp.nus.edu.sg", "password", "School Of Computing");
+        Student student3 = new Student("Steven", "Halim", "90002040", "competitive@comp.nus.edu.sg", "password", "School Of Computing");
 
         studentSessionBean.createStudent(student1);
         studentSessionBean.createStudent(student2);
