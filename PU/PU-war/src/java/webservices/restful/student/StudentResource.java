@@ -22,6 +22,7 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.GenericEntity;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import util.formRequestEntity.LoginRequest;
 
 @Path("student")
 @RequestScoped
@@ -146,6 +147,24 @@ public class StudentResource {
         }
     } //end deleteStudent
 
+    @POST
+    @Path("/login")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response login(LoginRequest loginRequest) {
+        String username = loginRequest.getUsername();
+        String password = loginRequest.getPassword();
 
+        System.out.println("Username is " + username);
+        System.out.println("Password is " + password);
+
+        Student student = studentSessionLocal.login(username, password);
+
+        if (student != null) {
+            return Response.status(200).entity(student).type(MediaType.APPLICATION_JSON).build();
+        }
+
+        return Response.status(Response.Status.UNAUTHORIZED).build();
+    }
     
 }

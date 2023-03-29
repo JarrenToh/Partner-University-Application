@@ -6,21 +6,38 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "./UniversityRanking.css";
 
 const UniversityRankings = ({ universitiesData }) => {
+  
   const [universities, setUniversities] = useState(
     universitiesData.map((university) => ({ ...university, isFavorite: false }))
   );
+  const [searchTerm, setSearchTerm] = useState("");
   const [filter, setFilter] = useState("");
   const [sortBy, setSortBy] = useState("ranking");
   const [favoritesOnly, setFavoritesOnly] = useState(false);
   const [displayLimit, setDisplayLimit] = useState(10);
 
-  const location = useLocation();
-  const searchParams = new URLSearchParams(location.search);
-  const searchQuery = searchParams.get("search") || "";
+  useEffect(() => {
+    setFilter(searchTerm);
+  }, [searchTerm]);
 
   useEffect(() => {
-    setFilter(searchQuery);
-  }, [searchQuery]);
+    setUniversities(
+      universitiesData.map((university) => ({
+        ...university,
+        isFavorite: false,
+      }))
+    );
+  }, [universitiesData]);
+
+  useEffect(() => {
+    const fetchUniversities = async () => {
+      const response = await fetch("http://localhost:8080/PU-war/webresources/pu");
+      const data = await response.json();
+      setUniversities(data);
+    };
+
+    fetchUniversities();
+  }, []);
 
   const handleFilterChange = (event) => {
     setFilter(event.target.value);
