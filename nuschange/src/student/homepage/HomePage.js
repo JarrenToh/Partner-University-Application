@@ -78,8 +78,12 @@ const HomePage = () => {
         </div>
 
         <div className="container">
-          <button className="searchButton">By Country</button>
-          <button className="searchButton">By Region</button>
+        <Link to={`/university-rankings-country`}>
+          <Button className="searchButton">By Country</Button>
+          </Link>
+          <Link to={`/university-rankings-region`}>
+          <Button className="searchButton">By Region</Button>
+          </Link>
         </div>
 
         <div className="container" style={{

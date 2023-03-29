@@ -10,6 +10,8 @@ import StudentProfile from './student/studentProfile/StudentProfile';
 import ForumTopics from './student/ForumTopics';
 import TopicPosts from './student/TopicPosts';
 import FAQPage from './student/FAQpage';
+import UniversityRankingsCountry from './student/ranking/UniversityRankingsCountry';
+import UniversityRankingsRegion from './student/ranking/UniversityRankingsRegion';
 
 //import Enquiry from './admin/userSupportAdmin/pages/enquiry';
 //import EnquiryDetails from './admin/userSupportAdmin/pages/enquiry/view';
@@ -63,6 +65,8 @@ const App = () => {
         <Router basename='/student'>
           <Routes>
             <Route path="/home-page" element={<HomePage />} />
+            <Route path="/university-rankings-country" element={<UniversityRankingsCountry universitiesData={pus} />} />
+            <Route path="/university-rankings-region" element={<UniversityRankingsRegion universitiesData={pus} />} />
             <Route path="/profile" element={<StudentProfile user={user}/>} />
             <Route path="/forum-topics" element={<ForumTopics />} />
             <Route path="/forum-topics/:id" element={<TopicPosts />} />

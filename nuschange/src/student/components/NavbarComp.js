@@ -56,7 +56,12 @@ const NavbarComp = () => {
       <Navbar.Collapse id="basic-navbar-nav">
         <Nav className="me-auto">
           <Nav.Link href="/student/home-page" className='navLink'>Home</Nav.Link>
-          <Nav.Link href="/student/university-rankings?search=" className='navLink'>Ranking</Nav.Link>
+          <NavDropdown title="Ranking" id="basic-nav-dropdown" className='navLinkDropDown' >
+            <NavDropdown.Item href="/student/university-rankings?search=">All Rankings</NavDropdown.Item>
+            <NavDropdown.Divider />
+            <NavDropdown.Item href="/student/university-rankings-country">Ranking by Country</NavDropdown.Item>
+            <NavDropdown.Item href="/student/university-rankings-region">Ranking by Region</NavDropdown.Item>
+          </NavDropdown>
           <Nav.Link href="/student/forum-topics" className='navLink'>Forum</Nav.Link>
           <NavDropdown title="Support" id="basic-nav-dropdown" className='navLinkDropDown' >
             <NavDropdown.Item href="/student/faq">FAQs</NavDropdown.Item>
