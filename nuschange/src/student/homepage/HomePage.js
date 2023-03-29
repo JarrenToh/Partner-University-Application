@@ -5,9 +5,9 @@ import SearchIcon from "./search.svg";
 import "./HomePage.css";
 import { Button } from 'reactstrap';
 import "bootstrap/dist/css/bootstrap.min.css"
-import UniversityRankings from "./UniversityRankings";
-import universities from "./universitiesData";
-import logo from '../NUSChange-logoV3.png';
+import UniversityRankings from "../ranking/UniversityRankings";
+import universities from "../universitiesData";
+import logo from '../../NUSChange-logoV3.png';
 
 const HomePage = () => {
   const [searchTerm, setSearchTerm] = useState("");

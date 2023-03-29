@@ -1,16 +1,19 @@
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
 import logo from './NUSChange-logoV3.png';
 import './Navbar.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import UniversityRankings from '../UniversityRankings';
+import { Button } from 'reactstrap';
+import UniversityRankings from '../ranking/UniversityRankings';
+import { AuthContext } from '../login/AuthContext';
 
-const NavbarComp = ({ isLoggedIn }) => {
+const NavbarComp = () => {
   const API_URL = "http://localhost:8080/PU-war/webresources/pu";
   const [pus, setPUs] = useState([]);
+  const { loggedInStudent, logout } = useContext(AuthContext);
 
   useEffect(() => {
     searchPUs("");
@@ -25,8 +28,7 @@ const NavbarComp = ({ isLoggedIn }) => {
 
   return (
     <Navbar bg="light" variant="light">
-
-      <Navbar.Brand href="/student" className='navBrand'>
+      <Navbar.Brand href="/student/home-page" className='navBrand'>
         <img
           alt=""
           src={logo}
@@ -51,9 +53,12 @@ const NavbarComp = ({ isLoggedIn }) => {
               Contact Us
             </NavDropdown.Item>
           </NavDropdown>
-          </Nav>
-        {isLoggedIn ? (
-          <Navbar.Text style={{ paddingRight: "20px" }}>Logged in</Navbar.Text>
+        </Nav>
+        {loggedInStudent ? (
+          <Navbar.Text style={{ paddingRight: "20px" }}>
+            Welcome, <a href="/student/profile">{loggedInStudent.firstName}{" "}{loggedInStudent.lastName}</a>{"!"}
+            <Button className='logoutButton' onClick={logout}>Logout</Button>
+          </Navbar.Text>
         ) : (
           <Navbar.Text style={{ paddingRight: "20px" }}>
             Not signed in: <a href="/student/login">Sign in</a>
