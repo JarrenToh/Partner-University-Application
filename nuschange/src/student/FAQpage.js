@@ -1,7 +1,22 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Accordion, Container } from "react-bootstrap";
+import apiPaths from "../util/apiPaths";
 
 const FAQPage = () => {
+  const [faqs, setFAQs] = useState([]);
+  
+  useEffect(() => {
+    searchFAQs("");
+  }, []);
+
+
+  const searchFAQs = async (title) => {
+    const response = await fetch(apiPaths.listOfFaqs);
+    const data = await response.json();
+    console.log(data);
+    setFAQs(data);
+  };
+  
   const dummyFAQ = [
     {
       faqId: 1,
@@ -47,9 +62,9 @@ const FAQPage = () => {
       </div>
       <div style={{paddingLeft:"5%", paddingRight:"5%"}}>
         <Accordion flush>
-          {dummyFAQ.map((faq) => (
+          {faqs.map((faq) => (
             <Accordion.Item eventKey={faq.faqId}>
-              <Accordion.Header>{faq.question}</Accordion.Header>
+              <Accordion.Header as="h3">{faq.question}</Accordion.Header>
               <Accordion.Body>{faq.answer}.</Accordion.Body>
             </Accordion.Item>
           ))}
