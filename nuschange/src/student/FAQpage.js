@@ -41,11 +41,11 @@ const FAQPage = () => {
   ];
 
   return (
-    <div className="container">
-      <div style={{ textAlign: "center" }}>
-        <h2>Frequently Asked Questions (FAQ)</h2>
+    <div >
+      <div className="container">
+        <h1>Frequently Asked Questions (FAQ)</h1>
       </div>
-      <Container style={{ width: "80vw" }} className="mx-auto">
+      <div style={{paddingLeft:"5%", paddingRight:"5%"}}>
         <Accordion flush>
           {dummyFAQ.map((faq) => (
             <Accordion.Item eventKey={faq.faqId}>
@@ -54,9 +54,9 @@ const FAQPage = () => {
             </Accordion.Item>
           ))}
         </Accordion>
-      </Container>
+      </div>
     </div>
   );
-}
+};
 
 export default FAQPage;
