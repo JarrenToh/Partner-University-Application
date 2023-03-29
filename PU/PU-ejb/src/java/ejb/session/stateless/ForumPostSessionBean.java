@@ -35,7 +35,7 @@ public class ForumPostSessionBean implements ForumPostSessionBeanLocal {
 
     @PersistenceContext(unitName = "PU-ejbPU")
     private EntityManager em;
-    
+
     @Override
     public void createNewForumPost(ForumPost forumPost, Long forumTopicId, Long studentId) {
         ForumTopic forumTopic = em.find(ForumTopic.class, forumTopicId);
@@ -53,7 +53,7 @@ public class ForumPostSessionBean implements ForumPostSessionBeanLocal {
     public void updateForumPost(ForumPost forumPost) {
         //em.merge(forumPost);
         //em.flush();
-        
+
         ForumPost oldPost = retrieveForumPostById(forumPost.getPostId());
 
         oldPost.setTitle(forumPost.getTitle());
@@ -100,7 +100,7 @@ public class ForumPostSessionBean implements ForumPostSessionBeanLocal {
     public List<ForumPost> retrieveAppropriateForumPosts() {
         Query query = em.createQuery("SELECT f FROM ForumPost WHERE f.isInappropriate = :appropriate");
         query.setParameter("appropriate", true);
-        
+
         return query.getResultList();
     }
 
@@ -108,52 +108,52 @@ public class ForumPostSessionBean implements ForumPostSessionBeanLocal {
     public List<ForumPost> retrieveInappropriateForumPosts() {
         Query query = em.createQuery("SELECT f FROM ForumPost WHERE f.isInappropriate = :appropriate");
         query.setParameter("appropriate", false);
-        
+
         return query.getResultList();
-        
+
     }
 
     @Override
     public void likeForumPost(Long forumPostId) {
         ForumPost forumPost = em.find(ForumPost.class, forumPostId);
-        
+
         forumPost.setNoOfLikes(forumPost.getNoOfLikes() + 1);
     }
 
     @Override
     public void unlikeForumPost(Long forumPostId) {
         ForumPost forumPost = em.find(ForumPost.class, forumPostId);
-        
+
         forumPost.setNoOfLikes(forumPost.getNoOfLikes() - 1);
     }
 
     @Override
     public void reportForumPost(Long forumPostId) {
         ForumPost forumPost = em.find(ForumPost.class, forumPostId);
-        
+
         forumPost.setIsInappropriate(true);
     }
-    
+
     public void resolveForumPost(Long forumPostId) {
         ForumPost forumPost = em.find(ForumPost.class, forumPostId);
-        
+
         forumPost.setIsInappropriate(false);
     }
 
     @Override
     public void dislikeForumPost(Long forumPostId) {
         ForumPost forumPost = em.find(ForumPost.class, forumPostId);
-        
+
         forumPost.setNoOfDislikes(forumPost.getNoOfDislikes() + 1);
     }
 
     @Override
     public void undislikeForumPost(Long forumPostId) {
         ForumPost forumPost = em.find(ForumPost.class, forumPostId);
-        
+
         forumPost.setNoOfDislikes(forumPost.getNoOfDislikes() - 1);
     }
-    
+
     @Override
     public List<ForumPost> searchForumPost(String postTitle) {
         Query q;
@@ -177,33 +177,31 @@ public class ForumPostSessionBean implements ForumPostSessionBeanLocal {
         } else {
             q = em.createQuery("SELECT fp FROM ForumPost fp");
         }
-        
+
         List<ForumPost> forumPosts = q.getResultList();
         List<ForumPost> searchPosts = forumPosts;
-        
-        for(ForumPost forumPost : forumPosts) {
+
+        for (ForumPost forumPost : forumPosts) {
             if (forumPost.getForumTopic().getTopicId() != topicId) {
                 searchPosts.remove(forumPost);
             }
         }
-        
+
         return searchPosts;
     }
 
     @Override
     public List<ForumPost> retrieveForumPostByTopic(Long topicId) {
-        
-        List<ForumPost> forumPosts = retrieveAllForumPosts();
-        
-        List<ForumPost> targetList = forumPosts;
-        
-        for (ForumPost forumPost : forumPosts) {
-            if (forumPost.getForumTopic().getTopicId() != topicId) {
-                targetList.remove(forumPost);
+        List<ForumPost> allForumPosts = retrieveAllForumPosts();
+        List<ForumPost> filteredForumPosts = new ArrayList<>();
+
+        for (ForumPost forumPost : allForumPosts) {
+            if (forumPost.getForumTopic().getTopicId().equals(topicId)) {
+                filteredForumPosts.add(forumPost);
             }
         }
-        
-        return targetList;
+
+        return filteredForumPosts;
     }
-    
+
 }
