@@ -29,7 +29,7 @@ body {
 h1 {
   font-size: 3rem;
   letter-spacing: 0.9px;
-  background: linear-gradient(90deg, #FC466B 0%, #3F5EFB 100%);
+  background: black;
   background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -37,8 +37,8 @@ h1 {
 }
 
 h2 {
+  font-size: 2rem;
   padding-top: 1rem;
-  font-size: 1.5rem;
   letter-spacing: 1.5px;
   background: rgb(252, 252, 252);
   background-clip: text;
@@ -48,6 +48,9 @@ h2 {
   font-family :'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
   -webkit-text-stroke: 0px black;
   text-stroke: 1px white;
+  font-size: 60px;
+    font-weight :lighter;
+    font-variant: all-petite-caps;
 }
 
 .search {
@@ -63,7 +66,7 @@ h2 {
   background: #1f2123;
 }
 
-.search input {
+.searchBar input {
   flex: 1;
   border: none;
   font-size: 1.5rem;
@@ -76,13 +79,13 @@ h2 {
   background: #1f2123;
 }
 
-.search img {
+.searchBar img {
   width: 25px;
   height: 25px;
   cursor: pointer;
 }
 
- .searchButton {
+ .searchbyButton {
   padding: 10px 20px;
   border-radius: 0.5rem;
   margin-left: 15px;
@@ -91,8 +94,25 @@ h2 {
   font-weight: 900;
   letter-spacing: 1px;
   cursor: pointer;
-  background: #3d71a5;
+  background: #22486f;
+  border-color: white;
 } 
+
+.searchBar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40%;
+  margin: 0 auto;
+  border-radius: 1rem;
+  background-color: #1f2123;
+  padding: 0.5rem;
+  margin-bottom: 1rem;
+  margin-top: 4rem;
+  background: #1f2123;
+}
+
+
 
 .empty {
   width: 100%;
@@ -216,19 +236,25 @@ h2 {
     padding: 4rem 2rem;
   }
 
-  .search {
+  .searchBar {
     padding: 1rem 1.75rem;
     width: 100%;
   }
 
-  .search input {
+  .searchBar input {
     font-size: 1rem;
   }
 
-  .search img {
+  .searchBar img {
     width: 10px;
     height: 10px;
   }
+}
+
+.headerDescription{
+  font-size: 40px;
+  font-weight :lighter;
+  font-variant: all-petite-caps;
 }
 
 @media screen and (max-width: 400px) {

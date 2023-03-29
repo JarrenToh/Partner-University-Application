@@ -160,6 +160,7 @@
     overflow: hidden;
 }
 
+
 .university-card__location {
     font-size: 20px;
     margin-bottom: 10px;
@@ -172,11 +173,18 @@
     font-size: 20px;
     font-weight: bold;
     position: relative;
-    right: 0%;
-    top: 30%;
+    right: 70%;
+    top: 10%;
     transform: translateX(80%);
 }
 
+.university-card__number {
+    font-weight: bold;
+    position: relative;
+    right: 80%;
+    top: 30%;
+    transform: translateX(80%);
+}
 
 .university-card__favorite-button {
     position: absolute;
@@ -210,7 +218,6 @@
 h1 {
     font-size: 3rem;
     letter-spacing: 0.9px;
-    background: linear-gradient(90deg, #FC466B 0%, #3F5EFB 100%);
     background-clip: text;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
@@ -218,11 +225,52 @@ h1 {
     font-family: "Roboto", sans-serif;
   }
 
+.header{
+    font-weight: 700;
+    font-family: var(--font-secondary);
+    font-size: 2.625rem;
+    line-height: 1.14;
+    color: black;
+    --font-primary: "Roboto",Helvetica Neue,Helvetica,sans-serif;
+    --font-secondary: "Montserrat",Helvetica Neue,Helvetica,sans-serif;
+}
+
 .starImg {
     height: 65%;
-    width: 2.5%;
+    width: 8%;
+    margin-bottom: 6px;
+    margin-right: 2px;
+}
+
+.rankImg {
+    height: 95%;
+    width: 3%;
+    margin-bottom: 6px;
+    margin-right: 2px;
 }
 
 .university-rankings__country-filter{
     margin-top: 15px;
+}
+
+.university-card__ranking-container {
+    position: relative;
+    width: 200px;
+    height: 200px;
+    border-left: 1px solid rgb(211, 215, 220);
+}
+
+.ratingTop{
+    font-weight :lighter;
+    font-variant: all-petite-caps;
+}
+
+.headerRanking{
+    font-size: 60px;
+    font-weight :lighter;
+    font-variant: all-petite-caps;
+}
+
+.universityRankings_description {
+    border-bottom: 1px solid rgb(211, 215, 220);
 }

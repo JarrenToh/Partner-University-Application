@@ -17,6 +17,7 @@ const UniversityRankings = ({ universitiesData }) => {
   const [displayLimit, setDisplayLimit] = useState(10);
   const [selectedOption, setSelectedOption] = useState("");
   const [selectedRegion, setSelectedRegion] = useState('');
+  const [ranking, setRanking] = useState(false);
 
   useEffect(() => {
     setFilter(searchTerm);
@@ -91,6 +92,14 @@ const UniversityRankings = ({ universitiesData }) => {
     );
   });
 
+  useEffect(() => {
+    if (sortBy === "ranking") {
+      setRanking(true);
+    } else {
+      setRanking(false);
+    }
+  }, [sortBy]);
+
 
   const sortedUniversities = filteredUniversities.sort((a, b) => {
     if (sortBy === "ranking") {
@@ -117,6 +126,15 @@ const UniversityRankings = ({ universitiesData }) => {
     <div className="wrapper">
       <div className="container">
         <div className="universityRankings">
+        <div className="universityRankings_description">
+            <h1 className="headerRanking">Partner University Rankings</h1>
+            <br />
+            <p>Welcome to our university ranking page, where you can find comprehensive information on various universities worldwide. We understand that selecting a university can be a challenging task, and we're here to help you make an informed decision.</p>
+
+            <p>Our rankings are unique because they are based on student ratings. We believe that students are the best judges of the universities they attend, and they have the most up-to-date information about campus life, academics, and resources. Therefore, we provide an opportunity for students to come together and rate their partner universities.</p>
+            <br />
+          </div>
+          <br />
           <div className="university-rankings__header">
           <div className="university-rankings__sort-by">
               Sort by:
@@ -144,6 +162,7 @@ const UniversityRankings = ({ universitiesData }) => {
                 onChange={handleFilterChange}
               />
             </div>
+                        {/*
             <div className="university-rankings__favorites">
               <label>
                 <input
@@ -154,15 +173,16 @@ const UniversityRankings = ({ universitiesData }) => {
                 Favorites only
               </label>
             </div>
+  */}
           </div>
         </div>
         {displayedUniversities.length > 0 ? (
           <div className="university-rankings__grid">
             <br />
-            {displayedUniversities.map((university) => (
+            {displayedUniversities.map((university, index) => (
               <div className="university-card-wrapper" key={university.puId}>
-                <UniversityCard university={university} />
-                <button
+                <UniversityCard university={university} index={index + 1} ranking={ranking} />
+                {/*<button
                   className={`university-card__favorite-button ${university.isFavorite
                     ? "university-card__favorite-button--active"
                     : ""
@@ -170,7 +190,7 @@ const UniversityRankings = ({ universitiesData }) => {
                   onClick={() => handleToggleFavorite(university.puId)}
                 >
                   <i className="fas fa-heart"></i>
-                </button>
+                  </button>*/}
               </div>
             ))}
           </div>
