@@ -58,7 +58,7 @@ const NavbarComp = () => {
           <Nav.Link href="/student/home-page" className='navLink'>Home</Nav.Link>
           <Nav.Link href="/student/university-rankings?search=" className='navLink'>Ranking</Nav.Link>
           <NavDropdown title="Support" id="basic-nav-dropdown" className='navLinkDropDown' >
-            <NavDropdown.Item href="#action/3.1">FAQs</NavDropdown.Item>
+            <NavDropdown.Item href="/student/faq">FAQs</NavDropdown.Item>
             <NavDropdown.Item href="#action/3.2">
               Submit a Ticket
             </NavDropdown.Item>
