@@ -15,6 +15,7 @@ import javax.persistence.Id;
 import java.util.List;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
@@ -51,10 +52,10 @@ public class Student implements Serializable {
     private List<Enquiry> enquiries;
 
     @ManyToOne(optional = true)
-    @JoinColumn(nullable = true, name = "pu")
+    @JoinColumn(name = "pu", nullable = true)
     private PU puEnrolled;
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "student")
+    @ManyToMany(fetch = FetchType.EAGER)
     private List<PU> likedPUs;
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "student")

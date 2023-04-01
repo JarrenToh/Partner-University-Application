@@ -55,7 +55,7 @@ public class PU implements Serializable {
     @OneToMany(mappedBy = "pu", fetch = FetchType.EAGER)
     private List<PUReview> puReviews;
 
-    @OneToMany(mappedBy = "pu", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "puEnrolled", fetch = FetchType.EAGER)
     private List<Student> students;
     
     private String countryName;
