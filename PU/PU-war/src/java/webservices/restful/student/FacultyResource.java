@@ -10,15 +10,6 @@ import entity.Faculty;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
-import javax.ws.rs.core.MediaType;
-import error.NoResultException;
-import java.util.Date;
-import java.util.List;
-import javax.ejb.EJB;
-import javax.enterprise.context.RequestScoped;
 import javax.json.Json;
 import javax.json.JsonObject;
 import javax.ws.rs.Consumes;
@@ -47,7 +38,6 @@ public class FacultyResource {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Faculty createFaculty(Faculty f) {
-        f.setName("SCHOOL OF TROLL");
         facultySessionBeanLocal.createFaculty(f);
         return f;
     }
