@@ -14,7 +14,9 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 
 /**
  *
@@ -34,6 +36,10 @@ public class NUSModule implements Serializable {
     //Add in mapping to PUModule   
     @ManyToMany(mappedBy="mappableModules", cascade = {CascadeType.ALL}, fetch = FetchType.EAGER)
     private List<PUModule> puModules;
+    
+    @ManyToOne
+    @JoinColumn(nullable = false)
+    private Faculty faculty;
 
     public NUSModule() {
         
@@ -121,6 +127,20 @@ public class NUSModule implements Serializable {
      */
     public void setPuModules(List<PUModule> puModules) {
         this.puModules = puModules;
+    }
+
+    /**
+     * @return the faculty
+     */
+    public Faculty getFaculty() {
+        return faculty;
+    }
+
+    /**
+     * @param faculty the faculty to set
+     */
+    public void setFaculty(Faculty faculty) {
+        this.faculty = faculty;
     }
     
 }

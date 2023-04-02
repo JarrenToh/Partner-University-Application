@@ -56,7 +56,6 @@ public class NUSModuleResource {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public NUSModule createNUSModule(NUSModule nm) {
-        nm.setCode("IS4303");
         nusModuleSessionBeanLocal.createNUSModule(nm, 1L);
         return nm;
     }
@@ -80,6 +79,7 @@ public class NUSModuleResource {
         } else if (puId != null) {
 
             try {
+                //Searching NUSMoule based on PUModule
                 PUModule puMod = pUModuleSessionBeanLocal.getPUModule(puId);
                 List<NUSModule> results = nusModuleSessionBeanLocal.searchNUSModuleByPUModule(puMod);
                 GenericEntity<List<NUSModule>> entity = new GenericEntity<List<NUSModule>>(results) {
@@ -124,8 +124,6 @@ public class NUSModuleResource {
     @Produces(MediaType.APPLICATION_JSON)
     public Response editNUSModule(@PathParam("id") Long id, NUSModule nm) {
         nm.setModuleId(id);
-        nm.setCode("LA123");
-        nm.setDescription("Blah blah");
         try {
             nusModuleSessionBeanLocal.updateNUSModule(nm);
             return Response.status(204).build();
@@ -145,6 +143,7 @@ public class NUSModuleResource {
     public Response deleteNUSModule(@PathParam("id") Long id) {
         try {
             NUSModule nm = nusModuleSessionBeanLocal.retrieveNUSModuleByModuleId(id);
+//            System.out.println(nm);
             nusModuleSessionBeanLocal.deleteNUSModule(nm);
             return Response.status(204).build();
         } catch (Exception e) {

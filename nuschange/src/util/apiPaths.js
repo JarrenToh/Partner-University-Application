@@ -4,6 +4,8 @@ const apiPaths = {
     listOfFaqs: `${path}/admin/faqs`,
     listOfEnquiries: `${path}/admin/enquiries`,
     listOfPUs: `${path}/pu`
+
+    // get
 };
 
 export default apiPaths;

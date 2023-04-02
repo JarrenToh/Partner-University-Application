@@ -8,7 +8,6 @@ package entity;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import javax.json.bind.annotation.JsonbTransient;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -46,32 +45,28 @@ public class PU implements Serializable {
     private String images;
 
     //relationship attributes
-    @ManyToOne(optional = true)
+    @ManyToOne
+    @JoinColumn(nullable = false)
     private Country country;
 
-    @OneToMany(mappedBy = "pu", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "pu", cascade = {CascadeType.ALL}, fetch = FetchType.EAGER)
     private List<PUModule> modules;
 
-    @OneToMany(mappedBy = "pu", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "pu", cascade = {CascadeType.ALL}, fetch = FetchType.EAGER)
     private List<PUReview> puReviews;
 
-    @ManyToOne(optional = true)
-    @JoinColumn(nullable = true)
-    private Student student;
-    
-    private String countryName;
-    private String regionName;
-    private Double rating;
+    @OneToMany(mappedBy = "puEnrolled", cascade = {CascadeType.ALL}, fetch = FetchType.EAGER)
+    private List<Student> students;
 
-//    @OneToMany (mappedBy = "pu")
-//    private List<PUModule> puModules;
-//    
-//    @OneToMany (mappedBy = "pu")
-//    private List<ForumTopic> forumTopic;
+    @OneToMany(cascade = {CascadeType.ALL}, fetch = FetchType.EAGER)
+    private List<ForumTopic> forumTopic;
+
     public PU() {
 
         modules = new ArrayList<>();
         puReviews = new ArrayList<>();
+        students = new ArrayList<>();
+        forumTopic = new ArrayList<>();
     }
 
     public PU(String name, String description, String images) {
@@ -100,7 +95,6 @@ public class PU implements Serializable {
         return name;
     }
 
-
     public String getDescription() {
         return description;
     }
@@ -108,7 +102,6 @@ public class PU implements Serializable {
     public String getImages() {
         return images;
     }
-
 
     public Country getCountry() {
         return country;
@@ -118,15 +111,6 @@ public class PU implements Serializable {
         this.country = country;
     }
 
-    /*
-    public List<PUReview> getPuReviews() {
-        return puReviews;
-    }
-
-    public void setPuReviews(List<PUReview> puReviews) {
-        this.puReviews = puReviews;
-    }
-     */
     @Override
     public int hashCode() {
         int hash = 0;
@@ -150,20 +134,6 @@ public class PU implements Serializable {
     @Override
     public String toString() {
         return "entity.PU[ id=" + getPuId() + " ]";
-    }
-
-    /**
-     * @return the student
-     */
-    public Student getStudent() {
-        return student;
-    }
-
-    /**
-     * @param student the student to set
-     */
-    public void setStudent(Student student) {
-        this.student = student;
     }
 
     /**
@@ -215,45 +185,32 @@ public class PU implements Serializable {
         this.images = images;
     }
 
-
-    public String getCountryName() {
-        return countryName;
+    /**
+     * @return the students
+     */
+    public List<Student> getStudents() {
+        return students;
     }
 
     /**
-     * @param countryName the countryName to set
+     * @param students the students to set
      */
-    public void setCountryName(String countryName) {
-        this.countryName = countryName;
+    public void setStudents(List<Student> students) {
+        this.students = students;
     }
 
     /**
-     * @return the regionName
+     * @return the forumTopic
      */
-    public String getRegionName() {
-        return regionName;
+    public List<ForumTopic> getForumTopic() {
+        return forumTopic;
     }
 
     /**
-     * @param regionName the regionName to set
+     * @param forumTopic the forumTopic to set
      */
-    public void setRegionName(String regionName) {
-        this.regionName = regionName;
+    public void setForumTopic(List<ForumTopic> forumTopic) {
+        this.forumTopic = forumTopic;
     }
-
-    /**
-     * @return the rating
-     */
-    public Double getRating() {
-        return rating;
-    }
-
-    /**
-     * @param rating the rating to set
-     */
-    public void setRating(Double rating) {
-        this.rating = rating;
-    }
-
 
 }
