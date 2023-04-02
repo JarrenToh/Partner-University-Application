@@ -6,7 +6,6 @@
 package entity;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -28,29 +27,28 @@ public class PUModule implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long moduleId;
-
+    
     private String code;
-
-    private String description;
-
-    @OneToMany
-    private List<PUModuleReview> moduleReviews;
-
-    @ManyToMany
-    @JoinColumn(nullable = true)
-    private List<NUSModule> mappableModules;
-
-    @ManyToOne
-    @JoinColumn(nullable = false)
-    private PU pu;
 
     public PUModule(String code, String description) {
         this.code = code;
         this.description = description;
     }
+    private String description;
+    
+    @ManyToOne
+    private PUModuleReview moduleReviews;
+    
+    
+    @ManyToMany
+    @JoinColumn(nullable = true)
+    private List<NUSModule> mappableModules;
+    
+    @ManyToOne
+    private PU pu;
+    
 
     public PUModule() {
-        mappableModules = new ArrayList<>();
     }
 
     public Long getModuleId() {
@@ -115,6 +113,20 @@ public class PUModule implements Serializable {
     }
 
     /**
+     * @return the moduleReviews
+     */
+    public PUModuleReview getModuleReviews() {
+        return moduleReviews;
+    }
+
+    /**
+     * @param moduleReviews the moduleReviews to set
+     */
+    public void setModuleReviews(PUModuleReview moduleReviews) {
+        this.moduleReviews = moduleReviews;
+    }
+
+    /**
      * @return the mappableModules
      */
     public List<NUSModule> getMappableModules() {
@@ -141,19 +153,5 @@ public class PUModule implements Serializable {
     public void setPu(PU pu) {
         this.pu = pu;
     }
-
-    /**
-     * @return the moduleReviews
-     */
-    public List<PUModuleReview> getModuleReviews() {
-        return moduleReviews;
-    }
-
-    /**
-     * @param moduleReviews the moduleReviews to set
-     */
-    public void setModuleReviews(List<PUModuleReview> moduleReviews) {
-        this.moduleReviews = moduleReviews;
-    }
-
+    
 }

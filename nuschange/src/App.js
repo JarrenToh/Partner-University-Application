@@ -12,8 +12,6 @@ import TopicPosts from './student/TopicPosts';
 import FAQPage from './student/FAQpage';
 import UniversityRankingsCountry from './student/ranking/UniversityRankingsCountry';
 import UniversityRankingsRegion from './student/ranking/UniversityRankingsRegion';
-import MappableModule from './student/containers/mappableModules';
-import UniversityDescriptionPage from './student/containers/universityDescriptionPage';
 
 //import Enquiry from './admin/userSupportAdmin/pages/enquiry';
 //import EnquiryDetails from './admin/userSupportAdmin/pages/enquiry/view';
@@ -75,8 +73,6 @@ const App = () => {
             <Route path="/login" element={<StudentLogin onLogin={handleLogin} />} />
             <Route path="/university-rankings" element={<UniversityRankings universitiesData={pus} />} />
             <Route path="/faq" element={<FAQPage/>}/>
-            <Route path="/university-description-page" element={<UniversityDescriptionPage/>}/>
-            <Route path="/university-description-page/mappable-module" element={<MappableModule/>}/>
           </Routes>
         </Router>
 
