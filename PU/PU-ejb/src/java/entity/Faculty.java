@@ -30,7 +30,7 @@ public class Faculty implements Serializable {
     
     private String name;
     
-    @OneToMany(mappedBy = "faculty", cascade = {CascadeType.ALL}, fetch = FetchType.EAGER)
+    @OneToMany(cascade = {CascadeType.ALL}, fetch = FetchType.EAGER)
     private List<NUSModule> modules;
 
     public Faculty() {

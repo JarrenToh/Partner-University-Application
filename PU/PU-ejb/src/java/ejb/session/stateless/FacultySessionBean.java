@@ -69,6 +69,7 @@ public class FacultySessionBean implements FacultySessionBeanLocal {
     //DELETE
     @Override
     public Long deleteFaculty(Faculty faculty) {        
+        em.remove(faculty);
         Faculty f = em.find(Faculty.class, faculty.getFacultyId());
         em.remove(f);
         return faculty.getFacultyId();
