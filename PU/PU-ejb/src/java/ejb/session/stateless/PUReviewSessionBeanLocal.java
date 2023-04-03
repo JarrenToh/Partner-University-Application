@@ -17,7 +17,7 @@ import javax.ejb.Local;
 @Local
 public interface PUReviewSessionBeanLocal {
 
-    Long createPUReview(PUReview review, Long puId);
+    Long createPUReview(PUReview review, Long puId, Long studentId);
 
     PUReview retrievePUReviewById(long id);
 

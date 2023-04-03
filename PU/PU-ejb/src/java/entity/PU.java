@@ -37,11 +37,11 @@ public class PU implements Serializable {
     @NotNull
     private String name;
 
-    @Column(nullable = false)
+    @Column(nullable = false, columnDefinition = "VARCHAR(5000)")
     @NotNull
     private String description;
 
-    @Column(nullable = false)
+    @Column(nullable = false, columnDefinition = "VARCHAR(10000)")
     @NotNull
     private String images;
 

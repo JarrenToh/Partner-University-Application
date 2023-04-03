@@ -72,11 +72,10 @@ public class Student implements Serializable {
     @ManyToOne
     private PUModule modulesTaken;
 
-    @OneToMany(cascade = {CascadeType.ALL}, fetch = FetchType.EAGER, mappedBy = "student")
-    private List<PUReview> pUReviews;
+    @OneToOne(mappedBy = "student")
+    private PUReview pUReview;
 
     public Student() {
-        pUReviews = new ArrayList<>();
         socialMedia = new ArrayList<>();
     }
 
@@ -347,14 +346,14 @@ public class Student implements Serializable {
     /**
      * @return the pUReviews
      */
-    public List<PUReview> getpUReviews() {
-        return pUReviews;
+    public PUReview getpUReview() {
+        return pUReview;
     }
 
     /**
      * @param pUReviews the pUReviews to set
      */
-    public void setpUReviews(List<PUReview> pUReviews) {
-        this.pUReviews = pUReviews;
+    public void setpUReview(PUReview pUReview) {
+        this.pUReview = pUReview;
     }
 }

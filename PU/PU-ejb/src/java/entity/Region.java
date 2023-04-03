@@ -35,6 +35,12 @@ public class Region implements Serializable {
     @OneToMany (mappedBy = "region")
     private List<Country> countries;
 
+    public Region() {
+    } 
+        
+    public Region(String name) {
+        this.name = name;
+    }
     
     public Long getRegionId() {
         return regionId;
@@ -42,10 +48,6 @@ public class Region implements Serializable {
 
     public void setRegionId(Long regionId) {
         this.regionId = regionId;
-    }
-    
-    public Region(String name) {
-        this.name = name;
     }
 
     public String getName() {
