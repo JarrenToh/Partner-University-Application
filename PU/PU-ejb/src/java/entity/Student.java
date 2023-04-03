@@ -55,7 +55,10 @@ public class Student implements Serializable {
 
     @ManyToMany(fetch = FetchType.EAGER)
     private List<PU> likedPUs;
-
+    
+    @OneToMany(mappedBy = "students")
+    private List<PUModuleReview> moduleReviews;
+    
     @ManyToOne
     @JoinColumn(nullable = true)
     private PU puEnrolled;
@@ -69,11 +72,11 @@ public class Student implements Serializable {
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "student")
     private List<ForumComment> comments;
 
-    @ManyToOne
-    private PUModule modulesTaken;
+    @OneToMany
+    private List<PUModule> modulesTaken;
 
     @OneToOne(mappedBy = "student")
-    private PUReview pUReview;
+    private PUReview puReview;
 
     public Student() {
         socialMedia = new ArrayList<>();
@@ -290,14 +293,14 @@ public class Student implements Serializable {
     /**
      * @return the modulesTaken
      */
-    public PUModule getModulesTaken() {
+    public List<PUModule> getModulesTaken() {
         return modulesTaken;
     }
 
     /**
      * @param modulesTaken the modulesTaken to set
      */
-    public void setModulesTaken(PUModule modulesTaken) {
+    public void setModulesTaken(List<PUModule> modulesTaken) {
         this.modulesTaken = modulesTaken;
     }
 
@@ -346,14 +349,28 @@ public class Student implements Serializable {
     /**
      * @return the pUReviews
      */
-    public PUReview getpUReview() {
-        return pUReview;
+    public PUReview getPuReview() {
+        return puReview;
     }
 
     /**
      * @param pUReviews the pUReviews to set
      */
-    public void setpUReview(PUReview pUReview) {
-        this.pUReview = pUReview;
+    public void setPuReview(PUReview puReview) {
+        this.puReview = puReview;
+    }
+
+    /**
+     * @return the moduleReviews
+     */
+    public List<PUModuleReview> getModuleReviews() {
+        return moduleReviews;
+    }
+
+    /**
+     * @param moduleReviews the moduleReviews to set
+     */
+    public void setModuleReviews(List<PUModuleReview> moduleReviews) {
+        this.moduleReviews = moduleReviews;
     }
 }
