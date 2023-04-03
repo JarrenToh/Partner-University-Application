@@ -77,7 +77,7 @@ const HomePage = () => {
           </Link>
         </div>
 
-        <div className="container">
+        <div className="container" style={{border: 'none'}}>
           <Link to={`/university-rankings-country`}>
             <Button className="searchbyButton">By Country</Button>
           </Link>
@@ -89,11 +89,12 @@ const HomePage = () => {
         <div className="container" style={{
           backgroundColor: 'rgba(128, 128, 128,0.6)',
           borderRadius: '0.5%',
+          border: 'none'
         }}>
         
           <h2 className="headerDescription">Top 5 Ranking Universities</h2>
         
-          <div className="container">
+          <div className="container" style={{border: 'none'}}>
           {pus
               .sort((a, b) => b.rating - a.rating)
               .slice(0, 5)
@@ -111,9 +112,10 @@ const HomePage = () => {
         <div className="container" style={{
           backgroundColor: 'rgba(128, 128, 128,0.6)',
           borderRadius: '0.5%',
+          border: 'none'
         }}>
           <h2 className="headerDescription">Asia</h2>
-          <div className="container">
+          <div className="container" style={{border: 'none'}}>
           {pus
               .filter((university) => university.regionName === "Asia")
               .sort((a, b) => b.rating - a.rating)
@@ -132,9 +134,10 @@ const HomePage = () => {
         <div className="container" style={{
           backgroundColor: 'rgba(128, 128, 128,0.5)',
           borderRadius: '0.5%',
+          border: 'none'
         }}>
           <h2 className="headerDescription">Africa</h2>
-          <div className="container">
+          <div className="container" style={{border: 'none'}}>
           {pus
               .filter((university) => university.regionName === "Africa")
               .sort((a, b) => b.rating - a.rating)
@@ -153,9 +156,10 @@ const HomePage = () => {
         <div className="container" style={{
           backgroundColor: 'rgba(128, 128, 128,0.5)',
           borderRadius: '0.5%',
+          border: 'none'
         }}>
           <h2 className="headerDescription">Australia</h2>
-          <div className="container">
+          <div className="container" style={{border: 'none'}}>
             {pus
               .filter((university) => university.regionName === "Australia")
               .sort((a, b) => b.rating - a.rating)
@@ -174,9 +178,10 @@ const HomePage = () => {
         <div className="container" style={{
           backgroundColor: 'rgba(128, 128, 128,0.5)',
           borderRadius: '0.5%',
+          border: 'none'
         }}>
           <h2 className="headerDescription">America</h2>
-          <div className="container">
+          <div className="container" style={{border: 'none'}}>
           {pus
               .filter((university) => university.regionName === "America")
               .sort((a, b) => b.rating - a.rating)
@@ -195,9 +200,10 @@ const HomePage = () => {
         <div className="container" style={{
           backgroundColor: 'rgba(128, 128, 128,0.5)',
           borderRadius: '0.5%',
+          border: 'none'
         }}>
           <h2 className="headerDescription">Europe</h2>
-          <div className="container">
+          <div className="container" style={{border: 'none'}}>
           {pus
               .filter((university) => university.regionName === "Europe")
               .sort((a, b) => b.rating - a.rating)

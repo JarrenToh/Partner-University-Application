@@ -16,6 +16,7 @@ const UniversityRankings = ({ universitiesData }) => {
   const [favoritesOnly, setFavoritesOnly] = useState(false);
   const [displayLimit, setDisplayLimit] = useState(10);
   const [ranking, setRanking] = useState(false);
+  
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
   const searchQuery = searchParams.get("search") || "";

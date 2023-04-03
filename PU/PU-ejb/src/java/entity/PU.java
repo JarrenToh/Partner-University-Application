@@ -64,6 +64,8 @@ public class PU implements Serializable {
 
     @ManyToMany(fetch = FetchType.EAGER)
     private List<Student> studentsLiked;
+    
+    
 
     public PU() {
         students = new ArrayList<>();

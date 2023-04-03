@@ -15,6 +15,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
 /**
  *
@@ -31,9 +32,10 @@ public class PUModule implements Serializable {
     private String code;
 
     private String description;
+    
+    @OneToMany(mappedBy = "module")
+    private List<PUModuleReview> moduleReviews;
 
-    @ManyToOne
-    private PUModuleReview moduleReviews;
 
     @ManyToMany
     @JoinColumn(nullable = true)
@@ -116,14 +118,14 @@ public class PUModule implements Serializable {
     /**
      * @return the moduleReviews
      */
-    public PUModuleReview getModuleReviews() {
+    public List<PUModuleReview> getModuleReviews() {
         return moduleReviews;
     }
 
     /**
      * @param moduleReviews the moduleReviews to set
      */
-    public void setModuleReviews(PUModuleReview moduleReviews) {
+    public void setModuleReviews(List<PUModuleReview> moduleReviews) {
         this.moduleReviews = moduleReviews;
     }
 

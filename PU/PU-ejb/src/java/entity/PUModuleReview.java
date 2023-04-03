@@ -10,6 +10,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
 /**
  *
@@ -22,13 +24,21 @@ public class PUModuleReview implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long moduleReviewId;
-    
+
     //private attributes
     private String review;
     private Long rating;
     private Integer noOfLikes;
     private Integer noOfDislikes;
     private Boolean isInappropriate;
+
+    @ManyToOne
+    @JoinColumn(name = "moduleId")
+    private PUModule module;
+    
+    @ManyToOne
+    @JoinColumn(name = "studentId")
+    private Student students;
 
     public PUModuleReview(String review, Long rating, Integer noOfLikes, Integer noOfDislikes) {
         this.review = review;
@@ -143,5 +153,33 @@ public class PUModuleReview implements Serializable {
     public void setIsInappropriate(Boolean isInappropriate) {
         this.isInappropriate = isInappropriate;
     }
-    
+
+    /**
+     * @return the module
+     */
+    public PUModule getModule() {
+        return module;
+    }
+
+    /**
+     * @param module the module to set
+     */
+    public void setModule(PUModule module) {
+        this.module = module;
+    }
+
+    /**
+     * @return the students
+     */
+    public Student getStudents() {
+        return students;
+    }
+
+    /**
+     * @param students the students to set
+     */
+    public void setStudents(Student students) {
+        this.students = students;
+    }
+
 }
