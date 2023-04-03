@@ -16,6 +16,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.validation.constraints.NotNull;
@@ -44,38 +45,31 @@ public class PU implements Serializable {
     @NotNull
     private String images;
 
-    //relationship attributes
-    @ManyToOne
-    private Country country;
-
-    @OneToMany(mappedBy = "pu", cascade = {CascadeType.ALL}, fetch = FetchType.EAGER)
-    private List<PUModule> modules;
-
-    @OneToMany(mappedBy = "pu", cascade = {CascadeType.ALL}, fetch = FetchType.EAGER)
-    private List<PUReview> puReviews;
-
-    @ManyToOne(optional = true)
-    @JoinColumn(nullable = true)
-    private Student student;
-
-    @OneToMany(mappedBy= "puEnrolled", cascade = {CascadeType.ALL}, fetch = FetchType.EAGER)
-    private List<Student> students;
-    
     private String countryName;
     private String regionName;
     private Double rating;
 
+    //relationship attributes
+    @ManyToOne
+    private Country country;
 
-//    @OneToMany (mappedBy = "pu")
-//    private List<PUModule> puModules;
-//    
-//    @OneToMany (mappedBy = "pu")
-//    private List<ForumTopic> forumTopic;
+    @OneToMany(mappedBy = "pu", fetch = FetchType.EAGER)
+    private List<PUModule> modules;
+
+    @OneToMany(mappedBy = "pu", fetch = FetchType.EAGER)
+    private List<PUReview> puReviews;
+
+    @OneToMany(mappedBy = "puEnrolled", fetch = FetchType.EAGER)
+    private List<Student> students;
+
+    @ManyToMany(fetch = FetchType.EAGER)
+    private List<Student> studentsLiked;
+
     public PU() {
-
         students = new ArrayList<>();
         modules = new ArrayList<>();
         puReviews = new ArrayList<>();
+        studentsLiked = new ArrayList<>();
     }
 
     public PU(String name, String description, String images) {
@@ -124,41 +118,7 @@ public class PU implements Serializable {
     public void setCountry(Country country) {
         this.country = country;
     }
-
-    /*
-    public List<PUReview> getPuReviews() {
-        return puReviews;
-    }
-
-    public void setPuReviews(List<PUReview> puReviews) {
-        this.puReviews = puReviews;
-    }
-     */
-    @Override
-    public int hashCode() {
-        int hash = 0;
-        hash += (puId != null ? puId.hashCode() : 0);
-        return hash;
-    }
-
-    @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the puId fields are not set
-        if (!(object instanceof PU)) {
-            return false;
-        }
-        PU other = (PU) object;
-        if ((this.puId == null && other.puId != null) || (this.puId != null && !this.puId.equals(other.puId))) {
-            return false;
-        }
-        return true;
-    }
-
-    @Override
-    public String toString() {
-        return "entity.PU[ id=" + puId + " ]";
-    }
-
+   
     public List<Student> getStudents() {
         return students;
     }
@@ -232,6 +192,39 @@ public class PU implements Serializable {
      */
     public void setRating(Double rating) {
         this.rating = rating;
+    }
+
+    public List<Student> getStudentsLiked() {
+        return studentsLiked;
+    }
+
+    public void setStudentsLiked(List<Student> studentsLiked) {
+        this.studentsLiked = studentsLiked;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 0;
+        hash += (puId != null ? puId.hashCode() : 0);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object object) {
+        // TODO: Warning - this method won't work in the case the puId fields are not set
+        if (!(object instanceof PU)) {
+            return false;
+        }
+        PU other = (PU) object;
+        if ((this.puId == null && other.puId != null) || (this.puId != null && !this.puId.equals(other.puId))) {
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public String toString() {
+        return "entity.PU[ id=" + puId + " ]";
     }
 
 }
