@@ -20,12 +20,20 @@ public interface ForumTopicSessionBeanLocal {
     
     public void updateForumTopic(ForumTopic forumTopic);
     
+    public void editForumTopic(ForumTopic forumTopic);
+    
     public void deleteForumTopic(Long forumTopicId);
     
     public List<ForumTopic> retrieveAllForumTopics();
     
+    public List<ForumTopic> retrieveForumTopicsByStudentId(Long studentId);
+    
     public ForumTopic retrieveForumTopicById(Long forumTopicId);
     
     public List<ForumTopic> searchForumTopics(String topicName);
+    
+    public List<ForumTopic> searchForumTopicsByStudent(String topicName, Long studentId);
+    
+    public void reportForumTopic(Long topicId);
     
 }

@@ -42,11 +42,6 @@ public class PUReview implements Serializable {
     public PUReview() {
     }
 
-    public PUReview(Long rating, Long puReviewId) {
-        this.puReviewId = puReviewId;
-        this.rating = rating;
-    }
-
     public PUReview(Long rating, String review, Integer noOfLikes, Integer noOfDislikes, Boolean isInappropriate) {
         this.rating = rating;
         this.review = review;

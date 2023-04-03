@@ -8,7 +8,6 @@ package ejb.session.stateless;
 import entity.Country;
 import entity.PU;
 import entity.Region;
-import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
@@ -22,9 +21,6 @@ import javax.persistence.Query;
  */
 @Stateless
 public class PUSessionBean implements PUSessionBeanLocal {
-
-    @EJB
-    private PUReviewSessionBeanLocal pUReviewSessionBean;
 
     @PersistenceContext
     private EntityManager em;
@@ -44,15 +40,15 @@ public class PUSessionBean implements PUSessionBeanLocal {
     @Override
     public Long createNewPu(PU newPu, Long countryId, Long regionId) {
         Country country = countrySessionBean.retrieveCountryById(countryId);
-
+        
         newPu.setCountry(country);
         country.addPu(newPu);
-
+        
         em.persist(newPu);
         em.flush();
         return newPu.getPuId();
     }
-
+    
     @Override
     public List<PU> retrieveAllPus() {
 //        Query query = em.createQuery("SELECT p FROM PU p");

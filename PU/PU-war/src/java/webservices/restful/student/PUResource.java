@@ -34,23 +34,17 @@ public class PUResource {
     @EJB
     private PUSessionBeanLocal pUSessionBeanLocal;
 
-//    @GET
-//    @Produces(MediaType.APPLICATION_JSON)
-//    public Response getAllPus() {
-//
-//        List<PU> results = pUSessionBeanLocal.retrieveAllPus();
-//        GenericEntity<List<PU>> entity = new GenericEntity<List<PU>>(results) {
-//        };
-//
-//        return Response.status(200).entity(
-//                entity
-//        ).build();
-//    }
-    
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public List<PU> getAllPus() {
-        return pUSessionBeanLocal.retrieveAllPus();
+    public Response getAllPus() {
+
+        List<PU> results = pUSessionBeanLocal.retrieveAllPus();
+        GenericEntity<List<PU>> entity = new GenericEntity<List<PU>>(results) {
+        };
+
+        return Response.status(200).entity(
+                entity
+        ).build();
     }
 
     @GET

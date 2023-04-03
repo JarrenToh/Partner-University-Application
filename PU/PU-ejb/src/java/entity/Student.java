@@ -100,6 +100,17 @@ public class Student implements Serializable {
         return hash;
     }
 
+    public Student(String firstName, String lastName, String phoneNumber, String email, String password) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.phoneNumber = phoneNumber;
+        this.email = email;
+        this.password = password;
+        this.posts = new ArrayList();
+        this.topics = new ArrayList();
+        this.comments = new ArrayList();
+    }
+
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the studentId fields are not set
@@ -341,5 +352,4 @@ public class Student implements Serializable {
     public void setpUReviews(List<PUReview> pUReviews) {
         this.pUReviews = pUReviews;
     }
-
 }

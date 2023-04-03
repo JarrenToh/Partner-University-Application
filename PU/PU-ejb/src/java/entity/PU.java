@@ -36,16 +36,16 @@ public class PU implements Serializable {
     @NotNull
     private String name;
 
-    @Column(nullable = false, columnDefinition = "VARCHAR(5000)")
+    @Column(nullable = false)
     @NotNull
     private String description;
 
-    @Column(nullable = false, columnDefinition = "VARCHAR(10000)")
+    @Column(nullable = false)
     @NotNull
     private String images;
 
     //relationship attributes
-    @ManyToOne(optional = true)
+    @ManyToOne
     private Country country;
 
     @OneToMany(mappedBy = "pu", cascade = {CascadeType.ALL}, fetch = FetchType.EAGER)
@@ -57,13 +57,14 @@ public class PU implements Serializable {
     @ManyToOne(optional = true)
     @JoinColumn(nullable = true)
     private Student student;
-    
+
     @OneToMany(mappedBy= "puEnrolled", cascade = {CascadeType.ALL}, fetch = FetchType.EAGER)
     private List<Student> students;
     
     private String countryName;
     private String regionName;
     private Double rating;
+
 
 //    @OneToMany (mappedBy = "pu")
 //    private List<PUModule> puModules;
@@ -84,13 +85,6 @@ public class PU implements Serializable {
         this.images = images;
     }
 
-    public PU(String name, String description, String images, Country country) {
-        this.name = name;
-        this.description = description;
-        this.images = images;
-        this.country = country;
-    }
-
     public Long getPuId() {
         return puId;
     }
@@ -103,15 +97,25 @@ public class PU implements Serializable {
         return name;
     }
 
+    public void setName(String name) {
+        this.name = name;
+    }
 
     public String getDescription() {
         return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public String getImages() {
         return images;
     }
 
+    public void setImages(String images) {
+        this.images = images;
+    }
 
     public Country getCountry() {
         return country;
@@ -133,7 +137,7 @@ public class PU implements Serializable {
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (getPuId() != null ? getPuId().hashCode() : 0);
+        hash += (puId != null ? puId.hashCode() : 0);
         return hash;
     }
 
@@ -144,7 +148,7 @@ public class PU implements Serializable {
             return false;
         }
         PU other = (PU) object;
-        if ((this.getPuId() == null && other.getPuId() != null) || (this.getPuId() != null && !this.puId.equals(other.puId))) {
+        if ((this.puId == null && other.puId != null) || (this.puId != null && !this.puId.equals(other.puId))) {
             return false;
         }
         return true;
@@ -152,7 +156,7 @@ public class PU implements Serializable {
 
     @Override
     public String toString() {
-        return "entity.PU[ id=" + getPuId() + " ]";
+        return "entity.PU[ id=" + puId + " ]";
     }
 
     /**
@@ -271,6 +275,4 @@ public class PU implements Serializable {
     public void setStudents(List<Student> students) {
         this.students = students;
     }
-
-
 }

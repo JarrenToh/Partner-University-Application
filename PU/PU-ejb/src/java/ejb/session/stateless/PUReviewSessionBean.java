@@ -27,12 +27,10 @@ public class PUReviewSessionBean implements PUReviewSessionBeanLocal {
     @Override
     public Long createPUReview(PUReview review, Long puId) {
         PU pu = em.find(PU.class, puId);
-        //Link pu to puReview   
+        //Link pu to puReview
+        em.persist(review);
         review.setPu(pu);
         pu.getPuReviews().add(review);
-        em.persist(review);
-        em.flush();
-
         return review.getPuReviewId();
     }
 
@@ -73,24 +71,6 @@ public class PUReviewSessionBean implements PUReviewSessionBeanLocal {
         PUReview r = em.find(PUReview.class, review.getPuReviewId());
         em.remove(r);
         return review.getPuReviewId();
-    }
-
-    @Override
-    public Double retrieveRating(Long puId) {
-        Query q = em.createQuery("SELECT r FROM PUReview r WHERE r.pu.puId = :p");
-        q.setParameter("p", puId);
-        List<PUReview> pUReviews = q.getResultList();
-        if (pUReviews.size() != 0) {
-            Double rating = new Double(0);
-            for (PUReview puReview : pUReviews) {
-                rating += puReview.getRating();
-            }
-            rating = rating / (pUReviews.size() * 1.0);
-            rating = Math.round(rating * 100.0) / 100.0; // round to 2 decimal places
-            return rating;
-        } else {
-            return new Double(0);
-        }
     }
 
 }
