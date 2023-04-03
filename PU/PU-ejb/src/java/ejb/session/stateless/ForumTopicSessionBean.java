@@ -35,13 +35,13 @@ public class ForumTopicSessionBean implements ForumTopicSessionBeanLocal {
     @Override
     public void createNewForumTopic(ForumTopic forumTopic, Long studentId) {
         Student student = em.find(Student.class, studentId);
-        forumTopic.setTimeOfCreation(LocalDateTime.now());
+        //forumTopic.setTimeOfCreation(LocalDateTime.now());
         student.getTopics().add(forumTopic);
         forumTopic.setStudent(student);
         forumTopic.setStudentId(studentId);
         forumTopic.setStudentFirstName(student.getFirstName());
         forumTopic.setStudentLastName(student.getLastName());
-        forumTopic.setForumPosts(new ArrayList());
+        //forumTopic.setForumPosts(new ArrayList());
         em.persist(forumTopic);
         em.flush();
     }

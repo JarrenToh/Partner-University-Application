@@ -86,7 +86,10 @@ public class ForumPost implements Serializable {
     private List<Long> dislikedStudents;
     
     public ForumPost() {
-        
+        this.timeOfCreation = LocalDateTime.now();
+        this.likedStudents = new ArrayList();
+        this.dislikedStudents = new ArrayList();
+        this.forumComments = new ArrayList();
     }
 
     public ForumPost(String title, String message) {
