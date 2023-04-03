@@ -7,16 +7,17 @@ package entity;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-
 
 /**
  *
@@ -29,47 +30,60 @@ public class Student implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long studentId;
-    
+
     private String firstName;
-    
+
     private String lastName;
-    
+
     private String phoneNumber;
-    
+
     private String faculty;
-    
+
     private String[] socialMedia;
-    
+
     private LocalDateTime lastActive;
-    
+
     private String email;
-    
+
     private String password;
 
-    public Student() {
-    }
-    
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "student")
     private List<Enquiry> enquiries;
-    
-    @ManyToOne(optional = true, fetch = FetchType.EAGER)
+
+    @ManyToOne
     @JoinColumn(nullable = true)
-    private PUModule puEnrolled;
-    
+    private PU puEnrolled;
+
     @ManyToOne
     private PU likedPUs;
-    
+
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "student")
     private List<ForumPost> posts;
-    
+
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "student")
     private List<ForumTopic> topics;
-    
+
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "student")
     private List<ForumComment> comments;
-    
+
     @ManyToOne
     private PUModule modulesTaken;
+
+    @OneToMany(cascade = {CascadeType.ALL}, fetch = FetchType.EAGER, mappedBy = "student")
+    private List<PUReview> pUReviews;
+
+    public Student() {
+        pUReviews = new ArrayList<>();
+    }
+
+    public Student(String firstName, String lastName, String phoneNumber, String email, String password, String faculty) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.phoneNumber = phoneNumber;
+        this.email = email;
+        this.password = password;
+        this.faculty = faculty;
+    }
 
     public Long getStudentId() {
         return studentId;
@@ -84,15 +98,6 @@ public class Student implements Serializable {
         int hash = 0;
         hash += (getStudentId() != null ? getStudentId().hashCode() : 0);
         return hash;
-    }
-
-    public Student(String firstName, String lastName, String phoneNumber, String email, String password, String faculty) {
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.phoneNumber = phoneNumber;
-        this.email = email;
-        this.password = password;
-        this.faculty = faculty;
     }
 
     @Override
@@ -240,20 +245,6 @@ public class Student implements Serializable {
     }
 
     /**
-     * @return the puEnrolled
-     */
-    public PUModule getPuEnrolled() {
-        return puEnrolled;
-    }
-
-    /**
-     * @param puEnrolled the puEnrolled to set
-     */
-    public void setPuEnrolled(PUModule puEnrolled) {
-        this.puEnrolled = puEnrolled;
-    }
-
-    /**
      * @return the likedPUs
      */
     public PU getLikedPUs() {
@@ -280,8 +271,7 @@ public class Student implements Serializable {
     public void setModulesTaken(PUModule modulesTaken) {
         this.modulesTaken = modulesTaken;
     }
-    
-    
+
     /**
      * @return the posts
      */
@@ -323,5 +313,33 @@ public class Student implements Serializable {
     public void setComments(List<ForumComment> comments) {
         this.comments = comments;
     }
-    
+
+    /**
+     * @return the puEnrolled
+     */
+    public PU getPuEnrolled() {
+        return puEnrolled;
+    }
+
+    /**
+     * @param puEnrolled the puEnrolled to set
+     */
+    public void setPuEnrolled(PU puEnrolled) {
+        this.puEnrolled = puEnrolled;
+    }
+
+    /**
+     * @return the pUReviews
+     */
+    public List<PUReview> getpUReviews() {
+        return pUReviews;
+    }
+
+    /**
+     * @param pUReviews the pUReviews to set
+     */
+    public void setpUReviews(List<PUReview> pUReviews) {
+        this.pUReviews = pUReviews;
+    }
+
 }
