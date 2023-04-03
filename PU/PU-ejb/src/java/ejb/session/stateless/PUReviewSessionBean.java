@@ -72,5 +72,23 @@ public class PUReviewSessionBean implements PUReviewSessionBeanLocal {
         em.remove(r);
         return review.getPuReviewId();
     }
+    
+    @Override
+    public Double retrieveRating(Long puId) {
+        Query q = em.createQuery("SELECT r FROM PUReview r WHERE r.pu.puId = :p");
+        q.setParameter("p", puId);
+        List<PUReview> pUReviews = q.getResultList();
+        if (pUReviews.size() != 0) {
+            Double rating = new Double(0);
+            for (PUReview puReview : pUReviews) {
+                rating += puReview.getRating();
+            }
+            rating = rating / (pUReviews.size() * 1.0);
+            rating = Math.round(rating * 100.0) / 100.0; // round to 2 decimal places
+            return rating;
+        } else {
+            return new Double(0);
+        }
+    }
 
 }

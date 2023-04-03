@@ -22,6 +22,7 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.GenericEntity;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import util.formRequestEntity.LoginRequest;
 
 @Path("student")
 @RequestScoped
@@ -168,6 +169,10 @@ public class StudentResource {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Response login(LoginRequest loginRequest) {
+        
+        String username = loginRequest.getUsername();
+        String password = loginRequest.getPassword();
+
         Student student = studentSessionLocal.login(username, password);
 
         if (student != null) {

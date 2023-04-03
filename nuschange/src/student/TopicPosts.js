@@ -173,14 +173,7 @@ export default function TopicPosts(props) {
               {forumPosts.length > 0 ? (
               <tbody>
                 {forumPosts.slice(pagesVisited, pagesVisited + itemsPerPage).map((item) => (
-                   item.isInappropriate ? (
-                    <tr className="table-secondary">
-                      <td colSpan={3} className="text-center">
-                        <FontAwesomeIcon icon={['fa', 'eye-slash']} className="font-size-lg mr-2" />
-                        Forum post has been hidden as it is inappropriate
-                      </td>
-                    </tr>
-                  ) : (
+                  !item.isInappropriate && (
                   <tr key={item.postId}>
                     <td>
                       <a
@@ -188,15 +181,9 @@ export default function TopicPosts(props) {
                       >
                         {item.title}
                       </a>
-                      {item.studentId == 1 ? (
-                        <Link to={`/`} className="text-black-50 d-block blue-link" style={{ textDecoration: 'none' }}>
-                          Author: Me
-                        </Link>
-                      ) :
                         <Link to={`/`} className="text-black-50 d-block blue-link" style={{ textDecoration: 'none' }}>
                           Author: {item.studentFirstName} {item.studentLastName}
                         </Link>
-                      }
                       {item.isEdited && (
                         <span className="edited-info"> 
                           Last Edited: {getTimeDifference(item.lastEdit)}
