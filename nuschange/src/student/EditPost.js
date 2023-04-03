@@ -16,10 +16,10 @@ import {
     Button
 } from 'reactstrap';
 
-export default function NewPost() {
-    const { id, topicName } = useParams();
-    const [title, setTitle] = useState('');
-    const [content, setContent] = useState('');
+export default function EditPost() {
+    const { id, oldTitle, oldMessage, topicName} = useParams();
+    const [title, setTitle] = useState(oldTitle);
+    const [content, setContent] = useState(oldMessage);
 
     const handleTitleChange = (e) => {
         setTitle(e.target.value);
@@ -42,7 +42,7 @@ export default function NewPost() {
             content
         };
 
-        axios.post(`http://localhost:8080/PU-war/webresources/forumPosts/user/forumTopics/${id}/student/1/forumPosts`, createdForumPost)
+        axios.put(`http://localhost:8080/PU-war/webresources/forumPosts/${id}`, createdForumPost)
             .then((response) => {
                 console.log(response.data);
             })
@@ -53,7 +53,7 @@ export default function NewPost() {
 
     return (
         <Card>
-            <CardHeader>Create a new post for topic: {topicName}</CardHeader>
+            <CardHeader>Edit post for topic: {topicName}</CardHeader>
             <CardBody>
                 <Form onSubmit={handleSubmit}>
                     <FormGroup row>
@@ -65,7 +65,6 @@ export default function NewPost() {
                                 type="text"
                                 name="title"
                                 id="postTitle"
-                                placeholder="Enter a title"
                                 value={title}
                                 onChange={handleTitleChange}
                             />
@@ -89,7 +88,7 @@ export default function NewPost() {
                         <Col sm={{ size: 10, offset: 2 }}>
                             <div className="text-right">
                                 <Button color="outline-primary" type="submit">
-                                    Create post
+                                    Edit post
                                 </Button>
                             </div>
                         </Col>

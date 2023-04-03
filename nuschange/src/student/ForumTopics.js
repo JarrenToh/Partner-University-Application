@@ -1,6 +1,5 @@
 import React, { Fragment} from 'react';
 import { Link } from 'react-router-dom';
-// import { useNavigate } from 'react-router-dom';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { library } from '@fortawesome/fontawesome-svg-core';
@@ -71,6 +70,51 @@ export default function ForumTopics() {
     fetchData();
   }
 
+  const handleDelete = (id) => {
+    axios.delete(`http://localhost:8080/PU-war/webresources/forumTopics/${id}`)
+      .then(response => {
+        // Handle successful response here
+        console.log('Delete successful');
+      })
+      .catch(error => {
+        // Handle error response here
+        console.error('Delete failed: ', error);
+      });
+  }
+
+  const handleReport = (id) => {
+    axios.put(`http://localhost:8080/PU-war/webresources/forumTopics/report/${id}`)
+      .then(response => {
+        // Handle successful response here
+        console.log('Report successful');
+      })
+      .catch(error => {
+        // Handle error response here
+        console.error('Report failed: ', error);
+      });
+  }
+
+  function getTimeDifference(timeOfCreation) {
+    const now = new Date();
+    const diff = (now.getTime() - new Date(timeOfCreation).getTime()) / 1000;
+  
+    if (diff < 60) {
+      return `${Math.floor(diff)} seconds ago`;
+    } else if (diff < 3600) {
+      const minutes = Math.floor(diff / 60);
+      const seconds = Math.floor(diff % 60);
+      return `${minutes}min ${seconds} seconds ago`;
+    } else if (diff < 86400) {
+      const hours = Math.floor(diff / 3600);
+      const minutes = Math.floor((diff % 3600) / 60);
+      return `${hours} hours ${minutes} minutes ago`;
+    } else {
+      const days = Math.floor(diff / 86400);
+      const hours = Math.floor((diff % 86400) / 3600);
+      return `${days} days ${hours} hours ago`;
+    }
+  }
+
   return (
     <Fragment>
       <div className="search">
@@ -93,21 +137,19 @@ export default function ForumTopics() {
           </div>
           <div className="card-header--actions">
             <Button
-              tag="a"
-              href="#/"
-              onClick={(e) => e.preventDefault()}
+              tag={Link}
+              to={`/new-topic/${1}`}
               color="outline-primary"
               title="View details"
               className="mr-2">
               <FontAwesomeIcon icon={['fa', 'plus']} className="mr-1" />
-              Create new post
+              Create new Topic
             </Button>
           </div>
           <div className="card-header--actions">
             <Button
-              tag="a"
-              href="#/"
-              onClick={(e) => e.preventDefault()}
+              tag={Link}
+              to={`/my-topics/${1}`}
               color="outline-primary"
               title="View My Topics"
               className="ml-2">
@@ -129,30 +171,99 @@ export default function ForumTopics() {
               {forumTopics.length > 0 ? (
               <tbody>
                 {forumTopics.slice(pagesVisited, pagesVisited + itemsPerPage).map((item) => (
-                  <tr key={item.id}>
-                    <td>
-                      <a className="font-weight-bold text-black">
-                        {item.topicName}
-                      </a>
-                    </td>
-                    <td style={{ textAlign: 'center', verticalAlign: 'middle' }}>
-                      <a className="font-weight-bold text-black">
-                        {item.forumPosts.length}
-                      </a>
-                    </td>
-                    <td className="text-center">
-                      <Button
-                        tag={Link}
-                        to={`/forum-topics/${item.topicId}`}
-                        size="sm"
-                        color="link"
-                        className="text-primary"
-                        title="View"
-                      >
-                        <FontAwesomeIcon icon={['fa', 'eye']} className="font-size-lg" />
-                      </Button>
-                    </td>
-                  </tr>
+                  item.isInappropriate ? (
+                    <tr className="table-secondary">
+                      <td colSpan={3} className="text-center">
+                        <FontAwesomeIcon icon={['fa', 'eye-slash']} className="font-size-lg mr-2" />
+                        Forum topic has been hidden as it is inappropriate
+                      </td>
+                    </tr>
+                  ) : (
+                    <tr key={item.topicId}>
+                      <td>
+                        <a className="font-weight-bold text-black">
+                          {item.topicName}
+                        </a>
+                        {item.studentId == 1 ? (
+                          <Link to={`/`} className="text-black-50 d-block blue-link" style={{ textDecoration: 'none' }}>
+                            Author: Me
+                          </Link>
+                        ) :
+                          <Link to={`/`} className="text-black-50 d-block blue-link" style={{ textDecoration: 'none' }}>
+                            Author: {item.studentFirstName} {item.studentLastName}
+                          </Link>
+                        }
+                        {item.isEdited && (
+                          <span className="edited-info">
+                            Last Edited: {getTimeDifference(item.lastEdit)}
+                          </span>
+                        )}
+                      </td>
+                      <td style={{ textAlign: 'center', verticalAlign: 'middle' }}>
+                        <a className="font-weight-bold text-black">
+                          {item.forumPosts.length}
+                        </a>
+                      </td>
+                      {item.studentId == 1 ? (
+                        <td className="text-center">
+                          <Button
+                            tag={Link}
+                            to={`/forum-topics/${item.topicId}/${encodeURIComponent(item.topicName)}/1`}
+                            size="sm"
+                            color="link"
+                            className="text-primary"
+                            title="View"
+                          >
+                            <FontAwesomeIcon icon={['fa', 'eye']} className="font-size-lg eye" />
+                          </Button>
+              
+                          <Button
+                            tag={Link}
+                            to={`/forum-topics/edit/${item.topicId}/${item.topicName}`}
+                            size="sm"
+                            color="link"
+                            className="text-warning ml-2"
+                            title="Edit"
+                          >
+                            <FontAwesomeIcon icon={['fa', 'edit']} className="font-size-lg edit" />
+                          </Button>
+              
+                          <Button
+                            onClick={() => handleDelete(item.topicId)}
+                            size="sm"
+                            color="link"
+                            className="text-danger ml-2"
+                            title="Delete"
+                          >
+                            <FontAwesomeIcon icon={['fa', 'trash']} className="font-size-lg delete" />
+                          </Button>
+                        </td>
+                      ) :
+                        <td className="text-center">
+                          <Button
+                            tag={Link}
+                            to={`/forum-topics/${item.topicId}/${encodeURIComponent(item.topicName)}/1`}
+                            size="sm"
+                            color="link"
+                            className="text-primary"
+                            title="View"
+                          >
+                            <FontAwesomeIcon icon={['fa', 'eye']} className="font-size-lg eye" />
+                          </Button>
+              
+                          <Button
+                            onClick={() => handleReport(item.topicId)}
+                            size="sm"
+                            color="link"
+                            className="text-secondary ml-2"
+                            title="Report"
+                          >
+                            <FontAwesomeIcon icon={['fa', 'flag']} className="font-size-lg flag" />
+                          </Button>
+                        </td>
+                      }
+                    </tr>
+                  )
                 ))}
               </tbody>
               ) : (

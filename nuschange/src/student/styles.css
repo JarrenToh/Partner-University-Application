@@ -87,8 +87,34 @@
     border-color: white;
     margin-left: 30px;
   } 
+
+  .blue-link:hover {
+    color: orangered !important;
+  }
+
+  .blue-link {
+    color: blue !important;
+  }
   
-  
+  .edited-info {
+    color: blue !important;
+  }
+
+  .eye {
+    color: blueviolet;
+  }
+
+  .edit {
+    color: deeppink
+  }
+
+  .delete {
+    color: red
+  }
+
+  .flag {
+    color: orangered
+  }
   
   
   
