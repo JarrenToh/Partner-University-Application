@@ -168,7 +168,7 @@ export default function MyTopics() {
                       )
                       }
                       <Link to={`/`} className="text-black-50 d-block blue-link" style={{textDecoration: 'none'}}>
-                        Author: Me
+                        Author: {item.studentFirstName} {item.studentLastName}
                       </Link>
                       {item.isEdited && (
                         <span className="edited-info">

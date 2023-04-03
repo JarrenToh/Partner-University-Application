@@ -345,20 +345,6 @@ public class Student implements Serializable {
     }
 
     /**
-     * @return the puEnrolled
-     */
-    public PU getPuEnrolled() {
-        return puEnrolled;
-    }
-
-    /**
-     * @param puEnrolled the puEnrolled to set
-     */
-    public void setPuEnrolled(PU puEnrolled) {
-        this.puEnrolled = puEnrolled;
-    }
-
-    /**
      * @return the pUReviews
      */
     public List<PUReview> getpUReviews() {

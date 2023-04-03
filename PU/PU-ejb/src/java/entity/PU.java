@@ -195,28 +195,6 @@ public class PU implements Serializable {
         this.puReviews = puReviews;
     }
 
-    /**
-     * @param name the name to set
-     */
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    /**
-     * @param description the description to set
-     */
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    /**
-     * @param images the images to set
-     */
-    public void setImages(String images) {
-        this.images = images;
-    }
-
-
     public String getCountryName() {
         return countryName;
     }
@@ -256,17 +234,4 @@ public class PU implements Serializable {
         this.rating = rating;
     }
 
-    /**
-     * @return the students
-     */
-    public List<Student> getStudents() {
-        return students;
-    }
-
-    /**
-     * @param students the students to set
-     */
-    public void setStudents(List<Student> students) {
-        this.students = students;
-    }
 }

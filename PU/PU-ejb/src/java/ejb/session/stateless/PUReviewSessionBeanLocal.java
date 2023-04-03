@@ -29,4 +29,6 @@ public interface PUReviewSessionBeanLocal {
 
     List<PUReview> retrieveReportedPUReview();
     
+    Double retrieveRating(Long puId);
+    
 }
