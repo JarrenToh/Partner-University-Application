@@ -24,11 +24,45 @@ import {
   faInstagram,
   faGithub,
 } from "@fortawesome/free-brands-svg-icons";
-import { faPenToSquare, faPen } from "@fortawesome/free-solid-svg-icons";
+import {
+  faPenToSquare,
+  faPen,
+  faHeart,
+} from "@fortawesome/free-solid-svg-icons";
+import SocialMediaModal from "./SocialMediaModal";
 
 const StudentProfile = () => {
-  const { loggedInStudent, logout } = useContext(AuthContext);
+  const { loggedInStudent } = useContext(AuthContext);
+  //const { studentId } = loggedInStudent;
+  const API_URL_STUDENT = "http://localhost:8080/PU-war/webresources/student";
+  const [studentId, setStudentId] = useState(0);
+  const [currentStudent, setCurrentStudent] = useState({});
+  const [socialMedia, setSocialMedia] = useState([]);
   const [reviewModalShow, setReviewModalShow] = useState(false);
+  const [socialMediaModalShow, setSocialMediaModalShow] = useState(false);
+
+  useEffect(() => {
+    if (loggedInStudent) {
+      console.log(loggedInStudent);
+      setStudentId(loggedInStudent.studentId);
+      setSocialMedia(loggedInStudent.socialMedia);
+      /*
+      if (studentId > 0) {
+        console.log(studentId);
+        getStudentAPI(studentId);
+        if (currentStudent) {
+          console.log(currentStudent);
+        }
+      }
+      */
+    }
+  }, []);
+
+  const getStudentAPI = async (studentId) => {
+    const response = await fetch(`${API_URL_STUDENT}/${studentId}`);
+    const data = await response.json();
+    setCurrentStudent(data);
+  };
 
   if (!loggedInStudent) {
     return <div> Not Logged in</div>;
@@ -88,7 +122,7 @@ const StudentProfile = () => {
               <ListGroup variant="flush">
                 {loggedInStudent.socialMedia != null &&
                   loggedInStudent.socialMedia.map((socialMedia) => (
-                    <ListGroupItem></ListGroupItem>
+                    <ListGroupItem>{socialMedia}</ListGroupItem>
                   ))}
                 <ListGroupItem>
                   <FontAwesomeIcon icon={faLinkedin} size="xl" />
@@ -104,14 +138,20 @@ const StudentProfile = () => {
                 </ListGroupItem>
               </ListGroup>
               <Card.Footer style={{ textAlign: "center" }}>
-                <Button variant="link">
+                <Button
+                  variant="link"
+                  onClick={() => setSocialMediaModalShow(true)}
+                >
                   <FontAwesomeIcon icon={faPen} /> {"  "}
                   Edit Social Media Links
                 </Button>
               </Card.Footer>
             </Card>
             <div className="d-grid gap-2">
-              <Button variant="secondary">Liked PUS</Button>
+              <Button variant="danger">
+                <FontAwesomeIcon icon={faHeart} /> {"  "}
+                Liked PUs
+              </Button>
             </div>
           </div>
         </Col>
@@ -141,7 +181,7 @@ const StudentProfile = () => {
               <Form.Group className="mb-3" controlId="formGroupEmail">
                 <Form.Label>Partner University</Form.Label>
                 <EnrolledField
-                  isEnrolled={loggedInStudent.partnerUniversity == null}
+                  isEnrolled={loggedInStudent.partnerUniversity != null}
                 />
               </Form.Group>
             </Form>
@@ -153,6 +193,12 @@ const StudentProfile = () => {
         show={reviewModalShow}
         onHide={() => setReviewModalShow(false)}
       />
+      <SocialMediaModal
+        show={socialMediaModalShow}
+        onHide={() => setSocialMediaModalShow(false)}
+      />
+
+      <Button>Fetch latest info</Button>
     </div>
   );
 };
