@@ -34,14 +34,18 @@ public class Region implements Serializable {
     //relationship attributes
     @OneToMany (mappedBy = "region")
     private List<Country> countries;
-    
 
+    
     public Long getRegionId() {
         return regionId;
     }
 
     public void setRegionId(Long regionId) {
         this.regionId = regionId;
+    }
+    
+    public Region(String name) {
+        this.name = name;
     }
 
     public String getName() {

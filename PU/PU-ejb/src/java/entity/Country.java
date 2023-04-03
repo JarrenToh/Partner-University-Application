@@ -32,6 +32,11 @@ public class Country implements Serializable {
     @NotNull
     private String name;
     
+    public Country(String name, Region region) {
+        this.name = name;
+        this.region = region;
+    }
+    
     //relationship attributes
     @ManyToOne
     private Region region;
