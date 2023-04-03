@@ -7,6 +7,7 @@ package entity;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -86,13 +87,15 @@ public class Student implements Serializable {
         return hash;
     }
 
-    public Student(String firstName, String lastName, String phoneNumber, String email, String password, String faculty) {
+    public Student(String firstName, String lastName, String phoneNumber, String email, String password) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.phoneNumber = phoneNumber;
         this.email = email;
         this.password = password;
-        this.faculty = faculty;
+        this.posts = new ArrayList();
+        this.topics = new ArrayList();
+        this.comments = new ArrayList();
     }
 
     @Override
@@ -323,5 +326,5 @@ public class Student implements Serializable {
     public void setComments(List<ForumComment> comments) {
         this.comments = comments;
     }
-    
+
 }

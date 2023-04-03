@@ -38,6 +38,10 @@ public class ForumTopicSessionBean implements ForumTopicSessionBeanLocal {
         forumTopic.setTimeOfCreation(LocalDateTime.now());
         student.getTopics().add(forumTopic);
         forumTopic.setStudent(student);
+        forumTopic.setStudentId(studentId);
+        forumTopic.setStudentFirstName(student.getFirstName());
+        forumTopic.setStudentLastName(student.getLastName());
+        forumTopic.setForumPosts(new ArrayList());
         em.persist(forumTopic);
         em.flush();
     }
@@ -48,13 +52,39 @@ public class ForumTopicSessionBean implements ForumTopicSessionBeanLocal {
         ForumTopic oldTopic = retrieveForumTopicById(forumTopic.getTopicId());
 
         oldTopic.setTopicName(forumTopic.getTopicName());
+        oldTopic.setIsEdited(forumTopic.getIsEdited());
+        oldTopic.setLastEdit(forumTopic.getLastEdit());
         oldTopic.setIsInappropriate(forumTopic.getIsInappropriate());
+        oldTopic.setTimeOfCreation(forumTopic.getTimeOfCreation());
+        oldTopic.setForumPosts(forumTopic.getForumPosts());
+        oldTopic.setStudent(forumTopic.getStudent());
+        oldTopic.setStudentId(forumTopic.getStudentId());
+        oldTopic.setStudentFirstName(forumTopic.getStudentFirstName());
+        oldTopic.setStudentLastName(forumTopic.getStudentLastName());
         
+    }
+    
+    @Override
+    public void editForumTopic(ForumTopic forumTopic) {
+        ForumTopic oldTopic = retrieveForumTopicById(forumTopic.getTopicId());
+
+        oldTopic.setTopicName(forumTopic.getTopicName());
+        oldTopic.setIsEdited(true);
+        oldTopic.setLastEdit(LocalDateTime.now());
+        oldTopic.setIsInappropriate(forumTopic.getIsInappropriate());
+        oldTopic.setTimeOfCreation(forumTopic.getTimeOfCreation());
+        oldTopic.setForumPosts(forumTopic.getForumPosts());
+        oldTopic.setStudent(forumTopic.getStudent());
+        oldTopic.setStudentId(forumTopic.getStudentId());
+        oldTopic.setStudentFirstName(forumTopic.getStudentFirstName());
+        oldTopic.setStudentLastName(forumTopic.getStudentLastName());
     }
 
     @Override
     public void deleteForumTopic(Long forumTopicId) {
         ForumTopic forumTopic = em.find(ForumTopic.class, forumTopicId);
+        Student student = em.find(Student.class, forumTopic.getStudent().getStudentId());
+        student.getTopics().remove(forumTopic);
         List<ForumPost> forumPosts = forumTopic.getForumPosts();
 
         synchronized (forumPosts) {
@@ -80,6 +110,12 @@ public class ForumTopicSessionBean implements ForumTopicSessionBeanLocal {
         ForumTopic forumTopic = em.find(ForumTopic.class, forumTopicId);
         return forumTopic;
     }
+    
+    @Override
+    public List<ForumTopic> retrieveForumTopicsByStudentId(Long studentId) {
+        Student student = em.find(Student.class, studentId);
+        return student.getTopics();
+    }
 
     @Override
     public List<ForumTopic> searchForumTopics(String topicName) {
@@ -92,5 +128,35 @@ public class ForumTopicSessionBean implements ForumTopicSessionBeanLocal {
             q = em.createQuery("SELECT ft FROM ForumTopic ft");
         }
         return q.getResultList();
+    }
+    
+    @Override
+    public List<ForumTopic> searchForumTopicsByStudent(String topicName, Long studentId) {
+        Query q;
+        if (topicName != null) {
+            q = em.createQuery("SELECT ft FROM ForumTopic ft WHERE "
+                    + "LOWER(ft.topicName) LIKE :topicName");
+            q.setParameter("topicName", "%" + topicName.toLowerCase() + "%");
+        } else {
+            q = em.createQuery("SELECT ft FROM ForumTopic ft");
+        }
+        
+        List<ForumTopic> forumTopics = q.getResultList();
+        List<ForumTopic> searchTopics = forumTopics;
+        
+        for(ForumTopic forumTopic : forumTopics) {
+            if (forumTopic.getStudentId() != studentId) {
+                searchTopics.remove(forumTopic);
+            }
+        }
+        
+        return searchTopics;
+    }
+    
+    @Override
+    public void reportForumTopic(Long forumTopicId) {
+        ForumTopic forumTopic = em.find(ForumTopic.class, forumTopicId);
+        
+        forumTopic.setIsInappropriate(true);
     }
 }

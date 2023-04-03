@@ -21,32 +21,38 @@ public interface ForumPostSessionBeanLocal {
     
     public void updateForumPost(ForumPost forumPost);
     
+    public void editForumPost(ForumPost forumPost);
+    
     public void deleteForumPost(Long forumPostId);
     
     public List<ForumPost> retrieveAllForumPosts();
     
     public ForumPost retrieveForumPostById(Long forumPostId);
     
+    public List<ForumPost> retrieveForumPostsByTopicAndStudent(Long topicId, Long studentId);
+    
     public List<ForumPost> retrieveAppropriateForumPosts();
     
     public List<ForumPost> retrieveInappropriateForumPosts();
     
-    public void likeForumPost(Long forumPostId);
+    public void likeForumPost(Long forumPostId, Long studentId);
     
-    public void unlikeForumPost(Long forumPostId);
+    public void unlikeForumPost(Long forumPostId, Long studentId);
     
     public void reportForumPost(Long forumPostId);
     
     public void resolveForumPost(Long forumPostId);
     
-    public void dislikeForumPost(Long forumPostId);
+    public void dislikeForumPost(Long forumPostId, Long studentId);
     
-    public void undislikeForumPost(Long forumPostId);
+    public void undislikeForumPost(Long forumPostId, Long studentId);
     
     public List<ForumPost> searchForumPost(String postTitle);
     
     public List<ForumPost> searchForumPostByTopic(String postTitle, Long topicId);
     
-    public List<ForumPost> retrieveForumPostByTopic(Long topicId);
+    public List<ForumPost> searchForumPostsByTopicAndStudent(String postTitle, Long topicId, Long studentId);
+    
+    public List<ForumPost> retrieveForumPostByTopic(Long topicId); 
     
 }

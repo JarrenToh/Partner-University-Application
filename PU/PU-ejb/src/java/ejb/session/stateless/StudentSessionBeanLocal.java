@@ -38,7 +38,5 @@ public interface StudentSessionBeanLocal {
     public Student getStudent(Long studentId) throws NoResultException;
 
     public void updateStudent(Student s) throws NoResultException;
-
-    public Student login(String username, String password);
     
 }

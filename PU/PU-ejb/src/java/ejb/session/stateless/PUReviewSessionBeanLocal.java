@@ -28,7 +28,5 @@ public interface PUReviewSessionBeanLocal {
     Long deletePUReview(PUReview review);
 
     List<PUReview> retrieveReportedPUReview();
-
-    public Double retrieveRating(Long puId);
     
 }

@@ -8,7 +8,6 @@ package ejb.session.stateless;
 import entity.Country;
 import entity.PU;
 import entity.Region;
-import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
@@ -22,9 +21,6 @@ import javax.persistence.Query;
  */
 @Stateless
 public class PUSessionBean implements PUSessionBeanLocal {
-
-    @EJB
-    private PUReviewSessionBeanLocal pUReviewSessionBean;
 
     @PersistenceContext
     private EntityManager em;
@@ -44,37 +40,19 @@ public class PUSessionBean implements PUSessionBeanLocal {
     @Override
     public Long createNewPu(PU newPu, Long countryId, Long regionId) {
         Country country = countrySessionBean.retrieveCountryById(countryId);
-
+        
         newPu.setCountry(country);
         country.addPu(newPu);
-
+        
         em.persist(newPu);
         em.flush();
         return newPu.getPuId();
     }
-
+    
     @Override
     public List<PU> retrieveAllPus() {
-//        Query query = em.createQuery("SELECT p FROM PU p");
-//        return query.getResultList();
-
-        Query query = em.createQuery("SELECT p.puId, p.name, p.description, p.images, c.name, c.region.name FROM PU p JOIN p.country c");
-        List<Object[]> results = query.getResultList();
-        List<PU> pus = new ArrayList<>();
-        for (Object[] result : results) {
-            PU pu = new PU();
-            
-            pu.setPuId((Long) result[0]);
-            
-            pu.setRating(pUReviewSessionBean.retrieveRating((Long) result[0]));
-            pu.setName((String) result[1]);
-            pu.setDescription((String) result[2]);
-            pu.setImages((String) result[3]);
-            pu.setCountryName((String) result[4]);
-            pu.setRegionName((String) result[5]);
-            pus.add(pu);
-        }
-        return pus;
+        Query query = em.createQuery("SELECT p FROM PU p");
+        return query.getResultList();
     }
 
     @Override

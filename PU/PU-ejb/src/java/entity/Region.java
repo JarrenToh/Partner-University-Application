@@ -44,9 +44,6 @@ public class Region implements Serializable {
         this.regionId = regionId;
     }
 
-    public Region() {
-    }
-
     public String getName() {
         return name;
     }
@@ -65,10 +62,6 @@ public class Region implements Serializable {
     
     public void addCountries(Country country) {
         this.countries.add(country);
-    }
-
-    public Region(String name) {
-        this.name = name;
     }
 
     @Override

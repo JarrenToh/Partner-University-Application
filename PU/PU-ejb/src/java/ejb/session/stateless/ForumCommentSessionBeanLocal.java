@@ -16,9 +16,11 @@ import javax.ejb.Local;
 @Local
 public interface ForumCommentSessionBeanLocal {
     
-    public void createNewForumComment(ForumComment forumComment, Long forumPostId, Long studentId);
+    public ForumComment createNewForumComment(ForumComment forumComment, Long forumPostId, Long studentId);
     
     public void updateForumComment(ForumComment forumComment);
+    
+    public void editForumComment(ForumComment forumComment);
     
     public void deleteForumComment(Long forumCommentId);
     
@@ -30,11 +32,13 @@ public interface ForumCommentSessionBeanLocal {
     
     public void resolveForumComment(Long forumCommentId);
     
-    public void likeForumComment(Long forumCommentId);
+    public void likeForumComment(Long forumCommentId, Long studentId);
     
-    public void unlikeForumComment(Long forumCommentId);
+    public void unlikeForumComment(Long forumCommentId, Long studentId);
     
-    public void dislikeForumComment(Long forumCommentId);
+    public void dislikeForumComment(Long forumCommentId, Long studentId);
     
-    public void undislikeForumComment(Long forumCommentId);
+    public void undislikeForumComment(Long forumCommentId, Long studentId);
+    
+    public void replyForumComment(ForumComment reply, Long replyingToCommentId, Long studentId);
 }

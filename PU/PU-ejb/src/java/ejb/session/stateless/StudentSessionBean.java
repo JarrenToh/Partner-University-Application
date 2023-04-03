@@ -157,13 +157,5 @@ public class StudentSessionBean implements StudentSessionBeanLocal {
         }
     }
     
-    @Override
-    public Student login(String username, String password) {
-        Query query = em.createQuery("SELECT n FROM Student n WHERE n.email = :username AND n.password = :password");
-        query.setParameter("username", username);
-        query.setParameter("password", password);
-
-        return (Student) query.getSingleResult();
-    }
 
 }

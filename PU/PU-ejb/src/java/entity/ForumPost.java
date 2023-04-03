@@ -8,7 +8,6 @@ package entity;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import javax.json.bind.annotation.JsonbTransient;
 import javax.persistence.Column;
@@ -20,8 +19,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
+
 
 /**
  *
@@ -62,9 +60,30 @@ public class ForumPost implements Serializable {
     @JoinColumn(nullable = false)
     @JsonbTransient
     private Student student;
-    
+ 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "forumPost")
     private List<ForumComment> forumComments;
+    
+    @Column(nullable = false)
+    private Long studentId;
+    
+    @Column(nullable = false)
+    private String studentFirstName;
+    
+    @Column(nullable = false)
+    private String studentLastName;
+    
+    @Column(nullable = false)
+    private Boolean isEdited;
+    
+    @Column(nullable = true)
+    private LocalDateTime lastEdit;
+    
+    @Column(nullable = false)
+    private List<Long> likedStudents;
+    
+    @Column(nullable = false)
+    private List<Long> dislikedStudents;
     
     public ForumPost() {
         
@@ -78,6 +97,9 @@ public class ForumPost implements Serializable {
         this.isInappropriate = false;
         this.timeOfCreation = LocalDateTime.now();
         this.forumComments = new ArrayList();
+        this.isEdited = false;
+        this.likedStudents = new ArrayList();
+        this.dislikedStudents = new ArrayList();
     }
 
     public Long getPostId() {
@@ -238,6 +260,104 @@ public class ForumPost implements Serializable {
     public void setStudent(Student student) {
         this.student = student;
     }
-
     
+    /**
+     * @return the studentId
+     */
+    public Long getStudentId() {
+        return studentId;
+    }
+
+    /**
+     * @param studentId the studentId to set
+     */
+    public void setStudentId(Long studentId) {
+        this.studentId = studentId;
+    }
+
+    /**
+     * @return the studentFirstName
+     */
+    public String getStudentFirstName() {
+        return studentFirstName;
+    }
+
+    /**
+     * @param studentFirstName the studentFirstName to set
+     */
+    public void setStudentFirstName(String studentFirstName) {
+        this.studentFirstName = studentFirstName;
+    }
+
+    /**
+     * @return the studentLastName
+     */
+    public String getStudentLastName() {
+        return studentLastName;
+    }
+
+    /**
+     * @param studentLastName the studentLastName to set
+     */
+    public void setStudentLastName(String studentLastName) {
+        this.studentLastName = studentLastName;
+    }   
+    
+    
+    /**
+     * @return the isEdited
+     */
+    public Boolean getIsEdited() {
+        return isEdited;
+    }
+
+    /**
+     * @param isEdited the isEdited to set
+     */
+    public void setIsEdited(Boolean isEdited) {
+        this.isEdited = isEdited;
+    }
+
+    /**
+     * @return the lastEdit
+     */
+    public LocalDateTime getLastEdit() {
+        return lastEdit;
+    }
+
+    /**
+     * @param lastEdit the lastEdit to set
+     */
+    public void setLastEdit(LocalDateTime lastEdit) {
+        this.lastEdit = lastEdit;
+    }
+    
+    /**
+     * @return the likedStudents
+     */
+    public List<Long> getLikedStudents() {
+        return likedStudents;
+    }
+
+    /**
+     * @param likedStudents the likedStudents to set
+     */
+    public void setLikedStudents(List<Long> likedStudents) {
+        this.likedStudents = likedStudents;
+    }
+
+    /**
+     * @return the dislikedStudents
+     */
+    public List<Long> getDislikedStudents() {
+        return dislikedStudents;
+    }
+
+    /**
+     * @param dislikedStudents the dislikedStudents to set
+     */
+    public void setDislikedStudents(List<Long> dislikedStudents) {
+        this.dislikedStudents = dislikedStudents;
+    }
+
 }
