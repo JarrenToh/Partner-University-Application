@@ -45,10 +45,10 @@ public class ForumCommentSessionBean implements ForumCommentSessionBeanLocal {
         forumComment.setStudentLastName(student.getLastName());
         forumPost.getForumComments().add(forumComment);
         forumComment.setForumPost(forumPost);
-        forumComment.setTimeOfCreation(LocalDateTime.now());
-        forumComment.setLikedStudents(new ArrayList());
-        forumComment.setDislikedStudents(new ArrayList());
-        forumComment.setReplies(new ArrayList());
+        //forumComment.setTimeOfCreation(LocalDateTime.now());
+        //forumComment.setLikedStudents(new ArrayList());
+        //forumComment.setDislikedStudents(new ArrayList());
+        //forumComment.setReplies(new ArrayList());
         em.persist(forumComment);
         em.flush();
         

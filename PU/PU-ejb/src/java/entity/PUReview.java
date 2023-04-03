@@ -12,6 +12,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 
 /**
  *
@@ -35,8 +36,8 @@ public class PUReview implements Serializable {
     @JoinColumn(nullable = false)
     private PU pu;
 
-    @ManyToOne
-    @JoinColumn(nullable = true)
+    @OneToOne
+    @JoinColumn(nullable = false)
     private Student student;
 
     public PUReview() {

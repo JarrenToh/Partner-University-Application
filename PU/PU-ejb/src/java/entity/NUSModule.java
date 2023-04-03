@@ -34,7 +34,7 @@ public class NUSModule implements Serializable {
     private String description;
 
     //Add in mapping to PUModule   
-    @ManyToMany(mappedBy = "mappableModules", cascade = {CascadeType.ALL}, fetch = FetchType.EAGER)
+    @ManyToMany(mappedBy = "mappableModules", fetch = FetchType.EAGER)
     private List<PUModule> puModules;
     
     @ManyToOne

@@ -47,10 +47,10 @@ public class ForumPostSessionBean implements ForumPostSessionBeanLocal {
         forumPost.setStudentId(studentId);
         forumPost.setStudentFirstName(student.getFirstName());
         forumPost.setStudentLastName(student.getLastName());
-        forumPost.setTimeOfCreation(LocalDateTime.now());
-        forumPost.setLikedStudents(new ArrayList());
-        forumPost.setDislikedStudents(new ArrayList());
-        forumPost.setForumComments(new ArrayList());
+        //forumPost.setTimeOfCreation(LocalDateTime.now());
+        //forumPost.setLikedStudents(new ArrayList());
+        //forumPost.setDislikedStudents(new ArrayList());
+        //forumPost.setForumComments(new ArrayList());
         em.persist(forumPost);
         em.flush();
     }

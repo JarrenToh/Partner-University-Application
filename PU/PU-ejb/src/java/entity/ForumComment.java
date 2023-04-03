@@ -81,6 +81,10 @@ public class ForumComment implements Serializable {
     private List<Long> dislikedStudents;
     
     public ForumComment() {
+        this.timeOfCreation = LocalDateTime.now();
+        this.likedStudents = new ArrayList();
+        this.dislikedStudents = new ArrayList();
+        this.replies = new ArrayList();
         
     }
 
