@@ -40,8 +40,8 @@ public class PUReviewResource {
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response createPUReview(PUReview puReview, @QueryParam("puId") Long puId) {
-        Long reviewId = puReviewSessionBeanLocal.createPUReview(puReview, puId);
+    public Response createPUReview(PUReview puReview, @QueryParam("puId") Long puId, @QueryParam("studentId") Long studentId) {
+        Long reviewId = puReviewSessionBeanLocal.createPUReview(puReview, puId, studentId);
         JsonObject response = Json.createObjectBuilder()
                 .add("message", "PUReview created with ID " + reviewId)
                 .build();

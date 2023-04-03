@@ -7,6 +7,7 @@ package ejb.session.stateless;
 
 import entity.PU;
 import entity.PUReview;
+import entity.Student;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -25,8 +26,11 @@ public class PUReviewSessionBean implements PUReviewSessionBeanLocal {
 
     //CREATE
     @Override
-    public Long createPUReview(PUReview review, Long puId) {
+    public Long createPUReview(PUReview review, Long puId, Long studentId) {
         PU pu = em.find(PU.class, puId);
+        Student student = em.find(Student.class, studentId);
+        review.setStudent(student);
+        student.setpUReview(review);
         //Link pu to puReview
         em.persist(review);
         review.setPu(pu);

@@ -31,6 +31,9 @@ public class Country implements Serializable {
     @Column (nullable = false, unique = true)
     @NotNull
     private String name;
+
+    public Country() {
+    }
     
     public Country(String name, Region region) {
         this.name = name;

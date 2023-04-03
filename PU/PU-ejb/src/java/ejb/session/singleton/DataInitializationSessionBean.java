@@ -248,31 +248,31 @@ public class DataInitializationSessionBean {
         PUReview puReview24 = new PUReview(new Long(5), pId5);
         PUReview puReview25 = new PUReview(new Long(5), pId5);
         
-        pUReviewSessionBean.createPUReview(puReview1, pId1);
-        pUReviewSessionBean.createPUReview(puReview2, pId1);
-        pUReviewSessionBean.createPUReview(puReview3, pId1);
-        pUReviewSessionBean.createPUReview(puReview4, pId1);
-        pUReviewSessionBean.createPUReview(puReview5, pId1);
-        pUReviewSessionBean.createPUReview(puReview6, pId2);
-        pUReviewSessionBean.createPUReview(puReview7, pId2);
-        pUReviewSessionBean.createPUReview(puReview8, pId2);
-        pUReviewSessionBean.createPUReview(puReview9, pId2);
-        pUReviewSessionBean.createPUReview(puReview10, pId2);
-        pUReviewSessionBean.createPUReview(puReview11, pId3);
-        pUReviewSessionBean.createPUReview(puReview12, pId3);
-        pUReviewSessionBean.createPUReview(puReview13, pId3);
-        pUReviewSessionBean.createPUReview(puReview14, pId3);
-        pUReviewSessionBean.createPUReview(puReview15, pId3);
-        pUReviewSessionBean.createPUReview(puReview16, pId4);
-        pUReviewSessionBean.createPUReview(puReview17, pId4);
-        pUReviewSessionBean.createPUReview(puReview18, pId4);
-        pUReviewSessionBean.createPUReview(puReview19, pId4);
-        pUReviewSessionBean.createPUReview(puReview20, pId4);
-        pUReviewSessionBean.createPUReview(puReview21, pId5);
-        pUReviewSessionBean.createPUReview(puReview22, pId5);
-        pUReviewSessionBean.createPUReview(puReview23, pId5);
-        pUReviewSessionBean.createPUReview(puReview24, pId5);
-        pUReviewSessionBean.createPUReview(puReview25, pId5);
+        pUReviewSessionBean.createPUReview(puReview1, pId1, 1l);
+        pUReviewSessionBean.createPUReview(puReview2, pId1, 2l);
+        pUReviewSessionBean.createPUReview(puReview3, pId1, 3l);
+//        pUReviewSessionBean.createPUReview(puReview4, pId1, 1l);
+//        pUReviewSessionBean.createPUReview(puReview5, pId1, 1l);
+//        pUReviewSessionBean.createPUReview(puReview6, pId2, 1l);
+//        pUReviewSessionBean.createPUReview(puReview7, pId2, 1l);
+//        pUReviewSessionBean.createPUReview(puReview8, pId2, 1l);
+//        pUReviewSessionBean.createPUReview(puReview9, pId2, 1l);
+//        pUReviewSessionBean.createPUReview(puReview10, pId2, 1l);
+//        pUReviewSessionBean.createPUReview(puReview11, pId3, 1l);
+//        pUReviewSessionBean.createPUReview(puReview12, pId3, 1l);
+//        pUReviewSessionBean.createPUReview(puReview13, pId3, 1l);
+//        pUReviewSessionBean.createPUReview(puReview14, pId3, 1l);
+//        pUReviewSessionBean.createPUReview(puReview15, pId3, 1l);
+//        pUReviewSessionBean.createPUReview(puReview16, pId4, 1l);
+//        pUReviewSessionBean.createPUReview(puReview17, pId4, 1l);
+//        pUReviewSessionBean.createPUReview(puReview18, pId4, 1l);
+//        pUReviewSessionBean.createPUReview(puReview19, pId4, 1l);
+//        pUReviewSessionBean.createPUReview(puReview20, pId4);
+//        pUReviewSessionBean.createPUReview(puReview21, pId5);
+//        pUReviewSessionBean.createPUReview(puReview22, pId5);
+//        pUReviewSessionBean.createPUReview(puReview23, pId5);
+//        pUReviewSessionBean.createPUReview(puReview24, pId5);
+//        pUReviewSessionBean.createPUReview(puReview25, pId5);
         
         /*ForumTopic forumTopic1 = new ForumTopic("First Topic");
         ForumTopic forumTopic2 = new ForumTopic("Second Topic");
@@ -329,9 +329,9 @@ public class DataInitializationSessionBean {
         PUReview pUReview2 = new PUReview(2L, "Meh", 3, 10, false);
         PUReview pUReview3 = new PUReview(3L, "Meh", 4, 20, true);
 
-        pUReviewSessionBean.createPUReview(pUReview1, 1L);
-        pUReviewSessionBean.createPUReview(pUReview2, 1L);
-        pUReviewSessionBean.createPUReview(pUReview3, 1L);
+//        pUReviewSessionBean.createPUReview(pUReview1, 1L);
+//        pUReviewSessionBean.createPUReview(pUReview2, 1L);
+//        pUReviewSessionBean.createPUReview(pUReview3, 1L);
     }
 
 }
