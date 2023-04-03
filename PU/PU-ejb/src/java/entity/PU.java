@@ -8,6 +8,7 @@ package entity;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -47,15 +48,18 @@ public class PU implements Serializable {
     @ManyToOne(optional = true)
     private Country country;
 
-    @OneToMany(mappedBy = "pu", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "pu", cascade = {CascadeType.ALL}, fetch = FetchType.EAGER)
     private List<PUModule> modules;
 
-    @OneToMany(mappedBy = "pu", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "pu", cascade = {CascadeType.ALL}, fetch = FetchType.EAGER)
     private List<PUReview> puReviews;
 
     @ManyToOne(optional = true)
     @JoinColumn(nullable = true)
     private Student student;
+    
+    @OneToMany(mappedBy= "puEnrolled", cascade = {CascadeType.ALL}, fetch = FetchType.EAGER)
+    private List<Student> students;
     
     private String countryName;
     private String regionName;
@@ -68,6 +72,7 @@ public class PU implements Serializable {
 //    private List<ForumTopic> forumTopic;
     public PU() {
 
+        students = new ArrayList<>();
         modules = new ArrayList<>();
         puReviews = new ArrayList<>();
     }
@@ -251,6 +256,20 @@ public class PU implements Serializable {
      */
     public void setRating(Double rating) {
         this.rating = rating;
+    }
+
+    /**
+     * @return the students
+     */
+    public List<Student> getStudents() {
+        return students;
+    }
+
+    /**
+     * @param students the students to set
+     */
+    public void setStudents(List<Student> students) {
+        this.students = students;
     }
 
 

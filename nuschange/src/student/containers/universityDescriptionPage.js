@@ -5,11 +5,100 @@ import { Button } from 'reactstrap';
 import { Row, Col } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import apiPaths from '../../util/apiPaths';
-import ListGroupComp from '../components/ListGroupComp';
+import AlumnusComp from "../components/AlumnusComp";
+import ReviewComp from "../components/ReviewComp";
 
 function UniversityDescriptionPage(props) {
     const { puName } = props;
     // const [pu, setPU] = useState({});
+    // const [puReview, setPUReviews] = useState([]);
+    // const [alumnus, setAlumnus] = useState([]);
+
+    const [puReview, setPUReviews] = useState([
+        {
+            "puReviewId": 123,
+            "rating": 4,
+            "review": "This product is great!",
+            "noOfLikes": 10,
+            "noOfDislikes": 2,
+            "isInappropriate": false
+        },
+        {
+            "puReviewId": 124,
+            "rating": 3,
+            "review": "This product is okay.",
+            "noOfLikes": 5,
+            "noOfDislikes": 3,
+            "isInappropriate": false
+        },
+        {
+            "puReviewId": 125,
+            "rating": 5,
+            "review": "This product exceeded my expectations!",
+            "noOfLikes": 20,
+            "noOfDislikes": 1,
+            "isInappropriate": false
+        },
+        {
+            "puReviewId": 126,
+            "rating": 2,
+            "review": "I don't like this product.",
+            "noOfLikes": 1,
+            "noOfDislikes": 10,
+            "isInappropriate": true
+        },
+        {
+            "puReviewId": 127,
+            "rating": 4,
+            "review": "This product is amazing!",
+            "noOfLikes": 15,
+            "noOfDislikes": 0,
+            "isInappropriate": false
+        }
+    ]
+    );
+    const [alumnus, setAlumnus] = useState([
+        {
+            "comments": [],
+            "email": "benleongrules@comp.nus.edu.sg",
+            "enquiries": [],
+            "faculty": "School Of Computing",
+            "firstName": "Ben",
+            "lastName": "Leong",
+            "password": "password",
+            "phoneNumber": "90002040",
+            "posts": [],
+            "studentId": 1,
+            "topics": []
+        },
+        {
+            "comments": [],
+            "email": "immutablepain@comp.nus.edu.sg",
+            "enquiries": [],
+            "faculty": "School Of Computing",
+            "firstName": "Henry",
+            "lastName": "Chia",
+            "password": "password",
+            "phoneNumber": "90002040",
+            "posts": [],
+            "studentId": 2,
+            "topics": []
+        },
+        {
+            "comments": [],
+            "email": "competitive@comp.nus.edu.sg",
+            "enquiries": [],
+            "faculty": "School Of Computing",
+            "firstName": "Steven",
+            "lastName": "Halim",
+            "password": "password",
+            "phoneNumber": "90002040",
+            "posts": [],
+            "studentId": 3,
+            "topics": []
+        }
+    ]);
+
     const [pu, setPU] = useState({
         "countryName": "Zimbabwe",
         "description": "Africa University is a private, Pan-African and United Methodist-related institution. It has over 1,200 students from 36 African countries.[1] It is located 17 km northwest of Mutare, Zimbabwe. It grants bachelor's, master's and PhD degrees in various programs.",
@@ -60,11 +149,11 @@ function UniversityDescriptionPage(props) {
             <div style={{ display: "flex", flexDirection: "column", margin: "0 5vw 0 5vw" }}>
                 <Row className="justify-content-between">
                     <Col xl="6">
-                        <ListGroupComp />
+                        <ReviewComp reviews={puReview}/>
                     </Col>
 
                     <Col xl="4">
-                        <ListGroupComp />
+                        <AlumnusComp alumnus={alumnus}/>
                     </Col>
                 </Row>
             </div>

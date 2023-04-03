@@ -70,9 +70,8 @@ public class PUReviewSessionBean implements PUReviewSessionBeanLocal {
     //DELETE
     @Override
     public Long deletePUReview(PUReview review) {
-        em.remove(review);
-        PUReview p = em.find(PUReview.class, review.getPuReviewId());
-        em.remove(p);
+        PUReview r = em.find(PUReview.class, review.getPuReviewId());
+        em.remove(r);
         return review.getPuReviewId();
     }
 
