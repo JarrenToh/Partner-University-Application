@@ -19,6 +19,7 @@ function DynamicSocialMediaForm() {
 
   // Check for current social media links for student
   const checkSocials = () => {
+    
     if (loggedInStudent.socialMedia != null) {
       setSocialMedia(loggedInStudent.socialMedia);
     }

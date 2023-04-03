@@ -1,6 +1,7 @@
 import React from "react";
 import { createContext, useContext, useState, useEffect } from "react";
 import { AuthContext } from "../login/AuthContext";
+import { Link, useNavigate } from "react-router-dom";
 
 import {
   Image,
@@ -36,27 +37,20 @@ const StudentProfile = () => {
   //const { studentId } = loggedInStudent;
   const API_URL_STUDENT = "http://localhost:8080/PU-war/webresources/student";
   const [studentId, setStudentId] = useState(0);
-  const [currentStudent, setCurrentStudent] = useState({});
+  const [currentStudent, setCurrentStudent] = useState({ ...loggedInStudent });
   const [socialMedia, setSocialMedia] = useState([]);
   const [reviewModalShow, setReviewModalShow] = useState(false);
   const [socialMediaModalShow, setSocialMediaModalShow] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (loggedInStudent) {
       console.log(loggedInStudent);
-      setStudentId(loggedInStudent.studentId);
+      //setStudentId(loggedInStudent.studentId);
       setSocialMedia(loggedInStudent.socialMedia);
-      /*
-      if (studentId > 0) {
-        console.log(studentId);
-        getStudentAPI(studentId);
-        if (currentStudent) {
-          console.log(currentStudent);
-        }
-      }
-      */
+      setCurrentStudent({ ...loggedInStudent });
     }
-  }, []);
+  }, [loggedInStudent]);
 
   const getStudentAPI = async (studentId) => {
     const response = await fetch(`${API_URL_STUDENT}/${studentId}`);
@@ -98,6 +92,10 @@ const StudentProfile = () => {
     }
   };
 
+  const navToLikedPUs = () => {
+    navigate("/profile/likedPus");
+  };
+
   return (
     <div style={{ paddingLeft: "5%", paddingRight: "5%" }}>
       <div className="container">
@@ -120,10 +118,14 @@ const StudentProfile = () => {
             <Card>
               <Card.Header as="h5">Social Media</Card.Header>
               <ListGroup variant="flush">
-                {loggedInStudent.socialMedia != null &&
-                  loggedInStudent.socialMedia.map((socialMedia) => (
+                {socialMedia != null &&
+                  socialMedia.map((socialMedia) => (
                     <ListGroupItem>{socialMedia}</ListGroupItem>
                   ))}
+
+                {socialMedia.length == 0 && (
+                  <ListGroupItem>Loading Social Media Links....</ListGroupItem>
+                )}
                 <ListGroupItem>
                   <FontAwesomeIcon icon={faLinkedin} size="xl" />
                 </ListGroupItem>
@@ -148,7 +150,7 @@ const StudentProfile = () => {
               </Card.Footer>
             </Card>
             <div className="d-grid gap-2">
-              <Button variant="danger">
+              <Button variant="danger" onClick={navToLikedPUs}>
                 <FontAwesomeIcon icon={faHeart} /> {"  "}
                 Liked PUs
               </Button>
@@ -181,7 +183,7 @@ const StudentProfile = () => {
               <Form.Group className="mb-3" controlId="formGroupEmail">
                 <Form.Label>Partner University</Form.Label>
                 <EnrolledField
-                  isEnrolled={loggedInStudent.partnerUniversity != null}
+                  isEnrolled={loggedInStudent.partnerUniversity == null}
                 />
               </Form.Group>
             </Form>
@@ -196,6 +198,7 @@ const StudentProfile = () => {
       <SocialMediaModal
         show={socialMediaModalShow}
         onHide={() => setSocialMediaModalShow(false)}
+        socialMedia={socialMedia}
       />
 
       <Button>Fetch latest info</Button>

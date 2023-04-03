@@ -71,6 +71,7 @@ public class Student implements Serializable {
     private PUModule modulesTaken;
 
     public Student() {
+        this.socialMedia = new ArrayList<>();
     }
 
     public Long getStudentId() {
@@ -95,6 +96,7 @@ public class Student implements Serializable {
         this.email = email;
         this.password = password;
         this.faculty = faculty;
+        this.socialMedia = new ArrayList<>();
     }
 
     @Override

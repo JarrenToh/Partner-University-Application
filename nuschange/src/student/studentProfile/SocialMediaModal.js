@@ -21,6 +21,7 @@ const SocialMediaModal = (props) => {
         </Modal.Title>
       </Modal.Header>
       <Modal.Body>
+        
         <DynamicSocialMediaForm/>
       </Modal.Body>
       <Modal.Footer>

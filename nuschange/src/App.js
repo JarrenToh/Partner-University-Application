@@ -8,6 +8,7 @@ import StudentLogin from './student/login/StudentLogin';
 import { AuthProvider, useAuth } from './student/login/AuthContext';
 import StudentProfile from './student/studentProfile/StudentProfile';
 import FAQPage from './student/FAQpage';
+import LikedPUs from './student/LikedPUs';
 
 //import Enquiry from './admin/userSupportAdmin/pages/enquiry';
 //import EnquiryDetails from './admin/userSupportAdmin/pages/enquiry/view';
@@ -66,6 +67,7 @@ const App = () => {
             <Route path="/login" element={<StudentLogin onLogin={handleLogin} />} />
             <Route path="/university-rankings" element={<UniversityRankings universitiesData={pus} />} />
             <Route path="/faq" element={<FAQPage/>}/>
+            <Route path="/profile/likedPus" element={<LikedPUs/>}/>
           </Routes>
         </Router>
 
