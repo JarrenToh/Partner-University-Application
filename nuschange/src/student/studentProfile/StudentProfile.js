@@ -48,7 +48,7 @@ const StudentProfile = () => {
       console.log(loggedInStudent);
       //setStudentId(loggedInStudent.studentId);
       setSocialMedia(loggedInStudent.socialMedia);
-      setCurrentStudent({ ...loggedInStudent });
+      //setCurrentStudent({ ...loggedInStudent });
     }
   }, [loggedInStudent]);
 
@@ -92,6 +92,10 @@ const StudentProfile = () => {
     }
   };
 
+  const handleSocialMediaChange = (newSocialMedia) => {
+    setSocialMedia(newSocialMedia);
+  }
+
   const navToLikedPUs = () => {
     navigate("/profile/likedPus");
   };
@@ -119,8 +123,10 @@ const StudentProfile = () => {
               <Card.Header as="h5">Social Media</Card.Header>
               <ListGroup variant="flush">
                 {socialMedia != null &&
-                  socialMedia.map((socialMedia) => (
-                    <ListGroupItem>{socialMedia}</ListGroupItem>
+                  socialMedia.map((link) => (
+                    <ListGroupItem>
+                    <a href={`https://${link}`} target="_blank" rel="noopener noreferrer">{link}</a>
+                  </ListGroupItem>
                   ))}
 
                 {socialMedia.length == 0 && (
@@ -199,6 +205,7 @@ const StudentProfile = () => {
         show={socialMediaModalShow}
         onHide={() => setSocialMediaModalShow(false)}
         socialMedia={socialMedia}
+        onSocialMediaChange={handleSocialMediaChange}
       />
 
       <Button>Fetch latest info</Button>
@@ -214,5 +221,9 @@ export default StudentProfile;
 
                   </ListGroupItem>
                 ))}
+
+                <ListGroupItem>
+                      <a href={socialMedia}>{socialMedia}</a>
+                    </ListGroupItem>
 
 */
