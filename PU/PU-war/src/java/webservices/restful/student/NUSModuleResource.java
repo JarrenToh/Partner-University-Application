@@ -5,17 +5,12 @@
  */
 package webservices.restful.student;
 
-import ejb.session.stateless.NUSModuleSessionBeanLocal;
-import javax.ejb.EJB;
-import javax.enterprise.context.RequestScoped;
-import javax.ws.rs.Path;
 import ejb.session.stateless.FacultySessionBeanLocal;
 import ejb.session.stateless.NUSModuleSessionBeanLocal;
 import ejb.session.stateless.PUModuleSessionBeanLocal;
 import entity.Faculty;
 import entity.NUSModule;
 import entity.PUModule;
-import entity.PUReview;
 import error.NoResultException;
 import java.util.List;
 import javax.ejb.EJB;
@@ -56,7 +51,7 @@ public class NUSModuleResource {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public NUSModule createNUSModule(NUSModule nm) {
-        nm.setCode("IS4303");
+
         nusModuleSessionBeanLocal.createNUSModule(nm, 1L);
         return nm;
     }
@@ -124,8 +119,7 @@ public class NUSModuleResource {
     @Produces(MediaType.APPLICATION_JSON)
     public Response editNUSModule(@PathParam("id") Long id, NUSModule nm) {
         nm.setModuleId(id);
-        nm.setCode("LA123");
-        nm.setDescription("Blah blah");
+
         try {
             nusModuleSessionBeanLocal.updateNUSModule(nm);
             return Response.status(204).build();

@@ -51,12 +51,20 @@ public class PU implements Serializable {
     @OneToMany(mappedBy = "pu", cascade = {CascadeType.ALL}, fetch = FetchType.EAGER)
     private List<PUModule> modules;
 
-    @OneToMany(mappedBy = "pu",cascade = {CascadeType.ALL}, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "pu", cascade = {CascadeType.ALL}, fetch = FetchType.EAGER)
     private List<PUReview> puReviews;
 
     @ManyToOne(optional = true)
     @JoinColumn(nullable = true)
     private Student student;
+
+    @OneToMany(mappedBy= "puEnrolled", cascade = {CascadeType.ALL}, fetch = FetchType.EAGER)
+    private List<Student> students;
+    
+    private String countryName;
+    private String regionName;
+    private Double rating;
+
 
 //    @OneToMany (mappedBy = "pu")
 //    private List<PUModule> puModules;
@@ -65,6 +73,7 @@ public class PU implements Serializable {
 //    private List<ForumTopic> forumTopic;
     public PU() {
 
+        students = new ArrayList<>();
         modules = new ArrayList<>();
         puReviews = new ArrayList<>();
     }
@@ -192,4 +201,78 @@ public class PU implements Serializable {
         this.puReviews = puReviews;
     }
 
+    /**
+     * @param name the name to set
+     */
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    /**
+     * @param description the description to set
+     */
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    /**
+     * @param images the images to set
+     */
+    public void setImages(String images) {
+        this.images = images;
+    }
+
+
+    public String getCountryName() {
+        return countryName;
+    }
+
+    /**
+     * @param countryName the countryName to set
+     */
+    public void setCountryName(String countryName) {
+        this.countryName = countryName;
+    }
+
+    /**
+     * @return the regionName
+     */
+    public String getRegionName() {
+        return regionName;
+    }
+
+    /**
+     * @param regionName the regionName to set
+     */
+    public void setRegionName(String regionName) {
+        this.regionName = regionName;
+    }
+
+    /**
+     * @return the rating
+     */
+    public Double getRating() {
+        return rating;
+    }
+
+    /**
+     * @param rating the rating to set
+     */
+    public void setRating(Double rating) {
+        this.rating = rating;
+    }
+
+    /**
+     * @return the students
+     */
+    public List<Student> getStudents() {
+        return students;
+    }
+
+    /**
+     * @param students the students to set
+     */
+    public void setStudents(List<Student> students) {
+        this.students = students;
+    }
 }

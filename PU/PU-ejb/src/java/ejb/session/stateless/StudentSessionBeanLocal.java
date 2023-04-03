@@ -6,6 +6,7 @@
 package ejb.session.stateless;
 
 import entity.FAQ;
+import entity.PU;
 import entity.Student;
 import error.NoResultException;
 import java.time.LocalDateTime;
@@ -38,5 +39,9 @@ public interface StudentSessionBeanLocal {
     public Student getStudent(Long studentId) throws NoResultException;
 
     public void updateStudent(Student s) throws NoResultException;
+
+    public Student login(String username, String password);
+
+    List<Student> retrieveStudentsByPU(PU pu);
     
 }
