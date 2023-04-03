@@ -159,18 +159,12 @@ public class PU implements Serializable {
         return "entity.PU[ id=" + puId + " ]";
     }
 
-    /**
-     * @return the student
-     */
-    public Student getStudent() {
-        return student;
+    public List<Student> getStudents() {
+        return students;
     }
 
-    /**
-     * @param student the student to set
-     */
-    public void setStudent(Student student) {
-        this.student = student;
+    public void setStudents(List<Student> students) {
+        this.students = students;
     }
 
     /**

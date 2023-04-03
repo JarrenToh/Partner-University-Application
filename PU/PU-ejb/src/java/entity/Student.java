@@ -16,8 +16,11 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+
 
 /**
  *
@@ -39,7 +42,7 @@ public class Student implements Serializable {
 
     private String faculty;
 
-    private String[] socialMedia;
+    private List<String> socialMedia;
 
     private LocalDateTime lastActive;
 
@@ -50,12 +53,12 @@ public class Student implements Serializable {
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "student")
     private List<Enquiry> enquiries;
 
+    @ManyToMany(fetch = FetchType.EAGER)
+    private List<PU> likedPUs;
+
     @ManyToOne
     @JoinColumn(nullable = true)
     private PU puEnrolled;
-
-    @ManyToOne
-    private PU likedPUs;
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "student")
     private List<ForumPost> posts;
@@ -74,6 +77,7 @@ public class Student implements Serializable {
 
     public Student() {
         pUReviews = new ArrayList<>();
+        socialMedia = new ArrayList<>();
     }
 
     public Student(String firstName, String lastName, String phoneNumber, String email, String password, String faculty) {
@@ -106,6 +110,7 @@ public class Student implements Serializable {
         this.phoneNumber = phoneNumber;
         this.email = email;
         this.password = password;
+        this.socialMedia = new ArrayList<>();
         this.posts = new ArrayList();
         this.topics = new ArrayList();
         this.comments = new ArrayList();
@@ -188,14 +193,14 @@ public class Student implements Serializable {
     /**
      * @return the socialMedia
      */
-    public String[] getSocialMedia() {
+    public List<String> getSocialMedia() {
         return socialMedia;
     }
 
     /**
      * @param socialMedia the socialMedia to set
      */
-    public void setSocialMedia(String[] socialMedia) {
+    public void setSocialMedia(List<String> socialMedia) {
         this.socialMedia = socialMedia;
     }
 
@@ -256,16 +261,30 @@ public class Student implements Serializable {
     }
 
     /**
+     * @return the puEnrolled
+     */
+    public PU getPuEnrolled() {
+        return puEnrolled;
+    }
+
+    /**
+     * @param puEnrolled the puEnrolled to set
+     */
+    public void setPuEnrolled(PU puEnrolled) {
+        this.puEnrolled = puEnrolled;
+    }
+
+    /**
      * @return the likedPUs
      */
-    public PU getLikedPUs() {
+    public List<PU> getLikedPUs() {
         return likedPUs;
     }
 
     /**
      * @param likedPUs the likedPUs to set
      */
-    public void setLikedPUs(PU likedPUs) {
+    public void setLikedPUs(List<PU> likedPUs) {
         this.likedPUs = likedPUs;
     }
 

@@ -180,5 +180,4 @@ public class PUReview implements Serializable {
     public void setStudent(Student student) {
         this.student = student;
     }
-
 }
