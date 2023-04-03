@@ -7,12 +7,35 @@ import { Link } from 'react-router-dom';
 import apiPaths from '../../util/apiPaths';
 import AlumnusComp from "../components/AlumnusComp";
 import ReviewComp from "../components/ReviewComp";
+import { FaWhatsapp, FaFacebook, FaTelegram } from 'react-icons/fa';
+import { FacebookShareButton, TelegramShareButton, WhatsappShareButton } from 'react-share';
+import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
+import Popover from 'react-bootstrap/Popover';
 
 function UniversityDescriptionPage(props) {
     const { puName } = props;
     // const [pu, setPU] = useState({});
     // const [puReview, setPUReviews] = useState([]);
     // const [alumnus, setAlumnus] = useState([]);
+
+    const popover = (
+        <Popover id="popover-basic">
+            <Popover.Header as="h3">Share</Popover.Header>
+            <Popover.Body>
+                <Button variant="outline-primary" href={`whatsapp://send?text=${encodeURIComponent('Check out this cool content!')}`} target="_blank">
+                    <i className="fab fa-whatsapp"></i> WhatsApp
+                </Button>
+                {' '}
+                <Button variant="outline-primary" href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(window.location.href)}`} target="_blank">
+                    <i className="fab fa-facebook"></i> Facebook
+                </Button>
+                {' '}
+                <Button variant="outline-primary" href={`https://t.me/share/url?url=${encodeURIComponent(window.location.href)}`} target="_blank">
+                    <i className="fab fa-telegram"></i> Telegram
+                </Button>
+            </Popover.Body>
+        </Popover>
+    );
 
     const [puReview, setPUReviews] = useState([
         {
@@ -133,9 +156,11 @@ function UniversityDescriptionPage(props) {
                     <p>{pu.description}</p>
                 </div>
                 <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-end", justifyContent: "space-between", flex: 1 }}>
-                    <Button color="primary" className="m-4" size="lg">
-                        Share
-                    </Button>
+                    <OverlayTrigger trigger="click" placement="left" overlay={popover}>
+                        <Button color="primary" className="m-4" size="lg">
+                            Share
+                        </Button>
+                    </OverlayTrigger>
                     <Button color="primary" className="m-4" size="lg">
                         Forum
                     </Button>
@@ -149,11 +174,11 @@ function UniversityDescriptionPage(props) {
             <div style={{ display: "flex", flexDirection: "column", margin: "0 5vw 0 5vw" }}>
                 <Row className="justify-content-between">
                     <Col xl="6">
-                        <ReviewComp reviews={puReview}/>
+                        <ReviewComp reviews={puReview} />
                     </Col>
 
                     <Col xl="4">
-                        <AlumnusComp alumnus={alumnus}/>
+                        <AlumnusComp alumnus={alumnus} />
                     </Col>
                 </Row>
             </div>
