@@ -13,12 +13,14 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+
 
 /**
  *
@@ -51,12 +53,12 @@ public class Student implements Serializable {
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "student")
     private List<Enquiry> enquiries;
 
-    @ManyToOne(optional = true)
-    @JoinColumn(name = "pu", nullable = true)
-    private PU puEnrolled;
-
     @ManyToMany(fetch = FetchType.EAGER)
     private List<PU> likedPUs;
+
+    @ManyToOne
+    @JoinColumn(nullable = true)
+    private PU puEnrolled;
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "student")
     private List<ForumPost> posts;
@@ -70,8 +72,21 @@ public class Student implements Serializable {
     @ManyToOne
     private PUModule modulesTaken;
 
+    @OneToMany(cascade = {CascadeType.ALL}, fetch = FetchType.EAGER, mappedBy = "student")
+    private List<PUReview> pUReviews;
+
     public Student() {
-        this.socialMedia = new ArrayList<>();
+        pUReviews = new ArrayList<>();
+        socialMedia = new ArrayList<>();
+    }
+
+    public Student(String firstName, String lastName, String phoneNumber, String email, String password, String faculty) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.phoneNumber = phoneNumber;
+        this.email = email;
+        this.password = password;
+        this.faculty = faculty;
     }
 
     public Long getStudentId() {
@@ -89,14 +104,16 @@ public class Student implements Serializable {
         return hash;
     }
 
-    public Student(String firstName, String lastName, String phoneNumber, String email, String password, String faculty) {
+    public Student(String firstName, String lastName, String phoneNumber, String email, String password) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.phoneNumber = phoneNumber;
         this.email = email;
         this.password = password;
-        this.faculty = faculty;
         this.socialMedia = new ArrayList<>();
+        this.posts = new ArrayList();
+        this.topics = new ArrayList();
+        this.comments = new ArrayList();
     }
 
     @Override
@@ -326,5 +343,32 @@ public class Student implements Serializable {
     public void setComments(List<ForumComment> comments) {
         this.comments = comments;
     }
-    
+
+    /**
+     * @return the puEnrolled
+     */
+    public PU getPuEnrolled() {
+        return puEnrolled;
+    }
+
+    /**
+     * @param puEnrolled the puEnrolled to set
+     */
+    public void setPuEnrolled(PU puEnrolled) {
+        this.puEnrolled = puEnrolled;
+    }
+
+    /**
+     * @return the pUReviews
+     */
+    public List<PUReview> getpUReviews() {
+        return pUReviews;
+    }
+
+    /**
+     * @param pUReviews the pUReviews to set
+     */
+    public void setpUReviews(List<PUReview> pUReviews) {
+        this.pUReviews = pUReviews;
+    }
 }

@@ -6,6 +6,7 @@
 package ejb.session.stateless;
 
 import entity.FAQ;
+import entity.PU;
 import entity.Student;
 import error.NoResultException;
 import java.time.LocalDateTime;
@@ -56,6 +57,13 @@ public class StudentSessionBean implements StudentSessionBeanLocal {
     public List<Student> retrieveAllStudents() {
         Query query = em.createQuery("SELECT s FROM Student s");
         return query.getResultList();
+    }
+
+    @Override
+    public List<Student> retrieveStudentsByPU(PU pu) {
+        Query q = em.createQuery("SELECT DISTINCT s FROM Student s, PU pu WHERE pu MEMBER OF s.puEnrolled AND pu.puId =:id");
+        q.setParameter("id", pu.getPuId());
+        return q.getResultList();
     }
 
     @Override
@@ -156,7 +164,7 @@ public class StudentSessionBean implements StudentSessionBeanLocal {
             Logger.getLogger(StudentSessionBean.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
+
     @Override
     public Student login(String username, String password) {
         Query query = em.createQuery("SELECT n FROM Student n WHERE n.email = :username AND n.password = :password");

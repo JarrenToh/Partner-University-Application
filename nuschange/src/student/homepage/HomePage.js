@@ -62,7 +62,7 @@ const HomePage = () => {
           height="100"
           className="d-inline-block align-top"
         />{' '}
-        <div className="search" >
+        <div className="searchBar" >
           <input
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
@@ -78,17 +78,23 @@ const HomePage = () => {
         </div>
 
         <div className="container">
-          <button className="searchButton">By Country</button>
-          <button className="searchButton">By Region</button>
+          <Link to={`/university-rankings-country`}>
+            <Button className="searchbyButton">By Country</Button>
+          </Link>
+          <Link to={`/university-rankings-region`}>
+            <Button className="searchbyButton">By Region</Button>
+          </Link>
         </div>
 
         <div className="container" style={{
           backgroundColor: 'rgba(128, 128, 128,0.6)',
           borderRadius: '0.5%',
         }}>
-          <h2>Top 5 Ranking Universities</h2>
+        
+          <h2 className="headerDescription">Top 5 Ranking Universities</h2>
+        
           <div className="container">
-            {pus
+          {pus
               .sort((a, b) => b.rating - a.rating)
               .slice(0, 5)
               .map((university) => (
@@ -97,7 +103,8 @@ const HomePage = () => {
                     <PUCard pu={university} />
                   </Link>
                 </div>
-              ))}
+              ))
+            }
           </div>
         </div>
 
@@ -105,19 +112,20 @@ const HomePage = () => {
           backgroundColor: 'rgba(128, 128, 128,0.6)',
           borderRadius: '0.5%',
         }}>
-          <h2>Asia</h2>
+          <h2 className="headerDescription">Asia</h2>
           <div className="container">
-            {pus
-              .sort((a, b) => b.rating - a.rating)
-              .slice(0, 5)
+          {pus
               .filter((university) => university.regionName === "Asia")
+              .sort((a, b) => b.rating - a.rating)
+              .slice(0, 5)
               .map((university) => (
                 <div key={university.puId}>
                   <Link to={`/university-rankings?search=${university.name}`}>
                     <PUCard pu={university} />
                   </Link>
                 </div>
-              ))}
+              ))
+            }
           </div>
         </div>
 
@@ -125,39 +133,20 @@ const HomePage = () => {
           backgroundColor: 'rgba(128, 128, 128,0.5)',
           borderRadius: '0.5%',
         }}>
-          <h2>Europe</h2>
+          <h2 className="headerDescription">Africa</h2>
           <div className="container">
-            {pus
-              .sort((a, b) => b.rating - a.rating)
-              .slice(0, 5)
-              .filter((university) => university.regionName === "Europe")
-              .map((university) => (
-                <div key={university.puId}>
-                  <Link to={`/university-rankings?search=${university.name}`}>
-                    <PUCard pu={university} />
-                  </Link>
-                </div>
-              ))}
-          </div>
-        </div>
-
-        <div className="container" style={{
-          backgroundColor: 'rgba(128, 128, 128,0.5)',
-          borderRadius: '0.5%',
-        }}>
-          <h2>Africa</h2>
-          <div className="container">
-            {pus
-              .sort((a, b) => b.rating - a.rating)
-              .slice(0, 5)
+          {pus
               .filter((university) => university.regionName === "Africa")
+              .sort((a, b) => b.rating - a.rating)
+              .slice(0, 5)
               .map((university) => (
                 <div key={university.puId}>
                   <Link to={`/university-rankings?search=${university.name}`}>
                     <PUCard pu={university} />
                   </Link>
                 </div>
-              ))}
+              ))
+            }
           </div>
         </div>
 
@@ -165,19 +154,20 @@ const HomePage = () => {
           backgroundColor: 'rgba(128, 128, 128,0.5)',
           borderRadius: '0.5%',
         }}>
-          <h2>Australia</h2>
+          <h2 className="headerDescription">Australia</h2>
           <div className="container">
             {pus
-              .sort((a, b) => b.rating - a.rating)
-              .slice(0, 5)
               .filter((university) => university.regionName === "Australia")
+              .sort((a, b) => b.rating - a.rating)
+              .slice(0, 5)
               .map((university) => (
                 <div key={university.puId}>
                   <Link to={`/university-rankings?search=${university.name}`}>
                     <PUCard pu={university} />
                   </Link>
                 </div>
-              ))}
+              ))
+            }
           </div>
         </div>
 
@@ -185,19 +175,41 @@ const HomePage = () => {
           backgroundColor: 'rgba(128, 128, 128,0.5)',
           borderRadius: '0.5%',
         }}>
-          <h2>America</h2>
+          <h2 className="headerDescription">America</h2>
           <div className="container">
-            {pus
+          {pus
+              .filter((university) => university.regionName === "America")
               .sort((a, b) => b.rating - a.rating)
               .slice(0, 5)
-              .filter((university) => university.regionName === "America")
               .map((university) => (
                 <div key={university.puId}>
                   <Link to={`/university-rankings?search=${university.name}`}>
                     <PUCard pu={university} />
                   </Link>
                 </div>
-              ))}
+              ))
+            }
+          </div>
+        </div>
+
+        <div className="container" style={{
+          backgroundColor: 'rgba(128, 128, 128,0.5)',
+          borderRadius: '0.5%',
+        }}>
+          <h2 className="headerDescription">Europe</h2>
+          <div className="container">
+          {pus
+              .filter((university) => university.regionName === "Europe")
+              .sort((a, b) => b.rating - a.rating)
+              .slice(0, 5)
+              .map((university) => (
+                <div key={university.puId}>
+                  <Link to={`/university-rankings?search=${university.name}`}>
+                    <PUCard pu={university} />
+                  </Link>
+                </div>
+              ))
+            }
           </div>
         </div>
 

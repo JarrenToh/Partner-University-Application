@@ -8,7 +8,6 @@ package ejb.session.stateless;
 import entity.Country;
 import entity.PU;
 import entity.Region;
-import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
@@ -22,9 +21,6 @@ import javax.persistence.Query;
  */
 @Stateless
 public class PUSessionBean implements PUSessionBeanLocal {
-
-    @EJB
-    private PUReviewSessionBeanLocal pUReviewSessionBean;
 
     @PersistenceContext
     private EntityManager em;
@@ -44,15 +40,15 @@ public class PUSessionBean implements PUSessionBeanLocal {
     @Override
     public Long createNewPu(PU newPu, Long countryId, Long regionId) {
         Country country = countrySessionBean.retrieveCountryById(countryId);
-
+        
         newPu.setCountry(country);
         country.addPu(newPu);
-
+        
         em.persist(newPu);
         em.flush();
         return newPu.getPuId();
     }
-
+    
     @Override
     public List<PU> retrieveAllPus() {
 //        Query query = em.createQuery("SELECT p FROM PU p");
@@ -63,9 +59,9 @@ public class PUSessionBean implements PUSessionBeanLocal {
         List<PU> pus = new ArrayList<>();
         for (Object[] result : results) {
             PU pu = new PU();
-            
+
             pu.setPuId((Long) result[0]);
-            
+
             pu.setRating(pUReviewSessionBean.retrieveRating((Long) result[0]));
             pu.setName((String) result[1]);
             pu.setDescription((String) result[2]);
@@ -88,6 +84,21 @@ public class PUSessionBean implements PUSessionBeanLocal {
         query.setParameter(name, "name");
 
         return (PU) query.getSingleResult();
+    }
+
+    @Override
+    public List<Object[]> getMappableModulesGroupedByFaculty(String puName) {
+        Query query = em.createQuery(
+                "SELECT faculty.name, nus.code, nus.description, puModule.code, puModule.description "
+                + "FROM NUSModule nus "
+                + "JOIN nus.puModules puModule "
+                + "JOIN nus.faculty faculty "
+                + "JOIN puModule.pu pu "
+                + "WHERE LOWER(pu.name) = :puName "
+                + "GROUP BY faculty.name, nus.code, nus.description, puModule.code, puModule.description"
+        );
+        query.setParameter("puName", puName.toLowerCase());
+        return query.getResultList();
     }
 
 }

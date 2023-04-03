@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { useLocation } from "react-router-dom";
-import { Button } from "reactstrap";
+import { Button, Input, FormGroup } from "reactstrap";
 import UniversityCard from "./UniversityCard";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./UniversityRanking.css";
@@ -15,14 +15,13 @@ const UniversityRankings = ({ universitiesData }) => {
   const [sortBy, setSortBy] = useState("ranking");
   const [favoritesOnly, setFavoritesOnly] = useState(false);
   const [displayLimit, setDisplayLimit] = useState(10);
+  const [selectedOption, setSelectedOption] = useState("");
+  const [selectedCountry, setSelectedCountry] = useState('');
   const [ranking, setRanking] = useState(false);
-  const location = useLocation();
-  const searchParams = new URLSearchParams(location.search);
-  const searchQuery = searchParams.get("search") || "";
 
   useEffect(() => {
-    setFilter(searchQuery);
-  }, [searchQuery]);
+    setFilter(searchTerm);
+  }, [searchTerm]);
 
   useEffect(() => {
     setUniversities(
@@ -44,8 +43,17 @@ const UniversityRankings = ({ universitiesData }) => {
   }, []);
 
   const handleFilterChange = (event) => {
-    setFilter(event.target.value);
+    const value = event.target.value;
+    console.log('Selected country:', value);
+    if (value.startsWith("country:")) {
+      setFilter("");
+      setSelectedCountry(value.substring(8));
+    } else {
+      setFilter(value);
+      setSelectedCountry(value);
+    }
   };
+
 
   const handleSortByChange = (event) => {
     setSortBy(event.target.value);
@@ -65,12 +73,24 @@ const UniversityRankings = ({ universitiesData }) => {
     setDisplayLimit(displayLimit + 10);
   }, [setDisplayLimit, displayLimit]);
 
-  const filteredUniversities = universities.filter(
-    (university) =>
+  const getUniqueCountries = () => {
+    const countries = universitiesData.map((university) => university.countryName);
+    const uniqueCountries = Array.from(new Set(countries));
+    return ["All Countries", ...uniqueCountries];
+  };
+
+  const filteredUniversities = universities.filter((university) => {
+    if (selectedCountry === "All Countries") {
+      return true;
+    } else if (selectedCountry !== "") {
+      return university.countryName.toLowerCase() === selectedCountry.toLowerCase();
+    }
+    return (
       university.name.toLowerCase().includes(filter.toLowerCase()) ||
       university.regionName.toLowerCase().includes(filter.toLowerCase()) ||
       university.countryName.toLowerCase().includes(filter.toLowerCase())
-  );
+    );
+  });
 
   useEffect(() => {
     if (sortBy === "ranking") {
@@ -79,6 +99,7 @@ const UniversityRankings = ({ universitiesData }) => {
       setRanking(false);
     }
   }, [sortBy]);
+
 
   const sortedUniversities = filteredUniversities.sort((a, b) => {
     if (sortBy === "ranking") {
@@ -115,22 +136,33 @@ const UniversityRankings = ({ universitiesData }) => {
           </div>
           <br />
           <div className="university-rankings__header">
-            <div className="university-rankings__filter">
-              <input
-                type="text"
-                placeholder="Search "
-                value={filter}
-                onChange={handleFilterChange}
-              />
-            </div>
-            <div className="university-rankings__sort-by">
+          <div className="university-rankings__sort-by">
               Sort by:
               <select value={sortBy} onChange={handleSortByChange}>
                 <option value="ranking">Ranking</option>
                 <option value="name">Name</option>
               </select>
             </div>
-            {/*
+            <div className="university-rankings__country-filter">
+              <FormGroup>
+                <Input type="select" value={selectedCountry} onChange={handleFilterChange}>
+                  {getUniqueCountries().map((country, index) => (
+                    <option key={index} value={country} selected={selectedCountry === country}>
+                      {country}
+                    </option>
+                  ))}
+                </Input>
+              </FormGroup>
+            </div>
+            <div className="university-rankings__filter">
+              <input
+                type="text"
+                placeholder="Search"
+                value={filter}
+                onChange={handleFilterChange}
+              />
+            </div>
+                       {/*
             <div className="university-rankings__favorites">
               <label>
                 <input

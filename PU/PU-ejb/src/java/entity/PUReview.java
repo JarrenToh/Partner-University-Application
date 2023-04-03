@@ -35,12 +35,11 @@ public class PUReview implements Serializable {
     @JoinColumn(nullable = false)
     private PU pu;
 
-    public PUReview() {
-    }
+    @ManyToOne
+    @JoinColumn(nullable = true)
+    private Student student;
 
-    public PUReview(Long rating, Long puReviewId) {
-        this.puReviewId = puReviewId;
-        this.rating = rating;
+    public PUReview() {
     }
 
     public PUReview(Long rating, String review, Integer noOfLikes, Integer noOfDislikes, Boolean isInappropriate) {
@@ -168,4 +167,17 @@ public class PUReview implements Serializable {
         this.pu = pu;
     }
 
+    /**
+     * @return the student
+     */
+    public Student getStudent() {
+        return student;
+    }
+
+    /**
+     * @param student the student to set
+     */
+    public void setStudent(Student student) {
+        this.student = student;
+    }
 }

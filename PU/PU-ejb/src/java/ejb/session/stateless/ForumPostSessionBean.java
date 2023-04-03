@@ -44,7 +44,13 @@ public class ForumPostSessionBean implements ForumPostSessionBeanLocal {
         student.getPosts().add(forumPost);
         forumPost.setForumTopic(forumTopic);
         forumPost.setStudent(student);
+        forumPost.setStudentId(studentId);
+        forumPost.setStudentFirstName(student.getFirstName());
+        forumPost.setStudentLastName(student.getLastName());
         forumPost.setTimeOfCreation(LocalDateTime.now());
+        forumPost.setLikedStudents(new ArrayList());
+        forumPost.setDislikedStudents(new ArrayList());
+        forumPost.setForumComments(new ArrayList());
         em.persist(forumPost);
         em.flush();
     }
@@ -58,14 +64,49 @@ public class ForumPostSessionBean implements ForumPostSessionBeanLocal {
 
         oldPost.setTitle(forumPost.getTitle());
         oldPost.setMessage(forumPost.getMessage());
+        oldPost.setIsEdited(forumPost.getIsEdited());
+        oldPost.setLastEdit(forumPost.getLastEdit());
         oldPost.setNoOfLikes(forumPost.getNoOfLikes());
         oldPost.setNoOfDislikes(forumPost.getNoOfDislikes());
         oldPost.setIsInappropriate(forumPost.getIsInappropriate());
+        oldPost.setTimeOfCreation(forumPost.getTimeOfCreation());
+        oldPost.setForumTopic(forumPost.getForumTopic());
+        oldPost.setStudent(forumPost.getStudent());
+        oldPost.setStudentId(forumPost.getStudentId());
+        oldPost.setStudentFirstName(forumPost.getStudentFirstName());
+        oldPost.setStudentLastName(forumPost.getStudentLastName());
+        oldPost.setForumComments(forumPost.getForumComments());
+        oldPost.setLikedStudents(forumPost.getLikedStudents());
+        oldPost.setDislikedStudents(forumPost.getDislikedStudents());
+    }
+    
+    @Override
+    public void editForumPost(ForumPost forumPost) {
+        ForumPost oldPost = retrieveForumPostById(forumPost.getPostId());
+
+        oldPost.setTitle(forumPost.getTitle());
+        oldPost.setMessage(forumPost.getMessage());
+        oldPost.setIsEdited(true);
+        oldPost.setLastEdit(LocalDateTime.now());
+        oldPost.setNoOfLikes(forumPost.getNoOfLikes());
+        oldPost.setNoOfDislikes(forumPost.getNoOfDislikes());
+        oldPost.setIsInappropriate(forumPost.getIsInappropriate());
+        oldPost.setTimeOfCreation(forumPost.getTimeOfCreation());
+        oldPost.setForumTopic(forumPost.getForumTopic());
+        oldPost.setStudent(forumPost.getStudent());
+        oldPost.setStudentId(forumPost.getStudentId());
+        oldPost.setStudentFirstName(forumPost.getStudentFirstName());
+        oldPost.setStudentLastName(forumPost.getStudentLastName());
+        oldPost.setForumComments(forumPost.getForumComments());
+        oldPost.setLikedStudents(forumPost.getLikedStudents());
+        oldPost.setDislikedStudents(forumPost.getDislikedStudents());
     }
 
     @Override
     public synchronized void deleteForumPost(Long forumPostId) {
         ForumPost forumPost = em.find(ForumPost.class, forumPostId);
+        Student student = em.find(Student.class, forumPost.getStudent().getStudentId());
+        student.getPosts().remove(forumPost);
         ForumTopic forumTopic = forumPost.getForumTopic();
         forumTopic.getForumPosts().remove(forumPost);
         forumTopicSessionBeanLocal.updateForumTopic(forumTopic);
@@ -86,7 +127,8 @@ public class ForumPostSessionBean implements ForumPostSessionBeanLocal {
 
     @Override
     public List<ForumPost> retrieveAllForumPosts() {
-        Query query = em.createQuery("SELECT p FROM ForumPost p");
+        //Query query = em.createQuery("SELECT fp FROM ForumPost fp");
+        Query query = em.createQuery("SELECT fp FROM ForumPost fp JOIN FETCH fp.student");
         return query.getResultList();
     }
 
@@ -98,7 +140,7 @@ public class ForumPostSessionBean implements ForumPostSessionBeanLocal {
 
     @Override
     public List<ForumPost> retrieveAppropriateForumPosts() {
-        Query query = em.createQuery("SELECT f FROM ForumPost WHERE f.isInappropriate = :appropriate");
+        Query query = em.createQuery("SELECT f FROM ForumPost");
         query.setParameter("appropriate", true);
         
         return query.getResultList();
@@ -106,7 +148,7 @@ public class ForumPostSessionBean implements ForumPostSessionBeanLocal {
 
     @Override
     public List<ForumPost> retrieveInappropriateForumPosts() {
-        Query query = em.createQuery("SELECT f FROM ForumPost WHERE f.isInappropriate = :appropriate");
+        Query query = em.createQuery("SELECT f FROM ForumPost fp WHERE f.isInappropriate = :appropriate");
         query.setParameter("appropriate", false);
         
         return query.getResultList();
@@ -114,17 +156,22 @@ public class ForumPostSessionBean implements ForumPostSessionBeanLocal {
     }
 
     @Override
-    public void likeForumPost(Long forumPostId) {
+    public void likeForumPost(Long forumPostId, Long studentId) {
         ForumPost forumPost = em.find(ForumPost.class, forumPostId);
         
         forumPost.setNoOfLikes(forumPost.getNoOfLikes() + 1);
+        forumPost.getLikedStudents().add(studentId);
+        if (forumPost.getDislikedStudents().contains(studentId)) {
+            undislikeForumPost(forumPostId, studentId);
+        }
     }
 
     @Override
-    public void unlikeForumPost(Long forumPostId) {
+    public void unlikeForumPost(Long forumPostId, Long studentId) {
         ForumPost forumPost = em.find(ForumPost.class, forumPostId);
         
         forumPost.setNoOfLikes(forumPost.getNoOfLikes() - 1);
+        forumPost.getLikedStudents().remove(studentId);
     }
 
     @Override
@@ -141,17 +188,22 @@ public class ForumPostSessionBean implements ForumPostSessionBeanLocal {
     }
 
     @Override
-    public void dislikeForumPost(Long forumPostId) {
+    public void dislikeForumPost(Long forumPostId, Long studentId) {
         ForumPost forumPost = em.find(ForumPost.class, forumPostId);
         
         forumPost.setNoOfDislikes(forumPost.getNoOfDislikes() + 1);
+        forumPost.getDislikedStudents().add(studentId);
+        if (forumPost.getLikedStudents().contains(studentId)) {
+            unlikeForumPost(forumPostId, studentId);
+        }
     }
 
     @Override
-    public void undislikeForumPost(Long forumPostId) {
+    public void undislikeForumPost(Long forumPostId, Long studentId) {
         ForumPost forumPost = em.find(ForumPost.class, forumPostId);
         
         forumPost.setNoOfDislikes(forumPost.getNoOfDislikes() - 1);
+        forumPost.getDislikedStudents().remove(studentId);
     }
     
     @Override
@@ -189,21 +241,56 @@ public class ForumPostSessionBean implements ForumPostSessionBeanLocal {
         
         return searchPosts;
     }
-
+    
     @Override
-    public List<ForumPost> retrieveForumPostByTopic(Long topicId) {
+    public List<ForumPost> searchForumPostsByTopicAndStudent(String postTitle, Long topicId, Long studentId) {
+       
+        List<ForumPost> forumPosts = searchForumPostByTopic(postTitle, topicId);
+        List<ForumPost> searchPosts = forumPosts;
         
-        List<ForumPost> forumPosts = retrieveAllForumPosts();
-        
-        List<ForumPost> targetList = forumPosts;
-        
-        for (ForumPost forumPost : forumPosts) {
-            if (forumPost.getForumTopic().getTopicId() != topicId) {
-                targetList.remove(forumPost);
+        for(ForumPost forumPost : forumPosts) {
+            if (forumPost.getStudentId() != studentId) {
+                searchPosts.remove(forumPost);
             }
         }
         
-        return targetList;
+        return searchPosts;
     }
-    
+
+    @Override
+    public List<ForumPost> retrieveForumPostByTopic(Long topicId) {
+
+        List<ForumPost> forumPosts = retrieveAllForumPosts();
+
+        List<ForumPost> targetList = new ArrayList<>(forumPosts); // create a copy of the list to avoid modifying the original
+
+        Iterator<ForumPost> iter = targetList.iterator();
+        while (iter.hasNext()) {
+            ForumPost forumPost = iter.next();
+            if (forumPost.getForumTopic().getTopicId() != topicId) {
+                iter.remove(); // remove using the iterator
+            }
+        }
+
+        return targetList;
+    }    
+        
+    @Override
+    public List<ForumPost> retrieveForumPostsByTopicAndStudent(Long topicId, Long studentId) {
+        
+        List<ForumPost> forumPosts = retrieveForumPostByTopic(topicId);
+
+        List<ForumPost> targetList = new ArrayList<>(forumPosts); // create a copy of the list to avoid modifying the original
+
+        Iterator<ForumPost> iter = targetList.iterator();
+        while (iter.hasNext()) {
+            ForumPost forumPost = iter.next();
+            if (forumPost.getStudentId() != studentId) {
+                iter.remove(); // remove using the iterator
+            }
+        }
+
+        return targetList;
+        
+    }
 }
