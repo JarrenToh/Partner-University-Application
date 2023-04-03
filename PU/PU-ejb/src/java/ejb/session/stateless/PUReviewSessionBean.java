@@ -30,7 +30,7 @@ public class PUReviewSessionBean implements PUReviewSessionBeanLocal {
         PU pu = em.find(PU.class, puId);
         Student student = em.find(Student.class, studentId);
         review.setStudent(student);
-        student.setpUReview(review);
+        student.setPuReview(review);
         //Link pu to puReview
         em.persist(review);
         review.setPu(pu);
