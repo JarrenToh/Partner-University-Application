@@ -5,8 +5,6 @@ import { faTrash } from "@fortawesome/free-solid-svg-icons";
 
 import { AuthContext } from "../login/AuthContext";
 
-import DynamicSocialMediaForm from "./DynamicSocialMediaForm";
-
 const SocialMediaModal = (props) => {
   const { loggedInStudent, logout } = useContext(AuthContext);
   const API_URL_STUDENT = "http://localhost:8080/PU-war/webresources/student";
