@@ -90,8 +90,8 @@ const App = () => {
             <Route path="/university-rankings" element={<UniversityRankings universitiesData={pus} />} />
             <Route path="/faq" element={<FAQPage/>}/>
             <Route path="/profile/likedPus" element={<LikedPUs/>}/>
-            <Route path="/university-description-page" element={<UniversityDescriptionPage/>}/>
-            <Route path="/university-description-page/mappable-module" element={<MappableModule/>}/>
+            <Route path="/university-description-page/:puName" element={<UniversityDescriptionPage/>}/>
+            <Route path="/university-description-page/:puName/mappable-module" element={<MappableModule/>}/>
           </Routes>
         </Router>
 

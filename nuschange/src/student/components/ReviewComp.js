@@ -1,12 +1,28 @@
 import "../assets/base.scss";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import "./AccordionComp.css";
-import React from "react";
+import React, { useState } from "react";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faThumbsUp, faThumbsDown, faFlag } from "@fortawesome/free-regular-svg-icons";
+import { Button } from "reactstrap";
 import PerfectScrollbar from 'react-perfect-scrollbar';
 import { Card, ListGroup, ListGroupItem, CardHeader } from 'reactstrap';
 
+
 function ReviewComp(props) {
+    const [like, setLike] = useState(false);
+    const [dislike, setDislike] = useState(false);
+    const [flagged, setFlagged] = useState(false);
+  
+    const handleLike = () => {
+      setLike(!like);
+      setDislike(false);
+    };
+  
+    const handleDislike = () => {
+      setDislike(!dislike);
+      setLike(false);
+    };
     return (
         <Card className="card-box mb-5">
             <CardHeader style={{ textAlign: "center" }}>
@@ -15,16 +31,13 @@ function ReviewComp(props) {
                 </h4>
             </CardHeader>
             <ListGroup flush>
-                <div
-                    className="scroll-area rounded bg-white shadow-overflow"
-                    style={{ width: "100%", overflowX: "auto" }}
-                >
+                <div className="scroll-area rounded bg-white shadow-overflow" style={{ width: "100%", overflowX: "auto" }}>
                     <PerfectScrollbar>
                         {props.reviews.map((r) => (
                             <ListGroupItem className="py-3 border-0" key={r.puReviewId}>
                                 <div className="align-box-row w-100 justify-content-between align-items-center">
                                     <div className="mr-3">
-                                        <div className="bg-neutral-dark text-primary text-center font-size-xxl d-80 rounded-sm" >
+                                        <div className="bg-neutral-dark text-primary text-center font-size-xxl d-80 rounded-sm">
                                             <FontAwesomeIcon icon={["far", "user-circle"]} />
                                         </div>
                                     </div>
@@ -38,34 +51,37 @@ function ReviewComp(props) {
                                     </div>
                                     <div className="d-flex align-items-center" style={{ width: "100%", justifyContent: "flex-end" }}>
                                         <div className="ml-auto mr-3">
-                                            <button style={{ background: "transparent" }}>
+                                            <Button color="link" style={{ background: "transparent" }} onClick={handleLike}>
                                                 <FontAwesomeIcon
-                                                    icon={["far", "thumbs-up"]}
+                                                    icon={faThumbsUp}
                                                     size="2x"
-                                                    style={{ cursor: "pointer", color: "#007bff", marginRight: "10px" }}
+                                                    style={{
+                                                        cursor: "pointer",
+                                                        color: like ? "green" : "#007bff",
+                                                        marginRight: "10px",
+                                                    }}
                                                 />
-                                            </button>
+                                            </Button>
                                         </div>
                                         <div className="mr-3">
-                                            <button style={{ background: "transparent" }}>
+                                            <Button color="link" style={{ background: "transparent" }} onClick={handleDislike}>
                                                 <FontAwesomeIcon
-                                                    icon={["far", "thumbs-down"]}
+                                                    icon={faThumbsDown}
                                                     size="2x"
-                                                    style={{ cursor: "pointer", color: "#007bff", marginRight: "10px" }}
+                                                    style={{
+                                                        cursor: "pointer",
+                                                        color: dislike ? "red" : "#007bff",
+                                                        marginRight: "10px",
+                                                    }}
                                                 />
-                                            </button>
+                                            </Button>
                                         </div>
                                         <div>
-                                            <button style={{ background: "transparent" }}>
-                                                <FontAwesomeIcon
-                                                    icon={["far", "flag"]}
-                                                    size="2x"
-                                                    style={{ cursor: "pointer", color: "#007bff" }}
-                                                />
-                                            </button>
+                                            <Button color="link" style={{ background: "transparent" }}>
+                                                <FontAwesomeIcon icon={faFlag} size="2x" style={{ cursor: "pointer", color: "#007bff" }} />
+                                            </Button>
                                         </div>
                                     </div>
-
                                 </div>
                                 <div className="divider" />
                             </ListGroupItem>
@@ -73,6 +89,7 @@ function ReviewComp(props) {
                     </PerfectScrollbar>
                 </div>
             </ListGroup>
+
         </Card>
     );
 }

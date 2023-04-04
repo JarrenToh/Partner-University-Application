@@ -3,15 +3,17 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import "./AccordionComp.css";
 import React from "react";
 import { Accordion, Container, Table, Row, Col } from "react-bootstrap";
+import { useParams } from "react-router-dom";
 
 
 function AccordionComp(props) {
+    const { puName } = useParams();
     return (
         <div style={{ paddingLeft: "5%", paddingRight: "5%" }}>
             <Container fluid>
                 <Row>
                     <h1 className="text-center mb-3">
-                        Academic modules for {props.universityName}
+                        Academic modules for {puName}
                     </h1>
                     <Accordion defaultActiveKey={0} alwaysOpen>
                         {props.modules.map((mappableModule, index) => (

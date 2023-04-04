@@ -6,10 +6,9 @@ const apiPaths = {
     listOfPUs: `${path}/pu`,
 
     getPUbyName(puName) {
-        return fetch('${path}/pugetPUByName/${puName}');
+        return fetch(`${path}/pu/getPUByName/${puName}`);
     }
 
-    
 };
 
 export default apiPaths;

@@ -86,8 +86,8 @@ public class PUSessionBean implements PUSessionBeanLocal {
 
     @Override
     public PU retrievePuByName(String name) {
-        Query query = em.createQuery("SELECT p FROM PU p WHERE p.name = :name");
-        query.setParameter(name, "name");
+        Query query = em.createQuery("SELECT p FROM PU p WHERE LOWER(p.name) = :name");
+        query.setParameter("name",name.toLowerCase());
 
         return (PU) query.getSingleResult();
     }
