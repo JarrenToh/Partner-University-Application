@@ -75,21 +75,17 @@ const SocialMediaModal = (props) => {
           {socialMedia.length > 0 &&
             socialMedia.map((field, idx) => (
               <div style={{ paddingBottom: "2.5%" }} key={idx}>
-                <Form.Label column sm={2}>
-                  {`Link ${idx + 1}`}
-                </Form.Label>
-                <Col sm={10}>
-                  <InputGroup>
-                    <Form.Control
-                      placeholder={`Social Media Link ${idx + 1}`}
-                      value={field}
-                      onChange={(e) => handleChange(idx, e)}
-                    />
-                    <Button variant="danger" onClick={() => handleRemove(idx)}>
-                      <FontAwesomeIcon icon={faTrash} />
-                    </Button>
-                  </InputGroup>
-                </Col>
+                <Form.Label>{`Link ${idx + 1}`}</Form.Label>
+                <InputGroup>
+                  <Form.Control
+                    placeholder={`Social Media Link ${idx + 1}`}
+                    value={field}
+                    onChange={(e) => handleChange(idx, e)}
+                  />
+                  <Button variant="danger" onClick={() => handleRemove(idx)}>
+                    <FontAwesomeIcon icon={faTrash} />
+                  </Button>
+                </InputGroup>
               </div>
             ))}
           {socialMedia.length == 0 && (

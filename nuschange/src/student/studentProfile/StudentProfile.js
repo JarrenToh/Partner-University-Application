@@ -46,10 +46,10 @@ const StudentProfile = () => {
 
   useEffect(() => {
     if (loggedInStudent) {
-      console.log(loggedInStudent);
       //setStudentId(loggedInStudent.studentId);
-      setSocialMedia(loggedInStudent.socialMedia);
       //setCurrentStudent({ ...loggedInStudent });
+      getStudentAPI(loggedInStudent.studentId);
+      //setSocialMedia(loggedInStudent.socialMedia);
     }
   }, [loggedInStudent]);
 
@@ -57,6 +57,7 @@ const StudentProfile = () => {
     const response = await fetch(`${API_URL_STUDENT}/${studentId}`);
     const data = await response.json();
     setCurrentStudent(data);
+    setSocialMedia(data.socialMedia);
   };
 
   if (!loggedInStudent) {
