@@ -9,7 +9,8 @@ import entity.ForumComment;
 import entity.ForumPost;
 import entity.Student;
 import java.time.LocalDateTime;
-import java.util.Date;
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
@@ -26,21 +27,32 @@ public class ForumCommentSessionBean implements ForumCommentSessionBeanLocal {
 
     @EJB(name = "ForumPostSessionBeanLocal")
     private ForumPostSessionBeanLocal forumPostSessionBeanLocal;
+    
+    
+    
 
     @PersistenceContext(unitName = "PU-ejbPU")
     private EntityManager em;   
 
     @Override
-    public void createNewForumComment(ForumComment forumComment, Long forumPostId, Long studentId) {
+    public ForumComment createNewForumComment(ForumComment forumComment, Long forumPostId, Long studentId) {
         ForumPost forumPost = em.find(ForumPost.class, forumPostId);
         Student student = em.find(Student.class, studentId);
         student.getComments().add(forumComment);
         forumComment.setStudent(student);
+        forumComment.setStudentId(studentId);
+        forumComment.setStudentFirstName(student.getFirstName());
+        forumComment.setStudentLastName(student.getLastName());
         forumPost.getForumComments().add(forumComment);
         forumComment.setForumPost(forumPost);
-        forumComment.setTimeOfCreation(LocalDateTime.now());
+        //forumComment.setTimeOfCreation(LocalDateTime.now());
+        //forumComment.setLikedStudents(new ArrayList());
+        //forumComment.setDislikedStudents(new ArrayList());
+        //forumComment.setReplies(new ArrayList());
         em.persist(forumComment);
         em.flush();
+        
+        return forumComment;
     }
 
     @Override
@@ -49,18 +61,65 @@ public class ForumCommentSessionBean implements ForumCommentSessionBeanLocal {
         ForumComment oldComment = retrieveForumCommentById(forumComment.getCommentId());
 
         oldComment.setMessage(forumComment.getMessage());
+        oldComment.setIsEdited(forumComment.getIsEdited());
+        oldComment.setLastEdit(forumComment.getLastEdit());
         oldComment.setNoOfLikes(forumComment.getNoOfLikes());
         oldComment.setNoOfDislikes(forumComment.getNoOfDislikes());
         oldComment.setIsInappropriate(forumComment.getIsInappropriate());
-        
+        oldComment.setTimeOfCreation(forumComment.getTimeOfCreation());
+        oldComment.setForumPost(forumComment.getForumPost());
+        oldComment.setStudent(forumComment.getStudent());
+        oldComment.setStudentId(forumComment.getStudentId());
+        oldComment.setStudentFirstName(forumComment.getStudentFirstName());
+        oldComment.setStudentLastName(forumComment.getStudentLastName());
+        oldComment.setLikedStudents(forumComment.getLikedStudents());
+        oldComment.setDislikedStudents(forumComment.getDislikedStudents());
+        oldComment.setReplies(forumComment.getReplies());
+ 
+    }
+    
+    @Override
+    public void editForumComment(ForumComment forumComment) {
+        ForumComment oldComment = retrieveForumCommentById(forumComment.getCommentId());
+
+        oldComment.setMessage(forumComment.getMessage());
+        oldComment.setIsEdited(true);
+        oldComment.setLastEdit(LocalDateTime.now());
+        oldComment.setNoOfLikes(forumComment.getNoOfLikes());
+        oldComment.setNoOfDislikes(forumComment.getNoOfDislikes());
+        oldComment.setIsInappropriate(forumComment.getIsInappropriate());
+        oldComment.setTimeOfCreation(forumComment.getTimeOfCreation());
+        oldComment.setForumPost(forumComment.getForumPost());
+        oldComment.setStudent(forumComment.getStudent());
+        oldComment.setStudentId(forumComment.getStudentId());
+        oldComment.setStudentFirstName(forumComment.getStudentFirstName());
+        oldComment.setStudentLastName(forumComment.getStudentLastName());
+        oldComment.setLikedStudents(forumComment.getLikedStudents());
+        oldComment.setDislikedStudents(forumComment.getDislikedStudents());
+        oldComment.setReplies(forumComment.getReplies());
     }
 
     @Override
     public void deleteForumComment(Long forumCommentId) {
         ForumComment forumComment = em.find(ForumComment.class, forumCommentId);
+        Student student = em.find(Student.class, forumComment.getStudent().getStudentId());
+        student.getComments().remove(forumComment);
         ForumPost forumPost = forumComment.getForumPost();
         forumPost.getForumComments().remove(forumComment);
         forumPostSessionBeanLocal.updateForumPost(forumPost);
+        
+        List<ForumComment> forumReplies = new ArrayList<>(forumComment.getReplies());
+
+        synchronized (forumReplies) {
+            Iterator<ForumComment> iterator = forumReplies.iterator();
+            while (iterator.hasNext()) {
+                ForumComment forumReply = iterator.next();
+                forumComment.getReplies().remove(forumReply);
+                deleteForumComment(forumReply.getCommentId());
+                iterator.remove();
+            }
+        }
+
         em.remove(forumComment);
         em.flush();
     }
@@ -91,31 +150,50 @@ public class ForumCommentSessionBean implements ForumCommentSessionBeanLocal {
     }
 
     @Override
-    public void likeForumComment(Long forumCommentId) {
+    public void likeForumComment(Long forumCommentId, Long studentId) {
         ForumComment forumComment = em.find(ForumComment.class, forumCommentId);
         
         forumComment.setNoOfLikes(forumComment.getNoOfLikes() + 1);
+        
+        forumComment.getLikedStudents().add(studentId);
+        if (forumComment.getDislikedStudents().contains(studentId)) {
+            undislikeForumComment(forumCommentId, studentId);
+        }
     }
 
     @Override
-    public void unlikeForumComment(Long forumCommentId) {
+    public void unlikeForumComment(Long forumCommentId, Long studentId) {
         ForumComment forumComment = em.find(ForumComment.class, forumCommentId);
         
         forumComment.setNoOfLikes(forumComment.getNoOfLikes() - 1);
+        forumComment.getLikedStudents().remove(studentId);
     }
 
     @Override
-    public void dislikeForumComment(Long forumCommentId) {
+    public void dislikeForumComment(Long forumCommentId, Long studentId) {
         ForumComment forumComment = em.find(ForumComment.class, forumCommentId);
         
         forumComment.setNoOfDislikes(forumComment.getNoOfDislikes() + 1);
+        forumComment.getDislikedStudents().add(studentId);
+        if (forumComment.getLikedStudents().contains(studentId)) {
+            unlikeForumComment(forumCommentId, studentId);
+        }
     }
 
     @Override
-    public void undislikeForumComment(Long forumCommentId) {
+    public void undislikeForumComment(Long forumCommentId, Long studentId) {
         ForumComment forumComment = em.find(ForumComment.class, forumCommentId);
         
         forumComment.setNoOfDislikes(forumComment.getNoOfDislikes() - 1);
+        forumComment.getDislikedStudents().remove(studentId);
+    }
+    
+    @Override
+    public void replyForumComment(ForumComment reply, Long replyingToCommentId, Long studentId) {
+        ForumComment forumComment = em.find(ForumComment.class, replyingToCommentId);
+        ForumComment theReply = createNewForumComment(reply, forumComment.getForumPost().getPostId(), studentId);
+        
+        forumComment.getReplies().add(theReply);
     }
 
 }

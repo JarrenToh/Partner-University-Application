@@ -6,6 +6,7 @@
 package ejb.session.stateless;
 
 import entity.FAQ;
+import entity.PU;
 import entity.Student;
 import error.NoResultException;
 import java.time.LocalDateTime;
@@ -57,6 +58,13 @@ public class StudentSessionBean implements StudentSessionBeanLocal {
         Query query = em.createQuery("SELECT s FROM Student s");
         List<Student> students = query.getResultList();
         return students;
+    }
+
+    @Override
+    public List<Student> retrieveStudentsByPU(PU pu) {
+        Query q = em.createQuery("SELECT DISTINCT s FROM Student s, PU pu WHERE pu MEMBER OF s.puEnrolled AND pu.puId =:id");
+        q.setParameter("id", pu.getPuId());
+        return q.getResultList();
     }
 
     @Override
@@ -116,7 +124,7 @@ public class StudentSessionBean implements StudentSessionBeanLocal {
     } //end searchCustomers
 
     @Override
-    public void updateStudent(Long studentId, String firstName, String lastName, String phoneNumber, String faculty, String[] socialMedia, LocalDateTime lastActive, String email, String password) {
+    public void updateStudent(Long studentId, String firstName, String lastName, String phoneNumber, String faculty, List<String> socialMedia, LocalDateTime lastActive, String email, String password) {
         try {
             Student student = getStudent(studentId);
 
@@ -157,6 +165,14 @@ public class StudentSessionBean implements StudentSessionBeanLocal {
             Logger.getLogger(StudentSessionBean.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
+
+    @Override
+    public Student login(String username, String password) {
+        Query query = em.createQuery("SELECT n FROM Student n WHERE n.email = :username AND n.password = :password");
+        query.setParameter("username", username);
+        query.setParameter("password", password);
+
+        return (Student) query.getSingleResult();
+    }
 
 }

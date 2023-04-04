@@ -13,7 +13,7 @@
                     <file>${reference.PU-ejb.dist}</file>
                 </library>
                 <library dirs="200">
-                    <file>${libs.jakartaee-web-api-8.0.classpath}</file>
+                    <file>${libs.Jakarta_EE_8_API_Library.classpath}</file>
                     <path-in-war>WEB-INF/lib</path-in-war>
                 </library>
             </web-module-libraries>

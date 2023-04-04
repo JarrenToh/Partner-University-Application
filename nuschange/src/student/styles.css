@@ -76,9 +76,45 @@
     font-size: 1.5rem; /* adjust font size */
   }
 
+  .searchbyButton {
+    padding: 10px 25px;
+    border-radius: 1rem;
+    color: #ffffff;
+    font-family: var(--font-raleway);
+    letter-spacing: 2px;
+    cursor: pointer;
+    background: #03376b;
+    border-color: white;
+    margin-left: 30px;
+  } 
+
+  .blue-link:hover {
+    color: orangered !important;
+  }
+
+  .blue-link {
+    color: blue !important;
+  }
   
-  
-  
+  .edited-info {
+    color: blue !important;
+  }
+
+  .eye {
+    color: blueviolet;
+  }
+
+  .edit {
+    color: deeppink
+  }
+
+  .delete {
+    color: red
+  }
+
+  .flag {
+    color: orangered
+  }
   
   
   

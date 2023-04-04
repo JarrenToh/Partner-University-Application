@@ -7,21 +7,19 @@ package entity;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import java.util.List;
-<<<<<<< Updated upstream
-=======
->>>>>>> Stashed changes
+import javax.persistence.CascadeType;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-<<<<<<< Updated upstream
-=======
->>>>>>> Stashed changes
+import javax.persistence.OneToOne;
 
 
 /**
@@ -35,54 +33,71 @@ public class Student implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long studentId;
-    
+
     private String firstName;
-    
+
     private String lastName;
-    
+
     private String phoneNumber;
-    
+
     private String faculty;
-    
-    private String[] socialMedia;
-    
+
+    private List<String> socialMedia;
+
     private LocalDateTime lastActive;
-    
+
     private String email;
-    
+
     private String password;
 
-    public Student() {
-    }
-    
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "student")
     private List<Enquiry> enquiries;
+
+    @ManyToMany(fetch = FetchType.EAGER)
+    private List<PU> likedPUs;
     
-    @ManyToOne(optional = true, fetch = FetchType.EAGER)
-    @JoinColumn(nullable = true)
-    private PUModule puEnrolled;
+    @OneToMany(mappedBy = "students")
+    private List<PUModuleReview> moduleReviews;
     
-<<<<<<< Updated upstream
+
     @ManyToOne
     private PU likedPUs;
     
-=======
 
->>>>>>> Stashed changes
+    @ManyToOne
+    @JoinColumn(nullable = true)
+    private PU puEnrolled;
+
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "student")
     private List<ForumPost> posts;
-    
+
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "student")
     private List<ForumTopic> topics;
-    
+
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "student")
     private List<ForumComment> comments;
-<<<<<<< Updated upstream
     
     @ManyToOne
     private PUModule modulesTaken;
-=======
->>>>>>> Stashed changes
+
+    @OneToMany
+    private List<PUModule> modulesTaken;
+
+    @OneToOne(mappedBy = "student")
+    private PUReview puReview;
+
+    public Student() {
+        socialMedia = new ArrayList<>();
+    }
+
+    public Student(String firstName, String lastName, String phoneNumber, String email, String password, String faculty) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.phoneNumber = phoneNumber;
+        this.email = email;
+        this.password = password;
+        this.faculty = faculty;
+    }
 
     public Long getStudentId() {
         return studentId;
@@ -105,6 +120,10 @@ public class Student implements Serializable {
         this.phoneNumber = phoneNumber;
         this.email = email;
         this.password = password;
+        this.socialMedia = new ArrayList<>();
+        this.posts = new ArrayList();
+        this.topics = new ArrayList();
+        this.comments = new ArrayList();
     }
 
     @Override
@@ -184,14 +203,14 @@ public class Student implements Serializable {
     /**
      * @return the socialMedia
      */
-    public String[] getSocialMedia() {
+    public List<String> getSocialMedia() {
         return socialMedia;
     }
 
     /**
      * @param socialMedia the socialMedia to set
      */
-    public void setSocialMedia(String[] socialMedia) {
+    public void setSocialMedia(List<String> socialMedia) {
         this.socialMedia = socialMedia;
     }
 
@@ -255,49 +274,47 @@ public class Student implements Serializable {
     /**
      * @return the puEnrolled
      */
-    public PUModule getPuEnrolled() {
+    public PU getPuEnrolled() {
         return puEnrolled;
     }
 
     /**
      * @param puEnrolled the puEnrolled to set
      */
-    public void setPuEnrolled(PUModule puEnrolled) {
+    public void setPuEnrolled(PU puEnrolled) {
         this.puEnrolled = puEnrolled;
     }
 
     /**
      * @return the likedPUs
      */
-    public PU getLikedPUs() {
+    public List<PU> getLikedPUs() {
         return likedPUs;
     }
 
     /**
      * @param likedPUs the likedPUs to set
      */
-    public void setLikedPUs(PU likedPUs) {
+    public void setLikedPUs(List<PU> likedPUs) {
         this.likedPUs = likedPUs;
     }
 
     /**
      * @return the modulesTaken
      */
-<<<<<<< Updated upstream
     public PUModule getModulesTaken() {
-=======
->>>>>>> Stashed changes
+
+    public List<PUModule> getModulesTaken() {
         return modulesTaken;
     }
 
     /**
      * @param modulesTaken the modulesTaken to set
      */
-    public void setModulesTaken(PUModule modulesTaken) {
+    public void setModulesTaken(List<PUModule> modulesTaken) {
         this.modulesTaken = modulesTaken;
     }
-    
-    
+
     /**
      * @return the posts
      */
@@ -342,8 +359,33 @@ public class Student implements Serializable {
     public void setComments(List<ForumComment> comments) {
         this.comments = comments;
     }
-<<<<<<< Updated upstream
-    
-=======
->>>>>>> Stashed changes
+
+    /**
+     * @return the pUReviews
+     */
+    public PUReview getPuReview() {
+        return puReview;
+    }
+
+    /**
+     * @param pUReviews the pUReviews to set
+     */
+    public void setPuReview(PUReview puReview) {
+        this.puReview = puReview;
+    }
+
+    /**
+     * @return the moduleReviews
+     */
+    public List<PUModuleReview> getModuleReviews() {
+        return moduleReviews;
+    }
+
+    /**
+     * @param moduleReviews the moduleReviews to set
+     */
+    public void setModuleReviews(List<PUModuleReview> moduleReviews) {
+        this.moduleReviews = moduleReviews;
+    }
+
 }

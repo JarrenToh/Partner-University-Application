@@ -1,10 +1,10 @@
 package webservices.restful.student;
 
-import ejb.session.stateless.StudentSessionBean;
+import ejb.session.stateless.PUSessionBeanLocal;
 import ejb.session.stateless.StudentSessionBeanLocal;
+import entity.PU;
 import entity.Student;
 import error.NoResultException;
-import java.util.Date;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.ws.rs.Path;
@@ -22,6 +22,7 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.GenericEntity;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import util.formRequestEntity.LoginRequest;
 
 @Path("student")
 @RequestScoped
@@ -29,6 +30,9 @@ public class StudentResource {
 
     @EJB
     private StudentSessionBeanLocal studentSessionLocal;
+
+    @EJB
+    private PUSessionBeanLocal pUSessionBeanLocal;
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
@@ -102,6 +106,20 @@ public class StudentResource {
         }
     } //end getStudent
 
+    @GET
+    @Path("/pu/{puId}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getStudentByPU(@PathParam("puId") Long puId) {
+
+        PU pu = pUSessionBeanLocal.retrievePuById(puId);
+        List<Student> results = studentSessionLocal.retrieveStudentsByPU(pu);
+        GenericEntity<List<Student>> entity = new GenericEntity<List<Student>>(results) {
+        };
+        return Response.status(200).entity(
+                entity
+        ).build();
+
+    } //end getStudent
 
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
@@ -146,6 +164,21 @@ public class StudentResource {
         }
     } //end deleteStudent
 
+    @POST
+    @Path("/login")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response login(LoginRequest loginRequest) {
+        
+        String username = loginRequest.getUsername();
+        String password = loginRequest.getPassword();
 
-    
+        Student student = studentSessionLocal.login(username, password);
+
+        if (student != null) {
+            return Response.status(200).entity(student).type(MediaType.APPLICATION_JSON).build();
+        }
+
+        return Response.status(Response.Status.UNAUTHORIZED).build();
+    }
 }

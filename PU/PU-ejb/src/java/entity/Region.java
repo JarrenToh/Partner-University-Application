@@ -34,17 +34,20 @@ public class Region implements Serializable {
     //relationship attributes
     @OneToMany (mappedBy = "region")
     private List<Country> countries;
-    
 
+    public Region() {
+    } 
+        
+    public Region(String name) {
+        this.name = name;
+    }
+    
     public Long getRegionId() {
         return regionId;
     }
 
     public void setRegionId(Long regionId) {
         this.regionId = regionId;
-    }
-
-    public Region() {
     }
 
     public String getName() {
@@ -65,10 +68,6 @@ public class Region implements Serializable {
     
     public void addCountries(Country country) {
         this.countries.add(country);
-    }
-
-    public Region(String name) {
-        this.name = name;
     }
 
     @Override

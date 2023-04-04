@@ -8,7 +8,6 @@ package entity;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import javax.json.bind.annotation.JsonbTransient;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -17,6 +16,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.validation.constraints.NotNull;
@@ -45,8 +45,12 @@ public class PU implements Serializable {
     @NotNull
     private String images;
 
+    private String countryName;
+    private String regionName;
+    private Double rating;
+
     //relationship attributes
-    @ManyToOne(optional = true)
+    @ManyToOne
     private Country country;
 
     @OneToMany(mappedBy = "pu", fetch = FetchType.EAGER)
@@ -55,23 +59,19 @@ public class PU implements Serializable {
     @OneToMany(mappedBy = "pu", fetch = FetchType.EAGER)
     private List<PUReview> puReviews;
 
-    @ManyToOne(optional = true)
-    @JoinColumn(nullable = true)
-    private Student student;
+    @OneToMany(mappedBy = "puEnrolled", fetch = FetchType.EAGER)
+    private List<Student> students;
+
+    @ManyToMany(fetch = FetchType.EAGER)
+    private List<Student> studentsLiked;
     
-    private String countryName;
-    private String regionName;
-    private Double rating;
+    
 
-//    @OneToMany (mappedBy = "pu")
-//    private List<PUModule> puModules;
-//    
-//    @OneToMany (mappedBy = "pu")
-//    private List<ForumTopic> forumTopic;
     public PU() {
-
+        students = new ArrayList<>();
         modules = new ArrayList<>();
         puReviews = new ArrayList<>();
+        studentsLiked = new ArrayList<>();
     }
 
     public PU(String name, String description, String images) {
@@ -79,13 +79,6 @@ public class PU implements Serializable {
         this.name = name;
         this.description = description;
         this.images = images;
-    }
-
-    public PU(String name, String description, String images, Country country) {
-        this.name = name;
-        this.description = description;
-        this.images = images;
-        this.country = country;
     }
 
     public Long getPuId() {
@@ -100,15 +93,25 @@ public class PU implements Serializable {
         return name;
     }
 
+    public void setName(String name) {
+        this.name = name;
+    }
 
     public String getDescription() {
         return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public String getImages() {
         return images;
     }
 
+    public void setImages(String images) {
+        this.images = images;
+    }
 
     public Country getCountry() {
         return country;
@@ -117,53 +120,13 @@ public class PU implements Serializable {
     public void setCountry(Country country) {
         this.country = country;
     }
-
-    /*
-    public List<PUReview> getPuReviews() {
-        return puReviews;
+   
+    public List<Student> getStudents() {
+        return students;
     }
 
-    public void setPuReviews(List<PUReview> puReviews) {
-        this.puReviews = puReviews;
-    }
-     */
-    @Override
-    public int hashCode() {
-        int hash = 0;
-        hash += (getPuId() != null ? getPuId().hashCode() : 0);
-        return hash;
-    }
-
-    @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the puId fields are not set
-        if (!(object instanceof PU)) {
-            return false;
-        }
-        PU other = (PU) object;
-        if ((this.getPuId() == null && other.getPuId() != null) || (this.getPuId() != null && !this.puId.equals(other.puId))) {
-            return false;
-        }
-        return true;
-    }
-
-    @Override
-    public String toString() {
-        return "entity.PU[ id=" + getPuId() + " ]";
-    }
-
-    /**
-     * @return the student
-     */
-    public Student getStudent() {
-        return student;
-    }
-
-    /**
-     * @param student the student to set
-     */
-    public void setStudent(Student student) {
-        this.student = student;
+    public void setStudents(List<Student> students) {
+        this.students = students;
     }
 
     /**
@@ -193,28 +156,6 @@ public class PU implements Serializable {
     public void setPuReviews(List<PUReview> puReviews) {
         this.puReviews = puReviews;
     }
-
-    /**
-     * @param name the name to set
-     */
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    /**
-     * @param description the description to set
-     */
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    /**
-     * @param images the images to set
-     */
-    public void setImages(String images) {
-        this.images = images;
-    }
-
 
     public String getCountryName() {
         return countryName;
@@ -255,5 +196,37 @@ public class PU implements Serializable {
         this.rating = rating;
     }
 
+    public List<Student> getStudentsLiked() {
+        return studentsLiked;
+    }
+
+    public void setStudentsLiked(List<Student> studentsLiked) {
+        this.studentsLiked = studentsLiked;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 0;
+        hash += (puId != null ? puId.hashCode() : 0);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object object) {
+        // TODO: Warning - this method won't work in the case the puId fields are not set
+        if (!(object instanceof PU)) {
+            return false;
+        }
+        PU other = (PU) object;
+        if ((this.puId == null && other.puId != null) || (this.puId != null && !this.puId.equals(other.puId))) {
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public String toString() {
+        return "entity.PU[ id=" + puId + " ]";
+    }
 
 }

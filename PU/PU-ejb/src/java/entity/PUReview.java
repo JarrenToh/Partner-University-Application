@@ -12,9 +12,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-<<<<<<< Updated upstream
-=======
->>>>>>> Stashed changes
+import javax.persistence.OneToOne;
 
 /**
  *
@@ -27,24 +25,24 @@ public class PUReview implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long puReviewId;
-    
+
     private Long rating;
     private String review;
     private Integer noOfLikes;
     private Integer noOfDislikes;
     private Boolean isInappropriate;
-    
+
     @ManyToOne
     @JoinColumn(nullable = false)
     private PU pu;
 
-<<<<<<< Updated upstream
-=======
+    @OneToOne
+    @JoinColumn(nullable = false)
+    private Student student;
 
->>>>>>> Stashed changes
     public PUReview() {
     }
-
+    
     public PUReview(Long rating, Long puReviewId) {
         this.puReviewId = puReviewId;
         this.rating = rating;
@@ -174,5 +172,18 @@ public class PUReview implements Serializable {
     public void setPu(PU pu) {
         this.pu = pu;
     }
-    
+
+    /**
+     * @return the student
+     */
+    public Student getStudent() {
+        return student;
+    }
+
+    /**
+     * @param student the student to set
+     */
+    public void setStudent(Student student) {
+        this.student = student;
+    }
 }

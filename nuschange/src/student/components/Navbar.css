@@ -8,4 +8,12 @@
 
 .navBrand {
     padding-left: 50px;
+    padding-right: 20px;
 }
+
+.logoutButton {
+    margin-left: 15px;
+    background-color: rgb(41, 101, 255);
+    border-color: rgb(41, 101, 255);
+}
+

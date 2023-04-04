@@ -56,12 +56,15 @@ import util.enumeration.UserGroupEnum;
 @Startup
 
 public class DataInitializationSessionBean {
-// hello
+
     @EJB
-    private CountrySessionBeanLocal countrySessionBean;
+    private PUReviewSessionBeanLocal pUReviewSessionBean1;
 
     @EJB
     private RegionSessionBeanLocal regionSessionBean;
+
+    @EJB
+    private CountrySessionBeanLocal countrySessionBean;
 
     @EJB(name = "ForumTopicSessionBeanLocal")
     private ForumTopicSessionBeanLocal forumTopicSessionBeanLocal;
@@ -81,7 +84,7 @@ public class DataInitializationSessionBean {
     @EJB
     private StudentSessionBeanLocal studentSessionBean;
 
-    @EJB
+    @EJB 
     private PUSessionBeanLocal pUSessionBean;
 
     @EJB
@@ -135,7 +138,7 @@ public class DataInitializationSessionBean {
         faqSessionBeanLocal.createFAQ(faq1, usa1.getAdminId());
         faqSessionBeanLocal.createFAQ(faq2, usa1.getAdminId());
         faqSessionBeanLocal.createFAQ(faq3, usa2.getAdminId());
-
+        
         Student student1 = new Student("Ben", "Leong", "90002040", "benleongrules@comp.nus.edu.sg", "password");
         Student student2 = new Student("Henry", "Chia", "90002040", "immutablepain@comp.nus.edu.sg", "password");
         Student student3 = new Student("Steven", "Halim", "90002040", "competitive@comp.nus.edu.sg", "password");
@@ -163,42 +166,7 @@ public class DataInitializationSessionBean {
         facultySessionBean.createFaculty(faculty1);
         facultySessionBean.createFaculty(faculty2);
         facultySessionBean.createFaculty(faculty3);
-
-        /*ForumTopic forumTopic1 = new ForumTopic("First Topic");
-        ForumTopic forumTopic2 = new ForumTopic("Second Topic");
-        ForumTopic forumTopic3 = new ForumTopic("Third Topic");
-        ForumTopic forumTopic4 = new ForumTopic("Fourth Topic");
-        ForumTopic forumTopic5 = new ForumTopic("Fifth Topic");
         
-        forumTopicSessionBeanLocal.createNewForumTopic(forumTopic1, student1.getStudentId());
-        forumTopicSessionBeanLocal.createNewForumTopic(forumTopic2, student2.getStudentId());
-        forumTopicSessionBeanLocal.createNewForumTopic(forumTopic3, student3.getStudentId());
-        forumTopicSessionBeanLocal.createNewForumTopic(forumTopic4, student1.getStudentId());
-        forumTopicSessionBeanLocal.createNewForumTopic(forumTopic5, student2.getStudentId());
-        
-        ForumPost forumPost1 = new ForumPost("Nice Food in Korea?", "I am going Korea!!");
-        ForumPost forumPost2 = new ForumPost("Nice Food in Hong Kong?", "I am going Hong Kong!!");
-        ForumPost forumPost3 = new ForumPost("Places to stay?", "I want to stay in Singapore");
-        
-        forumPostSessionBeanLocal.createNewForumPost(forumPost1, forumTopic2.getTopicId(), student1.getStudentId());
-        forumPostSessionBeanLocal.createNewForumPost(forumPost2, forumTopic2.getTopicId(), student3.getStudentId());
-        forumPostSessionBeanLocal.createNewForumPost(forumPost3, forumTopic1.getTopicId(), student2.getStudentId());
-        
-        ForumComment forumComment1 = new ForumComment("Wow nice choice to go Korea!");
-        ForumComment forumComment2 = new ForumComment("I recommend caifan");
-        ForumComment forumComment3 = new ForumComment("Marina Bay Sands!");
-        
-        forumCommentSessionBeanLocal.createNewForumComment(forumComment1, forumPost1.getPostId(), student3.getStudentId());
-        forumCommentSessionBeanLocal.createNewForumComment(forumComment2, forumPost2.getPostId(), student2.getStudentId());
-        forumCommentSessionBeanLocal.createNewForumComment(forumComment3, forumPost3.getPostId(), student1.getStudentId());*/
-//        Enquiry enquiry1 = new Enquiry("Hello", "Help");
-//        Enquiry enquiry2 = new Enquiry("Bye", "World");
-//        Enquiry enquiry3 = new Enquiry("Interesting", "Story");
-//
-//        studentEnquirySessionBeanLocal.createEnquiry(enquiry1, 1L);
-//        studentEnquirySessionBeanLocal.createEnquiry(enquiry2, 1L);
-//        studentEnquirySessionBeanLocal.createEnquiry(enquiry3, 2L);
-
         Region region1 = new Region("Africa");
         Region region2 = new Region("Europe");
         Region region3 = new Region("Asia");
@@ -280,31 +248,68 @@ public class DataInitializationSessionBean {
         PUReview puReview24 = new PUReview(new Long(5), pId5);
         PUReview puReview25 = new PUReview(new Long(5), pId5);
         
-        pUReviewSessionBean.createPUReview(puReview1, pId1);
-        pUReviewSessionBean.createPUReview(puReview2, pId1);
-        pUReviewSessionBean.createPUReview(puReview3, pId1);
-        pUReviewSessionBean.createPUReview(puReview4, pId1);
-        pUReviewSessionBean.createPUReview(puReview5, pId1);
-        pUReviewSessionBean.createPUReview(puReview6, pId2);
-        pUReviewSessionBean.createPUReview(puReview7, pId2);
-        pUReviewSessionBean.createPUReview(puReview8, pId2);
-        pUReviewSessionBean.createPUReview(puReview9, pId2);
-        pUReviewSessionBean.createPUReview(puReview10, pId2);
-        pUReviewSessionBean.createPUReview(puReview11, pId3);
-        pUReviewSessionBean.createPUReview(puReview12, pId3);
-        pUReviewSessionBean.createPUReview(puReview13, pId3);
-        pUReviewSessionBean.createPUReview(puReview14, pId3);
-        pUReviewSessionBean.createPUReview(puReview15, pId3);
-        pUReviewSessionBean.createPUReview(puReview16, pId4);
-        pUReviewSessionBean.createPUReview(puReview17, pId4);
-        pUReviewSessionBean.createPUReview(puReview18, pId4);
-        pUReviewSessionBean.createPUReview(puReview19, pId4);
-        pUReviewSessionBean.createPUReview(puReview20, pId4);
-        pUReviewSessionBean.createPUReview(puReview21, pId5);
-        pUReviewSessionBean.createPUReview(puReview22, pId5);
-        pUReviewSessionBean.createPUReview(puReview23, pId5);
-        pUReviewSessionBean.createPUReview(puReview24, pId5);
-        pUReviewSessionBean.createPUReview(puReview25, pId5);
+        pUReviewSessionBean.createPUReview(puReview1, pId1, 1l);
+        pUReviewSessionBean.createPUReview(puReview2, pId1, 2l);
+        pUReviewSessionBean.createPUReview(puReview3, pId1, 3l);
+//        pUReviewSessionBean.createPUReview(puReview4, pId1, 1l);
+//        pUReviewSessionBean.createPUReview(puReview5, pId1, 1l);
+//        pUReviewSessionBean.createPUReview(puReview6, pId2, 1l);
+//        pUReviewSessionBean.createPUReview(puReview7, pId2, 1l);
+//        pUReviewSessionBean.createPUReview(puReview8, pId2, 1l);
+//        pUReviewSessionBean.createPUReview(puReview9, pId2, 1l);
+//        pUReviewSessionBean.createPUReview(puReview10, pId2, 1l);
+//        pUReviewSessionBean.createPUReview(puReview11, pId3, 1l);
+//        pUReviewSessionBean.createPUReview(puReview12, pId3, 1l);
+//        pUReviewSessionBean.createPUReview(puReview13, pId3, 1l);
+//        pUReviewSessionBean.createPUReview(puReview14, pId3, 1l);
+//        pUReviewSessionBean.createPUReview(puReview15, pId3, 1l);
+//        pUReviewSessionBean.createPUReview(puReview16, pId4, 1l);
+//        pUReviewSessionBean.createPUReview(puReview17, pId4, 1l);
+//        pUReviewSessionBean.createPUReview(puReview18, pId4, 1l);
+//        pUReviewSessionBean.createPUReview(puReview19, pId4, 1l);
+//        pUReviewSessionBean.createPUReview(puReview20, pId4);
+//        pUReviewSessionBean.createPUReview(puReview21, pId5);
+//        pUReviewSessionBean.createPUReview(puReview22, pId5);
+//        pUReviewSessionBean.createPUReview(puReview23, pId5);
+//        pUReviewSessionBean.createPUReview(puReview24, pId5);
+//        pUReviewSessionBean.createPUReview(puReview25, pId5);
+        
+        /*ForumTopic forumTopic1 = new ForumTopic("First Topic");
+        ForumTopic forumTopic2 = new ForumTopic("Second Topic");
+        ForumTopic forumTopic3 = new ForumTopic("Third Topic");
+        ForumTopic forumTopic4 = new ForumTopic("Fourth Topic");
+        ForumTopic forumTopic5 = new ForumTopic("Fifth Topic");
+        
+        forumTopicSessionBeanLocal.createNewForumTopic(forumTopic1, student1.getStudentId());
+        forumTopicSessionBeanLocal.createNewForumTopic(forumTopic2, student2.getStudentId());
+        forumTopicSessionBeanLocal.createNewForumTopic(forumTopic3, student3.getStudentId());
+        forumTopicSessionBeanLocal.createNewForumTopic(forumTopic4, student1.getStudentId());
+        forumTopicSessionBeanLocal.createNewForumTopic(forumTopic5, student2.getStudentId());
+        
+        ForumPost forumPost1 = new ForumPost("Nice Food in Korea?", "I am going Korea!!");
+        ForumPost forumPost2 = new ForumPost("Nice Food in Hong Kong?", "I am going Hong Kong!!");
+        ForumPost forumPost3 = new ForumPost("Places to stay?", "I want to stay in Singapore");
+        
+        forumPostSessionBeanLocal.createNewForumPost(forumPost1, forumTopic2.getTopicId(), student1.getStudentId());
+        forumPostSessionBeanLocal.createNewForumPost(forumPost2, forumTopic2.getTopicId(), student3.getStudentId());
+        forumPostSessionBeanLocal.createNewForumPost(forumPost3, forumTopic1.getTopicId(), student2.getStudentId());
+        
+        ForumComment forumComment1 = new ForumComment("Wow nice choice to go Korea!");
+        ForumComment forumComment2 = new ForumComment("I recommend caifan");
+        ForumComment forumComment3 = new ForumComment("Marina Bay Sands!");
+        
+        forumCommentSessionBeanLocal.createNewForumComment(forumComment1, forumPost1.getPostId(), student3.getStudentId());
+        forumCommentSessionBeanLocal.createNewForumComment(forumComment2, forumPost2.getPostId(), student2.getStudentId());
+        forumCommentSessionBeanLocal.createNewForumComment(forumComment3, forumPost3.getPostId(), student1.getStudentId());*/
+
+//        Enquiry enquiry1 = new Enquiry("Hello", "Help");
+//        Enquiry enquiry2 = new Enquiry("Bye", "World");
+//        Enquiry enquiry3 = new Enquiry("Interesting", "Story");
+//
+//        studentEnquirySessionBeanLocal.createEnquiry(enquiry1, 1L);
+//        studentEnquirySessionBeanLocal.createEnquiry(enquiry2, 1L);
+//        studentEnquirySessionBeanLocal.createEnquiry(enquiry3, 2L);
+
     }
 
     private void createData() throws NoResultException {
@@ -324,9 +329,9 @@ public class DataInitializationSessionBean {
         PUReview pUReview2 = new PUReview(2L, "Meh", 3, 10, false);
         PUReview pUReview3 = new PUReview(3L, "Meh", 4, 20, true);
 
-        pUReviewSessionBean.createPUReview(pUReview1, 1L);
-        pUReviewSessionBean.createPUReview(pUReview2, 1L);
-        pUReviewSessionBean.createPUReview(pUReview3, 1L);
+//        pUReviewSessionBean.createPUReview(pUReview1, 1L);
+//        pUReviewSessionBean.createPUReview(pUReview2, 1L);
+//        pUReviewSessionBean.createPUReview(pUReview3, 1L);
     }
 
 }

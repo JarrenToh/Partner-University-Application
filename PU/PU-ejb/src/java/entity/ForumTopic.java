@@ -52,8 +52,24 @@ public class ForumTopic implements Serializable {
     @JsonbTransient
     private Student student;
     
+    @Column(nullable = false)
+    private Long studentId;
+    
+    @Column(nullable = false)
+    private String studentFirstName;
+    
+    @Column(nullable = false)
+    private String studentLastName;
+    
+    @Column(nullable = false)
+    private Boolean isEdited;
+    
+    @Column(nullable = true)
+    private LocalDateTime lastEdit;
+    
     public ForumTopic() {
-        
+        this.timeOfCreation = LocalDateTime.now();
+        this.forumPosts = new ArrayList();
     }
 
     public ForumTopic(String topicName) {
@@ -61,6 +77,7 @@ public class ForumTopic implements Serializable {
         this.isInappropriate = false;
         this.timeOfCreation = LocalDateTime.now();
         this.forumPosts = new ArrayList();
+        this.isEdited = false;
     }
 
     public Long getTopicId() {
@@ -165,6 +182,76 @@ public class ForumTopic implements Serializable {
      */
     public void setTimeOfCreation(LocalDateTime timeOfCreation) {
         this.timeOfCreation = timeOfCreation;
+    }
+    
+    /**
+     * @return the studentId
+     */
+    public Long getStudentId() {
+        return studentId;
+    }
+
+    /**
+     * @param studentId the studentId to set
+     */
+    public void setStudentId(Long studentId) {
+        this.studentId = studentId;
+    }
+    
+    /**
+     * @return the studentFirstName
+     */
+    public String getStudentFirstName() {
+        return studentFirstName;
+    }
+
+    /**
+     * @param studentFirstName the studentFirstName to set
+     */
+    public void setStudentFirstName(String studentFirstName) {
+        this.studentFirstName = studentFirstName;
+    }
+
+    /**
+     * @return the studentLastName
+     */
+    public String getStudentLastName() {
+        return studentLastName;
+    }
+
+    /**
+     * @param studentLastName the studentLastName to set
+     */
+    public void setStudentLastName(String studentLastName) {
+        this.studentLastName = studentLastName;
+    }    
+    
+    /**
+     * @return the isEdited
+     */
+    public Boolean getIsEdited() {
+        return isEdited;
+    }
+
+    /**
+     * @param isEdited the isEdited to set
+     */
+    public void setIsEdited(Boolean isEdited) {
+        this.isEdited = isEdited;
+    }
+
+    /**
+     * @return the lastEdit
+     */
+    public LocalDateTime getLastEdit() {
+        return lastEdit;
+    }
+
+    /**
+     * @param lastEdit the lastEdit to set
+     */
+    public void setLastEdit(LocalDateTime lastEdit) {
+        this.lastEdit = lastEdit;
     }
 
 }

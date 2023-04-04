@@ -6,6 +6,7 @@
 package entity;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -27,28 +28,30 @@ public class PUModule implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long moduleId;
-    
+
     private String code;
 
-    public PUModule(String code, String description) {
-        this.code = code;
-        this.description = description;
-    }
     private String description;
     
-    @ManyToOne
-    private PUModuleReview moduleReviews;
-    
-    
+    @OneToMany(mappedBy = "module")
+    private List<PUModuleReview> moduleReviews;
+
+
     @ManyToMany
     @JoinColumn(nullable = true)
     private List<NUSModule> mappableModules;
-    
+
     @ManyToOne
     private PU pu;
-    
 
     public PUModule() {
+        mappableModules = new ArrayList<>();
+    }
+
+    public PUModule(String code, String description) {
+        this();
+        this.code = code;
+        this.description = description;
     }
 
     public Long getModuleId() {
@@ -115,14 +118,14 @@ public class PUModule implements Serializable {
     /**
      * @return the moduleReviews
      */
-    public PUModuleReview getModuleReviews() {
+    public List<PUModuleReview> getModuleReviews() {
         return moduleReviews;
     }
 
     /**
      * @param moduleReviews the moduleReviews to set
      */
-    public void setModuleReviews(PUModuleReview moduleReviews) {
+    public void setModuleReviews(List<PUModuleReview> moduleReviews) {
         this.moduleReviews = moduleReviews;
     }
 
@@ -153,5 +156,5 @@ public class PUModule implements Serializable {
     public void setPu(PU pu) {
         this.pu = pu;
     }
-    
+
 }

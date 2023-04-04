@@ -14,7 +14,9 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 
 /**
  *
@@ -27,17 +29,21 @@ public class NUSModule implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long moduleId;
-    
+
     private String code;
     private String description;
-    
+
     //Add in mapping to PUModule   
-    @ManyToMany(mappedBy="mappableModules", cascade = {CascadeType.ALL}, fetch = FetchType.EAGER)
+    @ManyToMany(mappedBy = "mappableModules", fetch = FetchType.EAGER)
     private List<PUModule> puModules;
+    
+    @ManyToOne
+    @JoinColumn(nullable = false)
+    private Faculty faculty;
 
     public NUSModule() {
-        
-       puModules = new ArrayList<>();
+
+        puModules = new ArrayList<>();
     }
 
     public NUSModule(String code, String description) {
@@ -45,9 +51,7 @@ public class NUSModule implements Serializable {
         this.code = code;
         this.description = description;
     }
-    
-    
-    
+
     public Long getModuleId() {
         return moduleId;
     }
@@ -122,5 +126,19 @@ public class NUSModule implements Serializable {
     public void setPuModules(List<PUModule> puModules) {
         this.puModules = puModules;
     }
-    
+
+    /**
+     * @return the faculty
+     */
+    public Faculty getFaculty() {
+        return faculty;
+    }
+
+    /**
+     * @param faculty the faculty to set
+     */
+    public void setFaculty(Faculty faculty) {
+        this.faculty = faculty;
+    }
+
 }

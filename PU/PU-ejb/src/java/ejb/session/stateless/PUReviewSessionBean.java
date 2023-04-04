@@ -7,6 +7,7 @@ package ejb.session.stateless;
 
 import entity.PU;
 import entity.PUReview;
+import entity.Student;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -25,14 +26,15 @@ public class PUReviewSessionBean implements PUReviewSessionBeanLocal {
 
     //CREATE
     @Override
-    public Long createPUReview(PUReview review, Long puId) {
+    public Long createPUReview(PUReview review, Long puId, Long studentId) {
         PU pu = em.find(PU.class, puId);
-        //Link pu to puReview   
+        Student student = em.find(Student.class, studentId);
+        review.setStudent(student);
+        student.setPuReview(review);
+        //Link pu to puReview
+        em.persist(review);
         review.setPu(pu);
         pu.getPuReviews().add(review);
-        em.persist(review);
-        em.flush();
-
         return review.getPuReviewId();
     }
 
@@ -70,12 +72,11 @@ public class PUReviewSessionBean implements PUReviewSessionBeanLocal {
     //DELETE
     @Override
     public Long deletePUReview(PUReview review) {
-        em.remove(review);
-        PUReview p = em.find(PUReview.class, review.getPuReviewId());
-        em.remove(p);
+        PUReview r = em.find(PUReview.class, review.getPuReviewId());
+        em.remove(r);
         return review.getPuReviewId();
     }
-
+    
     @Override
     public Double retrieveRating(Long puId) {
         Query q = em.createQuery("SELECT r FROM PUReview r WHERE r.pu.puId = :p");

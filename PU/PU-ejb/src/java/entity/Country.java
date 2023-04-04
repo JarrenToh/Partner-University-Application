@@ -27,13 +27,18 @@ public class Country implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long countryId;
-
-    public Country() {
-    }
     
     @Column (nullable = false, unique = true)
     @NotNull
     private String name;
+
+    public Country() {
+    }
+    
+    public Country(String name, Region region) {
+        this.name = name;
+        this.region = region;
+    }
     
     //relationship attributes
     @ManyToOne
@@ -44,11 +49,6 @@ public class Country implements Serializable {
 
     public Long getCountryId() {
         return countryId;
-    }
-
-    public Country(String name, Region region) {
-        this.name = name;
-        this.region = region;
     }
 
     public void setCountryId(Long countryId) {
@@ -71,7 +71,6 @@ public class Country implements Serializable {
         this.region = region;
     }
 
-
     public List<PU> getPus() {
         return pus;
     }
@@ -90,7 +89,6 @@ public class Country implements Serializable {
         hash += (countryId != null ? countryId.hashCode() : 0);
         return hash;
     }
-
 
     @Override
     public boolean equals(Object object) {
