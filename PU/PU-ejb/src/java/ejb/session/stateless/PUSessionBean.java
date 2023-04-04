@@ -53,7 +53,7 @@ public class PUSessionBean implements PUSessionBeanLocal {
         em.flush();
         return newPu.getPuId();
     }
-    
+        
     @Override
     public List<PU> retrieveAllPus() {
 //        Query query = em.createQuery("SELECT p FROM PU p");

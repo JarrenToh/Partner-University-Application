@@ -54,7 +54,6 @@ const App = () => {
   const searchPUs = async (title) => {
     const response = await fetch(`${API_URL}`);
     const data = await response.json();
-    console.log(data);
     setPUs(data);
   };
 
@@ -95,9 +94,9 @@ const App = () => {
           <Routes>
             <Route path="/login" element={<Login />} />
             <Route path="/main" element={<Main />} />
-            <Route path="/createFaq" element={<CreateFAQ />} />
             <Route path="/faqs" element={<FAQs />} />
             <Route path="/faqs/:id" element={<FAQDetails />} />
+            <Route path="/faqs/createFaq" element={<CreateFAQ />} />
             <Route path="/enquiries" element={<Enquiry />} />
             <Route path="/enquiries/assigned" element={<Enquiry adminId={1} />} />
             <Route path="/enquiries/:id" element={<EnquiryDetails />} />

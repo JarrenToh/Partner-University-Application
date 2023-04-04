@@ -61,6 +61,7 @@ const PUDetails = () => {
                 console.error(error);
             }
         };
+        
         fetchData();
     }, [id]);
 

@@ -5,7 +5,9 @@
  */
 package webservices.restful.student;
 
+import ejb.session.stateless.CountrySessionBeanLocal;
 import ejb.session.stateless.PUSessionBeanLocal;
+import entity.Country;
 import entity.PU;
 import java.util.List;
 import javax.ejb.EJB;
@@ -37,6 +39,9 @@ public class PUResource {
 
     @EJB
     private PUSessionBeanLocal pUSessionBeanLocal;
+    
+    @EJB
+    private CountrySessionBeanLocal countrySessionBeanLocal;
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
@@ -94,7 +99,30 @@ public class PUResource {
         pUSessionBeanLocal.createNewPu(pu);
         return pu;
     }
-    
+
+    @POST
+    @Path("/createPUWithCountry")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response createPUWithCountry(PUUpdateRequest puUpdateRequest) {
+
+        String name = puUpdateRequest.getName();
+        String description = puUpdateRequest.getDescription();
+        String images = puUpdateRequest.getImages();
+        Long countryId = puUpdateRequest.getCountryId();
+        
+        Country country = countrySessionBeanLocal.retrieveCountryById(countryId);
+
+        PU pu = new PU();
+        pu.setName(name);
+        pu.setDescription(description);
+        pu.setImages(images);
+        pu.setCountry(country);
+
+        pUSessionBeanLocal.createNewPu(pu);
+        return Response.status(Response.Status.CREATED).entity(pu).build();
+    }
+
     @DELETE
     @Path("/{id}")
     @Produces(MediaType.APPLICATION_JSON)
@@ -115,8 +143,8 @@ public class PUResource {
     @Path("/{id}")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response editPU(@PathParam("id") Long puId, 
-                            PUUpdateRequest puUpdateRequest) {
+    public Response editPU(@PathParam("id") Long puId,
+            PUUpdateRequest puUpdateRequest) {
         try {
             String name = puUpdateRequest.getName();
             String description = puUpdateRequest.getDescription();

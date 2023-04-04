@@ -13,6 +13,7 @@ public class PUUpdateRequest {
     private String name;
     private String description;
     private String images;
+    private Long countryId;
 
     public String getName() {
         return name;
@@ -36,6 +37,14 @@ public class PUUpdateRequest {
 
     public void setImages(String images) {
         this.images = images;
+    }
+    
+    public Long getCountryId() {
+        return countryId;
+    }
+    
+    public void setCountryId(Long countryId) {
+        this.countryId = countryId;
     }
     
     
