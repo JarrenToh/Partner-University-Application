@@ -59,11 +59,6 @@ public class Student implements Serializable {
     @OneToMany(mappedBy = "students")
     private List<PUModuleReview> moduleReviews;
     
-
-    @ManyToOne
-    private PU likedPUs;
-    
-
     @ManyToOne
     @JoinColumn(nullable = true)
     private PU puEnrolled;
@@ -76,9 +71,6 @@ public class Student implements Serializable {
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "student")
     private List<ForumComment> comments;
-    
-    @ManyToOne
-    private PUModule modulesTaken;
 
     @OneToMany
     private List<PUModule> modulesTaken;
@@ -259,7 +251,6 @@ public class Student implements Serializable {
     /**
      * @return the enquiries
      */
-    @XmlTransient
     public List<Enquiry> getEnquiries() {
         return enquiries;
     }
@@ -302,8 +293,6 @@ public class Student implements Serializable {
     /**
      * @return the modulesTaken
      */
-    public PUModule getModulesTaken() {
-
     public List<PUModule> getModulesTaken() {
         return modulesTaken;
     }
@@ -318,7 +307,6 @@ public class Student implements Serializable {
     /**
      * @return the posts
      */
-    @XmlTransient
     public List<ForumPost> getPosts() {
         return posts;
     }
@@ -333,7 +321,6 @@ public class Student implements Serializable {
     /**
      * @return the topics
      */
-    @XmlTransient
     public List<ForumTopic> getTopics() {
         return topics;
     }
@@ -348,7 +335,6 @@ public class Student implements Serializable {
     /**
      * @return the comments
      */
-    @XmlTransient
     public List<ForumComment> getComments() {
         return comments;
     }
@@ -387,5 +373,4 @@ public class Student implements Serializable {
     public void setModuleReviews(List<PUModuleReview> moduleReviews) {
         this.moduleReviews = moduleReviews;
     }
-
 }
