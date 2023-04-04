@@ -12,10 +12,16 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import java.util.List;
+<<<<<<< Updated upstream
+=======
+>>>>>>> Stashed changes
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+<<<<<<< Updated upstream
+=======
+>>>>>>> Stashed changes
 
 
 /**
@@ -56,9 +62,13 @@ public class Student implements Serializable {
     @JoinColumn(nullable = true)
     private PUModule puEnrolled;
     
+<<<<<<< Updated upstream
     @ManyToOne
     private PU likedPUs;
     
+=======
+
+>>>>>>> Stashed changes
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "student")
     private List<ForumPost> posts;
     
@@ -67,9 +77,12 @@ public class Student implements Serializable {
     
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "student")
     private List<ForumComment> comments;
+<<<<<<< Updated upstream
     
     @ManyToOne
     private PUModule modulesTaken;
+=======
+>>>>>>> Stashed changes
 
     public Long getStudentId() {
         return studentId;
@@ -227,6 +240,7 @@ public class Student implements Serializable {
     /**
      * @return the enquiries
      */
+    @XmlTransient
     public List<Enquiry> getEnquiries() {
         return enquiries;
     }
@@ -269,7 +283,10 @@ public class Student implements Serializable {
     /**
      * @return the modulesTaken
      */
+<<<<<<< Updated upstream
     public PUModule getModulesTaken() {
+=======
+>>>>>>> Stashed changes
         return modulesTaken;
     }
 
@@ -284,6 +301,7 @@ public class Student implements Serializable {
     /**
      * @return the posts
      */
+    @XmlTransient
     public List<ForumPost> getPosts() {
         return posts;
     }
@@ -298,6 +316,7 @@ public class Student implements Serializable {
     /**
      * @return the topics
      */
+    @XmlTransient
     public List<ForumTopic> getTopics() {
         return topics;
     }
@@ -312,6 +331,7 @@ public class Student implements Serializable {
     /**
      * @return the comments
      */
+    @XmlTransient
     public List<ForumComment> getComments() {
         return comments;
     }
@@ -322,5 +342,8 @@ public class Student implements Serializable {
     public void setComments(List<ForumComment> comments) {
         this.comments = comments;
     }
+<<<<<<< Updated upstream
     
+=======
+>>>>>>> Stashed changes
 }
