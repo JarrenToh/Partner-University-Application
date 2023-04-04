@@ -15,8 +15,8 @@ const PartnerUuniversity = () => {
     const [showAll, setShowAll] = useState(true);
     const navigate = useNavigate();
 
-    const handleButtonClick = (faqId) => {
-        navigate(`/faqs/${faqId}`);
+    const handleButtonClick = (puId) => {
+        navigate(`/partnerUniversities/${puId}`);
     };
 
     useEffect(() => {
@@ -65,7 +65,7 @@ const PartnerUuniversity = () => {
                                         <td>{item.name}</td>
                                         <td>{item.description}</td>
                                         <td>
-                                            <button onClick={() => handleButtonClick(item.faqId)} type="button" className="btn btn-primary">View Details</button>
+                                            <button onClick={() => handleButtonClick(item.puId)} type="button" className="btn btn-primary">View Details</button>
                                         </td>
                                     </tr>
                                 ))}

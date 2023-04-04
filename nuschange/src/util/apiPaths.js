@@ -4,6 +4,7 @@ const apiPaths = {
     listOfFaqs: `${path}/admin/faqs`,
     listOfEnquiries: `${path}/admin/enquiries`,
     listOfPUs: `${path}/pu`,
+    individualPU: `${path}/getPUById`,
 
     getPUbyName(puName) {
         return fetch('${path}/pugetPUByName/${puName}');
