@@ -16,11 +16,15 @@ import javax.enterprise.context.RequestScoped;
 import javax.json.Json;
 import javax.json.JsonObject;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.core.GenericEntity;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import util.enumeration.StatusName;
+import util.formRequestEntity.PUUpdateRequest;
 
 /**
  * REST Web Service
@@ -89,6 +93,45 @@ public class PUResource {
     public PU createPU(PU pu) {
         pUSessionBeanLocal.createNewPu(pu);
         return pu;
+    }
+    
+    @DELETE
+    @Path("/{id}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response deletePU(@PathParam("id") Long puId) {
+        try {
+            pUSessionBeanLocal.deletePU(puId);
+            return Response.status(StatusName.NO_CONTENT.getCode()).build();
+        } catch (Exception ex) {
+            JsonObject exception = Json.createObjectBuilder()
+                    .add("error", "PU not found")
+                    .build();
+
+            return Response.status(StatusName.NOT_FOUND.getCode()).entity(exception).build();
+        }
+    }
+
+    @PUT
+    @Path("/{id}")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response editPU(@PathParam("id") Long puId, 
+                            PUUpdateRequest puUpdateRequest) {
+        try {
+            String name = puUpdateRequest.getName();
+            String description = puUpdateRequest.getDescription();
+            String images = puUpdateRequest.getImages();
+
+            pUSessionBeanLocal.updatePU(puId, name, description, images);
+            return Response.status(204).build();
+        } catch (Exception e) {
+            JsonObject exception = Json.createObjectBuilder()
+                    .add("error", "Not found")
+                    .build();
+
+            return Response.status(StatusName.NOT_FOUND.getCode()).entity(exception)
+                    .type(MediaType.APPLICATION_JSON).build();
+        }
     }
 
 }

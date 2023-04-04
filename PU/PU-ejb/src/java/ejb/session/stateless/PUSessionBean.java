@@ -7,7 +7,6 @@ package ejb.session.stateless;
 
 import entity.Country;
 import entity.PU;
-import entity.Region;
 import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.EJB;
@@ -105,6 +104,21 @@ public class PUSessionBean implements PUSessionBeanLocal {
         );
         query.setParameter("puName", puName.toLowerCase());
         return query.getResultList();
+    }
+    
+    @Override
+    public void updatePU(Long puId, String name, String description, String images) {
+        PU pu = retrievePuById(puId);
+        
+        pu.setName(name);
+        pu.setDescription(description);
+        pu.setImages(images);
+    }
+    
+    @Override
+    public void deletePU(Long puId) {
+        PU deletedPU = retrievePuById(puId);
+        em.remove(deletedPU);
     }
 
 }
