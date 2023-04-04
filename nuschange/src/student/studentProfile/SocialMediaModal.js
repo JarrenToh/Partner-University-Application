@@ -1,5 +1,5 @@
 import React, { useEffect, useContext, useState } from "react";
-import { Modal, Button, Form, InputGroup } from "react-bootstrap";
+import { Modal, Button, Form, InputGroup, Col } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
 
@@ -14,8 +14,8 @@ const SocialMediaModal = (props) => {
   const [saveButtonDisabled, setSaveButtonDisabled] = useState(true);
 
   useEffect(() => {
-    //setSocialMedia(props.socialMedia);
-  }, [socialMedia]);
+    setSocialMedia(props.socialMedia);
+  }, [props.socialMedia]);
 
   const getStudentAPI = async (studentId) => {
     const response = await fetch(`${API_URL_STUDENT}/${studentId}`);
@@ -74,17 +74,22 @@ const SocialMediaModal = (props) => {
         <div>
           {socialMedia.length > 0 &&
             socialMedia.map((field, idx) => (
-              <div style={{ paddingBottom: "5%" }} key={idx}>
-                <InputGroup>
-                  <Form.Control
-                    placeholder={`Social Media Link ${idx + 1}`}
-                    value={field}
-                    onChange={(e) => handleChange(idx, e)}
-                  />
-                  <Button variant="danger" onClick={() => handleRemove(idx)}>
-                    <FontAwesomeIcon icon={faTrash} />
-                  </Button>
-                </InputGroup>
+              <div style={{ paddingBottom: "2.5%" }} key={idx}>
+                <Form.Label column sm={2}>
+                  {`Link ${idx + 1}`}
+                </Form.Label>
+                <Col sm={10}>
+                  <InputGroup>
+                    <Form.Control
+                      placeholder={`Social Media Link ${idx + 1}`}
+                      value={field}
+                      onChange={(e) => handleChange(idx, e)}
+                    />
+                    <Button variant="danger" onClick={() => handleRemove(idx)}>
+                      <FontAwesomeIcon icon={faTrash} />
+                    </Button>
+                  </InputGroup>
+                </Col>
               </div>
             ))}
           {socialMedia.length == 0 && (

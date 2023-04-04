@@ -31,6 +31,7 @@ import {
   faHeart,
 } from "@fortawesome/free-solid-svg-icons";
 import SocialMediaModal from "./SocialMediaModal";
+import IconSocialMedia from "./IconSocialMedia";
 
 const StudentProfile = () => {
   const { loggedInStudent } = useContext(AuthContext);
@@ -94,7 +95,7 @@ const StudentProfile = () => {
 
   const handleSocialMediaChange = (newSocialMedia) => {
     setSocialMedia(newSocialMedia);
-  }
+  };
 
   const navToLikedPUs = () => {
     navigate("/profile/likedPus");
@@ -125,25 +126,22 @@ const StudentProfile = () => {
                 {socialMedia != null &&
                   socialMedia.map((link) => (
                     <ListGroupItem>
-                    <a href={`https://${link}`} target="_blank" rel="noopener noreferrer">{link}</a>
-                  </ListGroupItem>
+                      <IconSocialMedia linkType = {link}/> {"   "}
+                      <a
+                        href={`https://${link}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        {link}
+                      </a>
+                    </ListGroupItem>
                   ))}
 
                 {socialMedia.length == 0 && (
-                  <ListGroupItem>Loading Social Media Links....</ListGroupItem>
+                  <ListGroupItem>
+                    You do not have any social media links. Add them now!
+                  </ListGroupItem>
                 )}
-                <ListGroupItem>
-                  <FontAwesomeIcon icon={faLinkedin} size="xl" />
-                </ListGroupItem>
-                <ListGroupItem>
-                  <FontAwesomeIcon icon={faTelegram} size="xl" />
-                </ListGroupItem>
-                <ListGroupItem>
-                  <FontAwesomeIcon icon={faInstagram} size="xl" />
-                </ListGroupItem>
-                <ListGroupItem>
-                  <FontAwesomeIcon icon={faGithub} size="xl" />
-                </ListGroupItem>
               </ListGroup>
               <Card.Footer style={{ textAlign: "center" }}>
                 <Button
