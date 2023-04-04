@@ -211,6 +211,7 @@ public class ForumPost implements Serializable {
     /**
      * @return the forumTopic
      */
+    @JsonbTransient
     public ForumTopic getForumTopic() {
         return forumTopic;
     }

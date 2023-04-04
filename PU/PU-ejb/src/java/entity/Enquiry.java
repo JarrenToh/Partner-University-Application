@@ -159,6 +159,7 @@ public class Enquiry implements Serializable {
     /**
      * @return the student
      */
+    @JsonbTransient
     public Student getStudent() {
         return student;
     }

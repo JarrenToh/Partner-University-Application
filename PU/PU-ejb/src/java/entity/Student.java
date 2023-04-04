@@ -13,7 +13,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import java.util.List;
-import javax.persistence.CascadeType;
+import javax.json.bind.annotation.JsonbTransient;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
@@ -265,6 +265,7 @@ public class Student implements Serializable {
     /**
      * @return the puEnrolled
      */
+    @JsonbTransient
     public PU getPuEnrolled() {
         return puEnrolled;
     }

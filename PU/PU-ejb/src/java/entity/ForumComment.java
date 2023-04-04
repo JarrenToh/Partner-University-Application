@@ -192,6 +192,7 @@ public class ForumComment implements Serializable {
     /**
      * @return the forumPost
      */
+    @JsonbTransient
     public ForumPost getForumPost() {
         return forumPost;
     }

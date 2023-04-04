@@ -6,6 +6,7 @@
 package entity;
 
 import java.io.Serializable;
+import javax.json.bind.annotation.JsonbTransient;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -13,6 +14,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -162,6 +164,7 @@ public class PUReview implements Serializable {
     /**
      * @return the pu
      */
+    @JsonbTransient
     public PU getPu() {
         return pu;
     }
@@ -176,6 +179,7 @@ public class PUReview implements Serializable {
     /**
      * @return the student
      */
+    @JsonbTransient
     public Student getStudent() {
         return student;
     }

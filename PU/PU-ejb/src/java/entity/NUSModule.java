@@ -8,7 +8,7 @@ package entity;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import javax.persistence.CascadeType;
+import javax.json.bind.annotation.JsonbTransient;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -130,6 +130,7 @@ public class NUSModule implements Serializable {
     /**
      * @return the faculty
      */
+    @JsonbTransient
     public Faculty getFaculty() {
         return faculty;
     }

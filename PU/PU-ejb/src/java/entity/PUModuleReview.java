@@ -6,6 +6,7 @@
 package entity;
 
 import java.io.Serializable;
+import javax.json.bind.annotation.JsonbTransient;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -157,6 +158,7 @@ public class PUModuleReview implements Serializable {
     /**
      * @return the module
      */
+    @JsonbTransient
     public PUModule getModule() {
         return module;
     }
@@ -171,6 +173,7 @@ public class PUModuleReview implements Serializable {
     /**
      * @return the students
      */
+    @JsonbTransient
     public Student getStudents() {
         return students;
     }

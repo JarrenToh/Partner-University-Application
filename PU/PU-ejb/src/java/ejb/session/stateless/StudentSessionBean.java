@@ -56,7 +56,8 @@ public class StudentSessionBean implements StudentSessionBeanLocal {
     @Override
     public List<Student> retrieveAllStudents() {
         Query query = em.createQuery("SELECT s FROM Student s");
-        return query.getResultList();
+        List<Student> students = query.getResultList();
+        return students;
     }
 
     @Override
