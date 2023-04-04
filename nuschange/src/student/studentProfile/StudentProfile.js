@@ -1,7 +1,7 @@
 import React from "react";
-import { createContext, useContext, useState, useEffect } from "react";
+import { useContext, useState, useEffect } from "react";
 import { AuthContext } from "../login/AuthContext";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 import {
   Image,
@@ -19,17 +19,12 @@ import ReviewModal from "./ReviewModal";
 // Icon imports
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-  faLinkedin,
-  faLinkedinIn,
-  faTelegram,
-  faInstagram,
-  faGithub,
-} from "@fortawesome/free-brands-svg-icons";
-import {
   faPenToSquare,
   faPen,
   faHeart,
+  faChevronRight,
 } from "@fortawesome/free-solid-svg-icons";
+
 import SocialMediaModal from "./SocialMediaModal";
 import IconSocialMedia from "./IconSocialMedia";
 
@@ -75,15 +70,22 @@ const StudentProfile = () => {
 
     if (isEnrolled) {
       return (
-        <InputGroup>
-          <Form.Control
-            readOnly
-            defaultValue={loggedInStudent.partnerUniversity}
-          />
-          <Button onClick={() => setReviewModalShow(true)}>
-            <FontAwesomeIcon icon={faPenToSquare} /> Add Review
+        <div>
+          <InputGroup>
+            <Form.Control
+              readOnly
+              defaultValue={loggedInStudent.partnerUniversity}
+            />
+            <Button onClick={() => setReviewModalShow(true)}>
+              <FontAwesomeIcon icon={faPenToSquare} /> Add Review
+            </Button>
+          </InputGroup>
+
+          <Button variant="link" onClick={navToModulesTaken}>
+            View Modules Taken {"  "}
+            <FontAwesomeIcon icon={faChevronRight} size="2xs" />
           </Button>
-        </InputGroup>
+        </div>
       );
     } else {
       return (
@@ -100,6 +102,10 @@ const StudentProfile = () => {
 
   const navToLikedPUs = () => {
     navigate("/profile/likedPus");
+  };
+
+  const navToModulesTaken = () => {
+    navigate("/profile/modulesTaken");
   };
 
   return (
@@ -127,7 +133,7 @@ const StudentProfile = () => {
                 {socialMedia != null &&
                   socialMedia.map((link) => (
                     <ListGroupItem>
-                      <IconSocialMedia linkType = {link}/> {"   "}
+                      <IconSocialMedia linkType={link} /> {"   "}
                       <a
                         href={`https://${link}`}
                         target="_blank"
@@ -150,14 +156,14 @@ const StudentProfile = () => {
                   onClick={() => setSocialMediaModalShow(true)}
                 >
                   <FontAwesomeIcon icon={faPen} /> {"  "}
-                  Edit Social Media Links
+                  Edit Links
                 </Button>
               </Card.Footer>
             </Card>
             <div className="d-grid gap-2">
               <Button variant="danger" onClick={navToLikedPUs}>
                 <FontAwesomeIcon icon={faHeart} /> {"  "}
-                Liked PUs
+                View Liked Universities
               </Button>
             </div>
           </div>
@@ -206,8 +212,6 @@ const StudentProfile = () => {
         socialMedia={socialMedia}
         onSocialMediaChange={handleSocialMediaChange}
       />
-
-      <Button>Fetch latest info</Button>
     </div>
   );
 };
