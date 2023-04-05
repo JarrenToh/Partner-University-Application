@@ -145,8 +145,8 @@ public class DataInitializationSessionBean {
         studentSessionBean.createStudent(student2);
         studentSessionBean.createStudent(student3);
 
-        PUModule module1 = new PUModule("CS2030", "Just a module with IMList everything");
-        PUModule module2 = new PUModule("CS2040", "Transversal makes my head spin");
+        PUModule module1 = new PUModule("Programming Methodology II", "CS2030", "Just a module with IMList everything");
+        PUModule module2 = new PUModule("Data Structure and Algorithms", "CS2040", "Transversal makes my head spin");
 
         Long mId1 = puModuleSessionBean.createPUModule(module1);
         Long mId2 = puModuleSessionBean.createPUModule(module2);
