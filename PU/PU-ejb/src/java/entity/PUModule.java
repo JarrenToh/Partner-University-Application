@@ -45,6 +45,7 @@ public class PUModule implements Serializable {
     private List<NUSModule> mappableModules;
 
     @ManyToOne
+    @JoinColumn(nullable = false)
     private PU pu;
 
     public PUModule() {
@@ -53,6 +54,7 @@ public class PUModule implements Serializable {
 
     public PUModule(String name, String code, String description) {
         this();
+        this.name = name;
         this.code = code;
         this.description = description;
     }

@@ -120,6 +120,7 @@ public class NUSModule implements Serializable {
     /**
      * @return the puModules
      */
+    @JsonbTransient
     public List<PUModule> getPuModules() {
         return puModules;
     }

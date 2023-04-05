@@ -6,6 +6,8 @@
 package ejb.session.stateless;
 
 import entity.FAQ;
+import entity.NUSModule;
+import entity.PU;
 import entity.PUModule;
 import entity.Student;
 import error.NoResultException;
@@ -29,9 +31,14 @@ public class PUModuleSessionBean implements PUModuleSessionBeanLocal {
     private EntityManager em;
 
     @Override
-    public void createPUModule(PUModule module) {
+    public Long createPUModule(PUModule module, Long puId) {
+        PU pu = em.find(PU.class, puId);
+        pu.getModules().add(module);
+        module.setPu(pu);
         em.persist(module);
         em.flush();
+        
+        return module.getModuleId();
     }
     
     @Override
@@ -108,5 +115,18 @@ public class PUModuleSessionBean implements PUModuleSessionBeanLocal {
         } catch (NoResultException ex) {
             Logger.getLogger(PUModuleSessionBean.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+
+    @Override
+    public void associatePUModuleNUSModule(Long puModId, Long nusModId) {
+        
+        System.err.println("PUMODID : " + puModId);
+        System.err.println("NUSMODID : " + nusModId);
+        
+        PUModule pUModule = em.find(PUModule.class, puModId);
+        NUSModule nUSModule= em.find(NUSModule.class, nusModId);
+        
+        pUModule.getMappableModules().add(nUSModule);
+        nUSModule.getPuModules().add(pUModule);
     }
 }
