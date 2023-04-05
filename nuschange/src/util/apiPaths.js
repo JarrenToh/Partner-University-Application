@@ -7,7 +7,19 @@ const apiPaths = {
 
     getPUbyName(puName) {
         return fetch(`${path}/pu/getPUByName/${puName}`);
-    }
+    },
+
+    getStudentsWithReviewByPU(puName) {
+
+        return fetch(`${path}/student/pu/puname/withreview/${puName}`);
+    },
+
+    getStudentsByPU(puName) {
+
+        return fetch(`${path}/student/pu/puname/${puName}`);
+    },
+
+
 
 };
 

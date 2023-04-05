@@ -6,6 +6,8 @@
 package webservices.restful.student;
 
 import ejb.session.stateless.PUReviewSessionBeanLocal;
+import ejb.session.stateless.PUSessionBeanLocal;
+import entity.PU;
 import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
 import javax.ws.rs.Path;
@@ -38,6 +40,9 @@ public class PUReviewResource {
 
     @EJB
     private PUReviewSessionBeanLocal puReviewSessionBeanLocal;
+
+    @EJB
+    private PUSessionBeanLocal pUSessionBeanLocal;
 
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
@@ -75,6 +80,29 @@ public class PUReviewResource {
             return Response.status(200).entity(
                     p
             ).type(MediaType.APPLICATION_JSON).build();
+        } catch (Exception e) {
+            JsonObject exception = Json.createObjectBuilder()
+                    .add("error", "Not found")
+                    .build();
+
+            return Response.status(404).entity(exception)
+                    .type(MediaType.APPLICATION_JSON).build();
+        }
+    }
+
+    @GET
+    @Path("/pu/{puName}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getPUReviewByPU(@PathParam("puName") String puName) {
+
+        try {
+            PU pu = pUSessionBeanLocal.retrievePuByName(puName);
+            List<PUReview> results = puReviewSessionBeanLocal.retrievePUReviewByPU(pu);
+            GenericEntity<List<PUReview>> entity = new GenericEntity<List<PUReview>>(results) {
+            };
+            return Response.status(200).entity(
+                    entity
+            ).build();
         } catch (Exception e) {
             JsonObject exception = Json.createObjectBuilder()
                     .add("error", "Not found")
