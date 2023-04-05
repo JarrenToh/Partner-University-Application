@@ -79,10 +79,18 @@ public class Student implements Serializable {
     private PUReview puReview;
 
     public Student() {
-        socialMedia = new ArrayList<>();
+        this.socialMedia = new ArrayList<>();
+        this.enquiries = new ArrayList<>();
+        this.likedPUs = new ArrayList<>();
+        this.moduleReviews = new ArrayList<>();
+        this.posts = new ArrayList<>();
+        this.topics = new ArrayList<>();
+        this.comments = new ArrayList<>();
+        this.modulesTaken = new ArrayList<>();
     }
 
     public Student(String firstName, String lastName, String phoneNumber, String email, String password, String faculty) {
+        this();
         this.firstName = firstName;
         this.lastName = lastName;
         this.phoneNumber = phoneNumber;
@@ -107,15 +115,12 @@ public class Student implements Serializable {
     }
 
     public Student(String firstName, String lastName, String phoneNumber, String email, String password) {
+        this();
         this.firstName = firstName;
         this.lastName = lastName;
         this.phoneNumber = phoneNumber;
         this.email = email;
         this.password = password;
-        this.socialMedia = new ArrayList<>();
-        this.posts = new ArrayList();
-        this.topics = new ArrayList();
-        this.comments = new ArrayList();
     }
 
     @Override

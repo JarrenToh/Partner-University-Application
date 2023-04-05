@@ -7,6 +7,7 @@ package entity;
 
 import java.io.Serializable;
 import javax.json.bind.annotation.JsonbTransient;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -14,7 +15,6 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -29,6 +29,8 @@ public class PUReview implements Serializable {
     private Long puReviewId;
 
     private Long rating;
+
+    @Column(nullable = true, columnDefinition = "VARCHAR(10000)")
     private String review;
     private Integer noOfLikes;
     private Integer noOfDislikes;
@@ -43,19 +45,23 @@ public class PUReview implements Serializable {
     private Student student;
 
     public PUReview() {
+
+        this.noOfLikes = 0;
+        this.noOfDislikes = 0;
+        this.isInappropriate = false;
     }
-    
+
+    //not needed
     public PUReview(Long rating, Long puReviewId) {
         this.puReviewId = puReviewId;
         this.rating = rating;
     }
 
-    public PUReview(Long rating, String review, Integer noOfLikes, Integer noOfDislikes, Boolean isInappropriate) {
+    public PUReview(Long rating, String review) {
+        this();
         this.rating = rating;
         this.review = review;
-        this.noOfLikes = noOfLikes;
-        this.noOfDislikes = noOfDislikes;
-        this.isInappropriate = isInappropriate;
+
     }
 
     public Long getPuReviewId() {

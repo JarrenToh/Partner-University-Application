@@ -10,6 +10,7 @@ import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
 import javax.ws.rs.Path;
 import entity.PUReview;
+import java.util.List;
 import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
 import javax.json.Json;
@@ -23,6 +24,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
+import javax.ws.rs.core.GenericEntity;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
@@ -33,10 +35,10 @@ import javax.ws.rs.core.Response;
 @Path("pureview")
 @RequestScoped
 public class PUReviewResource {
-    
+
     @EJB
     private PUReviewSessionBeanLocal puReviewSessionBeanLocal;
-    
+
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
@@ -48,6 +50,19 @@ public class PUReviewResource {
         return Response.status(Response.Status.CREATED)
                 .entity(response)
                 .build();
+    }
+
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getAllPUReview() {
+
+        List<PUReview> results = puReviewSessionBeanLocal.retrieveAllPUReview();
+        GenericEntity<List<PUReview>> entity = new GenericEntity<List<PUReview>>(results) {
+        };
+        return Response.status(200).entity(
+                entity
+        ).build();
+
     }
 
     @GET

@@ -36,9 +36,10 @@ public class StudentSessionBean implements StudentSessionBeanLocal {
     private EntityManager em;
 
     @Override
-    public void createStudent(Student student) {
+    public Long createStudent(Student student) {
         em.persist(student);
         em.flush();
+        return student.getStudentId();
     }
 
     @Override
@@ -154,7 +155,7 @@ public class StudentSessionBean implements StudentSessionBeanLocal {
         oldS.setEmail(s.getEmail());
         oldS.setPassword(s.getPassword());
 
-    } //end updateCustomer
+    } //end updateStudent
 
     @Override
     public void deleteStudent(Long studentId) throws NoResultException {

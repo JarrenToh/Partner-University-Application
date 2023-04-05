@@ -8,6 +8,7 @@ package ejb.session.stateless;
 import entity.Country;
 import entity.PU;
 import entity.Region;
+import entity.Student;
 import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.EJB;
@@ -44,7 +45,7 @@ public class PUSessionBean implements PUSessionBeanLocal {
 
     //with proper associations
     @Override
-    public Long createNewPu(PU newPu, Long countryId, Long regionId) {
+    public Long createNewPu(PU newPu, Long countryId) {
         Country country = countrySessionBean.retrieveCountryById(countryId);
         
         newPu.setCountry(country);
@@ -106,5 +107,18 @@ public class PUSessionBean implements PUSessionBeanLocal {
         query.setParameter("puName", puName.toLowerCase());
         return query.getResultList();
     }
+
+    @Override
+    public Long enrollStudent(Long puId, Long studentId) {
+        PU pu = em.find(PU.class, puId);
+        Student student = em.find(Student.class, studentId);
+        pu.getStudents().add(student);
+        student.setPuEnrolled(pu);
+        em.flush();
+        
+        return pu.getPuId();
+    }
+    
+    
 
 }

@@ -16,7 +16,7 @@ import javax.ejb.Local;
 @Local
 public interface PUSessionBeanLocal {
 
-    public Long createNewPu(PU newPu, Long countryId, Long regionId);
+    public Long createNewPu(PU newPu, Long countryId);
 
     public Long createNewPu(PU newPu);
 
@@ -27,5 +27,7 @@ public interface PUSessionBeanLocal {
     public PU retrievePuByName(String name);
 
     List<Object[]> getMappableModulesGroupedByFaculty(String puName);
+
+    Long enrollStudent(Long puId, Long studentId);
     
 }
