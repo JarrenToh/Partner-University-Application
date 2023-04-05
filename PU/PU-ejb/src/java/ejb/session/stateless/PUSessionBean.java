@@ -117,11 +117,7 @@ public class PUSessionBean implements PUSessionBeanLocal {
         query.setParameter("name", name);
 
         PU pu = (PU) query.getSingleResult();
-                
-        for (PUModule module : pu.getModules()) {
-            System.out.println("module code " + module.getCode());
-        }
-        
+                        
         return pu;
     }
 

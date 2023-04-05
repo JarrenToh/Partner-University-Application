@@ -8,10 +8,11 @@ import Footer from "../../../components/dashboard/Footer";
 
 import API from "../../../../util/API";
 import apiPaths from "../../../../util/apiPaths";
+import { EncodedTextConverter } from "../../../../util/encodedTextConverter";
 
 const PartnerUuniversityModules = () => {
     const { puName } = useParams();
-    const [data, setData] = useState([]);
+    const [modules, setModules] = useState([]);
     const navigate = useNavigate();
 
     const handleButtonClick = (puId) => {
@@ -21,17 +22,13 @@ const PartnerUuniversityModules = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const formattedPUName = puName.split("-").join(" ").trim();
-                const encodedPUName = encodeURIComponent(formattedPUName);
+                const encodedPUName = EncodedTextConverter.convertToEncodedTextForUrl(puName);
 
                 const apiPath = `${apiPaths.listOfPUs}/getPUByName/${encodedPUName}`;
 
                 const response = await API.get(apiPath);
-                console.log("response is " + response);
 
-                setData(response.data);
-
-                console.log("length of data " + response.length);
+                setModules(response.data.modules);
             } catch (error) {
                 console.error(error);
             }
@@ -47,6 +44,8 @@ const PartnerUuniversityModules = () => {
                 <div className="card">
                     <div className="card-header">
                         <h3 className="card-title">Partner University Modules</h3>
+                        <br />
+                        <button type="button" className="btn btn-block btn-outline-dark">Create Partner University Module</button>
                     </div>
                     <div className="card-body">
                         <table id="example1" className="table table-bordered table-striped">
@@ -54,28 +53,27 @@ const PartnerUuniversityModules = () => {
                                 <tr>
                                     <th>ID</th>
                                     <th>Module Code</th>
-                                    <th>Description</th>
+                                    <th>Module Name</th>
                                     <th>Actions</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                {console.log("data is " + data.length)}
-                                {/* {data.map((item) => (
-                                    <tr key={item.puId}>
+                                {modules.map((item) => (
+                                    <tr key={item.moduleId}>
                                         <td>{item.moduleId}</td>
                                         <td>{item.code}</td>
-                                        <td>{item.description}</td>
+                                        <td>{item.name}</td>
                                         <td>
                                             <button onClick={() => handleButtonClick(item.puId)} type="button" className="btn btn-primary">View Details</button>
                                         </td>
                                     </tr>
-                                ))} */}
+                                ))}
                             </tbody>
                             <tfoot>
                                 <tr>
                                     <th>ID</th>
                                     <th>Module Code</th>
-                                    <th>Description</th>
+                                    <th>Module Name</th>
                                     <th>Actions</th>
                                 </tr>
                             </tfoot>

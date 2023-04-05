@@ -32,6 +32,8 @@ import Login from './admin/Login';
 import CreatePartnerUuniversity from './admin/systemSupportAdmin/pages/partnerUniversity/create';
 import PartnerUuniversityDetails from './admin/systemSupportAdmin/pages/partnerUniversity/view';
 import PartnerUniversityModules from './admin/systemSupportAdmin/pages/partnerUniversityModule';
+import PartnerUniversityModuleDetails from './admin/systemSupportAdmin/pages/partnerUniversityModule/view';
+import CreatePartnerUniversityModule from './admin/systemSupportAdmin/pages/partnerUniversityModule/create';
 
 import './student/assets/base.scss';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -105,6 +107,8 @@ const App = () => {
             <Route path="/partnerUniversities/:id" element={<PartnerUuniversityDetails />} />
             <Route path="/partnerUniversities/createPartnerUniversity" element={<CreatePartnerUuniversity />} />
             <Route path="/partnerUniversities/:puName/modules" element={<PartnerUniversityModules />} />
+            <Route path="/partnerUniversities/:puName/modules/:puModuleCode" element={<PartnerUniversityModuleDetails /> } />
+            <Route path="/partnerUniversities/:puName/modules/createModule" element={<CreatePartnerUniversityModule /> } />
           </Routes>
         </Router>
 

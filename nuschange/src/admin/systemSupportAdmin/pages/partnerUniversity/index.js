@@ -57,7 +57,6 @@ const PartnerUuniversity = () => {
                                 </tr>
                             </thead>
                             <tbody>
-                                {console.log("data is " + data.length)}
                                 {data.map((item) => (
                                     <tr key={item.puId}>
                                         <td>{item.puId}</td>

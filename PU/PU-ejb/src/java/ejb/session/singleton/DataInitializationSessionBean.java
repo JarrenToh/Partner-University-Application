@@ -151,11 +151,6 @@ public class DataInitializationSessionBean {
         Long mId1 = puModuleSessionBean.createPUModule(module1);
         Long mId2 = puModuleSessionBean.createPUModule(module2);
 
-//        PUModule module1 = new PUModule("CS2030", "Just a module with IMList everything");
-//        PUModule module2 = new PUModule("CS2040", "Transversal makes my head spin");
-//        puModuleSessionBean.createPUModule(module1);
-//        puModuleSessionBean.createPUModule(module2);
-
         PUModuleReview pumodulereview1 = new PUModuleReview("Test1", new Long(2), new Integer(1), new Integer(1));
         PUModuleReview pumodulereview2 = new PUModuleReview("Test2", new Long(2), new Integer(1), new Integer(1));
 

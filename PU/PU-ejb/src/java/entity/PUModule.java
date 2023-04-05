@@ -53,6 +53,7 @@ public class PUModule implements Serializable {
 
     public PUModule(String name, String code, String description) {
         this();
+        this.name = name;
         this.code = code;
         this.description = description;
     }

@@ -5,14 +5,13 @@
  */
 package ejb.session.stateless;
 
-import entity.FAQ;
+import entity.PU;
 import entity.PUModule;
-import entity.Student;
 import error.NoResultException;
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -27,6 +26,9 @@ public class PUModuleSessionBean implements PUModuleSessionBeanLocal {
 
     @PersistenceContext(unitName = "PU-ejbPU")
     private EntityManager em;
+    
+    @EJB
+    private PUSessionBeanLocal puSessionBean;
 
     @Override
     public Long createPUModule(PUModule module) {
@@ -34,6 +36,17 @@ public class PUModuleSessionBean implements PUModuleSessionBeanLocal {
         em.flush();
         
         return module.getModuleId();
+    }
+    
+    @Override
+    public void createModuleForPU(String puName, PUModule module) {
+        PU pu = puSessionBean.retrievePuByName(puName);
+        
+        pu.getModules().add(module);
+        
+        em.persist(pu);
+        em.persist(module);
+        em.flush();
     }
     
     @Override
@@ -65,7 +78,7 @@ public class PUModuleSessionBean implements PUModuleSessionBeanLocal {
         }
 
         return q.getResultList();
-    } //end searchCustomers
+    } //end
     
     @Override
     public List<PUModule> searchPUModuleByDescription(String description) {
@@ -106,6 +119,21 @@ public class PUModuleSessionBean implements PUModuleSessionBeanLocal {
     public void deletePUModule(Long moduleId) throws NoResultException {
         try {
             PUModule moduleToRemove = getPUModule(moduleId);
+            em.remove(moduleToRemove);
+        } catch (NoResultException ex) {
+            Logger.getLogger(PUModuleSessionBean.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    @Override
+    public void deletePUModuleFromPU(Long moduleId, String puName) throws NoResultException {
+        try {            
+            PUModule moduleToRemove = getPUModule(moduleId);
+            PU pu = puSessionBean.retrievePuByName(puName);
+            
+            pu.getModules().remove(moduleToRemove);
+            
+            em.merge(pu);
             em.remove(moduleToRemove);
         } catch (NoResultException ex) {
             Logger.getLogger(PUModuleSessionBean.class.getName()).log(Level.SEVERE, null, ex);
