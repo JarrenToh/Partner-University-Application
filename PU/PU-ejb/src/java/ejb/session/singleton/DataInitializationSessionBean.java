@@ -36,6 +36,8 @@ import entity.PU;
 import entity.PUReview;
 import entity.Region;
 import error.NoResultException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
@@ -150,8 +152,8 @@ public class DataInitializationSessionBean {
         PUModule module1 = new PUModule("CS2030", "Just a module with IMList everything");
         PUModule module2 = new PUModule("CS2040", "Transversal makes my head spin");
 
-        puModuleSessionBean.createPUModule(module1);
-        puModuleSessionBean.createPUModule(module2);
+        Long mId1 = puModuleSessionBean.createPUModule(module1);
+        Long mId2 = puModuleSessionBean.createPUModule(module2);
 
         PUModuleReview pumodulereview1 = new PUModuleReview("Test1", new Long(2), new Integer(1), new Integer(1));
         PUModuleReview pumodulereview2 = new PUModuleReview("Test2", new Long(2), new Integer(1), new Integer(1));
@@ -211,12 +213,17 @@ public class DataInitializationSessionBean {
                  "The University of Melbourne is a public research university located in Melbourne, Australia. Founded in 1853, it is Australia's second oldest university and the oldest in Victoria.[9] Its main campus is located in Parkville, an inner suburb north of Melbourne's central business district, with several other campuses located across Victoria.",
                  "https://upload.wikimedia.org/wikipedia/en/thumb/e/ed/Logo_of_the_University_of_Melbourne.svg/800px-Logo_of_the_University_of_Melbourne.svg.png"
         );
-
+        
+        List<Long> listOfPUModules1 = new ArrayList<>();
+        listOfPUModules1.add(mId1);
+        listOfPUModules1.add(mId2);
+        
         Long pId1 = pUSessionBean.createNewPu(pu1, cId1, cId1);
         Long pId2 = pUSessionBean.createNewPu(pu2, cId2, cId2);
         Long pId3 = pUSessionBean.createNewPu(pu3, cId3, cId3);
         Long pId4 = pUSessionBean.createNewPu(pu4, cId4, cId4);
-        Long pId5 = pUSessionBean.createNewPu(pu5, cId5, cId5);
+        
+        Long pId5 = pUSessionBean.createNewPu(pu5, listOfPUModules1);
         
         PUReview puReview1 = new PUReview(new Long(5), pId1);
         PUReview puReview2 = new PUReview(new Long(4), pId1);

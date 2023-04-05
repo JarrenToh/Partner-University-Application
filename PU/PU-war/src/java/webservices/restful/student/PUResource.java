@@ -79,7 +79,7 @@ public class PUResource {
     @Produces(MediaType.APPLICATION_JSON)
     public Response getPUbyName(@PathParam("name") String puName) {
 
-        try {
+        try {            
             PU pu = pUSessionBeanLocal.retrievePuByName(puName);
             return Response.status(200).entity(pu).type(MediaType.APPLICATION_JSON).build();
         } catch (Exception e) {

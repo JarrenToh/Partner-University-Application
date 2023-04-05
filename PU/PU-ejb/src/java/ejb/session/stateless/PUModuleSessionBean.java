@@ -29,9 +29,11 @@ public class PUModuleSessionBean implements PUModuleSessionBeanLocal {
     private EntityManager em;
 
     @Override
-    public void createPUModule(PUModule module) {
+    public Long createPUModule(PUModule module) {
         em.persist(module);
         em.flush();
+        
+        return module.getModuleId();
     }
     
     @Override

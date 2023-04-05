@@ -19,6 +19,8 @@ public interface PUSessionBeanLocal {
     public Long createNewPu(PU newPu, Long countryId, Long regionId);
 
     public Long createNewPu(PU newPu);
+    
+    public Long createNewPu(PU newPu, List<Long> moduleIds);
 
     public List<PU> retrieveAllPus();
 

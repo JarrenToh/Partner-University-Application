@@ -5,6 +5,7 @@ const apiPaths = {
     listOfEnquiries: `${path}/admin/enquiries`,
     listOfPUs: `${path}/pu`,
     listOfCountries: `${path}/country`,
+    listOfModules: `${path}/pumodule`,
 
     getPUbyName(puName) {
         return fetch('${path}/pugetPUByName/${puName}');

@@ -20,7 +20,7 @@ import javax.ejb.Local;
 @Local
 public interface PUModuleSessionBeanLocal {
 
-    public void createPUModule(PUModule module);
+    public Long createPUModule(PUModule module);
 
     public List<PUModule> retrieveAllPUModules();
 

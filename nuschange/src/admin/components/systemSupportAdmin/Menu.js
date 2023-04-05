@@ -30,29 +30,6 @@ const Menu = () => {
                 <a href="#" className="nav-link">
                     <i className="nav-icon fas fa-question-circle" />
                     <p>
-                        Partner University Modules
-                        <i className="right fas fa-angle-left" />
-                    </p>
-                </a>
-                <ul className="nav nav-treeview">
-                    <li className="nav-item">
-                        <a href="pages/charts/chartjs.html" className="nav-link">
-                            <i className="far fa-circle nav-icon" />
-                            <p>Create Partner University Module</p>
-                        </a>
-                    </li>
-                    <li className="nav-item">
-                        <a href="pages/charts/flot.html" className="nav-link">
-                            <i className="far fa-circle nav-icon" />
-                            <p>View Partner University Modules</p>
-                        </a>
-                    </li>
-                </ul>
-            </li>
-            <li className="nav-item">
-                <a href="#" className="nav-link">
-                    <i className="nav-icon fas fa-question-circle" />
-                    <p>
                         Inappropriate of Reviews/Forum Posts
                         <i className="right fas fa-angle-left" />
                     </p>

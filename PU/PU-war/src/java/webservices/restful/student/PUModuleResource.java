@@ -1,10 +1,8 @@
 package webservices.restful.student;
 
 import ejb.session.stateless.PUModuleSessionBeanLocal;
-import ejb.session.stateless.PUModuleSessionBeanLocal;
 import entity.PUModule;
 import error.NoResultException;
-import java.util.Date;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.ws.rs.Path;

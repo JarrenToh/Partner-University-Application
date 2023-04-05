@@ -25,12 +25,13 @@ import UniversityDescriptionPage from './student/containers/universityDescriptio
 // admin
 import Enquiry from './admin/userSupportAdmin/pages/enquiry';
 import EnquiryDetails from './admin/userSupportAdmin/pages/enquiry/view';
-import FAQs from './admin/userSupportAdmin/pages/faq/index';
+import FAQs from './admin/userSupportAdmin/pages/faq';
 import CreateFAQ from './admin/userSupportAdmin/pages/faq/create';
 import FAQDetails from './admin/userSupportAdmin/pages/faq/view';
 import Login from './admin/Login';
 import CreatePartnerUuniversity from './admin/systemSupportAdmin/pages/partnerUniversity/create';
 import PartnerUuniversityDetails from './admin/systemSupportAdmin/pages/partnerUniversity/view';
+import PartnerUniversityModules from './admin/systemSupportAdmin/pages/partnerUniversityModule';
 
 import './student/assets/base.scss';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -103,6 +104,7 @@ const App = () => {
             <Route path="/partnerUniversities" element={<PartnerUuniversity />} />
             <Route path="/partnerUniversities/:id" element={<PartnerUuniversityDetails />} />
             <Route path="/partnerUniversities/createPartnerUniversity" element={<CreatePartnerUuniversity />} />
+            <Route path="/partnerUniversities/:puName/modules" element={<PartnerUniversityModules />} />
           </Routes>
         </Router>
 
