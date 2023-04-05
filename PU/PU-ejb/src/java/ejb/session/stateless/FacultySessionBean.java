@@ -26,7 +26,7 @@ public class FacultySessionBean implements FacultySessionBeanLocal {
     @Override
     public Long createFaculty(Faculty newFaculty) {
         em.persist(newFaculty);
-        em.flush();;
+        em.flush();
         return newFaculty.getFacultyId();
     }
 

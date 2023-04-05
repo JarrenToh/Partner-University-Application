@@ -29,6 +29,7 @@ public class NUSModuleSessionBean implements NUSModuleSessionBeanLocal {
     @Override
     public Long createNUSModule(NUSModule nusModule, Long facultyId) {
         Faculty faculty = em.find(Faculty.class, facultyId);
+        nusModule.setFaculty(faculty);
         em.persist(nusModule);
         faculty.getModules().add(nusModule);
         //Add relationship between PUModule and NUSModule
