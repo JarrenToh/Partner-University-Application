@@ -9,6 +9,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import javax.json.bind.annotation.JsonbTransient;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -29,14 +30,16 @@ public class NUSModule implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long moduleId;
-
+    private String name;
     private String code;
+    
+    @Column(nullable = true, columnDefinition = "VARCHAR(10000)")
     private String description;
 
     //Add in mapping to PUModule   
     @ManyToMany(mappedBy = "mappableModules", fetch = FetchType.EAGER)
     private List<PUModule> puModules;
-    
+
     @ManyToOne
     @JoinColumn(nullable = false)
     private Faculty faculty;
@@ -46,8 +49,9 @@ public class NUSModule implements Serializable {
         puModules = new ArrayList<>();
     }
 
-    public NUSModule(String code, String description) {
+    public NUSModule(String name, String code, String description) {
         this();
+        this.name = name;
         this.code = code;
         this.description = description;
     }
@@ -140,6 +144,20 @@ public class NUSModule implements Serializable {
      */
     public void setFaculty(Faculty faculty) {
         this.faculty = faculty;
+    }
+
+    /**
+     * @return the name
+     */
+    public String getName() {
+        return name;
+    }
+
+    /**
+     * @param name the name to set
+     */
+    public void setName(String name) {
+        this.name = name;
     }
 
 }
