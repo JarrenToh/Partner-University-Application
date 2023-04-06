@@ -177,7 +177,7 @@ function UniversityDescriptionPage() {
             </div>
             <div className="divider" style={{ borderBottom: "1.5px" }} />
 
-            <div style={{ display: "flex", flexDirection: "row", margin: "2vw 5vw" }}>
+            <div style={{ display: "flex", flexDirection: "row", margin: "2vw 2vw" }}>
                 <div style={{ textAlign: "left", flex: 1 }}>
                     <h1 style={{ marginTop: 0 }}>{pu.name}</h1>
                     <p>{pu.description}</p>

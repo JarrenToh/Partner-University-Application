@@ -35,7 +35,7 @@ function AccordionComp(props) {
                                             <tbody>
                                                 {faculty.modules.map((nusmodule) => (
                                                     <tr key={nusmodule.code}>
-                                                        <td>{nusmodule.code}</td>
+                                                        <td><a href = {`https://nusmods.com/modules/${nusmodule.code}`}>{nusmodule.code}</a></td>
                                                         <td>{nusmodule.name}</td>
                                                         {nusmodule.puModules.map((pumodule) => (
                                                             <React.Fragment key={pumodule.code}>
