@@ -137,6 +137,7 @@ public class PUModule implements Serializable {
     /**
      * @return the mappableModules
      */
+    @JsonbTransient
     public List<NUSModule> getMappableModules() {
         return mappableModules;
     }

@@ -10,58 +10,8 @@ import { Card, ListGroup, ListGroupItem, CardHeader } from 'reactstrap';
 import defaultProfilePicture from '../images/housekeeper.png';
 
 
-function ReviewComp(props) {
-    const [flagged, setFlagged] = useState({});
+function ReviewComp({student, toggleLike, toggleDislike, handleFlagged, likes, dislikes}) {
     const [isHovered, setIsHovered] = useState({});
-    const [likes, setLikes] = useState({});
-    const [dislikes, setDislikes] = useState({});
-
-    const handleFlagged = (id) => {
-        const confirmRemove = window.confirm("Are you sure you want to flag this review?");
-        if (confirmRemove) {
-            setFlagged((prevFlagged) => ({
-                ...prevFlagged,
-                [id]: "flagged",
-            }))
-        }
-    };
-
-    const toggleLike = (id) => {
-        if (likes[id] === "like") {
-            setLikes((prevLikes) => ({
-                ...prevLikes,
-                [id]: "",
-            }));
-        } else {
-            setLikes((prevLikes) => ({
-                ...prevLikes,
-                [id]: "like",
-            }));
-            setDislikes((prevDislikes) => ({
-                ...prevDislikes,
-                [id]: "",
-            }));
-        }
-    };
-
-    const toggleDislike = (id) => {
-        if (dislikes[id] === "dislike") {
-            setDislikes((prevDislikes) => ({
-                ...prevDislikes,
-                [id]: "",
-            }));
-        } else {
-            setDislikes((prevDislikes) => ({
-                ...prevDislikes,
-                [id]: "dislike",
-            }));
-            setLikes((prevLikes) => ({
-                ...prevLikes,
-                [id]: "",
-            }));
-        }
-    };
-
     return (
         <Card className="card-box mb-5">
             <CardHeader style={{ textAlign: "center" }}>
@@ -72,11 +22,11 @@ function ReviewComp(props) {
             <ListGroup flush>
                 <div className="scroll-area rounded bg-white shadow-overflow" style={{ width: "100%", overflowX: "auto" }}>
                     <PerfectScrollbar>
-                        {props.student.map((s) => (
+                        {student.map((s) => (
                             <ListGroupItem className="py-3" key={s.studentId}>
                                 <div className="d-flex align-items-center">
                                     <div className="mr-4">
-                                        <img src={defaultProfilePicture} alt="Default Profile Picture" className="rounded-circle" style={{ width: "80px", height: "80px" }} />
+                                        <img src={defaultProfilePicture} alt="Default Profile" className="rounded-circle" style={{ width: "80px", height: "80px" }} />
                                     </div>
                                     <div className="d-flex flex-column justify-content-center flex-grow-1" style={{ width: "60%" }}>
                                         <div className="font-weight-bold d-block opacity-8">

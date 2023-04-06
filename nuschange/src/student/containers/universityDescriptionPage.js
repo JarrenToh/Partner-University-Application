@@ -14,11 +14,116 @@ function UniversityDescriptionPage() {
     const [pu, setPU] = useState({});
     const [studentsWithReview, setStudentsWithReview] = useState([]);
     const [alumnus, setAlumnus] = useState([]);
-
+    const [copied, setCopied] = useState(false);
     const [popoverOpen, setPopoverOpen] = useState(false);
-
     const togglePopover = () => setPopoverOpen(!popoverOpen);
+    const [likes, setLikes] = useState({});
+    const [dislikes, setDislikes] = useState({});
 
+    const handleFlagged = (id) => {
+        const confirmRemove = window.confirm("Are you sure you want to flag this review?");
+        if (confirmRemove) {
+
+            const studentsWithReviewIndex = studentsWithReview.findIndex((student) => student.studentId === id);
+            const updatedReview = {
+                ...studentsWithReview[studentsWithReviewIndex].puReview,
+                isInappropriate: true,
+            }
+
+            apiPaths.updateStudentReview(studentsWithReview[studentsWithReviewIndex].puReview.puReviewId, updatedReview);
+        }
+    };
+
+    const toggleLike = (id) => {
+
+        const studentsWithReviewIndex = studentsWithReview.findIndex((student) => student.studentId === id);
+        // console.log(studentsWithReviewIndex);
+        // console.log(studentsWithReview[studentsWithReviewIndex].puReview.noOfLikes)
+        let updatedReview = {}
+        if (likes[id] === "like") {
+            setLikes((prevLikes) => ({
+                ...prevLikes,
+                [id]: "",
+            }));
+
+            if (studentsWithReview[studentsWithReviewIndex].puReview.noOfLikes === 0) {
+                return;
+            }
+
+            updatedReview = {
+                ...studentsWithReview[studentsWithReviewIndex].puReview,
+                noOfLikes: studentsWithReview[studentsWithReviewIndex].puReview.noOfLikes - 1,
+            };
+        } else {
+            setLikes((prevLikes) => ({
+                ...prevLikes,
+                [id]: "like",
+            }));
+
+            updatedReview = {
+                ...studentsWithReview[studentsWithReviewIndex].puReview,
+                noOfLikes: studentsWithReview[studentsWithReviewIndex].puReview.noOfLikes + 1,
+            };
+
+            if (dislikes[id] === "dislike") {
+                setDislikes((prevDislikes) => ({
+                    ...prevDislikes,
+                    [id]: "",
+                }));
+                updatedReview.noOfDislikes -= 1;
+            }
+
+        }
+
+        apiPaths.updateStudentReview(studentsWithReview[studentsWithReviewIndex].puReview.puReviewId, updatedReview);
+        // console.log(studentsWithReview[studentsWithReviewIndex].puReview.noOfLikes);
+    };
+
+    const toggleDislike = (id) => {
+
+        const studentsWithReviewIndex = studentsWithReview.findIndex((student) => student.studentId === id);
+        // console.log(studentsWithReviewIndex);
+        // console.log(studentsWithReview[studentsWithReviewIndex].puReview.noOfLikes)
+        let updatedReview = {}
+
+        if (dislikes[id] === "dislike") {
+            setDislikes((prevDislikes) => ({
+                ...prevDislikes,
+                [id]: "",
+            }));
+
+            if (studentsWithReview[studentsWithReviewIndex].puReview.noOfDislikes === 0) {
+                return;
+            }
+
+            updatedReview = {
+                ...studentsWithReview[studentsWithReviewIndex].puReview,
+                noOfDislikes: studentsWithReview[studentsWithReviewIndex].puReview.noOfDislikes - 1,
+            };
+
+        } else {
+            setDislikes((prevDislikes) => ({
+                ...prevDislikes,
+                [id]: "dislike",
+            }));
+
+            updatedReview = {
+                ...studentsWithReview[studentsWithReviewIndex].puReview,
+                noOfDislikes: studentsWithReview[studentsWithReviewIndex].puReview.noOfDislikes + 1,
+            };
+
+            if (likes[id] === "like") {
+                setLikes((prevLikes) => ({
+                    ...prevLikes,
+                    [id]: "",
+                }));
+
+                updatedReview.noOfLikes -= 1;
+            }
+        }
+        apiPaths.updateStudentReview(studentsWithReview[studentsWithReviewIndex].puReview.puReviewId, updatedReview);
+
+    };
     const shareToWhatsapp = () => {
         window.open(`whatsapp://send?text=${encodeURIComponent('Check out this cool content!')}`, '_blank');
     };
@@ -37,7 +142,16 @@ function UniversityDescriptionPage() {
         setCopied(true);
     };
 
-    const [copied, setCopied] = useState(false);
+
+
+    useEffect(() => {
+        apiPaths.getStudentsWithReviewByPU(puName)
+            .then((res) => res.json())
+            .then((student) => {
+                setStudentsWithReview(student);
+                // console.log(student);
+            });
+    }, [studentsWithReview, puName]);
 
     useEffect(() => {
         apiPaths.getPUbyName(puName)
@@ -52,20 +166,14 @@ function UniversityDescriptionPage() {
                 setAlumnus(student);
                 // console.log(student);
             });
-        apiPaths.getStudentsWithReviewByPU(puName)
-            .then((res) => res.json())
-            .then((student) => {
-                setStudentsWithReview(student);
-                console.log(student);
-            });
-    }, []);
+    }, [puName])
 
 
 
     return (
         <div style={{ display: "flex", flexDirection: "column" }}>
             <div style={{ position: "relative", aspectRatio: "16/9", overflow: "visible", width: "50vw", margin: "0 auto" }}>
-                <img src={`${pu.images}`} alt="My Image" style={{ objectFit: "cover", width: "100%", height: "100%", position: "relative", zIndex: 1 }} />
+                <img src={`${pu.images}`} alt="Profile" style={{ objectFit: "cover", width: "100%", height: "100%", position: "relative", zIndex: 1 }} />
             </div>
             <div className="divider" style={{ borderBottom: "1.5px" }} />
 
@@ -114,7 +222,7 @@ function UniversityDescriptionPage() {
             <div style={{ display: "flex", flexDirection: "column", margin: "0 2vw 0 2vw" }}>
                 <Row className="justify-content-between">
                     <Col xs="12" md="12" lg="9">
-                        <ReviewComp student={studentsWithReview} />
+                        <ReviewComp student={studentsWithReview} toggleLike={toggleLike} toggleDislike={toggleDislike} handleFlagged={handleFlagged} likes={likes} dislikes={dislikes} />
                     </Col>
                     <Col xs="12" md="12" lg="3">
                         <AlumnusComp alumnus={alumnus} />

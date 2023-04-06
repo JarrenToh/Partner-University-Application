@@ -70,7 +70,7 @@ public class StudentSessionBean implements StudentSessionBeanLocal {
 
     @Override
     public List<Student> retrieveStudentWithReviewByPU(PU pu) {
-        Query q = em.createQuery("SELECT DISTINCT s FROM Student s, PU pu WHERE pu.puId =:id AND s IN (pu.students) AND s.puReview != null");
+        Query q = em.createQuery("SELECT DISTINCT s FROM Student s, PU pu WHERE pu.puId =:id AND s IN (pu.students) AND s.puReview != null AND s.puReview.isInappropriate = false");
         q.setParameter("id", pu.getPuId());
         return q.getResultList();
     }

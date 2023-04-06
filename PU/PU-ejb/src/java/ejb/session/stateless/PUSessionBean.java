@@ -32,8 +32,6 @@ public class PUSessionBean implements PUSessionBeanLocal {
 
     @EJB
     private CountrySessionBeanLocal countrySessionBean;
-    
-    
 
     @Override
     public Long createNewPu(PU newPu) {
@@ -47,15 +45,15 @@ public class PUSessionBean implements PUSessionBeanLocal {
     @Override
     public Long createNewPu(PU newPu, Long countryId) {
         Country country = countrySessionBean.retrieveCountryById(countryId);
-        
+
         newPu.setCountry(country);
         country.addPu(newPu);
-        
+
         em.persist(newPu);
         em.flush();
         return newPu.getPuId();
     }
-    
+
     @Override
     public List<PU> retrieveAllPus() {
 //        Query query = em.createQuery("SELECT p FROM PU p");
@@ -88,23 +86,21 @@ public class PUSessionBean implements PUSessionBeanLocal {
     @Override
     public PU retrievePuByName(String name) {
         Query query = em.createQuery("SELECT p FROM PU p WHERE LOWER(p.name) = :name");
-        query.setParameter("name",name.toLowerCase().trim());
+        query.setParameter("name", name.toLowerCase().trim());
 
         return (PU) query.getSingleResult();
     }
 
     @Override
-    public List<Object[]> getMappableModulesGroupedByFaculty(String puName) {
-        Query query = em.createQuery(
-                "SELECT faculty.name, nus.code, nus.description, puModule.code, puModule.description "
-                + "FROM NUSModule nus "
-                + "JOIN nus.puModules puModule "
-                + "JOIN nus.faculty faculty "
-                + "JOIN puModule.pu pu "
-                + "WHERE LOWER(pu.name) = :puName "
-                + "GROUP BY faculty.name, nus.code, nus.description, puModule.code, puModule.description"
-        );
-        query.setParameter("puName", puName.toLowerCase());
+    public List<Object> getMappableModulesGroupedByFaculty(String puName) {
+        Query query = em.createQuery("SELECT m, m.faculty.name \n"
+                + "FROM NUSModule m \n"
+                + "JOIN m.puModules p \n"
+                + "JOIN m.faculty f "
+                + "WHERE p.pu.name = :puName "
+                + "GROUP BY f, m");
+        
+        query.setParameter("puName", puName.toLowerCase().trim());
         return query.getResultList();
     }
 
@@ -115,10 +111,19 @@ public class PUSessionBean implements PUSessionBeanLocal {
         pu.getStudents().add(student);
         student.setPuEnrolled(pu);
         em.flush();
-        
+
         return pu.getPuId();
     }
-    
-    
 
 }
+//    @Override
+//    public List<Object> getMappableModulesGroupedByFaculty(String puName) {
+//        Query query = em.createQuery("SELECT faculty \n"
+//                + "FROM NUSModule n \n"
+//                + "JOIN n.puModules pm \n"
+//                + "JOIN n.faculty faculty \n"
+//                + "WHERE LOWER(pm.pu.name) = :puName \n"
+//                + "GROUP BY faculty");
+//        query.setParameter("puName", puName.toLowerCase().trim());
+//        return query.getResultList();
+//    }

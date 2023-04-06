@@ -58,7 +58,7 @@ public class PUModuleResource {
             return Response.status(200).entity(
                     entity
             ).build();
-        }  else {
+        } else {
             JsonObject exception = Json.createObjectBuilder()
                     .add("error", "No query conditions")
                     .build();
@@ -86,7 +86,7 @@ public class PUModuleResource {
         }
     } //end getPUModule
 
-
+    
 //    @POST
 //    @Consumes(MediaType.APPLICATION_JSON)
 //    @Produces(MediaType.APPLICATION_JSON)
@@ -94,7 +94,7 @@ public class PUModuleResource {
 //        puModuleSessionBeanLocal.createPUModule(s);
 //        return s;
 //    } //end createPUModule
-
+    
     @PUT
     @Path("/{id}")
     @Consumes(MediaType.APPLICATION_JSON)
