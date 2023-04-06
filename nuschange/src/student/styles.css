@@ -77,7 +77,7 @@
   }
 
   .searchbyButton {
-    padding: 10px 25px;
+    padding: 10px 15px;
     border-radius: 1rem;
     color: #ffffff;
     font-family: var(--font-raleway);
@@ -86,6 +86,7 @@
     background: #03376b;
     border-color: white;
     margin-left: 30px;
+    font-size: 25px;
   } 
 
   .blue-link:hover {
