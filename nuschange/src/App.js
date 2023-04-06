@@ -34,14 +34,15 @@ import PartnerUuniversityDetails from './admin/systemSupportAdmin/pages/partnerU
 import PartnerUniversityModules from './admin/systemSupportAdmin/pages/partnerUniversityModule';
 import PartnerUniversityModuleDetails from './admin/systemSupportAdmin/pages/partnerUniversityModule/view';
 import CreatePartnerUniversityModule from './admin/systemSupportAdmin/pages/partnerUniversityModule/create';
+import Main from './admin/Main';
+import PartnerUuniversity from './admin/systemSupportAdmin/pages/partnerUniversity';
+import Inappropriateness from './admin/systemSupportAdmin/pages/inappropriateness';
 
 import './student/assets/base.scss';
 import 'bootstrap/dist/css/bootstrap.min.css';
 // import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
 // import Login from './admin/Login';
-import Main from './admin/Main';
-import PartnerUuniversity from './admin/systemSupportAdmin/pages/partnerUniversity';
 
 const App = () => {
   const API_URL = "http://localhost:8080/PU-war/webresources/pu";
@@ -74,8 +75,8 @@ const App = () => {
   return (
     <AuthProvider> {/* Wrap the app in AuthProvider */}
       <div className="App">
-        {/* <NavbarComp isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} user={user} /> */}
-        {/* <Router basename='/student'>
+        {/* <NavbarComp isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} user={user} />
+        <Router basename='/student'>
           <Routes>
             <Route path="/home-page" element={<HomePage />} />
             <Route path="/profile" element={<StudentProfile user={user} />} />
@@ -109,6 +110,7 @@ const App = () => {
             <Route path="/partnerUniversities/:puName/modules" element={<PartnerUniversityModules />} />
             <Route path="/partnerUniversities/:puName/modules/:puModuleCode" element={<PartnerUniversityModuleDetails /> } />
             <Route path="/partnerUniversities/:puName/modules/createModule" element={<CreatePartnerUniversityModule /> } />
+            <Route path="/inappropriatenessContent" element={<Inappropriateness /> } />
           </Routes>
         </Router>
 

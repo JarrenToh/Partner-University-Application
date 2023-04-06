@@ -27,7 +27,7 @@ public interface ForumCommentSessionBeanLocal {
     public List<ForumComment> retrieveAllForumComments();
     
     public ForumComment retrieveForumCommentById(Long forumCommentId);
-    
+        
     public void reportForumComment(Long forumCommentId);
     
     public void resolveForumComment(Long forumCommentId);

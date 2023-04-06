@@ -7,9 +7,6 @@ package webservices.restful.student;
 
 import ejb.session.stateless.ForumPostSessionBeanLocal;
 import entity.ForumPost;
-import entity.Student;
-import java.net.URI;
-import java.util.List;
 import javax.ejb.EJB;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;

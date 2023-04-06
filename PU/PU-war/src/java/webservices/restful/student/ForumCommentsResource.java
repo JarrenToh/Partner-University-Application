@@ -7,7 +7,6 @@ package webservices.restful.student;
 
 import ejb.session.stateless.ForumCommentSessionBeanLocal;
 import entity.ForumComment;
-import entity.ForumPost;
 import java.net.URI;
 import java.util.List;
 import javax.ejb.EJB;
@@ -142,7 +141,7 @@ public class ForumCommentsResource {
                 forumComment
         ).type(MediaType.APPLICATION_JSON).build();
     }
-    
+        
     @PUT
     @Path("/like/{commentId}/{studentId}")
     @Consumes(MediaType.APPLICATION_JSON)

@@ -21,8 +21,12 @@ import ejb.session.stateless.PUSessionBeanLocal;
 import ejb.session.stateless.RegionSessionBeanLocal;
 import ejb.session.stateless.enquiry.StudentEnquirySessionBeanLocal;
 import entity.Country;
+import entity.Enquiry;
 import entity.FAQ;
 import entity.Faculty;
+import entity.ForumComment;
+import entity.ForumPost;
+import entity.ForumTopic;
 import entity.NUSModule;
 import entity.NUSchangeAdmin;
 import entity.PUModuleReview;
@@ -100,7 +104,7 @@ public class DataInitializationSessionBean {
     @EJB
     private FAQSessionBeanLocal faqSessionBeanLocal;
 
-    @EJB
+    @EJB(name = "StudentEnquirySessionBeanLocal")
     private StudentEnquirySessionBeanLocal studentEnquirySessionBeanLocal;
 
     @PersistenceContext(unitName = "PU-ejbPU")
@@ -141,9 +145,9 @@ public class DataInitializationSessionBean {
         Student student2 = new Student("Henry", "Chia", "90002040", "immutablepain@comp.nus.edu.sg", "password");
         Student student3 = new Student("Steven", "Halim", "90002040", "competitive@comp.nus.edu.sg", "password");
 
-        studentSessionBean.createStudent(student1);
-        studentSessionBean.createStudent(student2);
-        studentSessionBean.createStudent(student3);
+        Long studentId1 = studentSessionBean.createStudent(student1);
+        Long studentId2 = studentSessionBean.createStudent(student2);
+        Long studentId3 = studentSessionBean.createStudent(student3);
 
         PUModule module1 = new PUModule("Programming Methodology II", "CS2030", "Just a module with IMList everything");
         PUModule module2 = new PUModule("Data Structure and Algorithms", "CS2040", "Transversal makes my head spin");
@@ -153,6 +157,10 @@ public class DataInitializationSessionBean {
 
         PUModuleReview pumodulereview1 = new PUModuleReview("Test1", new Long(2), new Integer(1), new Integer(1));
         PUModuleReview pumodulereview2 = new PUModuleReview("Test2", new Long(2), new Integer(1), new Integer(1));
+        
+        pumodulereview1.setIsInappropriate(true);
+        
+        pumodulereview1.setStudent(student1);
 
         pUModuleReviewSessionBean.createPUModuleReview(pumodulereview1);
         pUModuleReviewSessionBean.createPUModuleReview(pumodulereview2);
@@ -458,10 +466,18 @@ public class DataInitializationSessionBean {
         PUReview puReview23 = new PUReview(new Long(5), pId5);
         PUReview puReview24 = new PUReview(new Long(5), pId5);
         PUReview puReview25 = new PUReview(new Long(5), pId5);
+        
+        puReview1.setIsInappropriate(true);
+        puReview2.setIsInappropriate(true);
+        puReview3.setIsInappropriate(true);
+        
+        puReview1.setReview("knn ccb");
+        puReview2.setReview("wtf hello");
+        puReview3.setReview("fking cb");
 
-        pUReviewSessionBean.createPUReview(puReview1, pId1, 1l);
-        pUReviewSessionBean.createPUReview(puReview2, pId1, 2l);
-        pUReviewSessionBean.createPUReview(puReview3, pId1, 3l);
+        pUReviewSessionBean.createPUReview(puReview1, pId1, studentId1);
+        pUReviewSessionBean.createPUReview(puReview2, pId1, studentId2);
+        pUReviewSessionBean.createPUReview(puReview3, pId1, studentId3);
 //        pUReviewSessionBean.createPUReview(puReview4, pId1, 1l);
 //        pUReviewSessionBean.createPUReview(puReview5, pId1, 1l);
 //        pUReviewSessionBean.createPUReview(puReview6, pId2, 1l);
@@ -485,40 +501,51 @@ public class DataInitializationSessionBean {
 //        pUReviewSessionBean.createPUReview(puReview24, pId5);
 //        pUReviewSessionBean.createPUReview(puReview25, pId5);
 
-        /*ForumTopic forumTopic1 = new ForumTopic("First Topic");
-        ForumTopic forumTopic2 = new ForumTopic("Second Topic");
-        ForumTopic forumTopic3 = new ForumTopic("Third Topic");
+        ForumTopic forumTopic1 = new ForumTopic("WTF Topic");
+        ForumTopic forumTopic2 = new ForumTopic("CCB Topic");
+        ForumTopic forumTopic3 = new ForumTopic("CHAO Topic");
         ForumTopic forumTopic4 = new ForumTopic("Fourth Topic");
         ForumTopic forumTopic5 = new ForumTopic("Fifth Topic");
         
-        forumTopicSessionBeanLocal.createNewForumTopic(forumTopic1, student1.getStudentId());
-        forumTopicSessionBeanLocal.createNewForumTopic(forumTopic2, student2.getStudentId());
-        forumTopicSessionBeanLocal.createNewForumTopic(forumTopic3, student3.getStudentId());
-        forumTopicSessionBeanLocal.createNewForumTopic(forumTopic4, student1.getStudentId());
-        forumTopicSessionBeanLocal.createNewForumTopic(forumTopic5, student2.getStudentId());
+        forumTopic1.setIsInappropriate(true);
+        forumTopic2.setIsInappropriate(true);
+        forumTopic3.setIsInappropriate(true);
         
-        ForumPost forumPost1 = new ForumPost("Nice Food in Korea?", "I am going Korea!!");
-        ForumPost forumPost2 = new ForumPost("Nice Food in Hong Kong?", "I am going Hong Kong!!");
+        forumTopicSessionBeanLocal.createNewForumTopic(forumTopic1, studentId1);
+        forumTopicSessionBeanLocal.createNewForumTopic(forumTopic2, studentId2);
+        forumTopicSessionBeanLocal.createNewForumTopic(forumTopic3, studentId3);
+        forumTopicSessionBeanLocal.createNewForumTopic(forumTopic4, studentId1);
+        forumTopicSessionBeanLocal.createNewForumTopic(forumTopic5, studentId2);
+        
+        ForumPost forumPost1 = new ForumPost("This is stupid?", "Stupid PU!!");
+        ForumPost forumPost2 = new ForumPost("HK nice food?", "What a joke!!");
         ForumPost forumPost3 = new ForumPost("Places to stay?", "I want to stay in Singapore");
+        
+        forumPost1.setIsInappropriate(true);
+        forumPost2.setIsInappropriate(true);
         
         forumPostSessionBeanLocal.createNewForumPost(forumPost1, forumTopic2.getTopicId(), student1.getStudentId());
         forumPostSessionBeanLocal.createNewForumPost(forumPost2, forumTopic2.getTopicId(), student3.getStudentId());
         forumPostSessionBeanLocal.createNewForumPost(forumPost3, forumTopic1.getTopicId(), student2.getStudentId());
         
-        ForumComment forumComment1 = new ForumComment("Wow nice choice to go Korea!");
-        ForumComment forumComment2 = new ForumComment("I recommend caifan");
+        ForumComment forumComment1 = new ForumComment("Wow this is such a fking shit!");
+        ForumComment forumComment2 = new ForumComment("fk you uds");
         ForumComment forumComment3 = new ForumComment("Marina Bay Sands!");
+        
+        forumComment1.setIsInappropriate(true);
+        forumComment2.setIsInappropriate(true);
         
         forumCommentSessionBeanLocal.createNewForumComment(forumComment1, forumPost1.getPostId(), student3.getStudentId());
         forumCommentSessionBeanLocal.createNewForumComment(forumComment2, forumPost2.getPostId(), student2.getStudentId());
-        forumCommentSessionBeanLocal.createNewForumComment(forumComment3, forumPost3.getPostId(), student1.getStudentId());*/
+        forumCommentSessionBeanLocal.createNewForumComment(forumComment3, forumPost3.getPostId(), student1.getStudentId());
+        
 //        Enquiry enquiry1 = new Enquiry("Hello", "Help");
 //        Enquiry enquiry2 = new Enquiry("Bye", "World");
 //        Enquiry enquiry3 = new Enquiry("Interesting", "Story");
 //
-//        studentEnquirySessionBeanLocal.createEnquiry(enquiry1, 1L);
-//        studentEnquirySessionBeanLocal.createEnquiry(enquiry2, 1L);
-//        studentEnquirySessionBeanLocal.createEnquiry(enquiry3, 2L);
+//        studentEnquirySessionBeanLocal.createEnquiry(enquiry1, student3.getStudentId());
+//        studentEnquirySessionBeanLocal.createEnquiry(enquiry2, student2.getStudentId());
+//        studentEnquirySessionBeanLocal.createEnquiry(enquiry3, student2.getStudentId());
     }
 
     private void createData() throws NoResultException {

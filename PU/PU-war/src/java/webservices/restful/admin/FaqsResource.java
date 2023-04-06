@@ -43,7 +43,7 @@ public class FaqsResource {
     private FAQSessionBeanLocal faqSessionBeanLocal;
 
     @EJB
-    NUSchangeAdminSessionBeanLocal nuschangeAdminSessionBeanLocal;
+    private NUSchangeAdminSessionBeanLocal nuschangeAdminSessionBeanLocal;
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)

@@ -5,7 +5,6 @@
  */
 package ejb.session.stateless;
 
-import entity.FAQ;
 import entity.PU;
 import entity.Student;
 import error.NoResultException;
@@ -17,13 +16,6 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
-import javax.ws.rs.Consumes;
-import javax.ws.rs.PUT;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
 
 /**
  *
@@ -36,9 +28,11 @@ public class StudentSessionBean implements StudentSessionBeanLocal {
     private EntityManager em;
 
     @Override
-    public void createStudent(Student student) {
+    public Long createStudent(Student student) {
         em.persist(student);
         em.flush();
+        
+        return student.getStudentId();
     }
 
     @Override

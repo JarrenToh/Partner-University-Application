@@ -20,7 +20,7 @@ import javax.ejb.Local;
 @Local
 public interface StudentSessionBeanLocal {
 
-    public void createStudent(Student student);
+    public Long createStudent(Student student);
 
     public List<Student> retrieveAllStudents();
 

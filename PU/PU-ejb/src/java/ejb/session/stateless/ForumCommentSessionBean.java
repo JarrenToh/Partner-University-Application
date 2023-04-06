@@ -135,7 +135,7 @@ public class ForumCommentSessionBean implements ForumCommentSessionBeanLocal {
         ForumComment forumComment = em.find(ForumComment.class, forumCommentId);
         return forumComment;
     }
-    
+        
     @Override
     public void reportForumComment(Long forumCommentId) {
         ForumComment forumComment = em.find(ForumComment.class, forumCommentId);

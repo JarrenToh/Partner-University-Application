@@ -6,10 +6,10 @@
 package webservices.restful.student;
 
 import ejb.session.stateless.PUReviewSessionBeanLocal;
-import javax.ejb.EJB;
-import javax.enterprise.context.RequestScoped;
-import javax.ws.rs.Path;
 import entity.PUReview;
+import entity.Student;
+import java.util.ArrayList;
+import java.util.List;
 import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
 import javax.json.Json;
@@ -25,6 +25,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import util.dataTransferObject.PUReviewDTO;
 
 /**
  *
@@ -33,10 +34,10 @@ import javax.ws.rs.core.Response;
 @Path("pureview")
 @RequestScoped
 public class PUReviewResource {
-    
+
     @EJB
     private PUReviewSessionBeanLocal puReviewSessionBeanLocal;
-    
+
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
@@ -68,6 +69,28 @@ public class PUReviewResource {
             return Response.status(404).entity(exception)
                     .type(MediaType.APPLICATION_JSON).build();
         }
+    }
+
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getAllReportedPUReviews() {
+        List<PUReview> puReviews = puReviewSessionBeanLocal.retrieveReportedPUReview();
+        List<PUReviewDTO> puReviewDtos = new ArrayList<>();
+
+        for (PUReview puReview : puReviews) {
+            Student student = puReview.getStudent();
+            PUReviewDTO puReviewDto = new PUReviewDTO(
+                    puReview.getPuReviewId(),
+                    puReview.getReview(),
+                    puReview.getIsInappropriate(),
+                    student.getStudentId(),
+                    student.getFirstName(),
+                    student.getLastName()
+            );
+            puReviewDtos.add(puReviewDto);
+        }
+
+        return Response.status(200).entity(puReviewDtos).build();
     }
 
     @PUT
