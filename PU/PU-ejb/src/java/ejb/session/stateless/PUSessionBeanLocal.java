@@ -28,12 +28,9 @@ public interface PUSessionBeanLocal {
 
     public PU retrievePuByName(String name);
 
-
     List<Object> getMappableModulesGroupedByFaculty(String puName);
 
     Long enrollStudent(Long puId, Long studentId);
-    
-    public List<Object[]> getMappableModulesGroupedByFaculty(String puName);
     
     public void updatePU(Long puId, String name, String description, String images);
     

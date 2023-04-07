@@ -24,7 +24,7 @@ public interface PUModuleSessionBeanLocal {
 
     public List<PUModule> retrieveAllPUModules();
 
-    public void updatePUModule(Long moduleId, String code, String description) throws NoResultException;
+    public void updatePUModule(Long moduleId, String code, String description);
     
     public void deletePUModuleFromPU(Long moduleId, String puName) throws NoResultException;
 
