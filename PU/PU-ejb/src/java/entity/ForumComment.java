@@ -80,24 +80,37 @@ public class ForumComment implements Serializable {
     @Column(nullable = false)
     private List<Long> dislikedStudents;
     
+    @Column(nullable = false)
+    private Boolean isAReply;
+    
+    @Column(nullable = false)
+    private Boolean showReplies;
+    
     public ForumComment() {
         this.timeOfCreation = LocalDateTime.now();
         this.likedStudents = new ArrayList();
         this.dislikedStudents = new ArrayList();
         this.replies = new ArrayList();
-        
-    }
-
-    public ForumComment(String message) {
         this.noOfLikes = 0;
         this.noOfDislikes = 0;
         this.isInappropriate = false;
-        this.timeOfCreation = LocalDateTime.now();
-        this.message = message;
         this.isEdited = false;
+        this.isAReply = false;
+        this.showReplies = false;
+    }
+
+    public ForumComment(String message, Boolean isAReply) {
+        this.timeOfCreation = LocalDateTime.now();
         this.likedStudents = new ArrayList();
         this.dislikedStudents = new ArrayList();
         this.replies = new ArrayList();
+        this.noOfLikes = 0;
+        this.noOfDislikes = 0;
+        this.isInappropriate = false;
+        this.isEdited = false;
+        this.isAReply = isAReply;
+        this.message = message;
+        this.showReplies = false;
     }
 
     public Long getCommentId() {
@@ -345,5 +358,33 @@ public class ForumComment implements Serializable {
     public void setStudentLastName(String studentLastName) {
         this.studentLastName = studentLastName;
     }   
+  
+    /**
+     * @return the isAReply
+     */
+    public Boolean getIsAReply() {
+        return isAReply;
+    }
+
+    /**
+     * @param isAReply the isAReply to set
+     */
+    public void setIsAReply(Boolean isAReply) {
+        this.isAReply = isAReply;
+    }   
+    
+    /**
+     * @return the showReplies
+     */
+    public Boolean getShowReplies() {
+        return showReplies;
+    }
+
+    /**
+     * @param showReplies the showReplies to set
+     */
+    public void setShowReplies(Boolean showReplies) {
+        this.showReplies = showReplies;
+    }
 
 }

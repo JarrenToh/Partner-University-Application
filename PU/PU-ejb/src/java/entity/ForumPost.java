@@ -90,6 +90,10 @@ public class ForumPost implements Serializable {
         this.likedStudents = new ArrayList();
         this.dislikedStudents = new ArrayList();
         this.forumComments = new ArrayList();
+        this.noOfLikes = 0;
+        this.noOfDislikes = 0;
+        this.isInappropriate = false;
+        this.isEdited = false;
     }
 
     public ForumPost(String title, String message) {

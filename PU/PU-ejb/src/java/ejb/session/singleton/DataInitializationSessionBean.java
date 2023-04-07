@@ -572,6 +572,11 @@ public class DataInitializationSessionBean {
 //        studentEnquirySessionBeanLocal.createEnquiry(enquiry1, student3.getStudentId());
 //        studentEnquirySessionBeanLocal.createEnquiry(enquiry2, student2.getStudentId());
 //        studentEnquirySessionBeanLocal.createEnquiry(enquiry3, student2.getStudentId());
+
+        pUReviewSessionBean.createPUReview(puReview1, pId1, 1l);
+        pUReviewSessionBean.createPUReview(puReview2, pId1, 2l);
+        pUReviewSessionBean.createPUReview(puReview3, pId1, 3l);
+
     }
 
     private void createData() throws NoResultException {
@@ -596,17 +601,13 @@ public class DataInitializationSessionBean {
 
         NUSModule nusModule10 = new NUSModule("Software Engineering", "CS2103T", "This module covers the principles and practices of software engineering, including requirements elicitation, software design, implementation, testing, and maintenance. It also covers topics such as project management, software process, and software quality.");
 
-//        nUSModuleSessionBean.createNUSModule(nusModule2, 2L);
-//        nUSModuleSessionBean.createNUSModule(nusModule3, 3L);
-//        PU pu1 = new PU("ABC", "DEF", "GHI");
-//        pUSessionBean.createNewPu(pu1);
         PUReview pUReview1 = new PUReview(1L, "Meh", 2, 100, false);
         PUReview pUReview2 = new PUReview(2L, "Meh", 3, 10, false);
         PUReview pUReview3 = new PUReview(3L, "Meh", 4, 20, true);
 
-//        pUReviewSessionBean.createPUReview(pUReview1, 1L);
-//        pUReviewSessionBean.createPUReview(pUReview2, 1L);
-//        pUReviewSessionBean.createPUReview(pUReview3, 1L);
+        pUReviewSessionBean.createPUReview(pUReview1, 1L);
+        pUReviewSessionBean.createPUReview(pUReview2, 1L);
+        pUReviewSessionBean.createPUReview(pUReview3, 1L);
     }
 
 }

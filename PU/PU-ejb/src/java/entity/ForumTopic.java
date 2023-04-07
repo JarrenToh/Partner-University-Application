@@ -67,6 +67,8 @@ public class ForumTopic implements Serializable {
     public ForumTopic() {
         this.timeOfCreation = LocalDateTime.now();
         this.forumPosts = new ArrayList();
+        this.isInappropriate = false;
+        this.isEdited = false;
     }
 
     public ForumTopic(String topicName) {

@@ -183,9 +183,8 @@ export default function MyPosts(props) {
                                         </td>
                                         <td className="text-center">
                                             <Button
-                                                tag="a"
-                                                href="#/"
-                                                onClick={(e) => e.preventDefault()}
+                                                tag={Link}
+                                                to={`/view-post/${item.postId}`}
                                                 size="sm"
                                                 color="link"
                                                 className="text-primary"

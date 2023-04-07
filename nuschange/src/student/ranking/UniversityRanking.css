@@ -1,3 +1,5 @@
+
+
 .university-rankings {
     display: flex;
     flex-direction: column;
@@ -122,10 +124,18 @@
     background-color: #fff;
     color: #333;
     font-family: "Roboto", sans-serif;
+    text-decoration: none;
+    margin-bottom: 10px;
+}
+
+.university-card__description,
+.read-more-link {
+  text-decoration: none;
 }
 
 .university-card:hover {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    text-decoration: none;
 }
 
 .university-card__image-container {
@@ -147,6 +157,7 @@
 .university-card__details {
     display: flex;
     flex-direction: column;
+    width: min-content;
     padding: 20px;
     flex-grow: 1;
 }
@@ -154,7 +165,7 @@
 .university-card__name {
     font-size: 24px;
     font-weight: bold;
-    margin-bottom: 10px;
+    margin-bottom: 2px;
     white-space: nowrap;
     text-overflow: ellipsis;
     overflow: hidden;
@@ -163,7 +174,7 @@
 
 .university-card__location {
     font-size: 20px;
-    margin-bottom: 10px;
+    margin-bottom: 5px;
     white-space: nowrap;
     text-overflow: ellipsis;
     overflow: hidden;
@@ -182,7 +193,7 @@
     font-weight: bold;
     position: relative;
     right: 80%;
-    top: 30%;
+    top: 3%;
     transform: translateX(80%);
 }
 
@@ -204,6 +215,7 @@
 .university-card__favorite-button:hover {
     background-color: #c8102e;
     color: #fff;
+    text-decoration: none;
 }
 
 .university-card__favorite-button--active {
@@ -213,6 +225,7 @@
 
 .university-card__favorite-button--active:hover {
     opacity: 0.8;
+    text-decoration: none;
 }
 
 h1 {
@@ -273,4 +286,12 @@ h1 {
 
 .universityRankings_description {
     border-bottom: 1px solid rgb(211, 215, 220);
+}
+
+.university-card__description {
+    font-size: 18px;
+    font-weight :lighter;
+    font-variant: all-petite-caps;
+    max-width: 100%;
+    margin-bottom: 5px;
 }

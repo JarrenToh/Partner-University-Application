@@ -1,7 +1,7 @@
 import React from "react";
-import { createContext, useContext, useState, useEffect } from "react";
+import { useContext, useState, useEffect } from "react";
 import { AuthContext } from "../login/AuthContext";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 import {
   Image,
@@ -19,18 +19,14 @@ import ReviewModal from "./ReviewModal";
 // Icon imports
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-  faLinkedin,
-  faLinkedinIn,
-  faTelegram,
-  faInstagram,
-  faGithub,
-} from "@fortawesome/free-brands-svg-icons";
-import {
   faPenToSquare,
   faPen,
   faHeart,
+  faChevronRight,
 } from "@fortawesome/free-solid-svg-icons";
+
 import SocialMediaModal from "./SocialMediaModal";
+import IconSocialMedia from "./IconSocialMedia";
 
 const StudentProfile = () => {
   const { loggedInStudent } = useContext(AuthContext);
@@ -45,10 +41,10 @@ const StudentProfile = () => {
 
   useEffect(() => {
     if (loggedInStudent) {
-      console.log(loggedInStudent);
       //setStudentId(loggedInStudent.studentId);
-      setSocialMedia(loggedInStudent.socialMedia);
-      setCurrentStudent({ ...loggedInStudent });
+      //setCurrentStudent({ ...loggedInStudent });
+      getStudentAPI(loggedInStudent.studentId);
+      //setSocialMedia(loggedInStudent.socialMedia);
     }
   }, [loggedInStudent]);
 
@@ -56,6 +52,7 @@ const StudentProfile = () => {
     const response = await fetch(`${API_URL_STUDENT}/${studentId}`);
     const data = await response.json();
     setCurrentStudent(data);
+    setSocialMedia(data.socialMedia);
   };
 
   if (!loggedInStudent) {
@@ -73,15 +70,22 @@ const StudentProfile = () => {
 
     if (isEnrolled) {
       return (
-        <InputGroup>
-          <Form.Control
-            readOnly
-            defaultValue={loggedInStudent.partnerUniversity}
-          />
-          <Button onClick={() => setReviewModalShow(true)}>
-            <FontAwesomeIcon icon={faPenToSquare} /> Add Review
+        <div>
+          <InputGroup>
+            <Form.Control
+              readOnly
+              defaultValue={loggedInStudent.partnerUniversity}
+            />
+            <Button onClick={() => setReviewModalShow(true)}>
+              <FontAwesomeIcon icon={faPenToSquare} /> Add Review
+            </Button>
+          </InputGroup>
+
+          <Button variant="link" onClick={navToModulesTaken}>
+            View Modules Taken {"  "}
+            <FontAwesomeIcon icon={faChevronRight} size="2xs" />
           </Button>
-        </InputGroup>
+        </div>
       );
     } else {
       return (
@@ -92,13 +96,21 @@ const StudentProfile = () => {
     }
   };
 
+  const handleSocialMediaChange = (newSocialMedia) => {
+    setSocialMedia(newSocialMedia);
+  };
+
   const navToLikedPUs = () => {
     navigate("/profile/likedPus");
   };
 
+  const navToModulesTaken = () => {
+    navigate("/profile/modulesTaken");
+  };
+
   return (
     <div style={{ paddingLeft: "5%", paddingRight: "5%" }}>
-      <div className="container">
+      <div className="container" style={{border: 0}}>
         <h1>User Profile</h1>
       </div>
       <Row>
@@ -119,25 +131,24 @@ const StudentProfile = () => {
               <Card.Header as="h5">Social Media</Card.Header>
               <ListGroup variant="flush">
                 {socialMedia != null &&
-                  socialMedia.map((socialMedia) => (
-                    <ListGroupItem>{socialMedia}</ListGroupItem>
+                  socialMedia.map((link) => (
+                    <ListGroupItem>
+                      <IconSocialMedia linkType={link} /> {"   "}
+                      <a
+                        href={`https://${link}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        {link}
+                      </a>
+                    </ListGroupItem>
                   ))}
 
                 {socialMedia.length == 0 && (
-                  <ListGroupItem>Loading Social Media Links....</ListGroupItem>
+                  <ListGroupItem>
+                    You do not have any social media links. Add them now!
+                  </ListGroupItem>
                 )}
-                <ListGroupItem>
-                  <FontAwesomeIcon icon={faLinkedin} size="xl" />
-                </ListGroupItem>
-                <ListGroupItem>
-                  <FontAwesomeIcon icon={faTelegram} size="xl" />
-                </ListGroupItem>
-                <ListGroupItem>
-                  <FontAwesomeIcon icon={faInstagram} size="xl" />
-                </ListGroupItem>
-                <ListGroupItem>
-                  <FontAwesomeIcon icon={faGithub} size="xl" />
-                </ListGroupItem>
               </ListGroup>
               <Card.Footer style={{ textAlign: "center" }}>
                 <Button
@@ -145,14 +156,14 @@ const StudentProfile = () => {
                   onClick={() => setSocialMediaModalShow(true)}
                 >
                   <FontAwesomeIcon icon={faPen} /> {"  "}
-                  Edit Social Media Links
+                  Edit Links
                 </Button>
               </Card.Footer>
             </Card>
             <div className="d-grid gap-2">
               <Button variant="danger" onClick={navToLikedPUs}>
                 <FontAwesomeIcon icon={faHeart} /> {"  "}
-                Liked PUs
+                View Liked Universities
               </Button>
             </div>
           </div>
@@ -199,9 +210,8 @@ const StudentProfile = () => {
         show={socialMediaModalShow}
         onHide={() => setSocialMediaModalShow(false)}
         socialMedia={socialMedia}
+        onSocialMediaChange={handleSocialMediaChange}
       />
-
-      <Button>Fetch latest info</Button>
     </div>
   );
 };
@@ -214,5 +224,9 @@ export default StudentProfile;
 
                   </ListGroupItem>
                 ))}
+
+                <ListGroupItem>
+                      <a href={socialMedia}>{socialMedia}</a>
+                    </ListGroupItem>
 
 */
