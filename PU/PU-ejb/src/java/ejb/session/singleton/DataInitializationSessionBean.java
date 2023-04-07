@@ -161,6 +161,8 @@ public class DataInitializationSessionBean {
         pumodulereview1.setIsInappropriate(true);
         
         pumodulereview1.setStudent(student1);
+        pumodulereview1.setNoOfDislikes(0);
+        pumodulereview1.setNoOfDislikes(0);
 
         pUModuleReviewSessionBean.createPUModuleReview(pumodulereview1);
         pUModuleReviewSessionBean.createPUModuleReview(pumodulereview2);
@@ -474,6 +476,15 @@ public class DataInitializationSessionBean {
         puReview1.setReview("knn ccb");
         puReview2.setReview("wtf hello");
         puReview3.setReview("fking cb");
+        
+        puReview1.setNoOfLikes(0);
+        puReview1.setNoOfDislikes(0);
+        
+        puReview2.setNoOfLikes(0);
+        puReview2.setNoOfDislikes(0);
+        
+        puReview3.setNoOfLikes(0);
+        puReview3.setNoOfDislikes(0);
 
         pUReviewSessionBean.createPUReview(puReview1, pId1, studentId1);
         pUReviewSessionBean.createPUReview(puReview2, pId1, studentId2);
@@ -524,6 +535,15 @@ public class DataInitializationSessionBean {
         forumPost1.setIsInappropriate(true);
         forumPost2.setIsInappropriate(true);
         
+        forumPost1.setNoOfLikes(0);
+        forumPost1.setNoOfDislikes(0);
+        
+        forumPost2.setNoOfLikes(0);
+        forumPost2.setNoOfDislikes(0);
+        
+        forumPost1.getDislikedStudents().add(student1.getStudentId());
+        forumPost1.getDislikedStudents().add(student2.getStudentId());
+        
         forumPostSessionBeanLocal.createNewForumPost(forumPost1, forumTopic2.getTopicId(), student1.getStudentId());
         forumPostSessionBeanLocal.createNewForumPost(forumPost2, forumTopic2.getTopicId(), student3.getStudentId());
         forumPostSessionBeanLocal.createNewForumPost(forumPost3, forumTopic1.getTopicId(), student2.getStudentId());
@@ -534,6 +554,12 @@ public class DataInitializationSessionBean {
         
         forumComment1.setIsInappropriate(true);
         forumComment2.setIsInappropriate(true);
+        
+        forumComment1.setNoOfLikes(0);
+        forumComment1.setNoOfDislikes(0);
+        
+        forumComment2.setNoOfLikes(0);
+        forumComment2.setNoOfDislikes(0);
         
         forumCommentSessionBeanLocal.createNewForumComment(forumComment1, forumPost1.getPostId(), student3.getStudentId());
         forumCommentSessionBeanLocal.createNewForumComment(forumComment2, forumPost2.getPostId(), student2.getStudentId());

@@ -65,6 +65,9 @@ public class ForumCommentSessionBean implements ForumCommentSessionBeanLocal {
         oldComment.setLastEdit(forumComment.getLastEdit());
         oldComment.setNoOfLikes(forumComment.getNoOfLikes());
         oldComment.setNoOfDislikes(forumComment.getNoOfDislikes());
+        
+        System.out.println("is inappropriate " + forumComment.getIsInappropriate());
+        
         oldComment.setIsInappropriate(forumComment.getIsInappropriate());
         oldComment.setTimeOfCreation(forumComment.getTimeOfCreation());
         oldComment.setForumPost(forumComment.getForumPost());
@@ -85,6 +88,25 @@ public class ForumCommentSessionBean implements ForumCommentSessionBeanLocal {
         oldComment.setMessage(forumComment.getMessage());
         oldComment.setIsEdited(true);
         oldComment.setLastEdit(LocalDateTime.now());
+        oldComment.setNoOfLikes(forumComment.getNoOfLikes());
+        oldComment.setNoOfDislikes(forumComment.getNoOfDislikes());
+        oldComment.setIsInappropriate(forumComment.getIsInappropriate());
+        oldComment.setTimeOfCreation(forumComment.getTimeOfCreation());
+        oldComment.setForumPost(forumComment.getForumPost());
+        oldComment.setStudent(forumComment.getStudent());
+        oldComment.setStudentId(forumComment.getStudentId());
+        oldComment.setStudentFirstName(forumComment.getStudentFirstName());
+        oldComment.setStudentLastName(forumComment.getStudentLastName());
+        oldComment.setLikedStudents(forumComment.getLikedStudents());
+        oldComment.setDislikedStudents(forumComment.getDislikedStudents());
+        oldComment.setReplies(forumComment.getReplies());
+    }
+    
+    @Override
+    public void editForumCommentByAdmin(ForumComment forumComment) {
+        ForumComment oldComment = retrieveForumCommentById(forumComment.getCommentId());
+
+        oldComment.setMessage(forumComment.getMessage());
         oldComment.setNoOfLikes(forumComment.getNoOfLikes());
         oldComment.setNoOfDislikes(forumComment.getNoOfDislikes());
         oldComment.setIsInappropriate(forumComment.getIsInappropriate());

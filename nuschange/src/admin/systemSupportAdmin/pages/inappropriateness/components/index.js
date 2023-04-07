@@ -22,7 +22,7 @@ const InappropriatenessComponent = ({ type, typeOfComponent, apiPath, selectedBu
             case "PUModuleReview":
                 return item.moduleReviewId;
             case "PUReview":
-                return item.id;
+                return item.PUReviewId;
             default:
                 return -1;
         }
@@ -68,10 +68,10 @@ const InappropriatenessComponent = ({ type, typeOfComponent, apiPath, selectedBu
                         </tr>
                     </thead>
                     <tbody>
-                        {data.map((item) => (item.isInappropriate || item.isReported) && (
-                            <tr key={getId(item)}>
+                        {data.map((item, index) => item.isInappropriate && (
+                            <tr key={index}>
                                 <td>{getId(item)}</td>
-                                <td><th>{showSpecificResult(item)}</th></td>
+                                <td>{showSpecificResult(item)}s</td>
                                 <td>{showLikesDislikes(item.noOfLikes)}</td>
                                 <td>{showLikesDislikes(item.noOfDislikes)}</td>
                                 <td>{item.studentFirstName} {item.studentLastName}</td>

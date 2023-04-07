@@ -15,13 +15,13 @@ const Menu = () => {
                     <li className="nav-item">
                         <a href="pages/charts/chartjs.html" className="nav-link">
                             <i className="far fa-circle nav-icon" />
-                            <p>Create FAQ</p>
+                            <p>Create</p>
                         </a>
                     </li>
                     <li className="nav-item">
                         <a href="pages/charts/flot.html" className="nav-link">
                             <i className="far fa-circle nav-icon" />
-                            <p>View FAQs</p>
+                            <p>View</p>
                         </a>
                     </li>
                 </ul>
@@ -38,13 +38,13 @@ const Menu = () => {
                     <li className="nav-item">
                         <a href="pages/charts/chartjs.html" className="nav-link">
                             <i className="far fa-circle nav-icon" />
-                            <p>View Enquiries</p>
+                            <p>View</p>
                         </a>
                     </li>
                     <li className="nav-item">
                         <a href="pages/charts/flot.html" className="nav-link">
                             <i className="far fa-circle nav-icon" />
-                            <p>View Past Responses to Student Enquiries</p>
+                            <p>View Past Responses</p>
                         </a>
                     </li>
                 </ul>

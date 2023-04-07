@@ -23,6 +23,8 @@ public interface ForumPostSessionBeanLocal {
     
     public void editForumPost(ForumPost forumPost);
     
+    public void editForumPostByAdmin(ForumPost forumPost);
+    
     public void deleteForumPost(Long forumPostId);
     
     public List<ForumPost> retrieveAllForumPosts();

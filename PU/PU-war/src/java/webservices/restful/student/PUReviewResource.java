@@ -58,8 +58,22 @@ public class PUReviewResource {
 
         try {
             PUReview p = puReviewSessionBeanLocal.retrievePUReviewById(id);
+            Student student = p.getStudent();
+            
+            PUReviewDTO puReviewDto = new PUReviewDTO(
+                    p.getPuReviewId(),
+                    p.getRating(),
+                    p.getReview(),
+                    p.getNoOfLikes(),
+                    p.getNoOfDislikes(),
+                    p.getIsInappropriate(),
+                    student.getStudentId(),
+                    student.getFirstName(),
+                    student.getLastName()
+            );
+            
             return Response.status(200).entity(
-                    p
+                    puReviewDto
             ).type(MediaType.APPLICATION_JSON).build();
         } catch (Exception e) {
             JsonObject exception = Json.createObjectBuilder()

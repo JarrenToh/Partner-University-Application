@@ -25,6 +25,7 @@ import javax.ws.rs.core.GenericEntity;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriBuilder;
+import util.formRequestEntity.AdminForumCommentRequest;
 import util.formRequestEntity.ForumCommentRequest;
 
 /**
@@ -107,6 +108,22 @@ public class ForumCommentsResource {
         ForumComment forumComment = forumCommentSessionBeanLocal.retrieveForumCommentById(cId);
         forumComment.setMessage(forumCommentRequest.getMessage());
         forumCommentSessionBeanLocal.editForumComment(forumComment);
+        return Response.status(204).build();
+
+    }
+    
+    @PUT
+    @Path("/editForumCommentByAdmin/{id}")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response editForumCommentByAdmin(@PathParam("id") Long cId, AdminForumCommentRequest adminForumCommentRequest) {
+        
+        ForumComment forumComment = forumCommentSessionBeanLocal.retrieveForumCommentById(cId);
+        forumComment.setMessage(adminForumCommentRequest.getMessage());
+        forumComment.setNoOfLikes(adminForumCommentRequest.getNoOfLikes());
+        forumComment.setNoOfDislikes(adminForumCommentRequest.getNoOfDislikes());
+        forumComment.setIsInappropriate(adminForumCommentRequest.getIsInappropriate());
+        forumCommentSessionBeanLocal.editForumCommentByAdmin(forumComment);
         return Response.status(204).build();
 
     }

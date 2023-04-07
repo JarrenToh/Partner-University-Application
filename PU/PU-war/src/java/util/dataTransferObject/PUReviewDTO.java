@@ -10,17 +10,33 @@ package util.dataTransferObject;
  * @author wjahoward
  */
 public class PUReviewDTO {
-    private Long id;
+    private Long puReviewId;
+    private Long rating;
     private String review;
-    private Boolean isReported;
+    private Integer noOfLikes;
+    private Integer noOfDislikes;
+    private Boolean isInappropriate;
+    
     private Long studentId;
     private String studentFirstName;
     private String studentLastName;
 
-    public PUReviewDTO(Long id, String review, Boolean isReported, Long studentId, String studentFirstName, String studentLastName) {
-        this.id = id;
+    public PUReviewDTO(Long puReviewId, String review, Boolean isInappropriate, Long studentId, String studentFirstName, String studentLastName) {
+        this.puReviewId = puReviewId;
         this.review = review;
-        this.isReported = isReported;
+        this.isInappropriate = isInappropriate;
+        this.studentId = studentId;
+        this.studentFirstName = studentFirstName;
+        this.studentLastName = studentLastName;
+    }
+
+    public PUReviewDTO(Long puReviewId, Long rating, String review, Integer noOfLikes, Integer noOfDislikes, Boolean isInappropriate, Long studentId, String studentFirstName, String studentLastName) {
+        this.puReviewId = puReviewId;
+        this.rating = rating;
+        this.review = review;
+        this.noOfLikes = noOfLikes;
+        this.noOfDislikes = noOfDislikes;
+        this.isInappropriate = isInappropriate;
         this.studentId = studentId;
         this.studentFirstName = studentFirstName;
         this.studentLastName = studentLastName;
@@ -28,12 +44,12 @@ public class PUReviewDTO {
 
     // getters and setters
 
-    public Long getId() {
-        return id;
+    public Long getPUReviewId() {
+        return puReviewId;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setPUReviewId(Long puReviewId) {
+        this.puReviewId = puReviewId;
     }
 
     public String getReview() {
@@ -44,12 +60,44 @@ public class PUReviewDTO {
         this.review = review;
     }
 
-    public Boolean getIsReported() {
-        return isReported;
+    public Long getPuReviewId() {
+        return puReviewId;
     }
 
-    public void setIsReported(Boolean isReported) {
-        this.isReported = isReported;
+    public void setPuReviewId(Long puReviewId) {
+        this.puReviewId = puReviewId;
+    }
+
+    public Long getRating() {
+        return rating;
+    }
+
+    public void setRating(Long rating) {
+        this.rating = rating;
+    }
+
+    public Integer getNoOfLikes() {
+        return noOfLikes;
+    }
+
+    public void setNoOfLikes(Integer noOfLikes) {
+        this.noOfLikes = noOfLikes;
+    }
+
+    public Integer getNoOfDislikes() {
+        return noOfDislikes;
+    }
+
+    public void setNoOfDislikes(Integer noOfDislikes) {
+        this.noOfDislikes = noOfDislikes;
+    }
+
+    public Boolean getIsInappropriate() {
+        return isInappropriate;
+    }
+
+    public void setIsInappropriate(Boolean isInappropriate) {
+        this.isInappropriate = isInappropriate;
     }
 
     public Long getStudentId() {

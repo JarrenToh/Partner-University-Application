@@ -110,14 +110,30 @@ public class PUModuleReviewResource {
 //
 //        return Response.status(200).entity(puReviewDtos).build();
 //    }
+    
     @GET
     @Path("/{id}")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getPUModuleReview(@PathParam("id") Long cId) {
         try {
             PUModuleReview c = puModuleReviewSessionBeanLocal.getPUModuleReview(cId);
+            Student student = c.getStudent();
+            
+            PUModuleReviewDTO puModuleReviewDto = new PUModuleReviewDTO(
+                    c.getModuleReviewId(),
+                    c.getRating(),
+                    c.getReview(),
+                    c.getNoOfLikes(),
+                    c.getNoOfDislikes(),
+                    c.getIsInappropriate(),
+                    student.getStudentId(),
+                    student.getFirstName(),
+                    student.getLastName()
+            );
+            
+            
             return Response.status(200).entity(
-                    c
+                    puModuleReviewDto
             ).type(MediaType.APPLICATION_JSON).build();
         } catch (NoResultException e) {
             JsonObject exception = Json.createObjectBuilder()

@@ -37,6 +37,12 @@ import CreatePartnerUniversityModule from './admin/systemSupportAdmin/pages/part
 import Main from './admin/Main';
 import PartnerUuniversity from './admin/systemSupportAdmin/pages/partnerUniversity';
 import Inappropriateness from './admin/systemSupportAdmin/pages/inappropriateness';
+// import InappropriatenessDetails from './admin/systemSupportAdmin/pages/inappropriateness/view';
+import InappropriatePUReviewDetails from './admin/systemSupportAdmin/pages/inappropriateness/puReviewDetails';
+import InappropriateForumCommentDetails from './admin/systemSupportAdmin/pages/inappropriateness/forumCommentDetails';
+import InappropriateForumPostDetails from './admin/systemSupportAdmin/pages/inappropriateness/forumPostDetails';
+import InappropriateForumTopicDetails from './admin/systemSupportAdmin/pages/inappropriateness/forumTopicDetails';
+import InappropriatePUModuleDetails from './admin/systemSupportAdmin/pages/inappropriateness/puModuleReviewDetails';
 
 import './student/assets/base.scss';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -111,6 +117,12 @@ const App = () => {
             <Route path="/partnerUniversities/:puName/modules/:puModuleCode" element={<PartnerUniversityModuleDetails /> } />
             <Route path="/partnerUniversities/:puName/modules/createModule" element={<CreatePartnerUniversityModule /> } />
             <Route path="/inappropriatenessContent" element={<Inappropriateness /> } />
+            {/* <Route path="/inappropriatenessContent/:type/:id" element={<InappropriatenessDetails />} /> */}
+            <Route path="/inappropriatenessContent/puReviews/:id" element={<InappropriatePUReviewDetails />} />
+            <Route path="/inappropriatenessContent/forumComments/:id" element={<InappropriateForumCommentDetails />} />
+            <Route path="/inappropriatenessContent/forumPosts/:id" element={<InappropriateForumPostDetails />} />
+            <Route path="/inappropriatenessContent/forumTopics/:id" element={<InappropriateForumTopicDetails />} />
+            <Route path="/inappropriatenessContent/puModuleReviews/:id" element={<InappropriatePUModuleDetails />} />
           </Routes>
         </Router>
 
