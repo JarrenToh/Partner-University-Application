@@ -22,6 +22,8 @@ public interface ForumTopicSessionBeanLocal {
     
     public void editForumTopic(ForumTopic forumTopic);
     
+    public void editForumTopicByAdmin(ForumTopic forumTopic);
+    
     public void deleteForumTopic(Long forumTopicId);
     
     public List<ForumTopic> retrieveAllForumTopics();

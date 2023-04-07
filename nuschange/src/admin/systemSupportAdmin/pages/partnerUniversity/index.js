@@ -7,37 +7,35 @@ import Footer from "../../../components/dashboard/Footer";
 
 import API from "../../../../util/API";
 import apiPaths from "../../../../util/apiPaths";
-import { DateTimeConverter } from "../../../../util/dateTimeConverter";
 
 const PartnerUuniversity = () => {
 
     const [data, setData] = useState([]);
-    const [showAll, setShowAll] = useState(true);
     const navigate = useNavigate();
 
-    const handleButtonClick = (faqId) => {
-        navigate(`/faqs/${faqId}`);
+    const handleViewDetailsButtonClick = (puId) => {
+        navigate(`/partnerUniversities/${puId}`);
     };
+
+    const handleViewModulesButtonClick = (puId) => {
+        navigate(`/partnerUniversities/${puId}`);
+    };
+
+    const handleSort = (data) => {
+        return data.sort((a, b) => a.puId - b.puId);
+    }
 
     useEffect(() => {
         const fetchData = async () => {
             try {
-                console.log("path " + apiPaths.listOfPUs)
                 const response = await API.get(apiPaths.listOfPUs);
-                console.log("data " + response.data);
-                if (showAll) {
-                    setData(response.data);
-                } else {
-                    // TODO: need to change this dyanmically later
-                    const filteredData = response.data.filter(item => item.createdBy.adminId === 1); // assume you have the current user's id stored somewhere
-                    setData(filteredData);
-                }
+                setData(handleSort(response.data));
             } catch (error) {
                 console.error(error);
             }
         };
         fetchData();
-    }, [showAll]);
+    }, []);
 
     return (
         <div>
@@ -64,8 +62,13 @@ const PartnerUuniversity = () => {
                                         <td>{item.puId}</td>
                                         <td>{item.name}</td>
                                         <td>{item.description}</td>
-                                        <td>
-                                            <button onClick={() => handleButtonClick(item.faqId)} type="button" className="btn btn-primary">View Details</button>
+                                        <td style={{ display: 'flex' }}>
+                                            <div>
+                                                <button onClick={() => handleViewDetailsButtonClick(item.puId)} type="button" className="btn btn-primary">View Details</button>
+                                            </div>
+                                            <div>
+                                                <button onClick={() => handleViewModulesButtonClick(item.name)} type="button" className="btn btn-primary ml-2">View Modules</button>
+                                            </div>
                                         </td>
                                     </tr>
                                 ))}

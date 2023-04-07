@@ -7,7 +7,6 @@ package webservices.restful.student;
 
 import ejb.session.stateless.ForumCommentSessionBeanLocal;
 import entity.ForumComment;
-import entity.ForumPost;
 import java.net.URI;
 import java.util.List;
 import javax.ejb.EJB;
@@ -26,6 +25,7 @@ import javax.ws.rs.core.GenericEntity;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriBuilder;
+import util.formRequestEntity.AdminForumCommentRequest;
 import util.formRequestEntity.ForumCommentRequest;
 
 /**
@@ -58,39 +58,44 @@ public class ForumCommentsResource {
     }
     
     @POST
-    @Path("/user/comment/{commentId}/student/{studentId}")
+    @Path("/user/forumPosts/{forumPost_id}/student/{studentId}")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response userCreateForumReply(ForumComment reply, @PathParam("commentId") Long replyingToCommentId, @PathParam("studentId") Long studentId, @Context UriInfo uriInfo) {
-        
-        forumCommentSessionBeanLocal.replyForumComment(reply, replyingToCommentId, studentId);
-        
-        URI createdUri = uriInfo.getAbsolutePathBuilder()
-                .path(reply.getCommentId().toString())
-                .build();
-        
-        return Response.created(createdUri)
-                .entity(reply)
-                .build();
-    }
-    
-    
-    @POST
-    @Path("/user/forumPosts/{id}/student/{studentId}")
-    @Consumes(MediaType.APPLICATION_JSON)
-    @Produces(MediaType.APPLICATION_JSON)
-    public Response userCreateForumPost(@PathParam("id") Long forumPostId, 
-                                    @PathParam("studentId") Long studentId,
-                                    ForumCommentRequest request) {
-        
+    public Response userCreateForumComment(@PathParam("forumPost_id") Long forumPostId, @PathParam("studentId") Long studentId, ForumCommentRequest forumCommentRequest) {
+         
         ForumComment forumComment = new ForumComment();
-        forumComment.setMessage(request.getMessage());
+        forumComment.setMessage(forumCommentRequest.getMessage());
         forumComment.setIsInappropriate(false);
         forumComment.setNoOfDislikes(0);
         forumComment.setNoOfLikes(0);
         forumComment.setIsEdited(false);
-
+        forumComment.setIsAReply(false);
+        
         forumCommentSessionBeanLocal.createNewForumComment(forumComment, forumPostId, studentId);
+        
+        URI createdUri = UriBuilder.fromResource(ForumCommentsResource.class)
+                                   .path(forumComment.getCommentId().toString())
+                                   .build();
+        
+        return Response.created(createdUri).entity(forumComment).build();
+    }
+    
+    
+    @POST
+    @Path("/user/comment/{commentId}/student/{studentId}")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response userCreateForumReply(@PathParam("commentId") Long replyingToCommentId, @PathParam("studentId") Long studentId, ForumCommentRequest forumCommentRequest) {
+        
+        ForumComment forumComment = new ForumComment();
+        forumComment.setMessage(forumCommentRequest.getMessage());
+        forumComment.setIsInappropriate(false);
+        forumComment.setNoOfDislikes(0);
+        forumComment.setNoOfLikes(0);
+        forumComment.setIsEdited(false);
+        forumComment.setIsAReply(true);
+        
+        forumCommentSessionBeanLocal.replyForumComment(forumComment, replyingToCommentId, studentId);
         
         URI createdUri = UriBuilder.fromResource(ForumCommentsResource.class)
                                    .path(forumComment.getCommentId().toString())
@@ -112,6 +117,32 @@ public class ForumCommentsResource {
 
     }
     
+    @PUT
+    @Path("/editForumCommentByAdmin/{id}")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response editForumCommentByAdmin(@PathParam("id") Long cId, AdminForumCommentRequest adminForumCommentRequest) {
+        
+        ForumComment forumComment = forumCommentSessionBeanLocal.retrieveForumCommentById(cId);
+        forumComment.setMessage(adminForumCommentRequest.getMessage());
+        forumComment.setNoOfLikes(adminForumCommentRequest.getNoOfLikes());
+        forumComment.setNoOfDislikes(adminForumCommentRequest.getNoOfDislikes());
+        forumComment.setIsInappropriate(adminForumCommentRequest.getIsInappropriate());
+        forumCommentSessionBeanLocal.editForumCommentByAdmin(forumComment);
+        return Response.status(204).build();
+
+    }
+    
+    @Path("/showReplies/{id}")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response updateShowReply(@PathParam("id") Long cId) {
+        
+       forumCommentSessionBeanLocal.updateShowReply(cId);
+       return Response.status(204).build();
+
+    }
+
     @DELETE
     @Path("/{id}")
     @Produces(MediaType.APPLICATION_JSON)
@@ -142,7 +173,7 @@ public class ForumCommentsResource {
                 forumComment
         ).type(MediaType.APPLICATION_JSON).build();
     }
-    
+        
     @PUT
     @Path("/like/{commentId}/{studentId}")
     @Consumes(MediaType.APPLICATION_JSON)

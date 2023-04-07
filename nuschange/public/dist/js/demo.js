@@ -14,7 +14,7 @@
     if (window.___browserSync___ === undefined && Number(localStorage.getItem('AdminLTE:Demo:MessageShowed')) < Date.now()) {
       localStorage.setItem('AdminLTE:Demo:MessageShowed', (Date.now()) + (15 * 60 * 1000))
       // eslint-disable-next-line no-alert
-      alert('You load AdminLTE\'s "demo.js", \nthis file is only created for testing purposes!')
+      // alert('You load AdminLTE\'s "demo.js", \nthis file is only created for testing purposes!')
     }
   }, 1000)
 
@@ -525,11 +525,11 @@
   })
 
   var active_navbar_color = null
-  $('.main-header')[0].classList.forEach(function (className) {
-    if (navbar_all_colors.indexOf(className) > -1 && active_navbar_color === null) {
-      active_navbar_color = className.replace('navbar-', 'bg-')
-    }
-  })
+  // $('.main-header')[0].classList.forEach(function (className) {
+  //   if (navbar_all_colors.indexOf(className) > -1 && active_navbar_color === null) {
+  //     active_navbar_color = className.replace('navbar-', 'bg-')
+  //   }
+  // })
 
   $navbar_variants_colors.find('option.' + active_navbar_color).prop('selected', true)
   $navbar_variants_colors.removeClass().addClass('custom-select mb-3 text-light border-0 ').addClass(active_navbar_color)
@@ -590,12 +590,12 @@
   $container.append($sidebar_dark_variants)
 
   var active_sidebar_dark_color = null
-  $('.main-sidebar')[0].classList.forEach(function (className) {
-    var color = className.replace('sidebar-dark-', 'bg-')
-    if (sidebar_colors.indexOf(color) > -1 && active_sidebar_dark_color === null) {
-      active_sidebar_dark_color = color
-    }
-  })
+  // $('.main-sidebar')[0].classList.forEach(function (className) {
+  //   var color = className.replace('sidebar-dark-', 'bg-')
+  //   if (sidebar_colors.indexOf(color) > -1 && active_sidebar_dark_color === null) {
+  //     active_sidebar_dark_color = color
+  //   }
+  // })
 
   $sidebar_dark_variants.find('option.' + active_sidebar_dark_color).prop('selected', true)
   $sidebar_dark_variants.removeClass().addClass('custom-select mb-3 text-light border-0 ').addClass(active_sidebar_dark_color)
@@ -623,12 +623,12 @@
   $container.append($sidebar_light_variants)
 
   var active_sidebar_light_color = null
-  $('.main-sidebar')[0].classList.forEach(function (className) {
-    var color = className.replace('sidebar-light-', 'bg-')
-    if (sidebar_colors.indexOf(color) > -1 && active_sidebar_light_color === null) {
-      active_sidebar_light_color = color
-    }
-  })
+  // $('.main-sidebar')[0].classList.forEach(function (className) {
+  //   var color = className.replace('sidebar-light-', 'bg-')
+  //   if (sidebar_colors.indexOf(color) > -1 && active_sidebar_light_color === null) {
+  //     active_sidebar_light_color = color
+  //   }
+  // })
 
   if (active_sidebar_light_color !== null) {
     $sidebar_light_variants.find('option.' + active_sidebar_light_color).prop('selected', true)
@@ -676,11 +676,11 @@
   $container.append($brand_variants)
 
   var active_brand_color = null
-  $('.brand-link')[0].classList.forEach(function (className) {
-    if (logo_skins.indexOf(className) > -1 && active_brand_color === null) {
-      active_brand_color = className.replace('navbar-', 'bg-')
-    }
-  })
+  // $('.brand-link')[0].classList.forEach(function (className) {
+  //   if (logo_skins.indexOf(className) > -1 && active_brand_color === null) {
+  //     active_brand_color = className.replace('navbar-', 'bg-')
+  //   }
+  // })
 
   if (active_brand_color) {
     $brand_variants.find('option.' + active_brand_color).prop('selected', true)

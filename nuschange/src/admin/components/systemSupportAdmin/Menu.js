@@ -15,13 +15,13 @@ const Menu = () => {
                     <li className="nav-item">
                         <a href="pages/charts/chartjs.html" className="nav-link">
                             <i className="far fa-circle nav-icon" />
-                            <p>Create Partner University</p>
+                            <p>Create</p>
                         </a>
                     </li>
                     <li className="nav-item">
                         <a href="pages/charts/flot.html" className="nav-link">
                             <i className="far fa-circle nav-icon" />
-                            <p>View Partner Universities</p>
+                            <p>View</p>
                         </a>
                     </li>
                 </ul>
@@ -30,7 +30,7 @@ const Menu = () => {
                 <a href="#" className="nav-link">
                     <i className="nav-icon fas fa-question-circle" />
                     <p>
-                        Partner University Modules
+                        Inappropriate Content
                         <i className="right fas fa-angle-left" />
                     </p>
                 </a>
@@ -38,13 +38,7 @@ const Menu = () => {
                     <li className="nav-item">
                         <a href="pages/charts/chartjs.html" className="nav-link">
                             <i className="far fa-circle nav-icon" />
-                            <p>Create Partner University Module</p>
-                        </a>
-                    </li>
-                    <li className="nav-item">
-                        <a href="pages/charts/flot.html" className="nav-link">
-                            <i className="far fa-circle nav-icon" />
-                            <p>View Partner University Modules</p>
+                            <p>View</p>
                         </a>
                     </li>
                 </ul>
@@ -53,7 +47,7 @@ const Menu = () => {
                 <a href="#" className="nav-link">
                     <i className="nav-icon fas fa-question-circle" />
                     <p>
-                        Inappropriate of Reviews/Forum Posts
+                        Forum Topic
                         <i className="right fas fa-angle-left" />
                     </p>
                 </a>
@@ -61,13 +55,13 @@ const Menu = () => {
                     <li className="nav-item">
                         <a href="pages/charts/chartjs.html" className="nav-link">
                             <i className="far fa-circle nav-icon" />
-                            <p>View Inappropriateness of Review/Forum Posts</p>
+                            <p>Create</p>
                         </a>
                     </li>
                     <li className="nav-item">
-                        <a href="pages/charts/flot.html" className="nav-link">
+                        <a href="pages/charts/chartjs.html" className="nav-link">
                             <i className="far fa-circle nav-icon" />
-                            <p>View Past Responses to Innapropriateness of Review/Forum Posts</p>
+                            <p>View</p>
                         </a>
                     </li>
                 </ul>

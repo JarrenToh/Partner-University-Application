@@ -9,11 +9,8 @@ import ejb.session.stateless.FAQSessionBeanLocal;
 import ejb.session.stateless.NUSchangeAdminSessionBeanLocal;
 import entity.FAQ;
 import error.NoResultException;
-import java.net.URI;
 import java.util.List;
 import javax.ejb.EJB;
-import javax.ws.rs.core.Context;
-import javax.ws.rs.core.UriInfo;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.Produces;
 import javax.ws.rs.GET;
@@ -46,7 +43,7 @@ public class FaqsResource {
     private FAQSessionBeanLocal faqSessionBeanLocal;
 
     @EJB
-    NUSchangeAdminSessionBeanLocal nuschangeAdminSessionBeanLocal;
+    private NUSchangeAdminSessionBeanLocal nuschangeAdminSessionBeanLocal;
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)

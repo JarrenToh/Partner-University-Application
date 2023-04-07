@@ -1,10 +1,10 @@
 package webservices.restful.student;
 
 import ejb.session.stateless.PUModuleReviewSessionBeanLocal;
-import ejb.session.stateless.StudentSessionBean;
 import entity.PUModuleReview;
+import entity.Student;
 import error.NoResultException;
-import java.util.Date;
+import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.ws.rs.Path;
@@ -22,6 +22,7 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.GenericEntity;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import util.dataTransferObject.PUModuleReviewDTO;
 
 @Path("pumodulereview")
 @RequestScoped
@@ -32,8 +33,30 @@ public class PUModuleReviewResource {
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public List<PUModuleReview> getAllPUModuleReviews() {
-        return puModuleReviewSessionBeanLocal.retrieveAllPUModuleReviews();
+    public Response getAllPUModuleReviews() {
+        List<PUModuleReview> puModuleReviews = puModuleReviewSessionBeanLocal.retrieveAllPUModuleReviews();
+        List<PUModuleReviewDTO> puReviewDtos = new ArrayList<>();
+
+        for (PUModuleReview puModuleReview : puModuleReviews) {
+
+            Student student = puModuleReview.getStudent();
+
+            if (student == null) {
+                continue;
+            }
+
+            PUModuleReviewDTO puModuleReviewDto = new PUModuleReviewDTO(
+                    puModuleReview.getModuleReviewId(),
+                    puModuleReview.getReview(),
+                    puModuleReview.getIsInappropriate(),
+                    student.getStudentId(),
+                    student.getFirstName(),
+                    student.getLastName()
+            );
+            puReviewDtos.add(puModuleReviewDto);
+        }
+
+        return Response.status(200).entity(puReviewDtos).build();
     }
 
     @GET
@@ -58,22 +81,59 @@ public class PUModuleReviewResource {
             return Response.status(400).entity(exception).build();
         }
     } //end searchPUModuleReviews
-    
-    @GET
-    @Path("/inappropiateReviews")
-    @Produces(MediaType.APPLICATION_JSON)
-    public List<PUModuleReview> getAllInappropiateReviews() {
-        return puModuleReviewSessionBeanLocal.viewInappropiatePUModuleReview();
-    }
 
+    // in case
+//    @GET
+//    @Path("/inappropiateReviews")
+//    @Produces(MediaType.APPLICATION_JSON)
+//    public Response getAllInappropiateReviews() {
+//        List<PUModuleReview> puModuleReviews = puModuleReviewSessionBeanLocal.retrieveAllPUModuleReviews();
+//        List<PUModuleReviewDTO> puReviewDtos = new ArrayList<>();
+//
+//        for (PUModuleReview puModuleReview : puModuleReviews) {
+//            
+//            if (!puModuleReview.getIsInappropriate()) {
+//                continue;
+//            }
+//            
+//            Student student = puModuleReview.getStudent();
+//            PUModuleReviewDTO puModuleReviewDto = new PUModuleReviewDTO(
+//                    puModuleReview.getModuleReviewId(),
+//                    puModuleReview.getReview(),
+//                    puModuleReview.getIsInappropriate(),
+//                    student.getStudentId(),
+//                    student.getFirstName(),
+//                    student.getLastName()
+//            );
+//            puReviewDtos.add(puModuleReviewDto);
+//        }
+//
+//        return Response.status(200).entity(puReviewDtos).build();
+//    }
+    
     @GET
     @Path("/{id}")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getPUModuleReview(@PathParam("id") Long cId) {
         try {
             PUModuleReview c = puModuleReviewSessionBeanLocal.getPUModuleReview(cId);
+            Student student = c.getStudent();
+            
+            PUModuleReviewDTO puModuleReviewDto = new PUModuleReviewDTO(
+                    c.getModuleReviewId(),
+                    c.getRating(),
+                    c.getReview(),
+                    c.getNoOfLikes(),
+                    c.getNoOfDislikes(),
+                    c.getIsInappropriate(),
+                    student.getStudentId(),
+                    student.getFirstName(),
+                    student.getLastName()
+            );
+            
+            
             return Response.status(200).entity(
-                    c
+                    puModuleReviewDto
             ).type(MediaType.APPLICATION_JSON).build();
         } catch (NoResultException e) {
             JsonObject exception = Json.createObjectBuilder()
@@ -84,7 +144,6 @@ public class PUModuleReviewResource {
                     .type(MediaType.APPLICATION_JSON).build();
         }
     } //end getPUModuleReview
-
 
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
@@ -129,7 +188,6 @@ public class PUModuleReviewResource {
         }
     } //end deletePUModuleReview
 
-    
     @PUT
     @Path("/toggleInappropiate/{id}")
     @Consumes(MediaType.APPLICATION_JSON)
@@ -137,8 +195,8 @@ public class PUModuleReviewResource {
     public Response undislikeForumPost(@PathParam("id") Long sId) {
 
         try {
-        puModuleReviewSessionBeanLocal.toggleInappropiate(sId);
-        return Response.status(204).build();
+            puModuleReviewSessionBeanLocal.toggleInappropiate(sId);
+            return Response.status(204).build();
         } catch (NoResultException e) {
             JsonObject exception = Json.createObjectBuilder()
                     .add("error", "Not found")
@@ -147,5 +205,5 @@ public class PUModuleReviewResource {
             return Response.status(404).entity(exception).build();
         }
 
-    }   
+    }
 }

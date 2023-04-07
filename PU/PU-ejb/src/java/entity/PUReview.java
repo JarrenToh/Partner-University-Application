@@ -37,11 +37,11 @@ public class PUReview implements Serializable {
     private Boolean isInappropriate;
 
     @ManyToOne
-    @JoinColumn(nullable = false)
+    @JoinColumn(name = "pu_puid", nullable = false)
     private PU pu;
 
     @OneToOne
-    @JoinColumn(nullable = false)
+    @JoinColumn(name = "student_studentId", nullable = false)
     private Student student;
 
     public PUReview() {

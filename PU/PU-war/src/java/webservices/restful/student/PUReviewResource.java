@@ -12,6 +12,9 @@ import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
 import javax.ws.rs.Path;
 import entity.PUReview;
+import entity.PUReview;
+import entity.Student;
+import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
@@ -29,6 +32,7 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.GenericEntity;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import util.dataTransferObject.PUReviewDTO;
 
 /**
  *
@@ -40,6 +44,7 @@ public class PUReviewResource {
 
     @EJB
     private PUReviewSessionBeanLocal puReviewSessionBeanLocal;
+
 
     @EJB
     private PUSessionBeanLocal pUSessionBeanLocal;
@@ -77,8 +82,22 @@ public class PUReviewResource {
 
         try {
             PUReview p = puReviewSessionBeanLocal.retrievePUReviewById(id);
+            Student student = p.getStudent();
+            
+            PUReviewDTO puReviewDto = new PUReviewDTO(
+                    p.getPuReviewId(),
+                    p.getRating(),
+                    p.getReview(),
+                    p.getNoOfLikes(),
+                    p.getNoOfDislikes(),
+                    p.getIsInappropriate(),
+                    student.getStudentId(),
+                    student.getFirstName(),
+                    student.getLastName()
+            );
+            
             return Response.status(200).entity(
-                    p
+                    puReviewDto
             ).type(MediaType.APPLICATION_JSON).build();
         } catch (Exception e) {
             JsonObject exception = Json.createObjectBuilder()
@@ -111,6 +130,26 @@ public class PUReviewResource {
             return Response.status(404).entity(exception)
                     .type(MediaType.APPLICATION_JSON).build();
         }
+        
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getAllReportedPUReviews() {
+        List<PUReview> puReviews = puReviewSessionBeanLocal.retrieveReportedPUReview();
+        List<PUReviewDTO> puReviewDtos = new ArrayList<>();
+
+        for (PUReview puReview : puReviews) {
+            Student student = puReview.getStudent();
+            PUReviewDTO puReviewDto = new PUReviewDTO(
+                    puReview.getPuReviewId(),
+                    puReview.getReview(),
+                    puReview.getIsInappropriate(),
+                    student.getStudentId(),
+                    student.getFirstName(),
+                    student.getLastName()
+            );
+            puReviewDtos.add(puReviewDto);
+        }
+
+        return Response.status(200).entity(puReviewDtos).build();
     }
 
     @PUT

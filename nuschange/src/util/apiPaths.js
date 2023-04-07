@@ -4,6 +4,13 @@ const apiPaths = {
     listOfFaqs: `${path}/admin/faqs`,
     listOfEnquiries: `${path}/admin/enquiries`,
     listOfPUs: `${path}/pu`,
+    listOfCountries: `${path}/country`,
+    listOfModules: `${path}/pumodule`,
+    listOfPUReviews: `${path}/pureview`,
+    listOfForumComments: `${path}/forumComments`,
+    listOfForumPosts: `${path}/forumPosts`,
+    listOfForumTopics: `${path}/forumTopics`,
+    listOfPUModuleReview: `${path}/pumodulereview`,
 
     getPUbyName(puName) {
         return fetch(`${path}/pu/getPUByName/${puName}`);

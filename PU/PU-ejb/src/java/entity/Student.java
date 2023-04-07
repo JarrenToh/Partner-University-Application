@@ -56,7 +56,7 @@ public class Student implements Serializable {
     @ManyToMany(fetch = FetchType.EAGER)
     private List<PU> likedPUs;
     
-    @OneToMany(mappedBy = "students")
+    @OneToMany(mappedBy = "student")
     private List<PUModuleReview> moduleReviews;
     
     @ManyToOne

@@ -5,7 +5,9 @@
  */
 package webservices.restful.student;
 
+import ejb.session.stateless.CountrySessionBeanLocal;
 import ejb.session.stateless.PUSessionBeanLocal;
+import entity.Country;
 import entity.PU;
 import java.util.List;
 import javax.ejb.EJB;
@@ -16,11 +18,15 @@ import javax.enterprise.context.RequestScoped;
 import javax.json.Json;
 import javax.json.JsonObject;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.core.GenericEntity;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import util.enumeration.StatusName;
+import util.formRequestEntity.PUUpdateRequest;
 
 /**
  * REST Web Service
@@ -33,6 +39,9 @@ public class PUResource {
 
     @EJB
     private PUSessionBeanLocal pUSessionBeanLocal;
+    
+    @EJB
+    private CountrySessionBeanLocal countrySessionBeanLocal;
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
@@ -70,7 +79,7 @@ public class PUResource {
     @Produces(MediaType.APPLICATION_JSON)
     public Response getPUbyName(@PathParam("name") String puName) {
 
-        try {
+        try {            
             PU pu = pUSessionBeanLocal.retrievePuByName(puName);
             return Response.status(200).entity(pu).type(MediaType.APPLICATION_JSON).build();
         } catch (Exception e) {
@@ -101,6 +110,68 @@ public class PUResource {
     public PU createPU(PU pu) {
         pUSessionBeanLocal.createNewPu(pu);
         return pu;
+    }
+
+    @POST
+    @Path("/createPUWithCountry")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response createPUWithCountry(PUUpdateRequest puUpdateRequest) {
+
+        String name = puUpdateRequest.getName();
+        String description = puUpdateRequest.getDescription();
+        String images = puUpdateRequest.getImages();
+        Long countryId = puUpdateRequest.getCountryId();
+        
+        Country country = countrySessionBeanLocal.retrieveCountryById(countryId);
+
+        PU pu = new PU();
+        pu.setName(name);
+        pu.setDescription(description);
+        pu.setImages(images);
+        pu.setCountry(country);
+
+        pUSessionBeanLocal.createNewPu(pu);
+        return Response.status(Response.Status.CREATED).entity(pu).build();
+    }
+
+    @DELETE
+    @Path("/{id}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response deletePU(@PathParam("id") Long puId) {
+        try {
+            pUSessionBeanLocal.deletePU(puId);
+            return Response.status(StatusName.NO_CONTENT.getCode()).build();
+        } catch (Exception ex) {
+            JsonObject exception = Json.createObjectBuilder()
+                    .add("error", "PU not found")
+                    .build();
+
+            return Response.status(StatusName.NOT_FOUND.getCode()).entity(exception).build();
+        }
+    }
+
+    @PUT
+    @Path("/{id}")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response editPU(@PathParam("id") Long puId,
+            PUUpdateRequest puUpdateRequest) {
+        try {
+            String name = puUpdateRequest.getName();
+            String description = puUpdateRequest.getDescription();
+            String images = puUpdateRequest.getImages();
+
+            pUSessionBeanLocal.updatePU(puId, name, description, images);
+            return Response.status(204).build();
+        } catch (Exception e) {
+            JsonObject exception = Json.createObjectBuilder()
+                    .add("error", "Not found")
+                    .build();
+
+            return Response.status(StatusName.NOT_FOUND.getCode()).entity(exception)
+                    .type(MediaType.APPLICATION_JSON).build();
+        }
     }
 
 }

@@ -1,10 +1,8 @@
 package webservices.restful.student;
 
 import ejb.session.stateless.PUModuleSessionBeanLocal;
-import ejb.session.stateless.PUModuleSessionBeanLocal;
 import entity.PUModule;
 import error.NoResultException;
-import java.util.Date;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.ws.rs.Path;
@@ -22,6 +20,7 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.GenericEntity;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import util.formRequestEntity.PUModuleRequest;
 
 @Path("pumodule")
 @RequestScoped
@@ -68,6 +67,27 @@ public class PUModuleResource {
     } //end searchPUModules
 
     @GET
+    @Path("/searchByModuleCode")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response searchPUModuleByModuleCode(@QueryParam("code") String code) {
+
+        if (code != null) {
+            PUModule puModule = puModuleSessionBeanLocal.searchPUModuleByCode(code).get(0);
+
+            return Response.status(200).entity(
+                    puModule
+            ).build();
+
+        } else {
+            JsonObject exception = Json.createObjectBuilder()
+                    .add("error", "Not found")
+                    .build();
+
+            return Response.status(400).entity(exception).build();
+        }
+    } //end searchPUModules
+
+    @GET
     @Path("/{id}")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getPUModule(@PathParam("id") Long cId) {
@@ -86,15 +106,35 @@ public class PUModuleResource {
         }
     } //end getPUModule
 
-    
-//    @POST
-//    @Consumes(MediaType.APPLICATION_JSON)
-//    @Produces(MediaType.APPLICATION_JSON)
-//    public PUModule createPUModule(PUModule s) {
-//        puModuleSessionBeanLocal.createPUModule(s);
-//        return s;
-//    } //end createPUModule
-    
+
+   
+
+    @POST
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public PUModule createPUModule(PUModule s) {
+        puModuleSessionBeanLocal.createPUModule(s);
+        return s;
+    } //end createPUModule
+
+    @POST
+    @Path("/createModuleForPU")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response createModuleForPU(@QueryParam("puName") String puName, PUModuleRequest puModuleRequest) {
+        String code = puModuleRequest.getCode();
+        String name = puModuleRequest.getName();
+        String description = puModuleRequest.getDescription();
+
+        PUModule puModule = new PUModule();
+        puModule.setCode(code);
+        puModule.setName(name);
+        puModule.setDescription(description);
+
+        puModuleSessionBeanLocal.createModuleForPU(puName, puModule);
+        return Response.status(Response.Status.CREATED).entity(puModule).build();
+    } //end createPUModule
+
     @PUT
     @Path("/{id}")
     @Consumes(MediaType.APPLICATION_JSON)
@@ -117,9 +157,25 @@ public class PUModuleResource {
     @DELETE
     @Path("/{id}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response deletePUModule(@PathParam("id") Long studentId) {
+    public Response deletePUModule(@PathParam("id") Long moduleId) {
         try {
-            puModuleSessionBeanLocal.deletePUModule(studentId);
+            puModuleSessionBeanLocal.deletePUModule(moduleId);
+            return Response.status(204).build();
+        } catch (NoResultException e) {
+            JsonObject exception = Json.createObjectBuilder()
+                    .add("error", "Not found")
+                    .build();
+
+            return Response.status(404).entity(exception).build();
+        }
+    } //end deletePUModule
+
+    @DELETE
+    @Path("/deletePUModuleFromPU/{id}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response deletePUModuleFromPU(@PathParam("id") Long moduleId, @QueryParam("pu") String pu) {
+        try {
+            puModuleSessionBeanLocal.deletePUModuleFromPU(moduleId, pu);
             return Response.status(204).build();
         } catch (NoResultException e) {
             JsonObject exception = Json.createObjectBuilder()

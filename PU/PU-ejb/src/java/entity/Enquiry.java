@@ -52,9 +52,8 @@ public class Enquiry implements Serializable {
     @JoinColumn(nullable = true)
     private NUSchangeAdmin nuschangeAdmin;
     
-    // TODO: Need to change to false for the optional and nullable
-    @ManyToOne(optional = true, fetch = FetchType.EAGER) // student can also send in their enquiries
-    @JoinColumn(nullable = true)
+    @ManyToOne(optional = false)
+    @JoinColumn(nullable = false)
     @JsonbTransient
     private Student student;
     

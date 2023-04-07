@@ -101,6 +101,26 @@ public class ForumPostSessionBean implements ForumPostSessionBeanLocal {
         oldPost.setLikedStudents(forumPost.getLikedStudents());
         oldPost.setDislikedStudents(forumPost.getDislikedStudents());
     }
+    
+    @Override
+    public void editForumPostByAdmin(ForumPost forumPost) {
+        ForumPost oldPost = retrieveForumPostById(forumPost.getPostId());
+
+        oldPost.setTitle(forumPost.getTitle());
+        oldPost.setMessage(forumPost.getMessage());
+        oldPost.setNoOfLikes(forumPost.getNoOfLikes());
+        oldPost.setNoOfDislikes(forumPost.getNoOfDislikes());
+        oldPost.setIsInappropriate(forumPost.getIsInappropriate());
+        oldPost.setTimeOfCreation(forumPost.getTimeOfCreation());
+        oldPost.setForumTopic(forumPost.getForumTopic());
+        oldPost.setStudent(forumPost.getStudent());
+        oldPost.setStudentId(forumPost.getStudentId());
+        oldPost.setStudentFirstName(forumPost.getStudentFirstName());
+        oldPost.setStudentLastName(forumPost.getStudentLastName());
+        oldPost.setForumComments(forumPost.getForumComments());
+        oldPost.setLikedStudents(forumPost.getLikedStudents());
+        oldPost.setDislikedStudents(forumPost.getDislikedStudents());
+    }
 
     @Override
     public synchronized void deleteForumPost(Long forumPostId) {

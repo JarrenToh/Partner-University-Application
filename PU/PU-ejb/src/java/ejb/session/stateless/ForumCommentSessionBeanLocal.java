@@ -18,16 +18,22 @@ public interface ForumCommentSessionBeanLocal {
     
     public ForumComment createNewForumComment(ForumComment forumComment, Long forumPostId, Long studentId);
     
+    public ForumComment createNewForumReply(ForumComment forumReply, Long forumCommentId, Long forumPostId, Long studentId);
+    
+    public void updateShowReply(Long commentId);
+    
     public void updateForumComment(ForumComment forumComment);
     
     public void editForumComment(ForumComment forumComment);
+    
+    public void editForumCommentByAdmin(ForumComment forumComment);
     
     public void deleteForumComment(Long forumCommentId);
     
     public List<ForumComment> retrieveAllForumComments();
     
     public ForumComment retrieveForumCommentById(Long forumCommentId);
-    
+        
     public void reportForumComment(Long forumCommentId);
     
     public void resolveForumComment(Long forumCommentId);

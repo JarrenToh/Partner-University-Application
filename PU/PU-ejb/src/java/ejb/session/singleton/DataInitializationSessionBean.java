@@ -32,6 +32,8 @@ import entity.PUModule;
 import entity.PUReview;
 import entity.Region;
 import error.NoResultException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
@@ -98,7 +100,7 @@ public class DataInitializationSessionBean {
     @EJB
     private FAQSessionBeanLocal faqSessionBeanLocal;
 
-    @EJB
+    @EJB(name = "StudentEnquirySessionBeanLocal")
     private StudentEnquirySessionBeanLocal studentEnquirySessionBeanLocal;
 
     @PersistenceContext(unitName = "PU-ejbPU")
@@ -176,9 +178,12 @@ public class DataInitializationSessionBean {
         Student student39 = new Student("Justin", "Lim", "90002059", "justinlim@comp.nus.edu.sg", "password");
         Student student40 = new Student("Hannah", "Tan", "90002060", "hannahtan@comp.nus.edu.sg", "password");
 
+
+
         Long studentId1 = studentSessionBean.createStudent(student1);
         Long studentId2 = studentSessionBean.createStudent(student2);
         Long studentId3 = studentSessionBean.createStudent(student3);
+
         Long studentId4 = studentSessionBean.createStudent(student4);
         Long studentId5 = studentSessionBean.createStudent(student5);
         Long studentId6 = studentSessionBean.createStudent(student6);
@@ -217,12 +222,15 @@ public class DataInitializationSessionBean {
         Long studentId39 = studentSessionBean.createStudent(student39);
         Long studentId40 = studentSessionBean.createStudent(student40);
 
-//        PUModule module1 = new PUModule("CS2030", "Just a module with IMList everything");
-//        PUModule module2 = new PUModule("CS2040", "Transversal makes my head spin");
-//        puModuleSessionBean.createPUModule(module1);
-//        puModuleSessionBean.createPUModule(module2);
+
         PUModuleReview pumodulereview1 = new PUModuleReview("Test1", new Long(2), new Integer(1), new Integer(1));
         PUModuleReview pumodulereview2 = new PUModuleReview("Test2", new Long(2), new Integer(1), new Integer(1));
+        
+        pumodulereview1.setIsInappropriate(true);
+        
+        pumodulereview1.setStudent(student1);
+        pumodulereview1.setNoOfDislikes(0);
+        pumodulereview1.setNoOfDislikes(0);
 
         pUModuleReviewSessionBean.createPUModuleReview(pumodulereview1);
         pUModuleReviewSessionBean.createPUModuleReview(pumodulereview2);
@@ -258,6 +266,7 @@ public class DataInitializationSessionBean {
         NUSModule nusModule9 = new NUSModule("Computer Security", "CS2107", "This module covers the principles and techniques of computer security. It includes topics such as access control, authentication, confidentiality, integrity, and availability. It also covers topics such as network security, web security, and malware.");
         NUSModule nusModule10 = new NUSModule("Software Engineering", "CS2103T", "This module covers the principles and practices of software engineering, including requirements elicitation, software design, implementation, testing, and maintenance. It also covers topics such as project management, software process, and software quality.");
 
+
         Long nusModId1 = nUSModuleSessionBean.createNUSModule(nusModule1, facultyId3);
         Long nusModId2 = nUSModuleSessionBean.createNUSModule(nusModule2, facultyId3);
         Long nusModId3 = nUSModuleSessionBean.createNUSModule(nusModule3, facultyId3);
@@ -268,6 +277,17 @@ public class DataInitializationSessionBean {
         Long nusModId8 = nUSModuleSessionBean.createNUSModule(nusModule8, facultyId3);
         Long nusModId9 = nUSModuleSessionBean.createNUSModule(nusModule9, facultyId3);
         Long nusModId10 = nUSModuleSessionBean.createNUSModule(nusModule10, facultyId3);
+
+        nUSModuleSessionBean.createNUSModule(nusModule1, facultyId3);
+        nUSModuleSessionBean.createNUSModule(nusModule2, facultyId3);
+        nUSModuleSessionBean.createNUSModule(nusModule3, facultyId3);
+        nUSModuleSessionBean.createNUSModule(nusModule4, facultyId3);
+        nUSModuleSessionBean.createNUSModule(nusModule5, facultyId3);
+        nUSModuleSessionBean.createNUSModule(nusModule6, facultyId3);
+        nUSModuleSessionBean.createNUSModule(nusModule7, facultyId3);
+        nUSModuleSessionBean.createNUSModule(nusModule8, facultyId3);
+        nUSModuleSessionBean.createNUSModule(nusModule9, facultyId3);
+        nUSModuleSessionBean.createNUSModule(nusModule10, facultyId3);
 
         NUSModule nusModule11 = new NUSModule("Introduction to Political Science", "PS1101E", "This module introduces students to the study of politics and political science. It covers topics such as political ideologies, political systems and institutions, and political processes and behavior.");
         NUSModule nusModule12 = new NUSModule("Understanding Southeast Asia", "SE1101E", "This module provides an overview of the social, cultural, economic, and political dimensions of Southeast Asia. It covers topics such as the history and diversity of the region, its relations with the world, and contemporary issues and challenges.");
@@ -280,6 +300,7 @@ public class DataInitializationSessionBean {
         NUSModule nusModule19 = new NUSModule("Introduction to Southeast Asian Studies", "SSA1201E", "This module provides an interdisciplinary introduction to the study of Southeast Asia, and aims to develop critical thinking and research skills. It covers topics such as the region's history, society and culture, politics and governance, and economic development.");
         NUSModule nusModule20 = new NUSModule("Introduction to Communications and New Media", "NM1101E", "This module introduces students to the study of communications and new media, and examines their social, cultural, and political dimensions. It covers topics such as media technologies, digital cultures, and communication theories and practices.");
 
+
         Long nusModId11 = nUSModuleSessionBean.createNUSModule(nusModule11, facultyId1);
         Long nusModId12 = nUSModuleSessionBean.createNUSModule(nusModule12, facultyId1);
         Long nusModId13 = nUSModuleSessionBean.createNUSModule(nusModule13, facultyId1);
@@ -290,6 +311,18 @@ public class DataInitializationSessionBean {
         Long nusModId18 = nUSModuleSessionBean.createNUSModule(nusModule18, facultyId1);
         Long nusModId19 = nUSModuleSessionBean.createNUSModule(nusModule19, facultyId1);
         Long nusModId20 = nUSModuleSessionBean.createNUSModule(nusModule20, facultyId1);
+
+        nUSModuleSessionBean.createNUSModule(nusModule11, facultyId1);
+        nUSModuleSessionBean.createNUSModule(nusModule12, facultyId1);
+        nUSModuleSessionBean.createNUSModule(nusModule13, facultyId1);
+        nUSModuleSessionBean.createNUSModule(nusModule14, facultyId1);
+        nUSModuleSessionBean.createNUSModule(nusModule15, facultyId1);
+        nUSModuleSessionBean.createNUSModule(nusModule16, facultyId1);
+        nUSModuleSessionBean.createNUSModule(nusModule17, facultyId1);
+        nUSModuleSessionBean.createNUSModule(nusModule18, facultyId1);
+        nUSModuleSessionBean.createNUSModule(nusModule19, facultyId1);
+        nUSModuleSessionBean.createNUSModule(nusModule20, facultyId1);
+
 
         NUSModule nusModule21 = new NUSModule("Introduction to Accounting", "ACC1002", "This module provides an introduction to financial accounting concepts and principles. It covers topics such as the accounting equation, financial statements, accounting cycles, and accounting systems.");
         NUSModule nusModule22 = new NUSModule("Introduction to Marketing", "MKT1003", "This module introduces students to the fundamental concepts and principles of marketing. It covers topics such as market segmentation, product development, pricing strategies, promotional mix, and consumer behavior.");
@@ -302,6 +335,7 @@ public class DataInitializationSessionBean {
         NUSModule nusModule29 = new NUSModule("International Business", "BSP3513", "This module provides an overview of international business operations and strategies. It covers topics such as international trade theories, foreign direct investment, global business environment, cross-cultural management, and international marketing.");
         NUSModule nusModule30 = new NUSModule("Corporate Social Responsibility", "BSP3514", "This module examines the concept of corporate social responsibility and its implications for business operations and strategies. It covers topics such as ethical decision-making, stakeholder engagement, sustainability reporting, and social impact assessment.");
 
+
         Long nusModId21 = nUSModuleSessionBean.createNUSModule(nusModule21, facultyId2);
         Long nusModId22 = nUSModuleSessionBean.createNUSModule(nusModule22, facultyId2);
         Long nusModId23 = nUSModuleSessionBean.createNUSModule(nusModule23, facultyId2);
@@ -313,6 +347,18 @@ public class DataInitializationSessionBean {
         Long nusModId29 = nUSModuleSessionBean.createNUSModule(nusModule29, facultyId2);
         Long nusModId30 = nUSModuleSessionBean.createNUSModule(nusModule30, facultyId2);
 
+        nUSModuleSessionBean.createNUSModule(nusModule21, facultyId2);
+        nUSModuleSessionBean.createNUSModule(nusModule22, facultyId2);
+        nUSModuleSessionBean.createNUSModule(nusModule23, facultyId2);
+        nUSModuleSessionBean.createNUSModule(nusModule24, facultyId2);
+        nUSModuleSessionBean.createNUSModule(nusModule25, facultyId2);
+        nUSModuleSessionBean.createNUSModule(nusModule26, facultyId2);
+        nUSModuleSessionBean.createNUSModule(nusModule27, facultyId2);
+        nUSModuleSessionBean.createNUSModule(nusModule28, facultyId2);
+        nUSModuleSessionBean.createNUSModule(nusModule29, facultyId2);
+        nUSModuleSessionBean.createNUSModule(nusModule30, facultyId2);
+
+
         NUSModule nusModule31 = new NUSModule("Oral Biology", "DEN1101", "This module introduces students to the biological principles and processes related to the oral cavity. It covers topics such as oral anatomy, histology, embryology, and microbiology.");
         NUSModule nusModule32 = new NUSModule("Dental Materials", "DEN1201", "This module provides an overview of the materials commonly used in dentistry, and their properties, selection criteria, and clinical applications. It covers topics such as restorative materials, impression materials, and dental ceramics.");
         NUSModule nusModule33 = new NUSModule("Oral Health Promotion", "DEN1301", "This module examines the principles and strategies for promoting oral health and preventing oral diseases at the individual and community levels. It covers topics such as health education, behavior change, and social determinants of oral health.");
@@ -323,6 +369,7 @@ public class DataInitializationSessionBean {
         NUSModule nusModule38 = new NUSModule("Orthodontics", "DEN3201", "This module introduces students to the principles and practices of orthodontics, and their clinical applications for the correction of malocclusions and dentofacial deformities. It covers topics such as tooth movement, growth and development, and orthodontic appliances.");
         NUSModule nusModule39 = new NUSModule("Prosthodontics", "DEN3301", "This module provides an overview of the principles and practices of prosthodontics, and their clinical applications for the rehabilitation of oral function and aesthetics. It covers topics such as dental materials, fixed and removable prosthodontics, and implant dentistry.");
 
+
         Long nusModId31 = nUSModuleSessionBean.createNUSModule(nusModule31, facultyId4);
         Long nusModId32 = nUSModuleSessionBean.createNUSModule(nusModule32, facultyId4);
         Long nusModId33 = nUSModuleSessionBean.createNUSModule(nusModule33, facultyId4);
@@ -332,6 +379,17 @@ public class DataInitializationSessionBean {
         Long nusModId37 = nUSModuleSessionBean.createNUSModule(nusModule37, facultyId4);
         Long nusModId38 = nUSModuleSessionBean.createNUSModule(nusModule38, facultyId4);
         Long nusModId39 = nUSModuleSessionBean.createNUSModule(nusModule39, facultyId4);
+
+        nUSModuleSessionBean.createNUSModule(nusModule31, facultyId4);
+        nUSModuleSessionBean.createNUSModule(nusModule32, facultyId4);
+        nUSModuleSessionBean.createNUSModule(nusModule33, facultyId4);
+        nUSModuleSessionBean.createNUSModule(nusModule34, facultyId4);
+        nUSModuleSessionBean.createNUSModule(nusModule35, facultyId4);
+        nUSModuleSessionBean.createNUSModule(nusModule36, facultyId4);
+        nUSModuleSessionBean.createNUSModule(nusModule37, facultyId4);
+        nUSModuleSessionBean.createNUSModule(nusModule38, facultyId4);
+        nUSModuleSessionBean.createNUSModule(nusModule39, facultyId4);
+
 
         NUSModule nusModule40 = new NUSModule("Introduction to Environmental Systems and Sustainable Development", "ESD1101", "This module introduces students to the concepts and principles of environmental systems and sustainable development. It covers topics such as ecosystems and biodiversity, climate change, energy and resources, and sustainable urban development.");
         NUSModule nusModule41 = new NUSModule("Building Construction", "BC1101", "This module introduces students to the principles and practices of building construction. It covers topics such as building materials and systems, construction processes and techniques, and building regulations and codes.");
@@ -344,6 +402,7 @@ public class DataInitializationSessionBean {
         NUSModule nusModule48 = new NUSModule("Construction and Project Management", "CPD1101", "This module introduces students to the principles and practices of construction and project management. It covers topics such as project planning and scheduling, cost estimation and control, and quality assurance and safety.");
         NUSModule nusModule49 = new NUSModule("Real Estate and Urban Economics", "RE1701", "This module introduces students to the theory and practice of real estate and urban economics. It covers topics such as real estate markets and valuation, land use and development, and urban economic policy and planning.");
 
+
         Long nusModId40 = nUSModuleSessionBean.createNUSModule(nusModule40, facultyId5);
         Long nusModId41 = nUSModuleSessionBean.createNUSModule(nusModule41, facultyId5);
         Long nusModId42 = nUSModuleSessionBean.createNUSModule(nusModule42, facultyId5);
@@ -354,6 +413,18 @@ public class DataInitializationSessionBean {
         Long nusModId47 = nUSModuleSessionBean.createNUSModule(nusModule47, facultyId5);
         Long nusModId48 = nUSModuleSessionBean.createNUSModule(nusModule48, facultyId5);
         Long nusModId49 = nUSModuleSessionBean.createNUSModule(nusModule49, facultyId5);
+
+        nUSModuleSessionBean.createNUSModule(nusModule40, facultyId5);
+        nUSModuleSessionBean.createNUSModule(nusModule41, facultyId5);
+        nUSModuleSessionBean.createNUSModule(nusModule42, facultyId5);
+        nUSModuleSessionBean.createNUSModule(nusModule43, facultyId5);
+        nUSModuleSessionBean.createNUSModule(nusModule44, facultyId5);
+        nUSModuleSessionBean.createNUSModule(nusModule45, facultyId5);
+        nUSModuleSessionBean.createNUSModule(nusModule46, facultyId5);
+        nUSModuleSessionBean.createNUSModule(nusModule47, facultyId5);
+        nUSModuleSessionBean.createNUSModule(nusModule48, facultyId5);
+        nUSModuleSessionBean.createNUSModule(nusModule49, facultyId5);
+
 
         NUSModule nusModule50 = new NUSModule("Introduction to Engineering", "EG1108", "This module provides an overview of the various disciplines of engineering and their applications in the real world. It covers topics such as the engineering design process, basic engineering principles, and case studies of engineering projects.");
         NUSModule nusModule51 = new NUSModule("Introduction to Computer Science", "CS1010", "This module introduces students to the fundamental concepts of computer science, including programming, algorithms, and data structures. It also covers software engineering principles and basic computer architecture.");
@@ -366,6 +437,7 @@ public class DataInitializationSessionBean {
         NUSModule nusModule58 = new NUSModule("Introduction to Aerospace Engineering", "ME2114", "This module provides an overview of the principles of aerospace engineering. It covers topics such as aerodynamics, aircraft structures, and propulsion systems.");
         NUSModule nusModule59 = new NUSModule("Introduction to Engineering Mathematics", "MA1505", "This module introduces the mathematical tools and concepts used in engineering. It covers topics such as calculus, linear algebra, and differential equations.");
 
+
         Long nusModId50 = nUSModuleSessionBean.createNUSModule(nusModule50, facultyId6);
         Long nusModId51 = nUSModuleSessionBean.createNUSModule(nusModule51, facultyId6);
         Long nusModId52 = nUSModuleSessionBean.createNUSModule(nusModule52, facultyId6);
@@ -376,6 +448,18 @@ public class DataInitializationSessionBean {
         Long nusModId57 = nUSModuleSessionBean.createNUSModule(nusModule57, facultyId6);
         Long nusModId58 = nUSModuleSessionBean.createNUSModule(nusModule58, facultyId6);
         Long nusModId59 = nUSModuleSessionBean.createNUSModule(nusModule59, facultyId6);
+
+        nUSModuleSessionBean.createNUSModule(nusModule50, facultyId6);
+        nUSModuleSessionBean.createNUSModule(nusModule51, facultyId6);
+        nUSModuleSessionBean.createNUSModule(nusModule52, facultyId6);
+        nUSModuleSessionBean.createNUSModule(nusModule53, facultyId6);
+        nUSModuleSessionBean.createNUSModule(nusModule54, facultyId6);
+        nUSModuleSessionBean.createNUSModule(nusModule55, facultyId6);
+        nUSModuleSessionBean.createNUSModule(nusModule56, facultyId6);
+        nUSModuleSessionBean.createNUSModule(nusModule57, facultyId6);
+        nUSModuleSessionBean.createNUSModule(nusModule58, facultyId6);
+        nUSModuleSessionBean.createNUSModule(nusModule59, facultyId6);
+
 
         NUSModule nusModule60 = new NUSModule("Introduction to Law", "LAW1101", "This module introduces students to the study of law and legal systems. It covers topics such as the sources of law, legal reasoning, and the administration of justice.");
         NUSModule nusModule61 = new NUSModule("Criminal Law", "LAW2201", "This module provides an introduction to the principles and concepts of criminal law. It covers topics such as the elements of criminal offenses, defenses, and sentencing.");
@@ -388,6 +472,7 @@ public class DataInitializationSessionBean {
         NUSModule nusModule68 = new NUSModule("Commercial Law", "LAW3204", "This module provides an introduction to the principles and concepts of commercial law. It covers topics such as sales, agency, and the law of business organizations.");
         NUSModule nusModule69 = new NUSModule("Family Law", "LAW3205", "This module provides an introduction to the principles and concepts of family law. It covers topics such as marriage and divorce, child custody, and the legal rights and obligations of family members.");
 
+
         Long nusModId60 = nUSModuleSessionBean.createNUSModule(nusModule60, facultyId7);
         Long nusModId61 = nUSModuleSessionBean.createNUSModule(nusModule61, facultyId7);
         Long nusModId62 = nUSModuleSessionBean.createNUSModule(nusModule62, facultyId7);
@@ -398,6 +483,18 @@ public class DataInitializationSessionBean {
         Long nusModId67 = nUSModuleSessionBean.createNUSModule(nusModule67, facultyId7);
         Long nusModId68 = nUSModuleSessionBean.createNUSModule(nusModule68, facultyId7);
         Long nusModId69 = nUSModuleSessionBean.createNUSModule(nusModule69, facultyId7);
+
+        nUSModuleSessionBean.createNUSModule(nusModule60, facultyId7);
+        nUSModuleSessionBean.createNUSModule(nusModule61, facultyId7);
+        nUSModuleSessionBean.createNUSModule(nusModule62, facultyId7);
+        nUSModuleSessionBean.createNUSModule(nusModule63, facultyId7);
+        nUSModuleSessionBean.createNUSModule(nusModule64, facultyId7);
+        nUSModuleSessionBean.createNUSModule(nusModule65, facultyId7);
+        nUSModuleSessionBean.createNUSModule(nusModule66, facultyId7);
+        nUSModuleSessionBean.createNUSModule(nusModule67, facultyId7);
+        nUSModuleSessionBean.createNUSModule(nusModule68, facultyId7);
+        nUSModuleSessionBean.createNUSModule(nusModule69, facultyId7);
+
 
         NUSModule nusModule70 = new NUSModule("Anatomy", "MDP1101", "This module provides an overview of the human body's structure, including its organs, tissues, and systems.");
         NUSModule nusModule71 = new NUSModule("Physiology", "MDP1102", "This module covers the functions and mechanisms of the human body's cells, organs, and systems.");
@@ -410,6 +507,7 @@ public class DataInitializationSessionBean {
         NUSModule nusModule78 = new NUSModule("Clinical Skills", "MDP4102", "This module focuses on developing practical clinical skills, including physical examination, diagnostic reasoning, and communication with patients.");
         NUSModule nusModule79 = new NUSModule("Medical Research Methods", "MDP4103", "This module introduces students to the basic principles and methods of medical research, including study design, data analysis, and ethical considerations.");
 
+
         Long nusModId70 = nUSModuleSessionBean.createNUSModule(nusModule70, facultyId8);
         Long nusModId71 = nUSModuleSessionBean.createNUSModule(nusModule71, facultyId8);
         Long nusModId72 = nUSModuleSessionBean.createNUSModule(nusModule72, facultyId8);
@@ -420,6 +518,18 @@ public class DataInitializationSessionBean {
         Long nusModId77 = nUSModuleSessionBean.createNUSModule(nusModule77, facultyId8);
         Long nusModId78 = nUSModuleSessionBean.createNUSModule(nusModule78, facultyId8);
         Long nusModId79 = nUSModuleSessionBean.createNUSModule(nusModule79, facultyId8);
+
+        nUSModuleSessionBean.createNUSModule(nusModule70, facultyId8);
+        nUSModuleSessionBean.createNUSModule(nusModule71, facultyId8);
+        nUSModuleSessionBean.createNUSModule(nusModule72, facultyId8);
+        nUSModuleSessionBean.createNUSModule(nusModule73, facultyId8);
+        nUSModuleSessionBean.createNUSModule(nusModule74, facultyId8);
+        nUSModuleSessionBean.createNUSModule(nusModule75, facultyId8);
+        nUSModuleSessionBean.createNUSModule(nusModule76, facultyId8);
+        nUSModuleSessionBean.createNUSModule(nusModule77, facultyId8);
+        nUSModuleSessionBean.createNUSModule(nusModule78, facultyId8);
+        nUSModuleSessionBean.createNUSModule(nusModule79, facultyId8);
+
 
         NUSModule nusModule80 = new NUSModule("Chemistry for Life Sciences", "CM1121", "This module provides an introduction to the principles and applications of chemistry in the context of life sciences. Topics covered include atomic and molecular structure, chemical bonding, thermodynamics, and organic chemistry.");
         NUSModule nusModule81 = new NUSModule("Mathematics I", "MA1100", "This module provides an introduction to calculus and linear algebra. Topics covered include limits, derivatives, integrals, differential equations, matrices, and systems of linear equations.");
@@ -432,6 +542,7 @@ public class DataInitializationSessionBean {
         NUSModule nusModule88 = new NUSModule("Environmental Science", "GES1002", "This module provides an introduction to the scientific study of the environment. Topics covered include the earth's atmosphere, hydrosphere, and lithosphere, and the interactions between human activities and the environment.");
         NUSModule nusModule89 = new NUSModule("Introduction to Computational Thinking", "CS1010S", "This module provides an introduction to computational thinking and programming. Topics covered include problem-solving strategies, algorithms, data structures, and programming in a high-level language.");
 
+
         Long nusModId80 = nUSModuleSessionBean.createNUSModule(nusModule80, facultyId9);
         Long nusModId81 = nUSModuleSessionBean.createNUSModule(nusModule81, facultyId9);
         Long nusModId82 = nUSModuleSessionBean.createNUSModule(nusModule82, facultyId9);
@@ -442,6 +553,19 @@ public class DataInitializationSessionBean {
         Long nusModId87 = nUSModuleSessionBean.createNUSModule(nusModule87, facultyId9);
         Long nusModId88 = nUSModuleSessionBean.createNUSModule(nusModule88, facultyId9);
         Long nusModId89 = nUSModuleSessionBean.createNUSModule(nusModule89, facultyId9);
+
+
+        nUSModuleSessionBean.createNUSModule(nusModule80, facultyId9);
+        nUSModuleSessionBean.createNUSModule(nusModule81, facultyId9);
+        nUSModuleSessionBean.createNUSModule(nusModule82, facultyId9);
+        nUSModuleSessionBean.createNUSModule(nusModule83, facultyId9);
+        nUSModuleSessionBean.createNUSModule(nusModule84, facultyId9);
+        nUSModuleSessionBean.createNUSModule(nusModule85, facultyId9);
+        nUSModuleSessionBean.createNUSModule(nusModule86, facultyId9);
+        nUSModuleSessionBean.createNUSModule(nusModule87, facultyId9);
+        nUSModuleSessionBean.createNUSModule(nusModule88, facultyId9);
+        nUSModuleSessionBean.createNUSModule(nusModule89, facultyId9);
+        
 
         Region region1 = new Region("Africa");
         Region region2 = new Region("Europe");
@@ -488,6 +612,7 @@ public class DataInitializationSessionBean {
                 "https://upload.wikimedia.org/wikipedia/en/thumb/e/ed/Logo_of_the_University_of_Melbourne.svg/800px-Logo_of_the_University_of_Melbourne.svg.png"
         );
 
+
         Long pId1 = pUSessionBean.createNewPu(pu1, cId1);
         Long pId2 = pUSessionBean.createNewPu(pu2, cId2);
         Long pId3 = pUSessionBean.createNewPu(pu3, cId3);
@@ -530,35 +655,7 @@ public class DataInitializationSessionBean {
 
         PUReview review18 = new PUReview(2l, "I would not recommend this university. The professors seemed uninterested and the facilities were outdated. Save your money and go elsewhere.");
 
-//        PUReview puReview1 = new PUReview(new Long(5), pId1);
-//        PUReview puReview2 = new PUReview(new Long(4), pId1);
-//        PUReview puReview3 = new PUReview(new Long(3), pId1);
-//        PUReview puReview4 = new PUReview(new Long(5), pId1);
-//        PUReview puReview5 = new PUReview(new Long(5), pId1);
-//
-//        PUReview puReview6 = new PUReview(new Long(5), pId2);
-//        PUReview puReview7 = new PUReview(new Long(4), pId2);
-//        PUReview puReview8 = new PUReview(new Long(4), pId2);
-//        PUReview puReview9 = new PUReview(new Long(3), pId2);
-//        PUReview puReview10 = new PUReview(new Long(3), pId2);
-//
-//        PUReview puReview11 = new PUReview(new Long(3), pId3);
-//        PUReview puReview12 = new PUReview(new Long(3), pId3);
-//        PUReview puReview13 = new PUReview(new Long(4), pId3);
-//        PUReview puReview14 = new PUReview(new Long(3), pId3);
-//        PUReview puReview15 = new PUReview(new Long(3), pId3);
-//
-//        PUReview puReview16 = new PUReview(new Long(4), pId4);
-//        PUReview puReview17 = new PUReview(new Long(4), pId4);
-//        PUReview puReview18 = new PUReview(new Long(5), pId4);
-//        PUReview puReview19 = new PUReview(new Long(5), pId4);
-//        PUReview puReview20 = new PUReview(new Long(5), pId4);
-//
-//        PUReview puReview21 = new PUReview(new Long(2), pId5);
-//        PUReview puReview22 = new PUReview(new Long(2), pId5);
-//        PUReview puReview23 = new PUReview(new Long(5), pId5);
-//        PUReview puReview24 = new PUReview(new Long(5), pId5);
-//        PUReview puReview25 = new PUReview(new Long(5), pId5);
+
         pUReviewSessionBean.createPUReview(review1, pId1, studentId1);
         pUReviewSessionBean.createPUReview(review2, pId1, studentId2);
         pUReviewSessionBean.createPUReview(review3, pId1, studentId3);
@@ -872,45 +969,110 @@ public class DataInitializationSessionBean {
         puModuleSessionBean.associatePUModuleNUSModule(puModId87, nusModId87);
         puModuleSessionBean.associatePUModuleNUSModule(puModId88, nusModId88);
 
-//        pUReviewSessionBean.createPUReview(puReview19, pId4, 1l);
-//        pUReviewSessionBean.createPUReview(puReview20, pId4);
-//        pUReviewSessionBean.createPUReview(puReview21, pId5);
-//        pUReviewSessionBean.createPUReview(puReview22, pId5);
-//        pUReviewSessionBean.createPUReview(puReview23, pId5);
-//        pUReviewSessionBean.createPUReview(puReview24, pId5);
-//        pUReviewSessionBean.createPUReview(puReview25, pId5);
+        
+        List<Long> listOfPUModules1 = new ArrayList<>();
+        listOfPUModules1.add(mId1);
+        listOfPUModules1.add(mId2);
+        
+        Long pId1 = pUSessionBean.createNewPu(pu1, cId1, cId1);
+        Long pId2 = pUSessionBean.createNewPu(pu2, cId2, cId2);
+        Long pId3 = pUSessionBean.createNewPu(pu3, cId3, cId3);
+        Long pId4 = pUSessionBean.createNewPu(pu4, cId4, cId4);
+        Long pId5 = pUSessionBean.createNewPu(pu5, cId5, cId5);
+        Long pId6 = pUSessionBean.createNewPu(pu5, listOfPUModules1);
 
-        /*ForumTopic forumTopic1 = new ForumTopic("First Topic");
-        ForumTopic forumTopic2 = new ForumTopic("Second Topic");
-        ForumTopic forumTopic3 = new ForumTopic("Third Topic");
+        PUReview puReview1 = new PUReview(new Long(5), pId1);
+        PUReview puReview2 = new PUReview(new Long(4), pId1);
+        PUReview puReview3 = new PUReview(new Long(3), pId1);
+        PUReview puReview4 = new PUReview(new Long(5), pId1);
+        PUReview puReview5 = new PUReview(new Long(5), pId1);
+
+        PUReview puReview6 = new PUReview(new Long(5), pId2);
+        PUReview puReview7 = new PUReview(new Long(4), pId2);
+        PUReview puReview8 = new PUReview(new Long(4), pId2);
+        PUReview puReview9 = new PUReview(new Long(3), pId2);
+        PUReview puReview10 = new PUReview(new Long(3), pId2);
+
+        PUReview puReview11 = new PUReview(new Long(3), pId3);
+        PUReview puReview12 = new PUReview(new Long(3), pId3);
+        PUReview puReview13 = new PUReview(new Long(4), pId3);
+        PUReview puReview14 = new PUReview(new Long(3), pId3);
+        PUReview puReview15 = new PUReview(new Long(3), pId3);
+
+        PUReview puReview16 = new PUReview(new Long(4), pId4);
+        PUReview puReview17 = new PUReview(new Long(4), pId4);
+        PUReview puReview18 = new PUReview(new Long(5), pId4);
+        PUReview puReview19 = new PUReview(new Long(5), pId4);
+        PUReview puReview20 = new PUReview(new Long(5), pId4);
+
+        PUReview puReview21 = new PUReview(new Long(2), pId5);
+        PUReview puReview22 = new PUReview(new Long(2), pId5);
+        PUReview puReview23 = new PUReview(new Long(5), pId5);
+        PUReview puReview24 = new PUReview(new Long(5), pId5);
+        PUReview puReview25 = new PUReview(new Long(5), pId5);
+        
+
+
+
+        ForumTopic forumTopic1 = new ForumTopic("WTF Topic");
+        ForumTopic forumTopic2 = new ForumTopic("CCB Topic");
+        ForumTopic forumTopic3 = new ForumTopic("CHAO Topic");
         ForumTopic forumTopic4 = new ForumTopic("Fourth Topic");
         ForumTopic forumTopic5 = new ForumTopic("Fifth Topic");
         
-        forumTopicSessionBeanLocal.createNewForumTopic(forumTopic1, student1.getStudentId());
-        forumTopicSessionBeanLocal.createNewForumTopic(forumTopic2, student2.getStudentId());
-        forumTopicSessionBeanLocal.createNewForumTopic(forumTopic3, student3.getStudentId());
-        forumTopicSessionBeanLocal.createNewForumTopic(forumTopic4, student1.getStudentId());
-        forumTopicSessionBeanLocal.createNewForumTopic(forumTopic5, student2.getStudentId());
+        forumTopic1.setIsInappropriate(true);
+        forumTopic2.setIsInappropriate(true);
+        forumTopic3.setIsInappropriate(true);
         
-        ForumPost forumPost1 = new ForumPost("Nice Food in Korea?", "I am going Korea!!");
-        ForumPost forumPost2 = new ForumPost("Nice Food in Hong Kong?", "I am going Hong Kong!!");
+        forumTopicSessionBeanLocal.createNewForumTopic(forumTopic1, studentId1);
+        forumTopicSessionBeanLocal.createNewForumTopic(forumTopic2, studentId2);
+        forumTopicSessionBeanLocal.createNewForumTopic(forumTopic3, studentId3);
+        forumTopicSessionBeanLocal.createNewForumTopic(forumTopic4, studentId1);
+        forumTopicSessionBeanLocal.createNewForumTopic(forumTopic5, studentId2);
+        
+        ForumPost forumPost1 = new ForumPost("This is stupid?", "Stupid PU!!");
+        ForumPost forumPost2 = new ForumPost("HK nice food?", "What a joke!!");
         ForumPost forumPost3 = new ForumPost("Places to stay?", "I want to stay in Singapore");
+        
+        forumPost1.setIsInappropriate(true);
+        forumPost2.setIsInappropriate(true);
+        
+        forumPost1.setNoOfLikes(0);
+        forumPost1.setNoOfDislikes(0);
+        
+        forumPost2.setNoOfLikes(0);
+        forumPost2.setNoOfDislikes(0);
+        
+        forumPost1.getDislikedStudents().add(student1.getStudentId());
+        forumPost1.getDislikedStudents().add(student2.getStudentId());
         
         forumPostSessionBeanLocal.createNewForumPost(forumPost1, forumTopic2.getTopicId(), student1.getStudentId());
         forumPostSessionBeanLocal.createNewForumPost(forumPost2, forumTopic2.getTopicId(), student3.getStudentId());
         forumPostSessionBeanLocal.createNewForumPost(forumPost3, forumTopic1.getTopicId(), student2.getStudentId());
         
-        ForumComment forumComment1 = new ForumComment("Wow nice choice to go Korea!");
-        ForumComment forumComment2 = new ForumComment("I recommend caifan");
+        ForumComment forumComment1 = new ForumComment("Wow this is such a fking shit!");
+        ForumComment forumComment2 = new ForumComment("fk you uds");
         ForumComment forumComment3 = new ForumComment("Marina Bay Sands!");
+        
+        forumComment1.setIsInappropriate(true);
+        forumComment2.setIsInappropriate(true);
+        
+        forumComment1.setNoOfLikes(0);
+        forumComment1.setNoOfDislikes(0);
+        
+        forumComment2.setNoOfLikes(0);
+        forumComment2.setNoOfDislikes(0);
         
         forumCommentSessionBeanLocal.createNewForumComment(forumComment1, forumPost1.getPostId(), student3.getStudentId());
         forumCommentSessionBeanLocal.createNewForumComment(forumComment2, forumPost2.getPostId(), student2.getStudentId());
-        forumCommentSessionBeanLocal.createNewForumComment(forumComment3, forumPost3.getPostId(), student1.getStudentId());*/
+        forumCommentSessionBeanLocal.createNewForumComment(forumComment3, forumPost3.getPostId(), student1.getStudentId());
+        
+
 //        Enquiry enquiry1 = new Enquiry("Hello", "Help");
 //        Enquiry enquiry2 = new Enquiry("Bye", "World");
 //        Enquiry enquiry3 = new Enquiry("Interesting", "Story");
 //
+
 //        studentEnquirySessionBeanLocal.createEnquiry(enquiry1, 1L);
 //        studentEnquirySessionBeanLocal.createEnquiry(enquiry2, 1L);
 //        studentEnquirySessionBeanLocal.createEnquiry(enquiry3, 2L);
@@ -918,13 +1080,33 @@ public class DataInitializationSessionBean {
 
     private void createData() throws NoResultException {
 
-//        nUSModuleSessionBean.createNUSModule(nusModule2, 2L);
-//        nUSModuleSessionBean.createNUSModule(nusModule3, 3L);
-//        PU pu1 = new PU("ABC", "DEF", "GHI");
-//        pUSessionBean.createNewPu(pu1);
-//        pUReviewSessionBean.createPUReview(pUReview1, 1L);
-//        pUReviewSessionBean.createPUReview(pUReview2, 1L);
-//        pUReviewSessionBean.createPUReview(pUReview3, 1L);
+        NUSModule nusModule1 = new NUSModule("Enterprise Systems Interface Design and Development", "IS3106", "This module aims to train students to be conversant in front-end development for Enterprise Systems. It complements IS2103 which focuses on backend development aspects for Enterprise Systems. Topics covered include web development scripting languages, web templating design and component design, integrating with backend application, and basic mobile application development.");
+
+        NUSModule nusModule2 = new NUSModule("Computational Thinking", "CS1010", "The module provides a gentle introduction to programming using Python programming language. It aims to provide students with an understanding of the role computation can play in solving problems. It also aims to help students, regardless of their major, to feel justifiably confident of their ability to write small programs that allow them to accomplish useful goals.");
+
+        NUSModule nusModule3 = new NUSModule("Data Structures and Algorithms", "CS2040", "This module is about the design, analysis, and implementation of data structures and algorithms. It covers classical data structures (linked lists, stacks, queues, trees, and graphs), and algorithms (sorting, searching, and graph traversal). It also includes an introduction to algorithmic complexity and intractability.");
+
+        NUSModule nusModule4 = new NUSModule("Programming Methodology", "CS1101S", "This module aims to teach students how to program systematically, and how to develop good programming habits. It uses a variant of the Racket programming language to solidify the concepts learned in class.");
+
+        NUSModule nusModule5 = new NUSModule("Programming Methodology II", "CS2030", "This module aims to teach students how to design and develop larger programs, and how to write programs that are more reliable, efficient, and maintainable. It covers topics such as abstraction, interfaces, data representation, and program correctness. It also includes an introduction to concurrent programming.");
+
+        NUSModule nusModule6 = new NUSModule("Introduction to Computer Networks", "CS2105", "This module provides an introduction to computer networks, covering the layered architecture of computer networks and the services and protocols that are provided at each layer.");
+
+        NUSModule nusModule7 = new NUSModule("Database Systems", "CS2102", "This module covers the principles and techniques of database systems. It includes topics such as data models, relational algebra, SQL, and transaction processing. It also covers topics such as query optimization, concurrency control, and recovery.");
+
+        NUSModule nusModule8 = new NUSModule("Operating Systems", "CS2106", "This module covers the principles and concepts of operating systems, including process management, memory management, file systems, and input/output.");
+
+        NUSModule nusModule9 = new NUSModule("Computer Security", "CS2107", "This module covers the principles and techniques of computer security. It includes topics such as access control, authentication, confidentiality, integrity, and availability. It also covers topics such as network security, web security, and malware.");
+
+        NUSModule nusModule10 = new NUSModule("Software Engineering", "CS2103T", "This module covers the principles and practices of software engineering, including requirements elicitation, software design, implementation, testing, and maintenance. It also covers topics such as project management, software process, and software quality.");
+
+        PUReview pUReview1 = new PUReview(1L, "Meh", 2, 100, false);
+        PUReview pUReview2 = new PUReview(2L, "Meh", 3, 10, false);
+        PUReview pUReview3 = new PUReview(3L, "Meh", 4, 20, true);
+
+        pUReviewSessionBean.createPUReview(pUReview1, 1L);
+        pUReviewSessionBean.createPUReview(pUReview2, 1L);
+        pUReviewSessionBean.createPUReview(pUReview3, 1L);
     }
 
 }
