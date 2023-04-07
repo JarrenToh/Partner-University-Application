@@ -50,8 +50,8 @@ export default function NewTopic() {
             <CardHeader>Create a new topic</CardHeader>
             <CardBody>
                 <Form onSubmit={handleSubmit}>
-                    <FormGroup row>
-                        <Label for="topicName" sm={2}>
+                    <FormGroup>
+                        <Label for="topicName" sm={1}>
                             Topic Name
                         </Label>
                         <Col sm={10}>

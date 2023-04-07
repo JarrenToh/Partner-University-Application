@@ -57,7 +57,7 @@ export default function NewPost() {
             <CardBody>
                 <Form onSubmit={handleSubmit}>
                     <FormGroup row>
-                        <Label for="postTitle" sm={2}>
+                        <Label for="postTitle" sm={1}>
                             Title
                         </Label>
                         <Col sm={10}>
@@ -72,7 +72,7 @@ export default function NewPost() {
                         </Col>
                     </FormGroup>
                     <FormGroup row>
-                        <Label for="postContent" sm={2}>
+                        <Label for="postContent" sm={1}>
                             Content
                         </Label>
                         <Col sm={10}>

@@ -1011,9 +1011,6 @@ public class DataInitializationSessionBean {
         PUReview puReview24 = new PUReview(new Long(5), pId5);
         PUReview puReview25 = new PUReview(new Long(5), pId5);
         
-
-
-
         ForumTopic forumTopic1 = new ForumTopic("WTF Topic");
         ForumTopic forumTopic2 = new ForumTopic("CCB Topic");
         ForumTopic forumTopic3 = new ForumTopic("CHAO Topic");

@@ -173,7 +173,11 @@
     margin-top: 5px;
   }
 
-  input[type="text"] {
+  .reply input[type="text"] {
+    height: 28px; /* set the desired height here */
+  }
+
+  .comment-form input[type="text"] {
     height: 28px; /* set the desired height here */
   }
 
