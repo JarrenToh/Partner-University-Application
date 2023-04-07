@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, Link } from "react-router-dom";
 import { Button } from "reactstrap";
 import UniversityCard from "./UniversityCard";
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -16,7 +16,7 @@ const UniversityRankings = ({ universitiesData }) => {
   const [favoritesOnly, setFavoritesOnly] = useState(false);
   const [displayLimit, setDisplayLimit] = useState(10);
   const [ranking, setRanking] = useState(false);
-  
+
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
   const searchQuery = searchParams.get("search") || "";
@@ -150,8 +150,10 @@ const UniversityRankings = ({ universitiesData }) => {
             <br />
             {displayedUniversities.map((university, index) => (
               <div className="university-card-wrapper" key={university.puId}>
-                <UniversityCard university={university} index={index + 1} ranking={ranking} />
-                {/*<button
+                <Link to={`/university-rankings?search=${university.name}`} style={{textDecoration: 'none'}}>
+                  <UniversityCard university={university} index={index + 1} ranking={ranking} />
+                </Link>
+                {<button
                   className={`university-card__favorite-button ${university.isFavorite
                     ? "university-card__favorite-button--active"
                     : ""
@@ -159,7 +161,7 @@ const UniversityRankings = ({ universitiesData }) => {
                   onClick={() => handleToggleFavorite(university.puId)}
                 >
                   <i className="fas fa-heart"></i>
-                  </button>*/}
+                  </button>}
               </div>
             ))}
           </div>

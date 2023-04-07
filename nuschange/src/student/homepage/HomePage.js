@@ -55,18 +55,18 @@ const HomePage = () => {
         //borderRadius: '1%', // Set border radius to 50% to create curved edges
         //overflow: 'hidden', // Hide anything that overflows the container
       }}>
-        <img
+        {/*<img
           alt=""
           src={logo}
           width="300"
           height="100"
           className="d-inline-block align-top"
-        />{' '}
+    />*/}{' '}
         <div className="searchBar" >
           <input
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            placeholder="Search for Partner Universities"
+            placeholder="  Search for Partner Universities"
           />
           <Link to={`/university-rankings?search=${searchTerm}`}>
             <img

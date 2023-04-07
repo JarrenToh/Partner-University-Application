@@ -29,6 +29,8 @@ public class PUModule implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long moduleId;
+    
+    private String name;
 
     private String code;
 
@@ -49,7 +51,7 @@ public class PUModule implements Serializable {
         mappableModules = new ArrayList<>();
     }
 
-    public PUModule(String code, String description) {
+    public PUModule(String name, String code, String description) {
         this();
         this.code = code;
         this.description = description;
@@ -157,6 +159,20 @@ public class PUModule implements Serializable {
      */
     public void setPu(PU pu) {
         this.pu = pu;
+    }
+
+    /**
+     * @return the name
+     */
+    public String getName() {
+        return name;
+    }
+
+    /**
+     * @param name the name to set
+     */
+    public void setName(String name) {
+        this.name = name;
     }
 
 }

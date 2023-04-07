@@ -77,6 +77,7 @@ h2 {
   outline: none;
   color: #a1a1a1;
   background: #1f2123;
+  font-variant: all-petite-caps;
 }
 
 .searchBar img {
@@ -96,6 +97,9 @@ h2 {
   cursor: pointer;
   background: #22486f;
   border-color: white;
+  font-weight :lighter;
+  font-variant: all-petite-caps;
+  font-size: 20px;
 } 
 
 .searchBar {
@@ -243,6 +247,8 @@ h2 {
 
   .searchBar input {
     font-size: 1rem;
+    font-weight :lighter;
+    font-variant: all-petite-caps;
   }
 
   .searchBar img {
