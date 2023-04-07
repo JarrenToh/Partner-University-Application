@@ -548,22 +548,22 @@ public class DataInitializationSessionBean {
         forumPostSessionBeanLocal.createNewForumPost(forumPost2, forumTopic2.getTopicId(), student3.getStudentId());
         forumPostSessionBeanLocal.createNewForumPost(forumPost3, forumTopic1.getTopicId(), student2.getStudentId());
         
-        ForumComment forumComment1 = new ForumComment("Wow this is such a fking shit!");
-        ForumComment forumComment2 = new ForumComment("fk you uds");
-        ForumComment forumComment3 = new ForumComment("Marina Bay Sands!");
+//        ForumComment forumComment1 = new ForumComment("Wow this is such a fking shit!");
+//        ForumComment forumComment2 = new ForumComment("fk you uds");
+//        ForumComment forumComment3 = new ForumComment("Marina Bay Sands!");
         
-        forumComment1.setIsInappropriate(true);
-        forumComment2.setIsInappropriate(true);
+//        forumComment1.setIsInappropriate(true);
+//        forumComment2.setIsInappropriate(true);
+//        
+//        forumComment1.setNoOfLikes(0);
+//        forumComment1.setNoOfDislikes(0);
+//        
+//        forumComment2.setNoOfLikes(0);
+//        forumComment2.setNoOfDislikes(0);
         
-        forumComment1.setNoOfLikes(0);
-        forumComment1.setNoOfDislikes(0);
-        
-        forumComment2.setNoOfLikes(0);
-        forumComment2.setNoOfDislikes(0);
-        
-        forumCommentSessionBeanLocal.createNewForumComment(forumComment1, forumPost1.getPostId(), student3.getStudentId());
-        forumCommentSessionBeanLocal.createNewForumComment(forumComment2, forumPost2.getPostId(), student2.getStudentId());
-        forumCommentSessionBeanLocal.createNewForumComment(forumComment3, forumPost3.getPostId(), student1.getStudentId());
+//        forumCommentSessionBeanLocal.createNewForumComment(forumComment1, forumPost1.getPostId(), student3.getStudentId());
+//        forumCommentSessionBeanLocal.createNewForumComment(forumComment2, forumPost2.getPostId(), student2.getStudentId());
+//        forumCommentSessionBeanLocal.createNewForumComment(forumComment3, forumPost3.getPostId(), student1.getStudentId());
         
 //        Enquiry enquiry1 = new Enquiry("Hello", "Help");
 //        Enquiry enquiry2 = new Enquiry("Bye", "World");
@@ -604,10 +604,10 @@ public class DataInitializationSessionBean {
         PUReview pUReview1 = new PUReview(1L, "Meh", 2, 100, false);
         PUReview pUReview2 = new PUReview(2L, "Meh", 3, 10, false);
         PUReview pUReview3 = new PUReview(3L, "Meh", 4, 20, true);
-
-        pUReviewSessionBean.createPUReview(pUReview1, 1L);
-        pUReviewSessionBean.createPUReview(pUReview2, 1L);
-        pUReviewSessionBean.createPUReview(pUReview3, 1L);
+//
+//        pUReviewSessionBean.createPUReview(pUReview1, 1L);
+//        pUReviewSessionBean.createPUReview(pUReview2, 1L);
+//        pUReviewSessionBean.createPUReview(pUReview3, 1L);
     }
 
 }
