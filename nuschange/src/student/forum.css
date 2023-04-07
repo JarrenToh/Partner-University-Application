@@ -2,84 +2,68 @@
     max-width: 800px;
     margin: auto;
   }
+
+  .forum-item {
+    border: none;
+  }
+
+  .forum-item:hover {
+    background-color: white;
+  }
   
-  .card {
+  .forum-item h5,
+  .forum-item h6 {
+    margin-bottom: 0;
+  }
+  
+  .forum-item p {
+    margin-bottom: 15px;
+  }
+  
+  .forum-item small {
+    color: #aaa;
+  }
+  
+  .forum-item button:hover {
+    cursor: pointer;
+  }
+
+  .forum-body {
+    padding: 1.25rem 1.5rem;
+    padding: 20px;
+  }
+
+  .forum-body p:first-of-type {
+    font-size: 14px;
+  }
+
+  .forum-body p:last-of-type {
+    font-size: 12px;
+    margin-bottom: 0;
+  }
+
+  .forum-card {
+    margin-bottom: 0;
+    border-radius: 0;
     border: 1px solid #ccc;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   }
-  
-  .card-header {
+
+  .forum-header {
+    padding: 0.75rem 1.25rem;
+    border-color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     background-color: white;
     padding: 8px;
   }
 
-  .card-header h4 {
+  .forum-header h4 {
+    margin: 0;
     margin-bottom: 0;
-  }
-  
-  .card-body {
-    padding: 20px;
-  }
-  
-  .list-group-item {
-    border: none;
-  }
-  
-  .list-group-item:hover {
-    background-color: white;
-  }
-  
-  .list-group-item h5,
-  .list-group-item h6 {
-    margin-bottom: 0;
-  }
-  
-  .list-group-item p {
-    margin-bottom: 15px;
-  }
-  
-  .list-group-item small {
-    color: #aaa;
-  }
-  
-  /* .list-group-item button {
-    border: none;
-    background-color: transparent;
-    margin-right: 10px;
-  } */
-  
-  .list-group-item button:hover {
-    cursor: pointer;
-  }
-  
-  .card-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
   }
 
-  .card-body p:first-of-type {
-    font-size: 14px;
-  }
-  
-  .card-body p:last-of-type {
-    font-size: 12px;
-    margin-bottom: 0;
-  }
-  
-  .card {
-    margin-bottom: 0;
-    border-radius: 0;
-  }
-  
-  .card-body {
-    padding: 1.25rem 1.5rem;
-  }
-  
-  .card-header {
-    padding: 0.75rem 1.25rem;
-  }
-  
   .author {
     display: inline-block;
     margin-right: 10px;
@@ -143,18 +127,6 @@
     display: flex;
     flex-direction: column;
   }
-
-  .card-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    /* border-bottom: 2px; */
-    border-color: white
-  }
-  
-  .card-header h4 {
-    margin: 0;
-  }
   
   .add-comment {
     color: black;
@@ -170,7 +142,7 @@
   .comment-form {
     margin-left: 20px;
     margin-right: 20px;
-    margin-top: 5px;
+    margin-top: 10px;
   }
 
   .reply input[type="text"] {

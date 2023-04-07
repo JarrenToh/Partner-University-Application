@@ -12,7 +12,7 @@ import TopicPosts from './student/TopicPosts';
 import NewPost from './student/NewPost';
 import MyTopics from './student/MyTopics';
 import MyPosts from './student/MyPosts';
-import EditPost from './student/EditPost';
+import EditPost from './student/EditForumPost';
 import NewTopic from './student/NewTopic';
 import EditTopic from './student/EditTopic';
 //import EachPost from './student/EachPost';
@@ -85,7 +85,7 @@ const App = () => {
   return (
     <AuthProvider> {/* Wrap the app in AuthProvider */}
       <div className="App">
-        {/* <NavbarComp isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} user={user} />
+        <NavbarComp isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} user={user} />
         <Router basename='/student'>
           <Routes>
             <Route path="/home-page" element={<HomePage />} />
@@ -111,7 +111,7 @@ const App = () => {
             <Route path="/profile/modulesTaken" element={<ModulesTaken/>}/>
             <Route path="/module-reviews" element={<ModuleDetail/>}/>
           </Routes>
-        </Router> */}
+        </Router>
 
         <Router basename='/admin'>
           <Routes>

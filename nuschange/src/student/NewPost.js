@@ -86,7 +86,7 @@ export default function NewPost() {
                         </Col>
                     </FormGroup>
                     <FormGroup row>
-                        <Col sm={{ size: 10, offset: 2 }}>
+                        <Col sm={{ size: 10, offset: 1 }}>
                             <div className="text-right">
                                 <Button color="outline-primary" type="submit">
                                     Create post

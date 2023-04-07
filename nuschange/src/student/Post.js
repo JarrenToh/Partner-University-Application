@@ -193,8 +193,8 @@ export default function ViewPost() {
     return (
         //  <div className="container my-5">
         <>
-            <div className="card">
-                <div className="card-header">
+            <div className="forum-card">
+                <div className="forum-header">
                     <div className="d-flex justify-content-between align-items-center">
                         <h4>{forumPost.title}</h4>
                         <div className="text-muted" style={{ display: 'flex', flexWrap: 'wrap' }}>
@@ -212,8 +212,8 @@ export default function ViewPost() {
                         </div>
                     </div>
                 </div>
-                <div className="card-body">
-                    <div className="list-group-item">
+                <div className="forum-body">
+                    <div className="forum-item">
                         <div className="d-flex w-100 justify-content-between">
                             <p style={{ fontSize: '15px' }}>{forumPost.message}</p>
                             <div className="ml-auto">
@@ -235,8 +235,8 @@ export default function ViewPost() {
                     </div>
                 </div>
             </div >
-            <div className="card">
-                <div className="card-header">
+            <div className="forum-card">
+                <div className="forum-header">
                     <h4>Comments</h4>
                 </div>
                 <div className="comment-form">
@@ -261,7 +261,7 @@ export default function ViewPost() {
                         </Row>
                     </Form>
                 </div>
-                <div className="card-body">
+                <div className="forum-body">
                     {forumComments.length > 0 ? (
                         <div className="list-group">
                             <span onClick={toggleComments} className="comments-toggle">
@@ -273,7 +273,7 @@ export default function ViewPost() {
                             {showComments && (
                                 forumComments.map(comment => (
                                     !comment.isAReply && (
-                                        <div className="list-group-item" key={comment.commentId}>
+                                        <div className="forum-item" key={comment.commentId}>
                                             <div className="d-flex w-100 comment">
                                                 <div className="d-flex comment-header align-items-center">
                                                     <h5 className="mb-1 author">{comment.studentFirstName} {comment.studentLastName}</h5>
@@ -332,7 +332,7 @@ export default function ViewPost() {
                                                     <div className="list-group">
                                                         {comment.showReplies && (
                                                             comment.replies.map(reply => (
-                                                                <div className="list-group-item" key={reply.commentId}>
+                                                                <div className="forum-item" key={reply.commentId}>
                                                                     <div className="d-flex w-100 justify-content-between">
                                                                         <div className="d-flex justify-content-between comment-header">
                                                                             <h6 className="mb-1 author">{reply.studentFirstName} {reply.studentLastName}</h6>

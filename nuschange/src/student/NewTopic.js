@@ -50,11 +50,11 @@ export default function NewTopic() {
             <CardHeader>Create a new topic</CardHeader>
             <CardBody>
                 <Form onSubmit={handleSubmit}>
-                    <FormGroup>
-                        <Label for="topicName" sm={1}>
-                            Topic Name
-                        </Label>
-                        <Col sm={10}>
+                    <div className="row">
+                        <FormGroup className="col-sm-1">
+                            <Label for="topicName">Topic Name</Label>
+                        </FormGroup>
+                        <FormGroup className="col-sm-9">
                             <Input
                                 type="text"
                                 name="topicName"
@@ -63,17 +63,15 @@ export default function NewTopic() {
                                 value={topicName}
                                 onChange={handleTopicNameChange}
                             />
-                        </Col>
-                    </FormGroup>
-                    <FormGroup row>
-                        <Col sm={{ size: 10, offset: 2 }}>
+                        </FormGroup>
+                        <FormGroup className="col-sm-2">
                             <div className="text-right">
                                 <Button color="outline-primary" type="submit">
                                     Create topic
                                 </Button>
                             </div>
-                        </Col>
-                    </FormGroup>
+                        </FormGroup>
+                    </div>
                 </Form>
             </CardBody>
         </Card>
