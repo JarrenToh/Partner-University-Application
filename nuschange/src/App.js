@@ -16,11 +16,13 @@ import EditPost from './student/EditPost';
 import NewTopic from './student/NewTopic';
 import EditTopic from './student/EditTopic';
 import FAQPage from './student/FAQpage';
-import LikedPUs from './student/LikedPUs';
+import LikedPUs from './student/studentProfile/LikedPUs';
 import UniversityRankingsCountry from './student/ranking/UniversityRankingsCountry';
 import UniversityRankingsRegion from './student/ranking/UniversityRankingsRegion';
 import MappableModule from './student/containers/mappableModules';
 import UniversityDescriptionPage from './student/containers/universityDescriptionPage';
+import ModulesTaken from './student/studentProfile/ModulesTaken';
+import ModuleDetail from './student/puModule/ModuleDetails';
 
 
 //import Enquiry from './admin/userSupportAdmin/pages/enquiry';
@@ -92,6 +94,8 @@ const App = () => {
             <Route path="/profile/likedPus" element={<LikedPUs/>}/>
             <Route path="/university-description-page" element={<UniversityDescriptionPage/>}/>
             <Route path="/university-description-page/mappable-module" element={<MappableModule/>}/>
+            <Route path="/profile/modulesTaken" element={<ModulesTaken/>}/>
+            <Route path="/module-reviews" element={<ModuleDetail/>}/>
           </Routes>
         </Router>
 

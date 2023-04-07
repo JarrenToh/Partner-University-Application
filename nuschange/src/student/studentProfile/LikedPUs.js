@@ -1,6 +1,6 @@
 import React, { useContext, useState } from "react";
-import UniversityCard from "./ranking/UniversityCard";
-import { AuthContext } from "./login/AuthContext";
+import UniversityCard from "../ranking/UniversityCard";
+import { AuthContext } from "../login/AuthContext";
 
 const LikedPUs = () => {
   const { loggedInStudent } = useContext(AuthContext);
