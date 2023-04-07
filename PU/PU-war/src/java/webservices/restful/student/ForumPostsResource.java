@@ -7,9 +7,6 @@ package webservices.restful.student;
 
 import ejb.session.stateless.ForumPostSessionBeanLocal;
 import entity.ForumPost;
-import entity.Student;
-import java.net.URI;
-import java.util.List;
 import javax.ejb.EJB;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
@@ -32,6 +29,7 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.*;
 import java.net.URI;
 import java.util.List;
+import util.formRequestEntity.AdminForumPostRequest;
 import util.formRequestEntity.ForumPostRequest;
 
 /**
@@ -99,6 +97,23 @@ public class ForumPostsResource {
         forumPost.setTitle(forumPostRequest.getTitle());
         forumPost.setMessage(forumPostRequest.getContent());
         forumPostSessionBeanLocal.editForumPost(forumPost);
+        return Response.status(204).build();
+
+    }
+    
+    @PUT
+    @Path("/editForumPostByAdmin/{id}")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response editForumPostByAdmin(@PathParam("id") Long cId, AdminForumPostRequest adminForumPostRequest) {
+        
+        ForumPost forumPost = forumPostSessionBeanLocal.retrieveForumPostById(cId);
+        forumPost.setTitle(adminForumPostRequest.getTitle());
+        forumPost.setMessage(adminForumPostRequest.getMessage());
+        forumPost.setNoOfLikes(adminForumPostRequest.getNoOfLikes());
+        forumPost.setNoOfDislikes(adminForumPostRequest.getNoOfDislikes());
+        forumPost.setIsInappropriate(adminForumPostRequest.getIsInappropriate());
+        forumPostSessionBeanLocal.editForumPostByAdmin(forumPost);
         return Response.status(204).build();
 
     }

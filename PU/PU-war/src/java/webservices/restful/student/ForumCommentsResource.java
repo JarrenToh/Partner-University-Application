@@ -7,7 +7,6 @@ package webservices.restful.student;
 
 import ejb.session.stateless.ForumCommentSessionBeanLocal;
 import entity.ForumComment;
-import entity.ForumPost;
 import java.net.URI;
 import java.util.List;
 import javax.ejb.EJB;
@@ -26,6 +25,7 @@ import javax.ws.rs.core.GenericEntity;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriBuilder;
+import util.formRequestEntity.AdminForumCommentRequest;
 import util.formRequestEntity.ForumCommentRequest;
 
 /**
@@ -118,6 +118,21 @@ public class ForumCommentsResource {
     }
     
     @PUT
+    @Path("/editForumCommentByAdmin/{id}")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response editForumCommentByAdmin(@PathParam("id") Long cId, AdminForumCommentRequest adminForumCommentRequest) {
+        
+        ForumComment forumComment = forumCommentSessionBeanLocal.retrieveForumCommentById(cId);
+        forumComment.setMessage(adminForumCommentRequest.getMessage());
+        forumComment.setNoOfLikes(adminForumCommentRequest.getNoOfLikes());
+        forumComment.setNoOfDislikes(adminForumCommentRequest.getNoOfDislikes());
+        forumComment.setIsInappropriate(adminForumCommentRequest.getIsInappropriate());
+        forumCommentSessionBeanLocal.editForumCommentByAdmin(forumComment);
+        return Response.status(204).build();
+
+    }
+    
     @Path("/showReplies/{id}")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
@@ -127,8 +142,7 @@ public class ForumCommentsResource {
        return Response.status(204).build();
 
     }
-    
-    
+
     @DELETE
     @Path("/{id}")
     @Produces(MediaType.APPLICATION_JSON)
@@ -159,7 +173,7 @@ public class ForumCommentsResource {
                 forumComment
         ).type(MediaType.APPLICATION_JSON).build();
     }
-    
+        
     @PUT
     @Path("/like/{commentId}/{studentId}")
     @Consumes(MediaType.APPLICATION_JSON)

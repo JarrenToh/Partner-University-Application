@@ -5,11 +5,8 @@
  */
 package ejb.session.stateless;
 
-import entity.FAQ;
 import entity.PUModule;
-import entity.Student;
 import error.NoResultException;
-import java.time.LocalDateTime;
 import java.util.List;
 import javax.ejb.Local;
 
@@ -19,12 +16,16 @@ import javax.ejb.Local;
  */
 @Local
 public interface PUModuleSessionBeanLocal {
+    
+    public void createModuleForPU(String puName, PUModule module);
 
-    public void createPUModule(PUModule module);
+    public Long createPUModule(PUModule module);
 
     public List<PUModule> retrieveAllPUModules();
 
     public void updatePUModule(Long moduleId, String code, String description) throws NoResultException;
+    
+    public void deletePUModuleFromPU(Long moduleId, String puName) throws NoResultException;
 
     public void deletePUModule(Long moduleId) throws NoResultException;
 

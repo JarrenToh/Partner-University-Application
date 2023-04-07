@@ -39,7 +39,7 @@ public class PUModuleReview implements Serializable {
     
     @ManyToOne
     @JoinColumn(name = "studentId")
-    private Student students;
+    private Student student;
 
     public PUModuleReview(String review, Long rating, Integer noOfLikes, Integer noOfDislikes) {
         this.review = review;
@@ -174,15 +174,15 @@ public class PUModuleReview implements Serializable {
      * @return the students
      */
     @JsonbTransient
-    public Student getStudents() {
-        return students;
+    public Student getStudent() {
+        return student;
     }
 
     /**
      * @param students the students to set
      */
-    public void setStudents(Student students) {
-        this.students = students;
+    public void setStudent(Student student) {
+        this.student = student;
     }
 
 }

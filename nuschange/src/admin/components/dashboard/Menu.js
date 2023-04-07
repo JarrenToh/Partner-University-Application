@@ -13,7 +13,7 @@ const Menu = () => {
 
     return (
         <div>
-            <aside className="main-sidebar elevation-4" style={{ background: '#A0A0A0' }}>
+            <aside className="main-sidebar elevation-4" style={{ background: 'white' }}>
                 <img src={logo} alt="AdminLTE Logo" style={{ 'width': '100%' }} />
                 <br />
                 <div className="sidebar">

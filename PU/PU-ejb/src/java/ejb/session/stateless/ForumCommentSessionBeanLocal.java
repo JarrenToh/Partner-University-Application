@@ -26,12 +26,14 @@ public interface ForumCommentSessionBeanLocal {
     
     public void editForumComment(ForumComment forumComment);
     
+    public void editForumCommentByAdmin(ForumComment forumComment);
+    
     public void deleteForumComment(Long forumCommentId);
     
     public List<ForumComment> retrieveAllForumComments();
     
     public ForumComment retrieveForumCommentById(Long forumCommentId);
-    
+        
     public void reportForumComment(Long forumCommentId);
     
     public void resolveForumComment(Long forumCommentId);

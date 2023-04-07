@@ -43,64 +43,65 @@ public class CountryResource {
     private CountrySessionBeanLocal countrySessionBeanLocal;
     
     
-//    @GET
-//    @Produces(MediaType.APPLICATION_JSON)
-//    public Response getAllPus() {
-//
-//        List<Country> results = countrySessionBeanLocal.retrieveAllCountries();
-//        GenericEntity<List<Country>> entity = new GenericEntity<List<Country>>(results) {
-//        };
-//
-//        return Response.status(200).entity(
-//                entity
-//        ).build();
-//    }
-//    @GET
-//    @Path("/{id}")
-//    @Produces(MediaType.APPLICATION_JSON)
-//    public Response getCountryById(@PathParam("id") Long countryId) {
-//
-//        try {
-//            Country country = countrySessionBeanLocal.retrieveCountryById(countryId);
-//            return Response.status(200).entity(
-//                    country
-//            ).type(MediaType.APPLICATION_JSON).build();
-//        } catch (Exception e) {
-//            JsonObject exception = Json.createObjectBuilder()
-//                    .add("error", "Not found")
-//                    .build();
-//
-//            return Response.status(404).entity(exception)
-//                    .type(MediaType.APPLICATION_JSON).build();
-//        }
-//    }
-//
-//    @GET
-//    @Path("/{name}")
-//    @Produces(MediaType.APPLICATION_JSON)
-//    public Response getCountryByName(@PathParam("name") String countryName) {
-//
-//        try {
-//            Country country = countrySessionBeanLocal.retrieveCountryByName(countryName);
-//            return Response.status(200).entity(
-//                    country
-//            ).type(MediaType.APPLICATION_JSON).build();
-//        } catch (Exception e) {
-//            JsonObject exception = Json.createObjectBuilder()
-//                    .add("error", "Not found")
-//                    .build();
-//
-//            return Response.status(404).entity(exception)
-//                    .type(MediaType.APPLICATION_JSON).build();
-//        }
-//    }
-//    
-//    @POST
-//    @Consumes(MediaType.APPLICATION_JSON)
-//    @Produces(MediaType.APPLICATION_JSON)
-//    public Country createCountry(Country country) {
-//        countrySessionBeanLocal.createNewCountry(country);
-//        return country;
-//    }
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getAllCountries() {
+
+        List<Country> results = countrySessionBeanLocal.retrieveAllCountries();
+        GenericEntity<List<Country>> entity = new GenericEntity<List<Country>>(results) {
+        };
+
+        return Response.status(200).entity(
+                entity
+        ).build();
+    }
+    
+    @GET
+    @Path("/getCountryById/{id}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getCountryById(@PathParam("id") Long countryId) {
+
+        try {
+            Country country = countrySessionBeanLocal.retrieveCountryById(countryId);
+            return Response.status(200).entity(
+                    country
+            ).type(MediaType.APPLICATION_JSON).build();
+        } catch (Exception e) {
+            JsonObject exception = Json.createObjectBuilder()
+                    .add("error", "Not found")
+                    .build();
+
+            return Response.status(404).entity(exception)
+                    .type(MediaType.APPLICATION_JSON).build();
+        }
+    }
+
+    @GET
+    @Path("/getCountryByName/{name}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getCountryByName(@PathParam("name") String countryName) {
+
+        try {
+            Country country = countrySessionBeanLocal.retrieveCountryByName(countryName);
+            return Response.status(200).entity(
+                    country
+            ).type(MediaType.APPLICATION_JSON).build();
+        } catch (Exception e) {
+            JsonObject exception = Json.createObjectBuilder()
+                    .add("error", "Not found")
+                    .build();
+
+            return Response.status(404).entity(exception)
+                    .type(MediaType.APPLICATION_JSON).build();
+        }
+    }
+    
+    @POST
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Country createCountry(Country country) {
+        countrySessionBeanLocal.createNewCountry(country);
+        return country;
+    }
 
 }

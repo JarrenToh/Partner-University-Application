@@ -19,6 +19,8 @@ public interface PUSessionBeanLocal {
     public Long createNewPu(PU newPu, Long countryId, Long regionId);
 
     public Long createNewPu(PU newPu);
+    
+    public Long createNewPu(PU newPu, List<Long> moduleIds);
 
     public List<PU> retrieveAllPus();
 
@@ -26,6 +28,10 @@ public interface PUSessionBeanLocal {
 
     public PU retrievePuByName(String name);
 
-    List<Object[]> getMappableModulesGroupedByFaculty(String puName);
+    public List<Object[]> getMappableModulesGroupedByFaculty(String puName);
+    
+    public void updatePU(Long puId, String name, String description, String images);
+    
+    public void deletePU(Long puId);
     
 }

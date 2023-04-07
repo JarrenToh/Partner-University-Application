@@ -21,16 +21,23 @@ import ejb.session.stateless.PUSessionBeanLocal;
 import ejb.session.stateless.RegionSessionBeanLocal;
 import ejb.session.stateless.enquiry.StudentEnquirySessionBeanLocal;
 import entity.Country;
+import entity.Enquiry;
 import entity.FAQ;
 import entity.Faculty;
+import entity.ForumComment;
+import entity.ForumPost;
+import entity.ForumTopic;
 import entity.NUSModule;
 import entity.NUSchangeAdmin;
 import entity.PUModuleReview;
 import entity.Student;
 import entity.PU;
+import entity.PUModule;
 import entity.PUReview;
 import entity.Region;
 import error.NoResultException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
@@ -97,7 +104,7 @@ public class DataInitializationSessionBean {
     @EJB
     private FAQSessionBeanLocal faqSessionBeanLocal;
 
-    @EJB
+    @EJB(name = "StudentEnquirySessionBeanLocal")
     private StudentEnquirySessionBeanLocal studentEnquirySessionBeanLocal;
 
     @PersistenceContext(unitName = "PU-ejbPU")
@@ -138,16 +145,24 @@ public class DataInitializationSessionBean {
         Student student2 = new Student("Henry", "Chia", "90002040", "immutablepain@comp.nus.edu.sg", "password");
         Student student3 = new Student("Steven", "Halim", "90002040", "competitive@comp.nus.edu.sg", "password");
 
-        studentSessionBean.createStudent(student1);
-        studentSessionBean.createStudent(student2);
-        studentSessionBean.createStudent(student3);
+        Long studentId1 = studentSessionBean.createStudent(student1);
+        Long studentId2 = studentSessionBean.createStudent(student2);
+        Long studentId3 = studentSessionBean.createStudent(student3);
 
-//        PUModule module1 = new PUModule("CS2030", "Just a module with IMList everything");
-//        PUModule module2 = new PUModule("CS2040", "Transversal makes my head spin");
-//        puModuleSessionBean.createPUModule(module1);
-//        puModuleSessionBean.createPUModule(module2);
+        PUModule module1 = new PUModule("Programming Methodology II", "CS2030", "Just a module with IMList everything");
+        PUModule module2 = new PUModule("Data Structure and Algorithms", "CS2040", "Transversal makes my head spin");
+
+        Long mId1 = puModuleSessionBean.createPUModule(module1);
+        Long mId2 = puModuleSessionBean.createPUModule(module2);
+
         PUModuleReview pumodulereview1 = new PUModuleReview("Test1", new Long(2), new Integer(1), new Integer(1));
         PUModuleReview pumodulereview2 = new PUModuleReview("Test2", new Long(2), new Integer(1), new Integer(1));
+        
+        pumodulereview1.setIsInappropriate(true);
+        
+        pumodulereview1.setStudent(student1);
+        pumodulereview1.setNoOfDislikes(0);
+        pumodulereview1.setNoOfDislikes(0);
 
         pUModuleReviewSessionBean.createPUModuleReview(pumodulereview1);
         pUModuleReviewSessionBean.createPUModuleReview(pumodulereview2);
@@ -412,12 +427,17 @@ public class DataInitializationSessionBean {
                 "The University of Melbourne is a public research university located in Melbourne, Australia. Founded in 1853, it is Australia's second oldest university and the oldest in Victoria.[9] Its main campus is located in Parkville, an inner suburb north of Melbourne's central business district, with several other campuses located across Victoria.",
                 "https://upload.wikimedia.org/wikipedia/en/thumb/e/ed/Logo_of_the_University_of_Melbourne.svg/800px-Logo_of_the_University_of_Melbourne.svg.png"
         );
-
+        
+        List<Long> listOfPUModules1 = new ArrayList<>();
+        listOfPUModules1.add(mId1);
+        listOfPUModules1.add(mId2);
+        
         Long pId1 = pUSessionBean.createNewPu(pu1, cId1, cId1);
         Long pId2 = pUSessionBean.createNewPu(pu2, cId2, cId2);
         Long pId3 = pUSessionBean.createNewPu(pu3, cId3, cId3);
         Long pId4 = pUSessionBean.createNewPu(pu4, cId4, cId4);
         Long pId5 = pUSessionBean.createNewPu(pu5, cId5, cId5);
+        Long pId6 = pUSessionBean.createNewPu(pu5, listOfPUModules1);
 
         PUReview puReview1 = new PUReview(new Long(5), pId1);
         PUReview puReview2 = new PUReview(new Long(4), pId1);
@@ -448,6 +468,110 @@ public class DataInitializationSessionBean {
         PUReview puReview23 = new PUReview(new Long(5), pId5);
         PUReview puReview24 = new PUReview(new Long(5), pId5);
         PUReview puReview25 = new PUReview(new Long(5), pId5);
+        
+        puReview1.setIsInappropriate(true);
+        puReview2.setIsInappropriate(true);
+        puReview3.setIsInappropriate(true);
+        
+        puReview1.setReview("knn ccb");
+        puReview2.setReview("wtf hello");
+        puReview3.setReview("fking cb");
+        
+        puReview1.setNoOfLikes(0);
+        puReview1.setNoOfDislikes(0);
+        
+        puReview2.setNoOfLikes(0);
+        puReview2.setNoOfDislikes(0);
+        
+        puReview3.setNoOfLikes(0);
+        puReview3.setNoOfDislikes(0);
+
+        pUReviewSessionBean.createPUReview(puReview1, pId1, studentId1);
+        pUReviewSessionBean.createPUReview(puReview2, pId1, studentId2);
+        pUReviewSessionBean.createPUReview(puReview3, pId1, studentId3);
+//        pUReviewSessionBean.createPUReview(puReview4, pId1, 1l);
+//        pUReviewSessionBean.createPUReview(puReview5, pId1, 1l);
+//        pUReviewSessionBean.createPUReview(puReview6, pId2, 1l);
+//        pUReviewSessionBean.createPUReview(puReview7, pId2, 1l);
+//        pUReviewSessionBean.createPUReview(puReview8, pId2, 1l);
+//        pUReviewSessionBean.createPUReview(puReview9, pId2, 1l);
+//        pUReviewSessionBean.createPUReview(puReview10, pId2, 1l);
+//        pUReviewSessionBean.createPUReview(puReview11, pId3, 1l);
+//        pUReviewSessionBean.createPUReview(puReview12, pId3, 1l);
+//        pUReviewSessionBean.createPUReview(puReview13, pId3, 1l);
+//        pUReviewSessionBean.createPUReview(puReview14, pId3, 1l);
+//        pUReviewSessionBean.createPUReview(puReview15, pId3, 1l);
+//        pUReviewSessionBean.createPUReview(puReview16, pId4, 1l);
+//        pUReviewSessionBean.createPUReview(puReview17, pId4, 1l);
+//        pUReviewSessionBean.createPUReview(puReview18, pId4, 1l);
+//        pUReviewSessionBean.createPUReview(puReview19, pId4, 1l);
+//        pUReviewSessionBean.createPUReview(puReview20, pId4);
+//        pUReviewSessionBean.createPUReview(puReview21, pId5);
+//        pUReviewSessionBean.createPUReview(puReview22, pId5);
+//        pUReviewSessionBean.createPUReview(puReview23, pId5);
+//        pUReviewSessionBean.createPUReview(puReview24, pId5);
+//        pUReviewSessionBean.createPUReview(puReview25, pId5);
+
+        ForumTopic forumTopic1 = new ForumTopic("WTF Topic");
+        ForumTopic forumTopic2 = new ForumTopic("CCB Topic");
+        ForumTopic forumTopic3 = new ForumTopic("CHAO Topic");
+        ForumTopic forumTopic4 = new ForumTopic("Fourth Topic");
+        ForumTopic forumTopic5 = new ForumTopic("Fifth Topic");
+        
+        forumTopic1.setIsInappropriate(true);
+        forumTopic2.setIsInappropriate(true);
+        forumTopic3.setIsInappropriate(true);
+        
+        forumTopicSessionBeanLocal.createNewForumTopic(forumTopic1, studentId1);
+        forumTopicSessionBeanLocal.createNewForumTopic(forumTopic2, studentId2);
+        forumTopicSessionBeanLocal.createNewForumTopic(forumTopic3, studentId3);
+        forumTopicSessionBeanLocal.createNewForumTopic(forumTopic4, studentId1);
+        forumTopicSessionBeanLocal.createNewForumTopic(forumTopic5, studentId2);
+        
+        ForumPost forumPost1 = new ForumPost("This is stupid?", "Stupid PU!!");
+        ForumPost forumPost2 = new ForumPost("HK nice food?", "What a joke!!");
+        ForumPost forumPost3 = new ForumPost("Places to stay?", "I want to stay in Singapore");
+        
+        forumPost1.setIsInappropriate(true);
+        forumPost2.setIsInappropriate(true);
+        
+        forumPost1.setNoOfLikes(0);
+        forumPost1.setNoOfDislikes(0);
+        
+        forumPost2.setNoOfLikes(0);
+        forumPost2.setNoOfDislikes(0);
+        
+        forumPost1.getDislikedStudents().add(student1.getStudentId());
+        forumPost1.getDislikedStudents().add(student2.getStudentId());
+        
+        forumPostSessionBeanLocal.createNewForumPost(forumPost1, forumTopic2.getTopicId(), student1.getStudentId());
+        forumPostSessionBeanLocal.createNewForumPost(forumPost2, forumTopic2.getTopicId(), student3.getStudentId());
+        forumPostSessionBeanLocal.createNewForumPost(forumPost3, forumTopic1.getTopicId(), student2.getStudentId());
+        
+        ForumComment forumComment1 = new ForumComment("Wow this is such a fking shit!");
+        ForumComment forumComment2 = new ForumComment("fk you uds");
+        ForumComment forumComment3 = new ForumComment("Marina Bay Sands!");
+        
+        forumComment1.setIsInappropriate(true);
+        forumComment2.setIsInappropriate(true);
+        
+        forumComment1.setNoOfLikes(0);
+        forumComment1.setNoOfDislikes(0);
+        
+        forumComment2.setNoOfLikes(0);
+        forumComment2.setNoOfDislikes(0);
+        
+        forumCommentSessionBeanLocal.createNewForumComment(forumComment1, forumPost1.getPostId(), student3.getStudentId());
+        forumCommentSessionBeanLocal.createNewForumComment(forumComment2, forumPost2.getPostId(), student2.getStudentId());
+        forumCommentSessionBeanLocal.createNewForumComment(forumComment3, forumPost3.getPostId(), student1.getStudentId());
+        
+//        Enquiry enquiry1 = new Enquiry("Hello", "Help");
+//        Enquiry enquiry2 = new Enquiry("Bye", "World");
+//        Enquiry enquiry3 = new Enquiry("Interesting", "Story");
+//
+//        studentEnquirySessionBeanLocal.createEnquiry(enquiry1, student3.getStudentId());
+//        studentEnquirySessionBeanLocal.createEnquiry(enquiry2, student2.getStudentId());
+//        studentEnquirySessionBeanLocal.createEnquiry(enquiry3, student2.getStudentId());
 
         pUReviewSessionBean.createPUReview(puReview1, pId1, 1l);
         pUReviewSessionBean.createPUReview(puReview2, pId1, 2l);

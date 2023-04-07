@@ -7,9 +7,12 @@ package ejb.session.stateless;
 
 import entity.Country;
 import entity.PU;
-import entity.Region;
+import entity.PUModule;
+import error.NoResultException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -32,7 +35,8 @@ public class PUSessionBean implements PUSessionBeanLocal {
     @EJB
     private CountrySessionBeanLocal countrySessionBean;
     
-    
+    @EJB
+    private PUModuleSessionBeanLocal puModuleSessionBean;
 
     @Override
     public Long createNewPu(PU newPu) {
@@ -55,6 +59,29 @@ public class PUSessionBean implements PUSessionBeanLocal {
         return newPu.getPuId();
     }
     
+    @Override
+    public Long createNewPu(PU newPu, List<Long> moduleIds) {
+        List<PUModule> puModules = new ArrayList<>();
+        
+        for (Long moduleId : moduleIds) {
+            PUModule puModule = null;
+            
+            try {
+                puModule = puModuleSessionBean.getPUModule(moduleId);
+            } catch (NoResultException ex) {
+                Logger.getLogger(PUSessionBean.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
+            puModules.add(puModule);
+        }
+        
+        newPu.setModules(puModules);
+        
+        em.persist(newPu);
+        em.flush();
+        return newPu.getPuId();
+    }
+        
     @Override
     public List<PU> retrieveAllPus() {
 //        Query query = em.createQuery("SELECT p FROM PU p");
@@ -87,9 +114,11 @@ public class PUSessionBean implements PUSessionBeanLocal {
     @Override
     public PU retrievePuByName(String name) {
         Query query = em.createQuery("SELECT p FROM PU p WHERE p.name = :name");
-        query.setParameter(name, "name");
+        query.setParameter("name", name);
 
-        return (PU) query.getSingleResult();
+        PU pu = (PU) query.getSingleResult();
+                        
+        return pu;
     }
 
     @Override
@@ -105,6 +134,21 @@ public class PUSessionBean implements PUSessionBeanLocal {
         );
         query.setParameter("puName", puName.toLowerCase());
         return query.getResultList();
+    }
+    
+    @Override
+    public void updatePU(Long puId, String name, String description, String images) {
+        PU pu = retrievePuById(puId);
+        
+        pu.setName(name);
+        pu.setDescription(description);
+        pu.setImages(images);
+    }
+    
+    @Override
+    public void deletePU(Long puId) {
+        PU deletedPU = retrievePuById(puId);
+        em.remove(deletedPU);
     }
 
 }
