@@ -85,7 +85,7 @@ const App = () => {
   return (
     <AuthProvider> {/* Wrap the app in AuthProvider */}
       <div className="App">
-        {/* <NavbarComp isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} user={user} />
+        <NavbarComp isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} user={user} />
         <Router basename='/student'>
           <Routes>
             <Route path="/home-page" element={<HomePage />} />
@@ -101,6 +101,8 @@ const App = () => {
             <Route path="/view-post/:postId/:studentId" element={<Post />} />
             <Route path="/login" element={<StudentLogin onLogin={handleLogin} />} />
             <Route path="/university-rankings" element={<UniversityRankings universitiesData={pus} />} />
+            <Route path="/university-rankings-country" element={<UniversityRankingsCountry universitiesData={pus} />} />
+            <Route path="/university-rankings-region" element={<UniversityRankingsRegion universitiesData={pus} />} />
             <Route path="/faq" element={<FAQPage />} />
             <Route path="/faq" element={<FAQPage/>}/>
             <Route path="/profile/likedPus" element={<LikedPUs/>}/>
@@ -111,9 +113,9 @@ const App = () => {
             <Route path="/profile/modulesTaken" element={<ModulesTaken/>}/>
             <Route path="/module-reviews" element={<ModuleDetail/>}/>
           </Routes>
-        </Router> */}
+        </Router>
 
-        <Router basename='/admin'>
+       {/* <Router basename='/admin'>
           <Routes>
             <Route path="/login" element={<Login />} />
             <Route path="/main" element={<Main />} />
@@ -130,14 +132,14 @@ const App = () => {
             <Route path="/partnerUniversities/:puName/modules/:puModuleCode" element={<PartnerUniversityModuleDetails /> } />
             <Route path="/partnerUniversities/:puName/modules/createModule" element={<CreatePartnerUniversityModule /> } />
             <Route path="/inappropriatenessContent" element={<Inappropriateness /> } />
-            {/* <Route path="/inappropriatenessContent/:type/:id" element={<InappropriatenessDetails />} /> */}
+            { <Route path="/inappropriatenessContent/:type/:id" element={<InappropriatenessDetails />} /> }
             <Route path="/inappropriatenessContent/puReviews/:id" element={<InappropriatePUReviewDetails />} />
             <Route path="/inappropriatenessContent/forumComments/:id" element={<InappropriateForumCommentDetails />} />
             <Route path="/inappropriatenessContent/forumPosts/:id" element={<InappropriateForumPostDetails />} />
             <Route path="/inappropriatenessContent/forumTopics/:id" element={<InappropriateForumTopicDetails />} />
             <Route path="/inappropriatenessContent/puModuleReviews/:id" element={<InappropriatePUModuleDetails />} />
           </Routes>
-        </Router>
+        </Router>/*}
 
         {/* <ForumTopics /> */}
         {/* <TopicPosts /> */}
