@@ -77,7 +77,8 @@ const StudentProfile = () => {
               defaultValue={loggedInStudent.partnerUniversity}
             />
             <Button onClick={() => setReviewModalShow(true)}>
-              <FontAwesomeIcon icon={faPenToSquare} /> Add Review
+              <FontAwesomeIcon icon={faPenToSquare} /> 
+              {currentStudent.puReview != null ? " Edit Review" : " Add Review"}
             </Button>
           </InputGroup>
 
@@ -144,7 +145,7 @@ const StudentProfile = () => {
                     </ListGroupItem>
                   ))}
 
-                {socialMedia.length == 0 && (
+                {socialMedia.length === 0 && (
                   <ListGroupItem>
                     You do not have any social media links. Add them now!
                   </ListGroupItem>
@@ -205,6 +206,7 @@ const StudentProfile = () => {
       <ReviewModal
         show={reviewModalShow}
         onHide={() => setReviewModalShow(false)}
+        puReview = {currentStudent.puReview}
       />
       <SocialMediaModal
         show={socialMediaModalShow}
