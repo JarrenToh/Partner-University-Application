@@ -5,6 +5,8 @@
  */
 package ejb.session.stateless;
 
+import entity.FAQ;
+import entity.NUSModule;
 import entity.PU;
 import entity.PUModule;
 import error.NoResultException;
@@ -31,12 +33,11 @@ public class PUModuleSessionBean implements PUModuleSessionBeanLocal {
     private PUSessionBeanLocal puSessionBean;
 
     @Override
-    public Long createPUModule(PUModule module) {
-        em.persist(module);
-        em.flush();
-        
-        return module.getModuleId();
-    }
+
+    public Long createPUModule(PUModule module, Long puId) {
+        PU pu = em.find(PU.class, puId);
+        pu.getModules().add(module);
+        module.setPu(pu);
     
     @Override
     public void createModuleForPU(String puName, PUModule module) {
@@ -47,6 +48,8 @@ public class PUModuleSessionBean implements PUModuleSessionBeanLocal {
         em.persist(pu);
         em.persist(module);
         em.flush();
+        
+        return module.getModuleId();
     }
     
     @Override
@@ -124,6 +127,20 @@ public class PUModuleSessionBean implements PUModuleSessionBeanLocal {
             Logger.getLogger(PUModuleSessionBean.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+
+
+    @Override
+    public void associatePUModuleNUSModule(Long puModId, Long nusModId) {
+        
+        System.err.println("PUMODID : " + puModId);
+        System.err.println("NUSMODID : " + nusModId);
+        
+        PUModule pUModule = em.find(PUModule.class, puModId);
+        NUSModule nUSModule= em.find(NUSModule.class, nusModId);
+        
+        pUModule.getMappableModules().add(nUSModule);
+        nUSModule.getPuModules().add(pUModule);
+
     
     @Override
     public void deletePUModuleFromPU(Long moduleId, String puName) throws NoResultException {
@@ -138,5 +155,6 @@ public class PUModuleSessionBean implements PUModuleSessionBeanLocal {
         } catch (NoResultException ex) {
             Logger.getLogger(PUModuleSessionBean.class.getName()).log(Level.SEVERE, null, ex);
         }
+
     }
 }

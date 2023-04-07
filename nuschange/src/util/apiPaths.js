@@ -13,10 +13,35 @@ const apiPaths = {
     listOfPUModuleReview: `${path}/pumodulereview`,
 
     getPUbyName(puName) {
-        return fetch('${path}/pugetPUByName/${puName}');
-    }
+        return fetch(`${path}/pu/getPUByName/${puName}`);
+    },
 
-    
+    getStudentsWithReviewByPU(puName) {
+
+        return fetch(`${path}/student/pu/puname/withreview/${puName}`);
+    },
+
+    getStudentsByPU(puName) {
+
+        return fetch(`${path}/student/pu/puname/${puName}`);
+    },
+
+    getMappableModulesByPU(puName) {
+
+        return fetch(`${path}/pu/mappableModule/${puName}`);
+    },
+
+    updateStudentReview(rId, data) {
+        return fetch(`${path}/pureview/${rId}`, {
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+          },
+          method: "PUT",
+          body: JSON.stringify(data),
+        });
+      },
+
 };
 
 export default apiPaths;

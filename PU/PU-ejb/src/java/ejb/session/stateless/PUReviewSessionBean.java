@@ -52,6 +52,12 @@ public class PUReviewSessionBean implements PUReviewSessionBeanLocal {
         return q.getResultList();
     }
 
+    @Override
+    public List<PUReview> retrieveAllPUReview() {
+        Query q = em.createQuery("SELECT pur FROM PUReview pur");
+        return q.getResultList();
+    }
+
     //UPDATE
     @Override
     public PUReview updatePUReview(PUReview review) {
@@ -76,7 +82,7 @@ public class PUReviewSessionBean implements PUReviewSessionBeanLocal {
         em.remove(r);
         return review.getPuReviewId();
     }
-    
+
     @Override
     public Double retrieveRating(Long puId) {
         Query q = em.createQuery("SELECT r FROM PUReview r WHERE r.pu.puId = :p");
