@@ -90,15 +90,15 @@
   } 
 
   .blue-link:hover {
-    color: orangered !important;
+    color: deeppink !important;
   }
 
   .blue-link {
-    color: blue !important;
+    color: darkblue !important;
   }
   
   .edited-info {
-    color: blue !important;
+    color: darkblue !important;
   }
 
   .eye {

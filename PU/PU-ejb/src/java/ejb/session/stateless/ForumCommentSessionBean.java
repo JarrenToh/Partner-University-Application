@@ -27,9 +27,6 @@ public class ForumCommentSessionBean implements ForumCommentSessionBeanLocal {
 
     @EJB(name = "ForumPostSessionBeanLocal")
     private ForumPostSessionBeanLocal forumPostSessionBeanLocal;
-    
-    
-    
 
     @PersistenceContext(unitName = "PU-ejbPU")
     private EntityManager em;   
@@ -54,6 +51,21 @@ public class ForumCommentSessionBean implements ForumCommentSessionBeanLocal {
         
         return forumComment;
     }
+    
+    @Override
+    public ForumComment createNewForumReply(ForumComment forumReply, Long forumCommentId, Long forumPostId, Long studentId) {
+        ForumComment forumComment = em.find(ForumComment.class, forumCommentId);
+        ForumComment reply = createNewForumComment(forumReply, forumPostId, studentId);
+        forumComment.getReplies().add(reply);
+        
+        return reply;
+    }
+    
+    @Override
+    public void updateShowReply(Long forumCommentId) {
+        ForumComment forumComment = em.find(ForumComment.class, forumCommentId);
+        forumComment.setShowReplies(!forumComment.getShowReplies());
+    }
 
     @Override
     public void updateForumComment(ForumComment forumComment) {
@@ -75,6 +87,7 @@ public class ForumCommentSessionBean implements ForumCommentSessionBeanLocal {
         oldComment.setLikedStudents(forumComment.getLikedStudents());
         oldComment.setDislikedStudents(forumComment.getDislikedStudents());
         oldComment.setReplies(forumComment.getReplies());
+        oldComment.setIsAReply(forumComment.getIsAReply());
  
     }
     
@@ -97,6 +110,7 @@ public class ForumCommentSessionBean implements ForumCommentSessionBeanLocal {
         oldComment.setLikedStudents(forumComment.getLikedStudents());
         oldComment.setDislikedStudents(forumComment.getDislikedStudents());
         oldComment.setReplies(forumComment.getReplies());
+        oldComment.setIsAReply(forumComment.getIsAReply());
     }
 
     @Override
@@ -191,6 +205,7 @@ public class ForumCommentSessionBean implements ForumCommentSessionBeanLocal {
     @Override
     public void replyForumComment(ForumComment reply, Long replyingToCommentId, Long studentId) {
         ForumComment forumComment = em.find(ForumComment.class, replyingToCommentId);
+        reply.setIsAReply(true);
         ForumComment theReply = createNewForumComment(reply, forumComment.getForumPost().getPostId(), studentId);
         
         forumComment.getReplies().add(theReply);
