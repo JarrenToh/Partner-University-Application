@@ -15,6 +15,8 @@ import MyPosts from './student/MyPosts';
 import EditPost from './student/EditPost';
 import NewTopic from './student/NewTopic';
 import EditTopic from './student/EditTopic';
+//import EachPost from './student/EachPost';
+import Post from './student/Post';
 import FAQPage from './student/FAQpage';
 import LikedPUs from './student/LikedPUs';
 import UniversityRankingsCountry from './student/ranking/UniversityRankingsCountry';
@@ -86,6 +88,7 @@ const App = () => {
             <Route path="/forum-posts/edit/:id/:oldTitle/:oldMessage/:topicName" element={<EditPost />} />
             <Route path="/new-topic/:studentId" element={<NewTopic />} />
             <Route path="/forum-topics/edit/:topicId/:oldTopicName" element={<EditTopic />} />
+            <Route path="/view-post/:postId/:studentId" element={<Post />} />
             <Route path="/login" element={<StudentLogin onLogin={handleLogin} />} />
             <Route path="/university-rankings" element={<UniversityRankings universitiesData={pus} />} />
             <Route path="/faq" element={<FAQPage/>}/>

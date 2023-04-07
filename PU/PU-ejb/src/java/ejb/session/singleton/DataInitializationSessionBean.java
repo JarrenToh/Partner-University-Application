@@ -218,39 +218,39 @@ public class DataInitializationSessionBean {
         Long pId4 = pUSessionBean.createNewPu(pu4, cId4, cId4);
         Long pId5 = pUSessionBean.createNewPu(pu5, cId5, cId5);
         
-        PUReview puReview1 = new PUReview(new Long(5), pId1);
-        PUReview puReview2 = new PUReview(new Long(4), pId1);
-        PUReview puReview3 = new PUReview(new Long(3), pId1);
-        PUReview puReview4 = new PUReview(new Long(5), pId1);
-        PUReview puReview5 = new PUReview(new Long(5), pId1);
-        
-        PUReview puReview6 = new PUReview(new Long(5), pId2);
-        PUReview puReview7 = new PUReview(new Long(4), pId2);
-        PUReview puReview8 = new PUReview(new Long(4), pId2);
-        PUReview puReview9 = new PUReview(new Long(3), pId2);
-        PUReview puReview10 = new PUReview(new Long(3), pId2);
-        
-        PUReview puReview11  = new PUReview(new Long(3), pId3);
-        PUReview puReview12 = new PUReview(new Long(3), pId3);
-        PUReview puReview13 = new PUReview(new Long(4), pId3);
-        PUReview puReview14 = new PUReview(new Long(3), pId3);
-        PUReview puReview15 = new PUReview(new Long(3), pId3);
-        
-        PUReview puReview16 = new PUReview(new Long(4), pId4);
-        PUReview puReview17 = new PUReview(new Long(4), pId4);
-        PUReview puReview18 = new PUReview(new Long(5), pId4);
-        PUReview puReview19 = new PUReview(new Long(5), pId4);
-        PUReview puReview20 = new PUReview(new Long(5), pId4);
-        
-        PUReview puReview21 = new PUReview(new Long(2), pId5);
-        PUReview puReview22 = new PUReview(new Long(2), pId5);
-        PUReview puReview23 = new PUReview(new Long(5), pId5);
-        PUReview puReview24 = new PUReview(new Long(5), pId5);
-        PUReview puReview25 = new PUReview(new Long(5), pId5);
-        
-        pUReviewSessionBean.createPUReview(puReview1, pId1, 1l);
-        pUReviewSessionBean.createPUReview(puReview2, pId1, 2l);
-        pUReviewSessionBean.createPUReview(puReview3, pId1, 3l);
+//        PUReview puReview1 = new PUReview(new Long(5), pId1);
+//        PUReview puReview2 = new PUReview(new Long(4), pId1);
+//        PUReview puReview3 = new PUReview(new Long(3), pId1);
+//        PUReview puReview4 = new PUReview(new Long(5), pId1);
+//        PUReview puReview5 = new PUReview(new Long(5), pId1);
+//        
+//        PUReview puReview6 = new PUReview(new Long(5), pId2);
+//        PUReview puReview7 = new PUReview(new Long(4), pId2);
+//        PUReview puReview8 = new PUReview(new Long(4), pId2);
+//        PUReview puReview9 = new PUReview(new Long(3), pId2);
+//        PUReview puReview10 = new PUReview(new Long(3), pId2);
+//        
+//        PUReview puReview11  = new PUReview(new Long(3), pId3);
+//        PUReview puReview12 = new PUReview(new Long(3), pId3);
+//        PUReview puReview13 = new PUReview(new Long(4), pId3);
+//        PUReview puReview14 = new PUReview(new Long(3), pId3);
+//        PUReview puReview15 = new PUReview(new Long(3), pId3);
+//        
+//        PUReview puReview16 = new PUReview(new Long(4), pId4);
+//        PUReview puReview17 = new PUReview(new Long(4), pId4);
+//        PUReview puReview18 = new PUReview(new Long(5), pId4);
+//        PUReview puReview19 = new PUReview(new Long(5), pId4);
+//        PUReview puReview20 = new PUReview(new Long(5), pId4);
+//        
+//        PUReview puReview21 = new PUReview(new Long(2), pId5);
+//        PUReview puReview22 = new PUReview(new Long(2), pId5);
+//        PUReview puReview23 = new PUReview(new Long(5), pId5);
+//        PUReview puReview24 = new PUReview(new Long(5), pId5);
+//        PUReview puReview25 = new PUReview(new Long(5), pId5);
+//        
+//        pUReviewSessionBean.createPUReview(puReview1, pId1, 1l);
+//        pUReviewSessionBean.createPUReview(puReview2, pId1, 2l);
+//        pUReviewSessionBean.createPUReview(puReview3, pId1, 3l);
 //        pUReviewSessionBean.createPUReview(puReview4, pId1, 1l);
 //        pUReviewSessionBean.createPUReview(puReview5, pId1, 1l);
 //        pUReviewSessionBean.createPUReview(puReview6, pId2, 1l);
@@ -274,33 +274,35 @@ public class DataInitializationSessionBean {
 //        pUReviewSessionBean.createPUReview(puReview24, pId5);
 //        pUReviewSessionBean.createPUReview(puReview25, pId5);
         
-        /*ForumTopic forumTopic1 = new ForumTopic("First Topic");
-        ForumTopic forumTopic2 = new ForumTopic("Second Topic");
-        ForumTopic forumTopic3 = new ForumTopic("Third Topic");
-        ForumTopic forumTopic4 = new ForumTopic("Fourth Topic");
-        ForumTopic forumTopic5 = new ForumTopic("Fifth Topic");
-        
-        forumTopicSessionBeanLocal.createNewForumTopic(forumTopic1, student1.getStudentId());
-        forumTopicSessionBeanLocal.createNewForumTopic(forumTopic2, student2.getStudentId());
-        forumTopicSessionBeanLocal.createNewForumTopic(forumTopic3, student3.getStudentId());
-        forumTopicSessionBeanLocal.createNewForumTopic(forumTopic4, student1.getStudentId());
-        forumTopicSessionBeanLocal.createNewForumTopic(forumTopic5, student2.getStudentId());
-        
-        ForumPost forumPost1 = new ForumPost("Nice Food in Korea?", "I am going Korea!!");
-        ForumPost forumPost2 = new ForumPost("Nice Food in Hong Kong?", "I am going Hong Kong!!");
-        ForumPost forumPost3 = new ForumPost("Places to stay?", "I want to stay in Singapore");
-        
-        forumPostSessionBeanLocal.createNewForumPost(forumPost1, forumTopic2.getTopicId(), student1.getStudentId());
-        forumPostSessionBeanLocal.createNewForumPost(forumPost2, forumTopic2.getTopicId(), student3.getStudentId());
-        forumPostSessionBeanLocal.createNewForumPost(forumPost3, forumTopic1.getTopicId(), student2.getStudentId());
-        
-        ForumComment forumComment1 = new ForumComment("Wow nice choice to go Korea!");
-        ForumComment forumComment2 = new ForumComment("I recommend caifan");
-        ForumComment forumComment3 = new ForumComment("Marina Bay Sands!");
-        
-        forumCommentSessionBeanLocal.createNewForumComment(forumComment1, forumPost1.getPostId(), student3.getStudentId());
-        forumCommentSessionBeanLocal.createNewForumComment(forumComment2, forumPost2.getPostId(), student2.getStudentId());
-        forumCommentSessionBeanLocal.createNewForumComment(forumComment3, forumPost3.getPostId(), student1.getStudentId());*/
+//        ForumTopic forumTopic1 = new ForumTopic("Africa University");
+//        ForumTopic forumTopic2 = new ForumTopic("Oxford University");
+//        ForumTopic forumTopic3 = new ForumTopic("University of Tokyo");
+//        ForumTopic forumTopic4 = new ForumTopic("Harvard University");
+//        ForumTopic forumTopic5 = new ForumTopic("University of Melbourne");
+//        
+//        forumTopicSessionBeanLocal.createNewForumTopic(forumTopic1, 1l);
+//        forumTopicSessionBeanLocal.createNewForumTopic(forumTopic2, 2l);
+//        forumTopicSessionBeanLocal.createNewForumTopic(forumTopic3, 3l);
+//        forumTopicSessionBeanLocal.createNewForumTopic(forumTopic4, 1l);
+//        forumTopicSessionBeanLocal.createNewForumTopic(forumTopic5, 2l);
+//        
+//        ForumPost forumPost1 = new ForumPost("Accomodation in Africa University?", "Hi, I would like to find cheaper accomodations provided in Africa University and am looking for recommendations");
+//        ForumPost forumPost2 = new ForumPost("Accomodation in Oxford University?", "Hi, I would like to find cheaper accomodations provided in Oxford University and am looking for recommendations");
+//        ForumPost forumPost3 = new ForumPost("Accomodation in University of Tokyo?", "Hi, I would like to find cheaper accomodations provided in University of Tokyo and am looking for recommendations");
+//        
+//        forumPostSessionBeanLocal.createNewForumPost(forumPost1, 1l, 1l);
+//        forumPostSessionBeanLocal.createNewForumPost(forumPost2, 2l, 2l);
+//        forumPostSessionBeanLocal.createNewForumPost(forumPost3, 3l, 3l);
+//        
+//        ForumComment forumComment1 = new ForumComment("Africa is quite hot", false);
+//        ForumComment forumComment2 = new ForumComment("Can share room with someone its cheaper", false);
+//        ForumComment forumComment3 = new ForumComment("Tokyo is a nice place", false);
+//        ForumComment forumComment5 = new ForumComment("Remember to prepare sunscreen", true);
+//        
+//        forumCommentSessionBeanLocal.createNewForumComment(forumComment1, 1l, 3l);
+//        forumCommentSessionBeanLocal.createNewForumComment(forumComment2, 2l, 1l);
+//        forumCommentSessionBeanLocal.createNewForumComment(forumComment3, 3l, 2l);
+//        forumCommentSessionBeanLocal.createNewForumReply(forumComment3, 1l, 1l, 2l);
 
 //        Enquiry enquiry1 = new Enquiry("Hello", "Help");
 //        Enquiry enquiry2 = new Enquiry("Bye", "World");

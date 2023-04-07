@@ -200,9 +200,8 @@ export default function TopicPosts(props) {
                     {item.studentId == 1 ? (
                       <td className="text-center">
                         <Button
-                          tag="a"
-                          href="#/"
-                          onClick={(e) => e.preventDefault()}
+                          tag={Link}
+                          to={`/view-post/${item.postId}/${studentId}`}
                           size="sm"
                           color="link"
                           className="text-primary"
@@ -235,9 +234,8 @@ export default function TopicPosts(props) {
                     ) :
                       <td className="text-center">
                         <Button
-                          tag="a"
-                          href="#/"
-                          onClick={(e) => e.preventDefault()}
+                          tag={Link}
+                          to={`/view-post/${item}`}
                           size="sm"
                           color="link"
                           className="text-primary"
