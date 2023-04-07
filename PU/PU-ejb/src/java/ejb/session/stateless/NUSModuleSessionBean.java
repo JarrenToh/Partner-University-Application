@@ -32,6 +32,7 @@ public class NUSModuleSessionBean implements NUSModuleSessionBeanLocal {
         nusModule.setFaculty(faculty);
         em.persist(nusModule);
         faculty.getModules().add(nusModule);
+        em.flush();
         //Add relationship between PUModule and NUSModule
         return nusModule.getModuleId();
     }

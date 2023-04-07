@@ -7,6 +7,8 @@ package ejb.session.stateless;
 
 import entity.Country;
 import entity.PU;
+import entity.Region;
+import entity.Student;
 import entity.PUModule;
 import error.NoResultException;
 import java.util.ArrayList;
@@ -34,9 +36,11 @@ public class PUSessionBean implements PUSessionBeanLocal {
 
     @EJB
     private CountrySessionBeanLocal countrySessionBean;
+
     
     @EJB
     private PUModuleSessionBeanLocal puModuleSessionBean;
+
 
     @Override
     public Long createNewPu(PU newPu) {
@@ -48,17 +52,17 @@ public class PUSessionBean implements PUSessionBeanLocal {
 
     //with proper associations
     @Override
-    public Long createNewPu(PU newPu, Long countryId, Long regionId) {
+    public Long createNewPu(PU newPu, Long countryId) {
         Country country = countrySessionBean.retrieveCountryById(countryId);
-        
+
         newPu.setCountry(country);
         country.addPu(newPu);
-        
+
         em.persist(newPu);
         em.flush();
         return newPu.getPuId();
     }
-    
+
     @Override
     public Long createNewPu(PU newPu, List<Long> moduleIds) {
         List<PUModule> puModules = new ArrayList<>();
@@ -113,8 +117,9 @@ public class PUSessionBean implements PUSessionBeanLocal {
 
     @Override
     public PU retrievePuByName(String name) {
-        Query query = em.createQuery("SELECT p FROM PU p WHERE p.name = :name");
-        query.setParameter("name", name);
+
+        Query query = em.createQuery("SELECT p FROM PU p WHERE LOWER(p.name) = :name");
+        query.setParameter("name", name.toLowerCase().trim());
 
         PU pu = (PU) query.getSingleResult();
                         
@@ -122,17 +127,15 @@ public class PUSessionBean implements PUSessionBeanLocal {
     }
 
     @Override
-    public List<Object[]> getMappableModulesGroupedByFaculty(String puName) {
-        Query query = em.createQuery(
-                "SELECT faculty.name, nus.code, nus.description, puModule.code, puModule.description "
-                + "FROM NUSModule nus "
-                + "JOIN nus.puModules puModule "
-                + "JOIN nus.faculty faculty "
-                + "JOIN puModule.pu pu "
-                + "WHERE LOWER(pu.name) = :puName "
-                + "GROUP BY faculty.name, nus.code, nus.description, puModule.code, puModule.description"
-        );
-        query.setParameter("puName", puName.toLowerCase());
+    public List<Object> getMappableModulesGroupedByFaculty(String puName) {
+        Query query = em.createQuery("SELECT m, m.faculty.name \n"
+                + "FROM NUSModule m \n"
+                + "JOIN m.puModules p \n"
+                + "JOIN m.faculty f "
+                + "WHERE p.pu.name = :puName "
+                + "GROUP BY f, m");
+        
+        query.setParameter("puName", puName.toLowerCase().trim());
         return query.getResultList();
     }
     
@@ -151,4 +154,26 @@ public class PUSessionBean implements PUSessionBeanLocal {
         em.remove(deletedPU);
     }
 
+    @Override
+    public Long enrollStudent(Long puId, Long studentId) {
+        PU pu = em.find(PU.class, puId);
+        Student student = em.find(Student.class, studentId);
+        pu.getStudents().add(student);
+        student.setPuEnrolled(pu);
+        em.flush();
+
+        return pu.getPuId();
+    }
+
 }
+//    @Override
+//    public List<Object> getMappableModulesGroupedByFaculty(String puName) {
+//        Query query = em.createQuery("SELECT faculty \n"
+//                + "FROM NUSModule n \n"
+//                + "JOIN n.puModules pm \n"
+//                + "JOIN n.faculty faculty \n"
+//                + "WHERE LOWER(pm.pu.name) = :puName \n"
+//                + "GROUP BY faculty");
+//        query.setParameter("puName", puName.toLowerCase().trim());
+//        return query.getResultList();
+//    }

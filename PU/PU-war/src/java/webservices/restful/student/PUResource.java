@@ -92,6 +92,18 @@ public class PUResource {
         }
     }
 
+    @GET
+    @Path("/mappableModule/{puName}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getPUModuleMappableModule(@PathParam("puName") String puName) {
+        List<Object> results = pUSessionBeanLocal.getMappableModulesGroupedByFaculty(puName);
+        GenericEntity<List<Object>> entity = new GenericEntity<List<Object>>(results) {
+        };
+        return Response.status(200).entity(
+                entity
+        ).build();
+    } //end getPUModule
+
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)

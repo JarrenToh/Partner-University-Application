@@ -2,9 +2,9 @@ import "../assets/base.scss";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import "./AccordionComp.css";
 import React from "react";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import PerfectScrollbar from 'react-perfect-scrollbar';
 import { Card, ListGroup, ListGroupItem, CardHeader } from 'reactstrap';
+import defaultProfilePicture from '../images/housekeeper.png';
 
 function AlumnusComp(props) {
     return (
@@ -23,17 +23,17 @@ function AlumnusComp(props) {
                         {props.alumnus.map((alumni) => (
                             <><ListGroupItem className="py-3 border-0" key={alumni.studentId}>
                                 <div className="align-box-row w-100">
-                                    <div className="mr-3">
-                                        <div className="bg-neutral-dark text-primary text-center font-size-xl d-60 rounded-sm">
-                                            <FontAwesomeIcon icon={["far", "user-circle"]} />
-                                        </div>
+
+                                    <div className="mr-2">
+                                        <img src={defaultProfilePicture} alt="Default Profile" className="rounded-circle" style={{ width: "40px", height: "40px" }} />
                                     </div>
+
                                     <div>
                                         <div className="font-weight-bold d-block opacity-8">
                                             {alumni.firstName} {alumni.lastName}
                                         </div>
-                                        <div className="text-dark opacity-5">
-                                            {alumni.email}
+                                        <div className="text-dark opacity-50" style={{ color: "#111111" }}>
+                                            <a href={`mailto:${alumni.email}`}>{alumni.email}</a>
                                         </div>
                                     </div>
                                 </div>

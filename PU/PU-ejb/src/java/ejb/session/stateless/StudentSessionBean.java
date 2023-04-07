@@ -31,7 +31,6 @@ public class StudentSessionBean implements StudentSessionBeanLocal {
     public Long createStudent(Student student) {
         em.persist(student);
         em.flush();
-        
         return student.getStudentId();
     }
 
@@ -56,7 +55,14 @@ public class StudentSessionBean implements StudentSessionBeanLocal {
 
     @Override
     public List<Student> retrieveStudentsByPU(PU pu) {
-        Query q = em.createQuery("SELECT DISTINCT s FROM Student s, PU pu WHERE pu MEMBER OF s.puEnrolled AND pu.puId =:id");
+        Query q = em.createQuery("SELECT DISTINCT s FROM Student s, PU pu WHERE pu.puId =:id AND s IN (pu.students)");
+        q.setParameter("id", pu.getPuId());
+        return q.getResultList();
+    }
+
+    @Override
+    public List<Student> retrieveStudentWithReviewByPU(PU pu) {
+        Query q = em.createQuery("SELECT DISTINCT s FROM Student s, PU pu WHERE pu.puId =:id AND s IN (pu.students) AND s.puReview != null AND s.puReview.isInappropriate = false");
         q.setParameter("id", pu.getPuId());
         return q.getResultList();
     }
@@ -148,7 +154,7 @@ public class StudentSessionBean implements StudentSessionBeanLocal {
         oldS.setEmail(s.getEmail());
         oldS.setPassword(s.getPassword());
 
-    } //end updateCustomer
+    } //end updateStudent
 
     @Override
     public void deleteStudent(Long studentId) throws NoResultException {

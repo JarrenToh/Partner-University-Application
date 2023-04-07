@@ -22,6 +22,8 @@ public interface PUReviewSessionBeanLocal {
     PUReview retrievePUReviewById(long id);
 
     List<PUReview> retrievePUReviewByPU(PU pu);
+    
+    List<PUReview> retrieveAllPUReview(); 
 
     PUReview updatePUReview(PUReview review);
 

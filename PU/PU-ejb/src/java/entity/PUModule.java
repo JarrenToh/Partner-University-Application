@@ -45,6 +45,7 @@ public class PUModule implements Serializable {
     private List<NUSModule> mappableModules;
 
     @ManyToOne
+    @JoinColumn(nullable = false)
     private PU pu;
 
     public PUModule() {
@@ -136,6 +137,7 @@ public class PUModule implements Serializable {
     /**
      * @return the mappableModules
      */
+    @JsonbTransient
     public List<NUSModule> getMappableModules() {
         return mappableModules;
     }

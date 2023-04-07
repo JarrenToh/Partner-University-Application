@@ -6,6 +6,12 @@
 package webservices.restful.student;
 
 import ejb.session.stateless.PUReviewSessionBeanLocal;
+import ejb.session.stateless.PUSessionBeanLocal;
+import entity.PU;
+import javax.ejb.EJB;
+import javax.enterprise.context.RequestScoped;
+import javax.ws.rs.Path;
+import entity.PUReview;
 import entity.PUReview;
 import entity.Student;
 import java.util.ArrayList;
@@ -23,6 +29,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
+import javax.ws.rs.core.GenericEntity;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import util.dataTransferObject.PUReviewDTO;
@@ -38,6 +45,10 @@ public class PUReviewResource {
     @EJB
     private PUReviewSessionBeanLocal puReviewSessionBeanLocal;
 
+
+    @EJB
+    private PUSessionBeanLocal pUSessionBeanLocal;
+
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
@@ -49,6 +60,19 @@ public class PUReviewResource {
         return Response.status(Response.Status.CREATED)
                 .entity(response)
                 .build();
+    }
+
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getAllPUReview() {
+
+        List<PUReview> results = puReviewSessionBeanLocal.retrieveAllPUReview();
+        GenericEntity<List<PUReview>> entity = new GenericEntity<List<PUReview>>(results) {
+        };
+        return Response.status(200).entity(
+                entity
+        ).build();
+
     }
 
     @GET
@@ -86,6 +110,27 @@ public class PUReviewResource {
     }
 
     @GET
+    @Path("/pu/{puName}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getPUReviewByPU(@PathParam("puName") String puName) {
+
+        try {
+            PU pu = pUSessionBeanLocal.retrievePuByName(puName);
+            List<PUReview> results = puReviewSessionBeanLocal.retrievePUReviewByPU(pu);
+            GenericEntity<List<PUReview>> entity = new GenericEntity<List<PUReview>>(results) {
+            };
+            return Response.status(200).entity(
+                    entity
+            ).build();
+        } catch (Exception e) {
+            JsonObject exception = Json.createObjectBuilder()
+                    .add("error", "Not found")
+                    .build();
+
+            return Response.status(404).entity(exception)
+                    .type(MediaType.APPLICATION_JSON).build();
+        }
+        
     @Produces(MediaType.APPLICATION_JSON)
     public Response getAllReportedPUReviews() {
         List<PUReview> puReviews = puReviewSessionBeanLocal.retrieveReportedPUReview();

@@ -2,22 +2,24 @@ import "../assets/base.scss";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import "./AccordionComp.css";
 import React from "react";
-import { Accordion, Container, Table, Row, Col } from "react-bootstrap";
+import { Accordion, Container, Table, Row } from "react-bootstrap";
+import { useParams } from "react-router-dom";
 
 
 function AccordionComp(props) {
+    const { puName } = useParams();
     return (
         <div style={{ paddingLeft: "5%", paddingRight: "5%" }}>
             <Container fluid>
                 <Row>
                     <h1 className="text-center mb-3">
-                        Academic modules for {props.universityName}
+                        Academic Modules For {puName.toLowerCase().split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')}
                     </h1>
-                    <Accordion defaultActiveKey={0} alwaysOpen>
-                        {props.modules.map((mappableModule, index) => (
+                    <Accordion defaultActiveKey={0} alwaysOpen >
+                        {props.modules.map((faculty, index) => (
                             <Accordion.Item eventKey={index} key={index}>
                                 <Accordion.Header as="h3">
-                                    {mappableModule.facultyName}
+                                    {faculty.facultyName}
                                 </Accordion.Header>
                                 <Accordion.Body>
                                     <div className="table-responsive-md">
@@ -25,18 +27,22 @@ function AccordionComp(props) {
                                             <thead className="thead-light">
                                                 <tr>
                                                     <th scope="col">NUS Module Code</th>
-                                                    <th scope="col">NUS Module Description</th>
+                                                    <th scope="col">NUS Module Name</th>
                                                     <th scope="col">PU Module Code</th>
-                                                    <th scope="col">PU Module Description</th>
+                                                    <th scope="col">PU Module Name</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                {mappableModule.modules.map((m) => (
-                                                    <tr key={m.nusCode}>
-                                                        <td>{m.nusCode}</td>
-                                                        <td>{m.nusDescription}</td>
-                                                        <td>{m.puCode}</td>
-                                                        <td>{m.puDescription}</td>
+                                                {faculty.modules.map((nusmodule) => (
+                                                    <tr key={nusmodule.code}>
+                                                        <td><a href = {`https://nusmods.com/modules/${nusmodule.code}`}>{nusmodule.code}</a></td>
+                                                        <td>{nusmodule.name}</td>
+                                                        {nusmodule.puModules.map((pumodule) => (
+                                                            <React.Fragment key={pumodule.code}>
+                                                                <td>{pumodule.code}</td>
+                                                                <td>{pumodule.name}</td>
+                                                            </React.Fragment>
+                                                        ))}
                                                     </tr>
                                                 ))}
                                             </tbody>

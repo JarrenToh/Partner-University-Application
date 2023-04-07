@@ -43,5 +43,7 @@ public interface StudentSessionBeanLocal {
     public Student login(String username, String password);
 
     List<Student> retrieveStudentsByPU(PU pu);
+
+    List<Student> retrieveStudentWithReviewByPU(PU pu);
     
 }

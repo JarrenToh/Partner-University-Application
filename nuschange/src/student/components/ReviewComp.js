@@ -1,78 +1,114 @@
 import "../assets/base.scss";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import "./AccordionComp.css";
-import React from "react";
+import React, { useState } from "react";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faThumbsUp, faThumbsDown, faFlag } from "@fortawesome/free-regular-svg-icons";
+import { Button } from "reactstrap";
 import PerfectScrollbar from 'react-perfect-scrollbar';
 import { Card, ListGroup, ListGroupItem, CardHeader } from 'reactstrap';
+import defaultProfilePicture from '../images/housekeeper.png';
 
-function ReviewComp(props) {
+
+function ReviewComp({student, toggleLike, toggleDislike, handleFlagged, likes, dislikes}) {
+    const [isHovered, setIsHovered] = useState({});
     return (
         <Card className="card-box mb-5">
             <CardHeader style={{ textAlign: "center" }}>
                 <h4 className="font-size-lg mb-0 py-2 font-weight-bold">
-                    Reviews
+                    Student Reviews
                 </h4>
             </CardHeader>
             <ListGroup flush>
-                <div
-                    className="scroll-area rounded bg-white shadow-overflow"
-                    style={{ width: "100%", overflowX: "auto" }}
-                >
+                <div className="scroll-area rounded bg-white shadow-overflow" style={{ width: "100%", overflowX: "auto" }}>
                     <PerfectScrollbar>
-                        {props.reviews.map((r) => (
-                            <ListGroupItem className="py-3 border-0" key={r.puReviewId}>
-                                <div className="align-box-row w-100 justify-content-between align-items-center">
-                                    <div className="mr-3">
-                                        <div className="bg-neutral-dark text-primary text-center font-size-xxl d-80 rounded-sm" >
-                                            <FontAwesomeIcon icon={["far", "user-circle"]} />
-                                        </div>
+                        {student.map((s) => (
+                            <ListGroupItem className="py-3" key={s.studentId}>
+                                <div className="d-flex align-items-center">
+                                    <div className="mr-4">
+                                        <img src={defaultProfilePicture} alt="Default Profile" className="rounded-circle" style={{ width: "80px", height: "80px" }} />
                                     </div>
                                     <div className="d-flex flex-column justify-content-center flex-grow-1" style={{ width: "60%" }}>
                                         <div className="font-weight-bold d-block opacity-8">
-                                            student
+                                            {s.firstName} {s.lastName}
                                         </div>
-                                        <div className="text-dark opacity-5" style={{ overflowWrap: "break-word" }}>
-                                            {r.review}
+                                        <div className="text-dark opacity-5" style={{ textAlign: "justify", textJustify: "inter-word" }}>
+                                            {s.puReview.review}
                                         </div>
                                     </div>
-                                    <div className="d-flex align-items-center" style={{ width: "100%", justifyContent: "flex-end" }}>
-                                        <div className="ml-auto mr-3">
-                                            <button style={{ background: "transparent" }}>
-                                                <FontAwesomeIcon
-                                                    icon={["far", "thumbs-up"]}
-                                                    size="2x"
-                                                    style={{ cursor: "pointer", color: "#007bff", marginRight: "10px" }}
-                                                />
-                                            </button>
+                                    <div className="d-flex align-items-center " style={{ width: "30%" }}>
+                                        <div className="ml-auto">
+                                            <>
+                                                <span className={`font-weight-bold mr-2 ${s.puReview.rating < 3 ? 'text-danger' : 'text-success'}`} style={{ fontSize: '24px' }}>{s.puReview.rating}</span>
+                                                /5
+                                            </>
+                                            <div className="font-weight-bold d-block opacity-20 text-success">
+                                                Likes: {s.puReview.noOfLikes}
+                                            </div>
+                                            <div className="font-weight-bold d-block opacity-20 text-danger">
+                                                Dislike {s.puReview.noOfDislikes}
+                                            </div>
                                         </div>
-                                        <div className="mr-3">
-                                            <button style={{ background: "transparent" }}>
+                                        <div className="ml-auto">
+                                            <Button color="link" style={{ background: "transparent" }} onClick={() => toggleLike(s.studentId)}>
                                                 <FontAwesomeIcon
-                                                    icon={["far", "thumbs-down"]}
+                                                    icon={faThumbsUp}
                                                     size="2x"
-                                                    style={{ cursor: "pointer", color: "#007bff", marginRight: "10px" }}
+                                                    style={{
+                                                        cursor: "pointer",
+                                                        color: likes[s.studentId] === "like" ? "green" : "#007bff",
+                                                        marginRight: "10px",
+                                                    }}
                                                 />
-                                            </button>
+                                            </Button>
                                         </div>
                                         <div>
-                                            <button style={{ background: "transparent" }}>
+                                            <Button color="link" style={{ background: "transparent" }} onClick={() => toggleDislike(s.studentId)}>
                                                 <FontAwesomeIcon
-                                                    icon={["far", "flag"]}
+                                                    icon={faThumbsDown}
                                                     size="2x"
-                                                    style={{ cursor: "pointer", color: "#007bff" }}
+                                                    style={{
+                                                        cursor: "pointer",
+                                                        color: dislikes[s.studentId] === "dislike" ? "red" : "#007bff",
+                                                        marginRight: "10px",
+                                                    }}
                                                 />
-                                            </button>
+                                            </Button>
+                                        </div>
+                                        <div>
+                                            <Button
+                                                color="link"
+                                                style={{
+                                                    background: "transparent",
+                                                }}
+                                                onMouseEnter={() => setIsHovered((prevStates) => ({
+                                                    ...prevStates,
+                                                    [s.studentId]: true,
+                                                }))}
+                                                onMouseLeave={() => setIsHovered((prevStates) => ({
+                                                    ...prevStates,
+                                                    [s.studentId]: false,
+                                                }))}
+                                                onClick={() => handleFlagged(s.studentId)}
+                                            >
+                                                <FontAwesomeIcon
+                                                    icon={faFlag}
+                                                    size="2x"
+                                                    style={{
+                                                        cursor: "pointer",
+                                                        color: isHovered[s.studentId] ? "red" : "#007bff",
+                                                    }}
+                                                />
+                                            </Button>
                                         </div>
                                     </div>
-
                                 </div>
-                                <div className="divider" />
                             </ListGroupItem>
                         ))}
                     </PerfectScrollbar>
                 </div>
             </ListGroup>
+
         </Card>
     );
 }
