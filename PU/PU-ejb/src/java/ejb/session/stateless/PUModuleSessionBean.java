@@ -28,7 +28,7 @@ public class PUModuleSessionBean implements PUModuleSessionBeanLocal {
 
     @PersistenceContext(unitName = "PU-ejbPU")
     private EntityManager em;
-    
+
     @EJB
     private PUSessionBeanLocal puSessionBean;
 
@@ -38,20 +38,21 @@ public class PUModuleSessionBean implements PUModuleSessionBeanLocal {
         PU pu = em.find(PU.class, puId);
         pu.getModules().add(module);
         module.setPu(pu);
-    
+        em.persist(module);
+        em.flush();
+
+        return module.getModuleId();
+    }
+
     @Override
     public void createModuleForPU(String puName, PUModule module) {
         PU pu = puSessionBean.retrievePuByName(puName);
-        
+
         pu.getModules().add(module);
-        
-        em.persist(pu);
         em.persist(module);
-        em.flush();
-        
-        return module.getModuleId();
+
     }
-    
+
     @Override
     public PUModule getPUModule(Long moduleId) throws NoResultException {
         PUModule module = em.find(PUModule.class, moduleId);
@@ -68,7 +69,7 @@ public class PUModuleSessionBean implements PUModuleSessionBeanLocal {
         Query query = em.createQuery("SELECT p FROM PUModule p");
         return query.getResultList();
     }
-    
+
     @Override
     public List<PUModule> searchPUModuleByCode(String code) {
         Query q;
@@ -82,7 +83,7 @@ public class PUModuleSessionBean implements PUModuleSessionBeanLocal {
 
         return q.getResultList();
     } //end
-    
+
     @Override
     public List<PUModule> searchPUModuleByDescription(String description) {
         Query q;
@@ -101,21 +102,21 @@ public class PUModuleSessionBean implements PUModuleSessionBeanLocal {
     public void updatePUModule(Long moduleId, String code, String description) {
         try {
             PUModule module = getPUModule(moduleId);
-            
+
             module.setCode(code);
             module.setDescription(description);
         } catch (NoResultException ex) {
             Logger.getLogger(PUModuleSessionBean.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
+
     @Override
     public void updatePUModule(PUModule p) throws NoResultException {
         PUModule oldP = getPUModule(p.getModuleId());
 
         oldP.setCode(p.getCode());
         oldP.setDescription(p.getDescription());
-        
+
     } //end updateCustomer
 
     @Override
@@ -128,30 +129,30 @@ public class PUModuleSessionBean implements PUModuleSessionBeanLocal {
         }
     }
 
-
     @Override
     public void associatePUModuleNUSModule(Long puModId, Long nusModId) {
-        
+
         System.err.println("PUMODID : " + puModId);
         System.err.println("NUSMODID : " + nusModId);
-        
+
         PUModule pUModule = em.find(PUModule.class, puModId);
-        NUSModule nUSModule= em.find(NUSModule.class, nusModId);
-        
+        NUSModule nUSModule = em.find(NUSModule.class, nusModId);
+
         pUModule.getMappableModules().add(nUSModule);
         nUSModule.getPuModules().add(pUModule);
+    }
 
-    
     @Override
     public void deletePUModuleFromPU(Long moduleId, String puName) throws NoResultException {
-        try {            
+        try {
             PUModule moduleToRemove = getPUModule(moduleId);
             PU pu = puSessionBean.retrievePuByName(puName);
-            
+
             pu.getModules().remove(moduleToRemove);
-            
+
             em.merge(pu);
             em.remove(moduleToRemove);
+
         } catch (NoResultException ex) {
             Logger.getLogger(PUModuleSessionBean.class.getName()).log(Level.SEVERE, null, ex);
         }

@@ -8,10 +8,6 @@ package webservices.restful.student;
 import ejb.session.stateless.PUReviewSessionBeanLocal;
 import ejb.session.stateless.PUSessionBeanLocal;
 import entity.PU;
-import javax.ejb.EJB;
-import javax.enterprise.context.RequestScoped;
-import javax.ws.rs.Path;
-import entity.PUReview;
 import entity.PUReview;
 import entity.Student;
 import java.util.ArrayList;
@@ -130,27 +126,29 @@ public class PUReviewResource {
             return Response.status(404).entity(exception)
                     .type(MediaType.APPLICATION_JSON).build();
         }
-        
-    @Produces(MediaType.APPLICATION_JSON)
-    public Response getAllReportedPUReviews() {
-        List<PUReview> puReviews = puReviewSessionBeanLocal.retrieveReportedPUReview();
-        List<PUReviewDTO> puReviewDtos = new ArrayList<>();
-
-        for (PUReview puReview : puReviews) {
-            Student student = puReview.getStudent();
-            PUReviewDTO puReviewDto = new PUReviewDTO(
-                    puReview.getPuReviewId(),
-                    puReview.getReview(),
-                    puReview.getIsInappropriate(),
-                    student.getStudentId(),
-                    student.getFirstName(),
-                    student.getLastName()
-            );
-            puReviewDtos.add(puReviewDto);
-        }
-
-        return Response.status(200).entity(puReviewDtos).build();
     }
+        
+//    @GET    
+//    @Produces(MediaType.APPLICATION_JSON)
+//    public Response getAllReportedPUReviews() {
+//        List<PUReview> puReviews = puReviewSessionBeanLocal.retrieveReportedPUReview();
+//        List<PUReviewDTO> puReviewDtos = new ArrayList<>();
+//
+//        for (PUReview puReview : puReviews) {
+//            Student student = puReview.getStudent();
+//            PUReviewDTO puReviewDto = new PUReviewDTO(
+//                    puReview.getPuReviewId(),
+//                    puReview.getReview(),
+//                    puReview.getIsInappropriate(),
+//                    student.getStudentId(),
+//                    student.getFirstName(),
+//                    student.getLastName()
+//            );
+//            puReviewDtos.add(puReviewDto);
+//        }
+//
+//        return Response.status(200).entity(puReviewDtos).build();
+//    }
 
     @PUT
     @Path("/{id}")

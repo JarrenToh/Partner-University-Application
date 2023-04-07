@@ -109,13 +109,13 @@ public class PUModuleResource {
 
    
 
-    @POST
-    @Consumes(MediaType.APPLICATION_JSON)
-    @Produces(MediaType.APPLICATION_JSON)
-    public PUModule createPUModule(PUModule s) {
-        puModuleSessionBeanLocal.createPUModule(s);
-        return s;
-    } //end createPUModule
+//    @POST
+//    @Consumes(MediaType.APPLICATION_JSON)
+//    @Produces(MediaType.APPLICATION_JSON)
+//    public PUModule createPUModule(PUModule s) {
+//        puModuleSessionBeanLocal.createPUModule(s);
+//        return s;
+//    } //end createPUModule
 
     @POST
     @Path("/createModuleForPU")
