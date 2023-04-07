@@ -153,7 +153,7 @@ const UniversityRankings = ({ universitiesData }) => {
                 <Link to={`/university-rankings?search=${university.name}`} style={{textDecoration: 'none'}}>
                   <UniversityCard university={university} index={index + 1} ranking={ranking} />
                 </Link>
-                {/*<button
+                {<button
                   className={`university-card__favorite-button ${university.isFavorite
                     ? "university-card__favorite-button--active"
                     : ""
@@ -161,7 +161,7 @@ const UniversityRankings = ({ universitiesData }) => {
                   onClick={() => handleToggleFavorite(university.puId)}
                 >
                   <i className="fas fa-heart"></i>
-                  </button>*/}
+                  </button>}
               </div>
             ))}
           </div>
