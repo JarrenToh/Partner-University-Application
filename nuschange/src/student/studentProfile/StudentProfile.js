@@ -207,6 +207,7 @@ const StudentProfile = () => {
         show={reviewModalShow}
         onHide={() => setReviewModalShow(false)}
         puReview = {currentStudent.puReview}
+        studentId = {currentStudent.studentId}
       />
       <SocialMediaModal
         show={socialMediaModalShow}

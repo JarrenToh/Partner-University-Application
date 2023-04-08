@@ -111,7 +111,7 @@ const App = () => {
             <Route path="/university-description-page" element={<UniversityDescriptionPage/>}/>
             <Route path="/university-description-page/mappable-module" element={<MappableModule/>}/>
             <Route path="/profile/modulesTaken" element={<ModulesTaken/>}/>
-            <Route path="/module-reviews" element={<ModuleDetail/>}/>
+            <Route path="/module-details/:modId" element={<ModuleDetail/>}/>
           </Routes>
         </Router>
 

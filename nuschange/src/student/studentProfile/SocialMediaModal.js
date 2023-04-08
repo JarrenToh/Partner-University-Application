@@ -100,25 +100,23 @@ const SocialMediaModal = (props) => {
               Add Social Media Link
             </Button>
           </div>
-          <div className="d-grid gap-2">
-            <Button
-              variant="success"
-              disabled={saveButtonDisabled}
-              onClick={() =>
-                updateStudentAPI(loggedInStudent.studentId, {
-                  ...loggedInStudent,
-                  socialMedia: socialMedia,
-                })
-              }
-            >
-              Save Changes
-            </Button>
-          </div>
         </div>
       </Modal.Body>
       <Modal.Footer>
         <Button variant="outline-danger" onClick={props.onHide}>
           Close
+        </Button>
+        <Button
+          variant="success"
+          disabled={saveButtonDisabled}
+          onClick={() =>
+            updateStudentAPI(loggedInStudent.studentId, {
+              ...loggedInStudent,
+              socialMedia: socialMedia,
+            })
+          }
+        >
+          Save Changes
         </Button>
       </Modal.Footer>
     </Modal>

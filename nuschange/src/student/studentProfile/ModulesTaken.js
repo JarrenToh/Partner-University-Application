@@ -1,12 +1,17 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Button, Card, ListGroup, ListGroupItem } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../login/AuthContext";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPenToSquare } from "@fortawesome/free-solid-svg-icons";
+import ModReviewModal from "./ModReviewModal";
 
 const ModulesTaken = () => {
+  //const navigate = useNavigate();
   const { loggedInStudent } = useContext(AuthContext);
+  const [reviewModModalShow, setReviewModModalShow] = useState(false);
+
+  useEffect(() => {}, [loggedInStudent]);
 
   const dummyModules = [
     {
@@ -50,10 +55,6 @@ const ModulesTaken = () => {
     },
   ];
 
-  const navToModuleDetails = () => {
-    alert("You clicked the ListGroupItem");
-  };
-
   return (
     <div style={{ paddingLeft: "5%", paddingRight: "5%" }}>
       <div className="container" style={{ border: 0 }}>
@@ -61,20 +62,25 @@ const ModulesTaken = () => {
       </div>
       <Card>
         <Card.Header as="h4">Modules</Card.Header>
-        <ListGroup >
+        <ListGroup>
           {dummyModules.map((mod) => (
             <ListGroup.Item
               as="li"
               className="d-flex justify-content-between align-items-start"
-              action onClick={navToModuleDetails}
+              action
             >
               <div className="ms-2 me-auto">
-                <div className="fw-bold">
-                  <h5>{mod.code}</h5>
-                </div>
-                {mod.name}
+                <Link
+                  to={`/module-details/${mod.moduleId}`}
+                  style={{ color: "black", textDecoration: "none" }}
+                >
+                  <div className="fw-bold">
+                    <h5>{mod.code}</h5>
+                  </div>
+                  {mod.name}
+                </Link>
               </div>
-              <Button>
+              <Button onClick={() => setReviewModModalShow(true)}>
                 <FontAwesomeIcon icon={faPenToSquare} />
                 Add Review
               </Button>
@@ -86,14 +92,20 @@ const ModulesTaken = () => {
               <ListGroup.Item
                 as="li"
                 className="d-flex justify-content-between align-items-start"
+                action
               >
                 <div className="ms-2 me-auto">
-                  <div className="fw-bold">
-                    <h5>{mod.code}</h5>
-                  </div>
-                  {mod.name}
+                  <Link
+                    to={{ pathname: "/module-details", state: { mod } }}
+                    style={{ color: "black", textDecoration: "none" }}
+                  >
+                    <div className="fw-bold">
+                      <h5>{mod.code}</h5>
+                    </div>
+                    {mod.name}
+                  </Link>
                 </div>
-                <Button>
+                <Button onClick={() => setReviewModModalShow(true)}>
                   <FontAwesomeIcon icon={faPenToSquare} />
                   Add Review
                 </Button>
@@ -107,7 +119,10 @@ const ModulesTaken = () => {
           )}
         </ListGroup>
       </Card>
-
+      <ModReviewModal
+        show={reviewModModalShow}
+        onHide={() => setReviewModModalShow(false)}
+      />
       <Link to="../module-reviews">View All Module Reviews</Link>
     </div>
   );

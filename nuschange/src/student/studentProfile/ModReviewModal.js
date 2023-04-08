@@ -2,36 +2,17 @@ import React, { useEffect, useState } from "react";
 import { Modal, Button, Form } from "react-bootstrap";
 import { Rating } from "@mui/material";
 
-const ReviewModal = (props) => {
-  const API_URL_PUREVIEW = "http://localhost:8080/PU-war/webresources/pureview";
-  const { puReview, studentId } = props;
+const ModReviewModal = (props) => {
+  const API_URL_PUMODREVIEW = "http://localhost:8080/PU-war/webresources/pumodulereview";
+  const { puReview } = props;
   const [stars, setStars] = useState(0);
   const [review, setReview] = useState("");
   const [editedPuReview, setEditedPuReview] = useState({});
   const [saveButtonDisabled, setSaveButtonDisabled] = useState(true);
 
-  useEffect(() => {
-    if (puReview) {
-      setStars(puReview.rating);
-      setReview(puReview.review);
-      setEditedPuReview({ ...puReview });
-    } else {
-      
-    }
-  }, [puReview]);
-
-  // Method to detect if edit or add review
-  const puReviewAPI = () => {
-    if (editedPuReview.puReviewId) { //edit existing review 
-
-    } else { // add fresh review
-
-    }
-  }
-  
-  function updatePUReviewAPI(reviewId, data) {
+  function updatePUModReviewAPI(moduleReviewId, data) {
     console.log(data);
-    return fetch(`${API_URL_PUREVIEW}/${reviewId}`, {
+    return fetch(`${API_URL_PUMODREVIEW}/${moduleReviewId}`, {
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
@@ -40,6 +21,16 @@ const ReviewModal = (props) => {
       body: JSON.stringify(data),
     });
   }
+
+  useEffect(() => {
+    console.log(puReview);
+
+    if (puReview) {
+      setStars(puReview.rating);
+      setReview(puReview.review);
+      setEditedPuReview({ ...puReview });
+    }
+  }, [puReview]);
 
   const handleReviewChange = (event) => {
     setReview(event.target.value);
@@ -55,7 +46,7 @@ const ReviewModal = (props) => {
     >
       <Modal.Header closeButton>
         <Modal.Title id="contained-modal-title-vcenter">
-          Your Partner University Review
+          Your Module Review
         </Modal.Title>
       </Modal.Header>
       <Modal.Body>
@@ -97,7 +88,7 @@ const ReviewModal = (props) => {
           variant="success"
           disabled={saveButtonDisabled}
           onClick={() =>
-            updatePUReviewAPI(editedPuReview.puReviewId, {
+            updatePUModReviewAPI(editedPuReview.puReviewId, {
               ...editedPuReview,
               rating: stars,
               review: review,
@@ -111,4 +102,4 @@ const ReviewModal = (props) => {
   );
 };
 
-export default ReviewModal;
+export default ModReviewModal;
