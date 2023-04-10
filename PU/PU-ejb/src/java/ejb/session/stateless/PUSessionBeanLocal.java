@@ -34,6 +34,8 @@ public interface PUSessionBeanLocal {
     
     public void updatePU(Long puId, String name, String description, String images);
     
+    public void updatePU(PU pu);
+    
     public void deletePU(Long puId);
     
 }

@@ -112,7 +112,7 @@ const StudentProfile = () => {
   return (
     <div style={{ paddingLeft: "5%", paddingRight: "5%" }}>
       <div className="container" style={{border: 0}}>
-        <h1>User Profile</h1>
+        <h1 className="text-center mb-3">User Profile</h1>
       </div>
       <Row>
         <Col>
