@@ -1,0 +1,51 @@
+.container {
+    max-width: 600px;
+  }
+  
+  .form-floating input,
+  .form-floating textarea {
+    padding: 1rem;
+    border: none;
+    border-radius: 0;
+  }
+  
+  .form-floating input:focus,
+  .form-floating textarea:focus {
+    border-color: #dc3545;
+    box-shadow: 0 0 0 0.25rem rgba(220, 53, 69, 0.25);
+  }
+  
+  .form-floating label {
+    padding: 1rem;
+    top: 0;
+    left: 0;
+    height: 100%;
+    pointer-events: none;
+    font-size: 1rem;
+    opacity: 0.5;
+    transition: opacity 0.2s ease-out, transform 0.2s ease-out;
+    transform-origin: top left;
+  }
+  
+  .form-floating input:not(:placeholder-shown) + label,
+  .form-floating textarea:not(:placeholder-shown) + label,
+  .form-floating input:focus + label,
+  .form-floating textarea:focus + label {
+    opacity: 1;
+    transform: scale(0.8) translateY(-0.5rem);
+  }
+  
+  .btn {
+    transition: opacity 0.2s ease-out;
+  }
+  
+  .btn[disabled],
+  .btn:disabled {
+    opacity: 0.5;
+  }
+
+  .btnColor{
+    background-color: #0ab529;
+    border-color: #0ab529;
+  }
+  

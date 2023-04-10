@@ -25,6 +25,7 @@ import MappableModule from './student/containers/mappableModules';
 import UniversityDescriptionPage from './student/containers/universityDescriptionPage';
 import ModulesTaken from './student/studentProfile/ModulesTaken';
 import ModuleDetail from './student/puModule/ModuleDetails';
+import StudentEnquiry from './student/enquiries/Enquiries';
 
 // admin
 import Enquiry from './admin/userSupportAdmin/pages/enquiry';
@@ -104,7 +105,7 @@ const App = () => {
             <Route path="/university-rankings-country" element={<UniversityRankingsCountry universitiesData={pus} />} />
             <Route path="/university-rankings-region" element={<UniversityRankingsRegion universitiesData={pus} />} />
             <Route path="/faq" element={<FAQPage />} />
-            <Route path="/faq" element={<FAQPage/>}/>
+            <Route path="/enquiry" element={<StudentEnquiry/>}/>
             <Route path="/profile/likedPus" element={<LikedPUs/>}/>
             <Route path="/university-description-page/:puName" element={<UniversityDescriptionPage/>}/>
             <Route path="/university-description-page/:puName/mappable-module" element={<MappableModule/>}/>

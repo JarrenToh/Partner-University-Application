@@ -65,8 +65,8 @@ const NavbarComp = () => {
           <Nav.Link href="/student/forum-topics" className='navLink'>Forum</Nav.Link>
           <NavDropdown title="Support" id="basic-nav-dropdown" className='navLinkDropDown' >
             <NavDropdown.Item href="/student/faq">FAQs</NavDropdown.Item>
-            <NavDropdown.Item href="#action/3.2">
-              Submit a Ticket
+            <NavDropdown.Item href="/student/enquiry">
+              Enquiry
             </NavDropdown.Item>
             <NavDropdown.Item href="#action/3.3">Submit a Question</NavDropdown.Item>
             <NavDropdown.Divider />
