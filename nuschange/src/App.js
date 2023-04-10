@@ -25,6 +25,7 @@ import MappableModule from './student/containers/mappableModules';
 import UniversityDescriptionPage from './student/containers/universityDescriptionPage';
 import ModulesTaken from './student/studentProfile/ModulesTaken';
 import ModuleDetail from './student/puModule/ModuleDetails';
+import OtherStudentProfile from './student/containers/OtherStudentProfile';
 
 // admin
 import Enquiry from './admin/userSupportAdmin/pages/enquiry';
@@ -112,6 +113,7 @@ const App = () => {
             <Route path="/university-description-page/mappable-module" element={<MappableModule/>}/>
             <Route path="/profile/modulesTaken" element={<ModulesTaken/>}/>
             <Route path="/module-details/:modId" element={<ModuleDetail/>}/>
+            <Route path='/other-profile/:studentId' element={<OtherStudentProfile/>}/>
           </Routes>
         </Router>
 
