@@ -66,9 +66,9 @@ const NavbarComp = () => {
           <NavDropdown title="Support" id="basic-nav-dropdown" className='navLinkDropDown' >
             <NavDropdown.Item href="/student/faq">FAQs</NavDropdown.Item>
             <NavDropdown.Item href="/student/enquiry">
-              Enquiry
+              Submit a Enquiry
             </NavDropdown.Item>
-            <NavDropdown.Item href="#action/3.3">Submit a Question</NavDropdown.Item>
+            <NavDropdown.Item href="/student/viewEnquiries">View Enquiries</NavDropdown.Item>
             <NavDropdown.Divider />
             <NavDropdown.Item href="#action/3.4">
               Contact Us

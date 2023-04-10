@@ -51,6 +51,7 @@ import InappropriatePUModuleDetails from './admin/systemSupportAdmin/pages/inapp
 
 import './student/assets/base.scss';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import ViewEnquiries from './student/enquiries/ViewEnquiries';
 // import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
 // import Login from './admin/Login';
@@ -106,6 +107,7 @@ const App = () => {
             <Route path="/university-rankings-region" element={<UniversityRankingsRegion universitiesData={pus} />} />
             <Route path="/faq" element={<FAQPage />} />
             <Route path="/enquiry" element={<StudentEnquiry/>}/>
+            <Route path="/viewEnquiries" element={<ViewEnquiries/>}/>
             <Route path="/profile/likedPus" element={<LikedPUs/>}/>
             <Route path="/university-description-page/:puName" element={<UniversityDescriptionPage/>}/>
             <Route path="/university-description-page/:puName/mappable-module" element={<MappableModule/>}/>
