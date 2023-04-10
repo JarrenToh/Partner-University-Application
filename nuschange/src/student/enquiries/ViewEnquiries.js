@@ -28,11 +28,11 @@ const ViewEnquiries = () => {
 
   return (
     <div>
-      <h1>Enquiries</h1>
+      <h1 className="headerEnquiries m-auto">Enquiries</h1>
       <Table striped bordered hover>
         <thead>
           <tr>
-            <th style={{fontSize : '22px', padding: '20px'}}>No.</th>
+            <th style={{fontSize : '22px', padding: '20px'}}>Ticket ID</th>
             <th style={{fontSize : '22px', padding: '20px'}}>Title</th>
             <th style={{fontSize : '22px', padding: '20px'}}>Message</th>
             <th style={{fontSize : '22px', padding: '20px'}}>Enquiry Date</th>
@@ -42,7 +42,7 @@ const ViewEnquiries = () => {
         <tbody>
           {enquiries.map((enquiry, index) => (
             <tr key={enquiry.enquiryId}>
-              <td>{index + 1}</td>
+              <td>{enquiry.enquiryId}</td>
               <td>{enquiry.title}</td>
               <td>{enquiry.content}</td>
               <td>{moment(enquiry.enquirydate).format('MMMM Do YYYY, h:mm:ss a')}</td> {/* convert the date using moment.js */}

@@ -69,4 +69,12 @@
     align-content: center;
     margin : auto;
   }
+
+  .headerEnquiries{
+    font-size: 60px;
+    font-weight :lighter;
+    font-variant: all-petite-caps;
+    text-align: center;
+    padding: 15px;
+}
   
