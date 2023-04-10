@@ -39,11 +39,14 @@ const OtherStudentProfile = () => {
     studentId: 0,
   });
   const [socialMedia, setSocialMedia] = useState([]);
-  const navigate = useNavigate();
-
+  const [puEnrolled, setPuEnrolled] = useState({
+    name: "Dummy Uni",
+    puId: 0
+  });
   useEffect(() => {
     console.log(studentId);
     getStudentAPI(studentId);
+    getEnrolledPuAPI(studentId);
   }, []);
 
   const getStudentAPI = async (studentId) => {
@@ -52,6 +55,13 @@ const OtherStudentProfile = () => {
     console.log(data);
     setCurrentStudent(data);
     setSocialMedia(data.socialMedia);
+  };
+
+  const getEnrolledPuAPI = async (studentId) => {
+    const response = await fetch(`${API_URL_STUDENT}/${studentId}/puEnrolled`);
+    const data = await response.json();
+    console.log(data);
+    setPuEnrolled(data);
   };
 
   // Concat first and last name to make full name
@@ -69,7 +79,7 @@ const OtherStudentProfile = () => {
           <InputGroup>
             <Form.Control
               readOnly
-              value={currentStudent.puEnrolled}
+              value={puEnrolled.name}
             />
           </InputGroup>
         </div>
@@ -156,7 +166,7 @@ const OtherStudentProfile = () => {
               <Form.Group className="mb-3" controlId="formGroupEmail">
                 <Form.Label>Partner University</Form.Label>
                 <EnrolledField
-                  isEnrolled={currentStudent.puEnrolled != null}
+                  isEnrolled={puEnrolled.puId !== 0}
                 />
               </Form.Group>
             </Form>

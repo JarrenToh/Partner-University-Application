@@ -32,8 +32,11 @@ const StudentProfile = () => {
   const { loggedInStudent } = useContext(AuthContext);
   //const { studentId } = loggedInStudent;
   const API_URL_STUDENT = "http://localhost:8080/PU-war/webresources/student";
-  const [studentId, setStudentId] = useState(0);
   const [currentStudent, setCurrentStudent] = useState({ ...loggedInStudent });
+  const [puEnrolled, setPuEnrolled] = useState({
+    name: "Dummy Uni",
+    puId: 0
+  });
   const [socialMedia, setSocialMedia] = useState([]);
   const [reviewModalShow, setReviewModalShow] = useState(false);
   const [socialMediaModalShow, setSocialMediaModalShow] = useState(false);
@@ -41,10 +44,8 @@ const StudentProfile = () => {
 
   useEffect(() => {
     if (loggedInStudent) {
-      //setStudentId(loggedInStudent.studentId);
-      //setCurrentStudent({ ...loggedInStudent });
       getStudentAPI(loggedInStudent.studentId);
-      //setSocialMedia(loggedInStudent.socialMedia);
+      getEnrolledPuAPI(loggedInStudent.studentId);
     }
   }, [loggedInStudent]);
 
@@ -53,6 +54,13 @@ const StudentProfile = () => {
     const data = await response.json();
     setCurrentStudent(data);
     setSocialMedia(data.socialMedia);
+  };
+
+  const getEnrolledPuAPI = async (studentId) => {
+    const response = await fetch(`${API_URL_STUDENT}/${studentId}/puEnrolled`);
+    const data = await response.json();
+    console.log(data);
+    setPuEnrolled(data);
   };
 
   if (!loggedInStudent) {
@@ -74,10 +82,10 @@ const StudentProfile = () => {
           <InputGroup>
             <Form.Control
               readOnly
-              defaultValue={loggedInStudent.partnerUniversity}
+              value={puEnrolled.name}
             />
             <Button onClick={() => setReviewModalShow(true)}>
-              <FontAwesomeIcon icon={faPenToSquare} /> 
+              <FontAwesomeIcon icon={faPenToSquare} />
               {currentStudent.puReview != null ? " Edit Review" : " Add Review"}
             </Button>
           </InputGroup>
@@ -111,7 +119,7 @@ const StudentProfile = () => {
 
   return (
     <div style={{ paddingLeft: "5%", paddingRight: "5%" }}>
-      <div className="container" style={{border: 0}}>
+      <div className="container" style={{ border: 0 }}>
         <h1 className="text-center mb-3">User Profile</h1>
       </div>
       <Row>
@@ -195,7 +203,7 @@ const StudentProfile = () => {
               <Form.Group className="mb-3" controlId="formGroupEmail">
                 <Form.Label>Partner University</Form.Label>
                 <EnrolledField
-                  isEnrolled={loggedInStudent.partnerUniversity == null}
+                  isEnrolled={puEnrolled.puId !== 0}
                 />
               </Form.Group>
             </Form>
@@ -206,8 +214,8 @@ const StudentProfile = () => {
       <ReviewModal
         show={reviewModalShow}
         onHide={() => setReviewModalShow(false)}
-        puReview = {currentStudent.puReview}
-        studentId = {currentStudent.studentId}
+        puReview={currentStudent.puReview}
+        studentId={currentStudent.studentId}
       />
       <SocialMediaModal
         show={socialMediaModalShow}

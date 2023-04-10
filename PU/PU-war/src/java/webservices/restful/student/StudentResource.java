@@ -211,6 +211,19 @@ public class StudentResource {
 
         return Response.status(Response.Status.UNAUTHORIZED).build();
     }
+    
+    @GET
+    @Path("/{studentId}/puEnrolled")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public PU getEnrolledPu(@PathParam("studentId") long studentId) {
+        try {
+            Student student = studentSessionLocal.getStudent(studentId);
+            return student.getPuEnrolled();
+        } catch (NoResultException ex) {
+            return null;
+        }
+    } 
 
     @Path("/{studentId}/likedPUs")
     @PUT
