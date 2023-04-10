@@ -58,7 +58,7 @@ const ModulesTaken = () => {
   return (
     <div style={{ paddingLeft: "5%", paddingRight: "5%" }}>
       <div className="container" style={{ border: 0 }}>
-        <h1>Modules Taken</h1>
+        <h1 className="text-center mb-3">Modules Taken</h1>
       </div>
       <Card>
         <Card.Header as="h4">Modules</Card.Header>
@@ -96,7 +96,7 @@ const ModulesTaken = () => {
               >
                 <div className="ms-2 me-auto">
                   <Link
-                    to={{ pathname: "/module-details", state: { mod } }}
+                    to={`/module-details/${mod.moduleId}`}
                     style={{ color: "black", textDecoration: "none" }}
                   >
                     <div className="fw-bold">
@@ -123,7 +123,6 @@ const ModulesTaken = () => {
         show={reviewModModalShow}
         onHide={() => setReviewModModalShow(false)}
       />
-      <Link to="../module-reviews">View All Module Reviews</Link>
     </div>
   );
 };

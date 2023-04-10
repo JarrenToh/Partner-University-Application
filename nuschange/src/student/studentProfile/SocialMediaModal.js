@@ -23,8 +23,8 @@ const SocialMediaModal = (props) => {
 
   // API to update student social media links (working for now)
   function updateStudentAPI(studentId, data) {
-    console.log(data);
-    console.log(data.socialMedia);
+    // console.log(data);
+    // console.log(data.socialMedia);
     props.onSocialMediaChange(socialMedia);
     return fetch(`${API_URL_STUDENT}/${studentId}`, {
       headers: {

@@ -71,11 +71,12 @@ const ModuleDetail = (props) => {
 
   return (
     <div style={{ paddingLeft: "5%", paddingRight: "5%" }}>
-      <div className="container" style={{ border: 0 }}>
-        <h1>{module.code}</h1>
+      <div >
+        <h1 className="text-center mb-3">{module.code}</h1>
       </div>
       <h3>{module.name}</h3>
       <h4>  University of Name Here</h4>
+      <hr></hr>
       <p>{module.description}</p>
 
       <ModReviewComp reviews={module.moduleReviews} />
