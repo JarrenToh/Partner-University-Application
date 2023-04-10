@@ -49,3 +49,24 @@
     border-color: #0ab529;
   }
   
+  .table td {
+    padding: 20px;
+  }
+
+  .thead tr {
+    background-color: #f2f2f2;
+  }
+
+  .table {
+    border-collapse: collapse;
+    border-radius: 8px;
+  }
+
+  .table {
+    font-size: 18px;
+    font-family: Arial, sans-serif;
+    max-width: 1600px;
+    align-content: center;
+    margin : auto;
+  }
+  

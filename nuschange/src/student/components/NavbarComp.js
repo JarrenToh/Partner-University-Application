@@ -65,10 +65,12 @@ const NavbarComp = () => {
           <Nav.Link href="/student/forum-topics" className='navLink'>Forum</Nav.Link>
           <NavDropdown title="Support" id="basic-nav-dropdown" className='navLinkDropDown' >
             <NavDropdown.Item href="/student/faq">FAQs</NavDropdown.Item>
-            <NavDropdown.Item href="/student/enquiry">
-              Submit a Enquiry
-            </NavDropdown.Item>
-            <NavDropdown.Item href="/student/viewEnquiries">View Enquiries</NavDropdown.Item>
+            {loggedInStudent && (
+              <>
+                <NavDropdown.Item href="/student/enquiry">Submit an Enquiry</NavDropdown.Item>
+                <NavDropdown.Item href="/student/viewEnquiries">View Enquiries</NavDropdown.Item>
+              </>
+            )}
             <NavDropdown.Divider />
             <NavDropdown.Item href="#action/3.4">
               Contact Us

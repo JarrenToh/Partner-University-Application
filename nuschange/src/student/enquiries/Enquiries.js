@@ -31,8 +31,6 @@ const ContactForm = () => {
     setFormStatus('Submitting...');
 
     const student_id = loggedInStudent.studentId;
-    const name = loggedInStudent.firstName;
-    console.log(name);
 
     const url = `http://localhost:8080/PU-war/webresources/student/enquiries?studentId=${student_id}`;
     const headers = {
@@ -103,7 +101,7 @@ const ContactForm = () => {
       backgroundSize: 'cover',
       minHeight: '100vh',
       backgroundPosition: 'left',
-      width: '90%',
+      width: '60%',
       height: '100%',
       marginRight : '1%',
     }}
@@ -121,15 +119,15 @@ const ContactForm = () => {
       marginRight : '1%',
     }}
   >
-        <CardHeader style={{backgroundColor : 'blue', color : 'white'}}>Contact Us</CardHeader>
+        <CardHeader style={{ fontWeight : 'bold', fontSize : '30px', borderBottom : '1px solid #888'}}>Contact Us</CardHeader>
         <CardBody>
           <Form onSubmit={handleSubmit}>
             <FormGroup>
-              <Label for="title">Title</Label>
-              <Input type="text" id="title" name="title" placeholder="Title" required />
+              <Label for="title" style={{fontSize : '20px'}}>Title</Label>
+              <Input type="text" id="title" name="title" placeholder="Title" required style={{fontSize : '18px', height : '50px'}}/>
             </FormGroup>
             <FormGroup>
-              <Label for="content">Message</Label>
+              <Label for="content" style={{fontSize : '20px'}}>Message</Label>
               <Input
                 type="textarea"
                 id="content"
@@ -137,6 +135,7 @@ const ContactForm = () => {
                 placeholder="Message"
                 rows="5"
                 required
+                style={{fontSize : '18px', padding : '10px', height : '600px'}}
               />
             </FormGroup>
             <Button className='btnColor' type="submit" disabled={formStatus === 'Submitting...'}>
