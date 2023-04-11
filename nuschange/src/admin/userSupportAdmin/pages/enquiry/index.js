@@ -63,7 +63,7 @@ const Enquiry = ({ adminId }) => {
                             </thead>
                             <tbody>
                                 {(data.filter(item => item.status === "PENDING").length > 0 || (data.filter(item => item.status !== "PENDING").length > 0 && adminId !== undefined)) ? (
-                                    data.map((item, index) => item.status === "PENDING" || (item.status !== "PENDING" && adminId !== undefined) && (
+                                    data.map((item, index) => (item.status === "PENDING" || (item.status !== "PENDING" && adminId !== undefined)) && (
                                         <tr key={index}>
                                             <td>{item.enquiryId}</td>
                                             <td>{item.title}</td>

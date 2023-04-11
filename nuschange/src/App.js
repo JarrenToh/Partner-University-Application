@@ -121,7 +121,7 @@ const App = () => {
           </Routes>
         </Router> */}
 
-       <Router basename='/admin'>
+        <Router basename='/admin'>
           <Routes>
             <Route path="/login" element={<Login />} />
             <Route path="/main" element={<Main />} />
@@ -135,9 +135,9 @@ const App = () => {
             <Route path="/partnerUniversities/:nameFromUrl" element={<PartnerUuniversityDetails />} />
             <Route path="/partnerUniversities/create" element={<CreatePartnerUuniversity />} />
             <Route path="/partnerUniversities/:puName/modules" element={<PartnerUniversityModules />} />
-            <Route path="/partnerUniversities/:puName/modules/:puModuleCode" element={<PartnerUniversityModuleDetails /> } />
-            <Route path="/partnerUniversities/:puName/modules/create" element={<CreatePartnerUniversityModule /> } />
-            <Route path="/inappropriatenessContent" element={<Inappropriateness /> } />
+            <Route path="/partnerUniversities/:puName/modules/:puModuleCode" element={<PartnerUniversityModuleDetails />} />
+            <Route path="/partnerUniversities/:puName/modules/create" element={<CreatePartnerUniversityModule />} />
+            <Route path="/inappropriatenessContent" element={<Inappropriateness />} />
             <Route path="/inappropriatenessContent/:typeOfComponent/:id" element={<InappropriatenessDetails />} />
             <Route path="/forumTopics" element={<ForumTopicsSystemSupportAdmin />} />
             <Route path="/forumTopics/create" element={<CreateForumTopicsSystemSupportAdmin />} />
@@ -145,34 +145,7 @@ const App = () => {
           </Routes>
 
         </Router>
-
-        {/* <ForumTopics /> */}
-        {/* <TopicPosts /> */}
-        {/* <Router>
-        <Routes>
-          <Route path="/" element={<ForumTopics />} />
-          <Route path="/post/:id" element={<TopicPosts />} />
-        </Routes>
-      </Router> */}
-        {/* <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header> */}
-        {/* <UniversityDescriptionPage/> */}
-        {/* <MappableModule /> */}
       </div>
-        </Router>/*}
-        
     </AuthProvider>
   );
 }
