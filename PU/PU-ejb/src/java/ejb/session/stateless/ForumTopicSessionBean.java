@@ -7,6 +7,7 @@ package ejb.session.stateless;
 
 import entity.ForumPost;
 import entity.ForumTopic;
+import entity.PU;
 import entity.Student;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -33,15 +34,16 @@ public class ForumTopicSessionBean implements ForumTopicSessionBeanLocal {
     private EntityManager em;   
 
     @Override
-    public void createNewForumTopic(ForumTopic forumTopic, Long studentId) {
+    public void createNewForumTopic(ForumTopic forumTopic, Long studentId, Long puId) {
         Student student = em.find(Student.class, studentId);
-        //forumTopic.setTimeOfCreation(LocalDateTime.now());
+        PU pu = em.find(PU.class, puId);
         student.getTopics().add(forumTopic);
         forumTopic.setStudent(student);
         forumTopic.setStudentId(studentId);
         forumTopic.setStudentFirstName(student.getFirstName());
         forumTopic.setStudentLastName(student.getLastName());
-        //forumTopic.setForumPosts(new ArrayList());
+        forumTopic.setPu(pu);
+        forumTopic.setPuName(pu.getName());
         em.persist(forumTopic);
         em.flush();
     }
@@ -61,6 +63,7 @@ public class ForumTopicSessionBean implements ForumTopicSessionBeanLocal {
         oldTopic.setStudentId(forumTopic.getStudentId());
         oldTopic.setStudentFirstName(forumTopic.getStudentFirstName());
         oldTopic.setStudentLastName(forumTopic.getStudentLastName());
+        oldTopic.setPu(forumTopic.getPu());
         
     }
     
@@ -78,6 +81,7 @@ public class ForumTopicSessionBean implements ForumTopicSessionBeanLocal {
         oldTopic.setStudentId(forumTopic.getStudentId());
         oldTopic.setStudentFirstName(forumTopic.getStudentFirstName());
         oldTopic.setStudentLastName(forumTopic.getStudentLastName());
+        oldTopic.setPu(forumTopic.getPu());
     }
     
     @Override
@@ -92,6 +96,7 @@ public class ForumTopicSessionBean implements ForumTopicSessionBeanLocal {
         oldTopic.setStudentId(forumTopic.getStudentId());
         oldTopic.setStudentFirstName(forumTopic.getStudentFirstName());
         oldTopic.setStudentLastName(forumTopic.getStudentLastName());
+        oldTopic.setPu(forumTopic.getPu());
     }
 
     @Override
@@ -130,6 +135,30 @@ public class ForumTopicSessionBean implements ForumTopicSessionBeanLocal {
         Student student = em.find(Student.class, studentId);
         return student.getTopics();
     }
+    
+    @Override
+    public List<ForumTopic> retrievePUForumTopicsByStudentId(Long puId, Long studentId) {
+
+        List<ForumTopic> studentTopics = retrieveForumTopicsByStudentId(studentId);
+
+        List<ForumTopic> puStudentTopics = new ArrayList<>();
+
+        for (ForumTopic forumTopic : studentTopics) {
+            if (forumTopic.getPu().getPuId() == puId) {
+                puStudentTopics.add(forumTopic);
+            }
+        }
+        return puStudentTopics;
+    }
+    
+    @Override
+    public List<ForumTopic> retrieveForumTopicsByPuId(Long puId) {
+        Query query = em.createQuery("SELECT t FROM ForumTopic t WHERE t.pu.puId = :puId");
+        query.setParameter("puId", puId);
+        List<ForumTopic> forumTopics = query.getResultList();
+
+        return forumTopics;
+    }
 
     @Override
     public List<ForumTopic> searchForumTopics(String topicName) {
@@ -167,6 +196,45 @@ public class ForumTopicSessionBean implements ForumTopicSessionBeanLocal {
         return searchTopics;
     }
     
+    @Override
+    public List<ForumTopic> searchForumTopicsByStudentAndPu(String topicName, Long studentId, Long puId) {
+        
+        List<ForumTopic> puForumTopics = searchForumTopicsByPu(topicName, puId);
+        
+        List<ForumTopic> studentPuForumTopics = puForumTopics;
+        
+        for (ForumTopic forumTopic : puForumTopics) {
+            if (forumTopic.getStudentId() != studentId) {
+                studentPuForumTopics.remove(forumTopic);
+            }
+        }
+        
+        return studentPuForumTopics;
+    }
+    
+    @Override
+    public List<ForumTopic> searchForumTopicsByPu(String topicName, Long puId) {
+        Query q;
+        if (topicName != null) {
+            q = em.createQuery("SELECT ft FROM ForumTopic ft WHERE "
+                    + "LOWER(ft.topicName) LIKE :topicName");
+            q.setParameter("topicName", "%" + topicName.toLowerCase() + "%");
+        } else {
+            q = em.createQuery("SELECT ft FROM ForumTopic ft");
+        }
+
+        List<ForumTopic> forumTopics = q.getResultList();
+        List<ForumTopic> searchTopics = new ArrayList<>();
+
+        for (ForumTopic forumTopic : forumTopics) {
+            if (forumTopic.getPu().getPuId() == puId) {
+                searchTopics.add(forumTopic);
+            }
+        }
+
+        return searchTopics;
+    }
+
     @Override
     public void reportForumTopic(Long forumTopicId) {
         ForumTopic forumTopic = em.find(ForumTopic.class, forumTopicId);

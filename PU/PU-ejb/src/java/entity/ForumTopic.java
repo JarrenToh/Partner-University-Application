@@ -48,6 +48,11 @@ public class ForumTopic implements Serializable {
     @JoinColumn(nullable = false)
     @JsonbTransient
     private Student student;
+  
+    @ManyToOne(optional = false)
+    @JoinColumn(nullable = false)
+    @JsonbTransient
+    private PU pu;
     
     @Column(nullable = false)
     private Long studentId;
@@ -57,6 +62,9 @@ public class ForumTopic implements Serializable {
     
     @Column(nullable = false)
     private String studentLastName;
+    
+    @Column(nullable = false)
+    private String puName;
     
     @Column(nullable = false)
     private Boolean isEdited;
@@ -251,6 +259,34 @@ public class ForumTopic implements Serializable {
      */
     public void setLastEdit(LocalDateTime lastEdit) {
         this.lastEdit = lastEdit;
+    }
+ 
+    /**
+     * @return the pu
+     */
+    public PU getPu() {
+        return pu;
+    }
+
+    /**
+     * @param pu the pu to set
+     */
+    public void setPu(PU pu) {
+        this.pu = pu;
+    }
+    
+    /**
+     * @return the puName
+     */
+    public String getPuName() {
+        return puName;
+    }
+
+    /**
+     * @param puName the puName to set
+     */
+    public void setPuName(String puName) {
+        this.puName = puName;
     }
 
 }

@@ -36,12 +36,12 @@ public class ForumTopicsResource {
     private ForumTopicSessionBeanLocal forumTopicSessionBeanLocal;
 
     @POST
-    @Path("/student/{studentId}")
+    @Path("/student/{studentId}/{puId}")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response createForumTopic(ForumTopic t, @PathParam("studentId") Long studentId, @Context UriInfo uriInfo) {
+    public Response createForumTopic(ForumTopic t, @PathParam("studentId") Long studentId, @PathParam("puId") Long puId, @Context UriInfo uriInfo) {
         
-        forumTopicSessionBeanLocal.createNewForumTopic(t, studentId);
+        forumTopicSessionBeanLocal.createNewForumTopic(t, studentId, puId);
         
         URI createdUri = uriInfo.getAbsolutePathBuilder()
                 .path(t.getTopicId().toString())

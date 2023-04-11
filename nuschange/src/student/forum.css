@@ -62,6 +62,7 @@
   .forum-header h4 {
     margin: 0;
     margin-bottom: 0;
+    margin-left: 10px;
   }
 
   .author {
@@ -127,17 +128,6 @@
     display: flex;
     flex-direction: column;
   }
-  
-  .add-comment {
-    color: black;
-    cursor: pointer;
-    margin-left: 20px;
-  }
-  
-  .add-comment:hover {
-    color: orangered;
-    transform: translateY(-3px);
-  } 
 
   .comment-form {
     margin-left: 20px;
@@ -153,7 +143,10 @@
     height: 28px; /* set the desired height here */
   }
 
-  #addButton {
+  .addButton {
+    display: flex;
+    justify-content: center;
+    align-items: center;
     height: 28px;
     padding: 0.375rem 0.75rem;
     font-size: 0.875rem;
@@ -161,20 +154,24 @@
     white-space: nowrap;
   }
 
+  .addButton:hover {
+    color: white;
+    text-decoration-color: white !important;
+  }
+
   .reply {
     margin-bottom: 10px;
   }
 
-  .btn-outline-primary {
-    color: #007bff !important;
-    background-color: transparent !important;
-    border-color: #007bff !important;
+  .liked {
+    color: green;
   }
-  .btn-outline-primary:hover {
-    color: #fff !important;
-    background-color: #007bff !important;
-    border-color: #007bff !important;
+  
+  .disliked {
+    color: red;
   }
-  .btn-outline-primary:focus, .btn-outline-primary.focus {
-    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.5) !important;
-  }
+  
+  
+  
+  
+  

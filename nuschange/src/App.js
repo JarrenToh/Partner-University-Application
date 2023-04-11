@@ -15,7 +15,9 @@ import MyPosts from './student/MyPosts';
 import EditPost from './student/EditForumPost';
 import NewTopic from './student/NewTopic';
 import EditTopic from './student/EditTopic';
-//import EachPost from './student/EachPost';
+import PUTopics from './student/PUTopics';
+import PUMyTopics from './student/PUMyTopics';
+import PUNewTopic from './student/PUNewTopic';
 import Post from './student/Post';
 import FAQPage from './student/FAQpage';
 import LikedPUs from './student/studentProfile/LikedPUs';
@@ -91,6 +93,9 @@ const App = () => {
             <Route path="/home-page" element={<HomePage />} />
             <Route path="/profile" element={<StudentProfile user={user} />} />
             <Route path="/forum-topics" element={<ForumTopics />} />
+            <Route path="/pu-topics/:puId" element={<PUTopics/>} />
+            <Route path="/pu-my-topics/:puId/:studentId" element={<PUMyTopics/>} />
+            <Route path="/new-pu-topic/:puId/:studentId" element={<PUNewTopic/>} />
             <Route path="/forum-topics/:id/:topicName/:studentId" element={<TopicPosts />} />
             <Route path="/forum-posts/:id/:topicName" element={<NewPost />} />
             <Route path="/my-topics/:studentId" element={<MyTopics />} />
