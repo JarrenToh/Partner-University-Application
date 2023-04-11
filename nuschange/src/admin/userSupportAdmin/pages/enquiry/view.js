@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 import Footer from '../../../components/dashboard/Footer';
 import Header from '../../../components/dashboard/Header';
@@ -14,6 +14,10 @@ const EnquiryDetails = () => {
     const [title, setTitle] = useState("");
     const [content, setContent] = useState("");
     const [reply, setReply] = useState("");
+
+    const [showModal, setShowModal] = useState(false);
+
+    const navigate = useNavigate();
 
     useEffect(() => {
         const fetchData = async () => {
@@ -46,10 +50,14 @@ const EnquiryDetails = () => {
             const apiPath = `${apiPaths.listOfEnquiries}/${id}/respond?adminId=1`;
             await API.put(apiPath, updatedEnquiry);
 
-            alert("Enquiry has been responded successfully");
-        } catch (error) { 
+            setShowModal(true);
+        } catch (error) {
             console.error(error);
         }
+    };
+
+    const handleCancel = async () => {
+        navigate('../enquiries');
     };
 
     return (
@@ -64,12 +72,12 @@ const EnquiryDetails = () => {
                         </div>
                         <div className="card-body">
                             <div className="form-group">
-                                <label htmlFor="inputName">Title</label>
-                                <p>{title}</p>
+                                <label htmlFor="inputTitle">Title</label>
+                                <input type="text" id="inputTitle" className="form-control" value={title} readOnly />
                             </div>
                             <div className="form-group">
-                                <label htmlFor="inputDescription">Content</label>
-                                <p>{content}</p>
+                                <label htmlFor="inputContent">Content</label>
+                                <input type="text" id="inputContent" className="form-control" value={content} readOnly />
                             </div>
                             <div className="form-group">
                                 <label htmlFor="inputDescription">Response</label>
@@ -83,6 +91,36 @@ const EnquiryDetails = () => {
                     </div>
                 </div>
             </div>
+            {showModal && (
+                <div className="modal fade show" id="modal-default" style={{ display: "block" }}>
+                    <div className="modal-dialog">
+                        <div className="modal-content">
+                            <div className="modal-header">
+                                <h4 className="modal-title">Successful Reply to Student's Enquiry</h4>
+                                <button
+                                    type="button"
+                                    className="close"
+                                    data-dismiss="modal"
+                                    aria-label="Close"
+                                    onClick={() => handleCancel()}>
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div className="modal-body">
+                                <p>You have successfully replied to a student's enquiry!</p>
+                            </div>
+                            <div className="modal-footer justify-content-between">
+                                <button
+                                    type="button"
+                                    className="btn btn-default"
+                                    onClick={() => handleCancel()}>
+                                    Close
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            )}
             <Footer />
         </div>
     )

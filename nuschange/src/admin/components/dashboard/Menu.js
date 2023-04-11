@@ -8,8 +8,8 @@ import logo from "../../../NUSChange-logoV3.png";
 
 const Menu = () => {
 
-    // const admin = "UserSupportAdmin";
-    const admin = "SystemSupportAdmin";
+    const admin = "UserSupportAdmin";
+    // const admin = "SystemSupportAdmin";
 
     return (
         <div>

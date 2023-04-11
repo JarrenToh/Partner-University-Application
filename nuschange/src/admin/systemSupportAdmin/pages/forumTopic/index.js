@@ -64,7 +64,7 @@ const ForumTopic = () => {
                                 </tr>
                             </thead>
                             <tbody>
-                                {data.map((item, index) => item.admin != undefined && (
+                                {data.map((item, index) => item.admin !== undefined && (
                                     <tr key={index}>
                                         <td>{item.topicId}</td>
                                         <td>{item.topicName}</td>
