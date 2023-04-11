@@ -30,12 +30,14 @@ import StudentEnquiry from './student/enquiries/Enquiries';
 
 
 // admin
+import Login from './admin/Login';
+// user support admin
 import Enquiry from './admin/userSupportAdmin/pages/enquiry';
 import EnquiryDetails from './admin/userSupportAdmin/pages/enquiry/view';
 import FAQs from './admin/userSupportAdmin/pages/faq';
 import CreateFAQ from './admin/userSupportAdmin/pages/faq/create';
 import FAQDetails from './admin/userSupportAdmin/pages/faq/view';
-import Login from './admin/Login';
+// system support admin
 import CreatePartnerUuniversity from './admin/systemSupportAdmin/pages/partnerUniversity/create';
 import PartnerUuniversityDetails from './admin/systemSupportAdmin/pages/partnerUniversity/view';
 import PartnerUniversityModules from './admin/systemSupportAdmin/pages/partnerUniversityModule';
@@ -44,12 +46,10 @@ import CreatePartnerUniversityModule from './admin/systemSupportAdmin/pages/part
 import Main from './admin/Main';
 import PartnerUuniversity from './admin/systemSupportAdmin/pages/partnerUniversity';
 import Inappropriateness from './admin/systemSupportAdmin/pages/inappropriateness';
-// import InappropriatenessDetails from './admin/systemSupportAdmin/pages/inappropriateness/view';
-import InappropriatePUReviewDetails from './admin/systemSupportAdmin/pages/inappropriateness/puReviewDetails';
-import InappropriateForumCommentDetails from './admin/systemSupportAdmin/pages/inappropriateness/forumCommentDetails';
-import InappropriateForumPostDetails from './admin/systemSupportAdmin/pages/inappropriateness/forumPostDetails';
-import InappropriateForumTopicDetails from './admin/systemSupportAdmin/pages/inappropriateness/forumTopicDetails';
-import InappropriatePUModuleDetails from './admin/systemSupportAdmin/pages/inappropriateness/puModuleReviewDetails';
+import InappropriatenessDetails from './admin/systemSupportAdmin/pages/inappropriateness/view';
+import ForumTopicsSystemSupportAdmin from './admin/systemSupportAdmin/pages/forumTopic/index';
+import CreateForumTopicsSystemSupportAdmin from './admin/systemSupportAdmin/pages/forumTopic/create';
+import ForumTopicsDetailsSystemSupportAdmin from './admin/systemSupportAdmin/pages/forumTopic/view';
 
 import './student/assets/base.scss';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -89,7 +89,7 @@ const App = () => {
   return (
     <AuthProvider> {/* Wrap the app in AuthProvider */}
       <div className="App">
-        <NavbarComp isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} user={user} />
+        {/* <NavbarComp isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} user={user} />
         <Router basename='/student'>
           <Routes>
             <Route path="/home-page" element={<HomePage />} />
@@ -119,32 +119,58 @@ const App = () => {
             <Route path="/module-details/:modId" element={<ModuleDetail/>}/>
             <Route path='/other-profile/:studentId' element={<OtherStudentProfile/>}/>
           </Routes>
-        </Router>
+        </Router> */}
 
-       {/* <Router basename='/admin'>
+       <Router basename='/admin'>
           <Routes>
             <Route path="/login" element={<Login />} />
             <Route path="/main" element={<Main />} />
             <Route path="/faqs" element={<FAQs />} />
             <Route path="/faqs/:id" element={<FAQDetails />} />
-            <Route path="/faqs/createFaq" element={<CreateFAQ />} />
+            <Route path="/faqs/create" element={<CreateFAQ />} />
             <Route path="/enquiries" element={<Enquiry />} />
             <Route path="/enquiries/assigned" element={<Enquiry adminId={1} />} />
             <Route path="/enquiries/:id" element={<EnquiryDetails />} />
             <Route path="/partnerUniversities" element={<PartnerUuniversity />} />
-            <Route path="/partnerUniversities/:id" element={<PartnerUuniversityDetails />} />
-            <Route path="/partnerUniversities/createPartnerUniversity" element={<CreatePartnerUuniversity />} />
+            <Route path="/partnerUniversities/:nameFromUrl" element={<PartnerUuniversityDetails />} />
+            <Route path="/partnerUniversities/create" element={<CreatePartnerUuniversity />} />
             <Route path="/partnerUniversities/:puName/modules" element={<PartnerUniversityModules />} />
             <Route path="/partnerUniversities/:puName/modules/:puModuleCode" element={<PartnerUniversityModuleDetails /> } />
-            <Route path="/partnerUniversities/:puName/modules/createModule" element={<CreatePartnerUniversityModule /> } />
+            <Route path="/partnerUniversities/:puName/modules/create" element={<CreatePartnerUniversityModule /> } />
             <Route path="/inappropriatenessContent" element={<Inappropriateness /> } />
-            { <Route path="/inappropriatenessContent/:type/:id" element={<InappropriatenessDetails />} /> }
-            <Route path="/inappropriatenessContent/puReviews/:id" element={<InappropriatePUReviewDetails />} />
-            <Route path="/inappropriatenessContent/forumComments/:id" element={<InappropriateForumCommentDetails />} />
-            <Route path="/inappropriatenessContent/forumPosts/:id" element={<InappropriateForumPostDetails />} />
-            <Route path="/inappropriatenessContent/forumTopics/:id" element={<InappropriateForumTopicDetails />} />
-            <Route path="/inappropriatenessContent/puModuleReviews/:id" element={<InappropriatePUModuleDetails />} />
+            <Route path="/inappropriatenessContent/:typeOfComponent/:id" element={<InappropriatenessDetails />} />
+            <Route path="/forumTopics" element={<ForumTopicsSystemSupportAdmin />} />
+            <Route path="/forumTopics/create" element={<CreateForumTopicsSystemSupportAdmin />} />
+            <Route path="/forumTopics/:id" element={<ForumTopicsDetailsSystemSupportAdmin />} />
           </Routes>
+
+        </Router>
+
+        {/* <ForumTopics /> */}
+        {/* <TopicPosts /> */}
+        {/* <Router>
+        <Routes>
+          <Route path="/" element={<ForumTopics />} />
+          <Route path="/post/:id" element={<TopicPosts />} />
+        </Routes>
+      </Router> */}
+        {/* <header className="App-header">
+        <img src={logo} className="App-logo" alt="logo" />
+        <p>
+          Edit <code>src/App.js</code> and save to reload.
+        </p>
+        <a
+          className="App-link"
+          href="https://reactjs.org"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Learn React
+        </a>
+      </header> */}
+        {/* <UniversityDescriptionPage/> */}
+        {/* <MappableModule /> */}
+      </div>
         </Router>/*}
         
     </AuthProvider>

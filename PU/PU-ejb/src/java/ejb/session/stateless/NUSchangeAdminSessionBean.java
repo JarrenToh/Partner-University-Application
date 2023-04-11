@@ -88,7 +88,8 @@ public class NUSchangeAdminSessionBean implements NUSchangeAdminSessionBeanLocal
         return (NUSchangeAdmin) query.getSingleResult();
     }
 
-    private NUSchangeAdmin retrieveAdmin(Long adminId) {
+    @Override
+    public NUSchangeAdmin retrieveAdmin(Long adminId) {
         Query query = em.createQuery("SELECT n FROM NUSchangeAdmin n WHERE n.adminId = :adminId");
         query.setParameter("adminId", adminId);
 

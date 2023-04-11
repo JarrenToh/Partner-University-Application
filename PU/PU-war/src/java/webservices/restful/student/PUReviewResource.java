@@ -128,27 +128,28 @@ public class PUReviewResource {
         }
     }
         
-//    @GET    
-//    @Produces(MediaType.APPLICATION_JSON)
-//    public Response getAllReportedPUReviews() {
-//        List<PUReview> puReviews = puReviewSessionBeanLocal.retrieveReportedPUReview();
-//        List<PUReviewDTO> puReviewDtos = new ArrayList<>();
-//
-//        for (PUReview puReview : puReviews) {
-//            Student student = puReview.getStudent();
-//            PUReviewDTO puReviewDto = new PUReviewDTO(
-//                    puReview.getPuReviewId(),
-//                    puReview.getReview(),
-//                    puReview.getIsInappropriate(),
-//                    student.getStudentId(),
-//                    student.getFirstName(),
-//                    student.getLastName()
-//            );
-//            puReviewDtos.add(puReviewDto);
-//        }
-//
-//        return Response.status(200).entity(puReviewDtos).build();
-//    }
+    @GET    
+    @Path("/getAllReportedPUReviews")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getAllReportedPUReviews() {
+        List<PUReview> puReviews = puReviewSessionBeanLocal.retrieveReportedPUReview();
+        List<PUReviewDTO> puReviewDtos = new ArrayList<>();
+
+        for (PUReview puReview : puReviews) {
+            Student student = puReview.getStudent();
+            PUReviewDTO puReviewDto = new PUReviewDTO(
+                    puReview.getPuReviewId(),
+                    puReview.getReview(),
+                    puReview.getIsInappropriate(),
+                    student.getStudentId(),
+                    student.getFirstName(),
+                    student.getLastName()
+            );
+            puReviewDtos.add(puReviewDto);
+        }
+
+        return Response.status(200).entity(puReviewDtos).build();
+    }
 
     @PUT
     @Path("/{id}")

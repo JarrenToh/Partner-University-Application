@@ -23,6 +23,9 @@ import ejb.session.stateless.enquiry.StudentEnquirySessionBeanLocal;
 import entity.Country;
 import entity.FAQ;
 import entity.Faculty;
+import entity.ForumComment;
+import entity.ForumPost;
+import entity.ForumTopic;
 import entity.NUSModule;
 import entity.NUSchangeAdmin;
 import entity.PUModuleReview;
@@ -655,6 +658,11 @@ public class DataInitializationSessionBean {
 
         PUReview review18 = new PUReview(2l, "I would not recommend this university. The professors seemed uninterested and the facilities were outdated. Save your money and go elsewhere.");
 
+        review1.setIsInappropriate(true);
+        review2.setIsInappropriate(true);
+        review3.setIsInappropriate(true);
+        review4.setIsInappropriate(true);
+        review5.setIsInappropriate(true);
 
         pUReviewSessionBean.createPUReview(review1, pId1, studentId1);
         pUReviewSessionBean.createPUReview(review2, pId1, studentId2);
@@ -981,91 +989,95 @@ public class DataInitializationSessionBean {
 //        Long pId5 = pUSessionBean.createNewPu(pu5, cId5, cId5);
         Long pId6 = pUSessionBean.createNewPu(pu5, listOfPUModules1);
 
-        PUReview puReview1 = new PUReview(new Long(5), pId1);
-        PUReview puReview2 = new PUReview(new Long(4), pId1);
-        PUReview puReview3 = new PUReview(new Long(3), pId1);
-        PUReview puReview4 = new PUReview(new Long(5), pId1);
-        PUReview puReview5 = new PUReview(new Long(5), pId1);
-
-        PUReview puReview6 = new PUReview(new Long(5), pId2);
-        PUReview puReview7 = new PUReview(new Long(4), pId2);
-        PUReview puReview8 = new PUReview(new Long(4), pId2);
-        PUReview puReview9 = new PUReview(new Long(3), pId2);
-        PUReview puReview10 = new PUReview(new Long(3), pId2);
-
-        PUReview puReview11 = new PUReview(new Long(3), pId3);
-        PUReview puReview12 = new PUReview(new Long(3), pId3);
-        PUReview puReview13 = new PUReview(new Long(4), pId3);
-        PUReview puReview14 = new PUReview(new Long(3), pId3);
-        PUReview puReview15 = new PUReview(new Long(3), pId3);
-
-        PUReview puReview16 = new PUReview(new Long(4), pId4);
-        PUReview puReview17 = new PUReview(new Long(4), pId4);
-        PUReview puReview18 = new PUReview(new Long(5), pId4);
-        PUReview puReview19 = new PUReview(new Long(5), pId4);
-        PUReview puReview20 = new PUReview(new Long(5), pId4);
-
-        PUReview puReview21 = new PUReview(new Long(2), pId5);
-        PUReview puReview22 = new PUReview(new Long(2), pId5);
-        PUReview puReview23 = new PUReview(new Long(5), pId5);
-        PUReview puReview24 = new PUReview(new Long(5), pId5);
-        PUReview puReview25 = new PUReview(new Long(5), pId5);
-        
-
-
-
-//        ForumTopic forumTopic1 = new ForumTopic("WTF Topic");
-//        ForumTopic forumTopic2 = new ForumTopic("CCB Topic");
-//        ForumTopic forumTopic3 = new ForumTopic("CHAO Topic");
-//        ForumTopic forumTopic4 = new ForumTopic("Fourth Topic");
-//        ForumTopic forumTopic5 = new ForumTopic("Fifth Topic");
-        
-//        forumTopic1.setIsInappropriate(true);
-//        forumTopic2.setIsInappropriate(true);
-//        forumTopic3.setIsInappropriate(true);
+//        PUReview puReview1 = new PUReview(new Long(5), pId1);
+//        PUReview puReview2 = new PUReview(new Long(4), pId1);
+//        PUReview puReview3 = new PUReview(new Long(3), pId1);
+//        PUReview puReview4 = new PUReview(new Long(5), pId1);
+//        PUReview puReview5 = new PUReview(new Long(5), pId1);
+//
+//        PUReview puReview6 = new PUReview(new Long(5), pId2);
+//        PUReview puReview7 = new PUReview(new Long(4), pId2);
+//        PUReview puReview8 = new PUReview(new Long(4), pId2);
+//        PUReview puReview9 = new PUReview(new Long(3), pId2);
+//        PUReview puReview10 = new PUReview(new Long(3), pId2);
+//
+//        PUReview puReview11 = new PUReview(new Long(3), pId3);
+//        PUReview puReview12 = new PUReview(new Long(3), pId3);
+//        PUReview puReview13 = new PUReview(new Long(4), pId3);
+//        PUReview puReview14 = new PUReview(new Long(3), pId3);
+//        PUReview puReview15 = new PUReview(new Long(3), pId3);
+//
+//        PUReview puReview16 = new PUReview(new Long(4), pId4);
+//        PUReview puReview17 = new PUReview(new Long(4), pId4);
+//        PUReview puReview18 = new PUReview(new Long(5), pId4);
+//        PUReview puReview19 = new PUReview(new Long(5), pId4);
+//        PUReview puReview20 = new PUReview(new Long(5), pId4);
+//
+//        PUReview puReview21 = new PUReview(new Long(2), pId5);
+//        PUReview puReview22 = new PUReview(new Long(2), pId5);
+//        PUReview puReview23 = new PUReview(new Long(5), pId5);
+//        PUReview puReview24 = new PUReview(new Long(5), pId5);
+//        PUReview puReview25 = new PUReview(new Long(5), pId5);
 //        
-//        forumTopicSessionBeanLocal.createNewForumTopic(forumTopic1, studentId1);
-//        forumTopicSessionBeanLocal.createNewForumTopic(forumTopic2, studentId2);
-//        forumTopicSessionBeanLocal.createNewForumTopic(forumTopic3, studentId3);
-//        forumTopicSessionBeanLocal.createNewForumTopic(forumTopic4, studentId1);
-//        forumTopicSessionBeanLocal.createNewForumTopic(forumTopic5, studentId2);
+//        puReview1.setIsInappropriate(true);
+//        puReview2.setIsInappropriate(true);
+//        puReview3.setIsInappropriate(true);
+//        puReview4.setIsInappropriate(true);
+//        puReview5.setIsInappropriate(true);
+
+
+        ForumTopic forumTopic1 = new ForumTopic("WTF Topic");
+        ForumTopic forumTopic2 = new ForumTopic("CCB Topic");
+        ForumTopic forumTopic3 = new ForumTopic("CHAO Topic");
+        ForumTopic forumTopic4 = new ForumTopic("Fourth Topic");
+        ForumTopic forumTopic5 = new ForumTopic("Fifth Topic");
         
-//        ForumPost forumPost1 = new ForumPost("This is stupid?", "Stupid PU!!");
-//        ForumPost forumPost2 = new ForumPost("HK nice food?", "What a joke!!");
-//        ForumPost forumPost3 = new ForumPost("Places to stay?", "I want to stay in Singapore");
+        forumTopic1.setIsInappropriate(true);
+        forumTopic2.setIsInappropriate(true);
+        forumTopic3.setIsInappropriate(true);
         
-//        forumPost1.setIsInappropriate(true);
-//        forumPost2.setIsInappropriate(true);
-//        
-//        forumPost1.setNoOfLikes(0);
-//        forumPost1.setNoOfDislikes(0);
-//        
-//        forumPost2.setNoOfLikes(0);
-//        forumPost2.setNoOfDislikes(0);
-//        
-//        forumPost1.getDislikedStudents().add(student1.getStudentId());
-//        forumPost1.getDislikedStudents().add(student2.getStudentId());
-//        
-//        forumPostSessionBeanLocal.createNewForumPost(forumPost1, forumTopic2.getTopicId(), student1.getStudentId());
-//        forumPostSessionBeanLocal.createNewForumPost(forumPost2, forumTopic2.getTopicId(), student3.getStudentId());
-//        forumPostSessionBeanLocal.createNewForumPost(forumPost3, forumTopic1.getTopicId(), student2.getStudentId());
+        forumTopicSessionBeanLocal.createNewForumTopic(forumTopic1, studentId1);
+        forumTopicSessionBeanLocal.createNewForumTopic(forumTopic2, studentId2);
+        forumTopicSessionBeanLocal.createNewForumTopic(forumTopic3, studentId3);
+        forumTopicSessionBeanLocal.createNewForumTopic(forumTopic4, studentId1);
+        forumTopicSessionBeanLocal.createNewForumTopic(forumTopic5, studentId2);
         
-//        ForumComment forumComment1 = new ForumComment("Wow this is such a fking shit!");
-//        ForumComment forumComment2 = new ForumComment("fk you uds");
-//        ForumComment forumComment3 = new ForumComment("Marina Bay Sands!");
+        ForumPost forumPost1 = new ForumPost("This is stupid?", "Stupid PU!!");
+        ForumPost forumPost2 = new ForumPost("HK nice food?", "What a joke!!");
+        ForumPost forumPost3 = new ForumPost("Places to stay?", "I want to stay in Singapore");
         
-//        forumComment1.setIsInappropriate(true);
-//        forumComment2.setIsInappropriate(true);
-//        
-//        forumComment1.setNoOfLikes(0);
-//        forumComment1.setNoOfDislikes(0);
-//        
-//        forumComment2.setNoOfLikes(0);
-//        forumComment2.setNoOfDislikes(0);
+        forumPost1.setIsInappropriate(true);
+        forumPost2.setIsInappropriate(true);
         
-//        forumCommentSessionBeanLocal.createNewForumComment(forumComment1, forumPost1.getPostId(), student3.getStudentId());
-//        forumCommentSessionBeanLocal.createNewForumComment(forumComment2, forumPost2.getPostId(), student2.getStudentId());
-//        forumCommentSessionBeanLocal.createNewForumComment(forumComment3, forumPost3.getPostId(), student1.getStudentId());
+        forumPost1.setNoOfLikes(0);
+        forumPost1.setNoOfDislikes(0);
+        
+        forumPost2.setNoOfLikes(0);
+        forumPost2.setNoOfDislikes(0);
+        
+        forumPost1.getDislikedStudents().add(student1.getStudentId());
+        forumPost1.getDislikedStudents().add(student2.getStudentId());
+        
+        forumPostSessionBeanLocal.createNewForumPost(forumPost1, forumTopic2.getTopicId(), student1.getStudentId());
+        forumPostSessionBeanLocal.createNewForumPost(forumPost2, forumTopic2.getTopicId(), student3.getStudentId());
+        forumPostSessionBeanLocal.createNewForumPost(forumPost3, forumTopic1.getTopicId(), student2.getStudentId());
+        
+        ForumComment forumComment1 = new ForumComment("Wow this is such a fking shit!", false);
+        ForumComment forumComment2 = new ForumComment("fk you uds", false);
+        ForumComment forumComment3 = new ForumComment("Marina Bay Sands!", false);
+        
+        forumComment1.setIsInappropriate(true);
+        forumComment2.setIsInappropriate(true);
+        
+        forumComment1.setNoOfLikes(0);
+        forumComment1.setNoOfDislikes(0);
+        
+        forumComment2.setNoOfLikes(0);
+        forumComment2.setNoOfDislikes(0);
+        
+        forumCommentSessionBeanLocal.createNewForumComment(forumComment1, forumPost1.getPostId(), student3.getStudentId());
+        forumCommentSessionBeanLocal.createNewForumComment(forumComment2, forumPost2.getPostId(), student2.getStudentId());
+        forumCommentSessionBeanLocal.createNewForumComment(forumComment3, forumPost3.getPostId(), student1.getStudentId());
         
 
 //        Enquiry enquiry1 = new Enquiry("Hello", "Help");

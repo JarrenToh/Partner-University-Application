@@ -6,6 +6,7 @@
 package ejb.session.stateless;
 
 import entity.ForumTopic;
+import error.NoResultException;
 import java.util.List;
 import javax.ejb.Local;
 
@@ -17,6 +18,8 @@ import javax.ejb.Local;
 public interface ForumTopicSessionBeanLocal {
     
     public void createNewForumTopic(ForumTopic forumTopic, Long studentId);
+    
+    public void createNewForumTopicByAdmin(ForumTopic forumTopic, Long adminId) throws NoResultException;
     
     public void updateForumTopic(ForumTopic forumTopic);
     
