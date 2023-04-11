@@ -11,6 +11,7 @@ const apiPaths = {
     listOfForumPosts: `${path}/forumPosts`,
     listOfForumTopics: `${path}/forumTopics`,
     listOfPUModuleReview: `${path}/pumodulereview`,
+    listOfAdminForumTopics: `${path}/admin/forumTopics`,
 
     getPUbyName(puName) {
         return fetch(`${path}/pu/getPUByName/${puName}`);

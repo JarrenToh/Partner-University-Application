@@ -27,12 +27,14 @@ import ModulesTaken from './student/studentProfile/ModulesTaken';
 import ModuleDetail from './student/puModule/ModuleDetails';
 
 // admin
+import Login from './admin/Login';
+// user support admin
 import Enquiry from './admin/userSupportAdmin/pages/enquiry';
 import EnquiryDetails from './admin/userSupportAdmin/pages/enquiry/view';
 import FAQs from './admin/userSupportAdmin/pages/faq';
 import CreateFAQ from './admin/userSupportAdmin/pages/faq/create';
 import FAQDetails from './admin/userSupportAdmin/pages/faq/view';
-import Login from './admin/Login';
+// system support admin
 import CreatePartnerUuniversity from './admin/systemSupportAdmin/pages/partnerUniversity/create';
 import PartnerUuniversityDetails from './admin/systemSupportAdmin/pages/partnerUniversity/view';
 import PartnerUniversityModules from './admin/systemSupportAdmin/pages/partnerUniversityModule';
@@ -42,11 +44,9 @@ import Main from './admin/Main';
 import PartnerUuniversity from './admin/systemSupportAdmin/pages/partnerUniversity';
 import Inappropriateness from './admin/systemSupportAdmin/pages/inappropriateness';
 import InappropriatenessDetails from './admin/systemSupportAdmin/pages/inappropriateness/view';
-// import InappropriatePUReviewDetails from './admin/systemSupportAdmin/pages/inappropriateness/puReviewDetails';
-// import InappropriateForumCommentDetails from './admin/systemSupportAdmin/pages/inappropriateness/forumCommentDetails';
-// import InappropriateForumPostDetails from './admin/systemSupportAdmin/pages/inappropriateness/forumPostDetails';
-// import InappropriateForumTopicDetails from './admin/systemSupportAdmin/pages/inappropriateness/forumTopicDetails';
-// import InappropriatePUModuleDetails from './admin/systemSupportAdmin/pages/inappropriateness/puModuleReviewDetails';
+import ForumTopicsSystemSupportAdmin from './admin/systemSupportAdmin/pages/forumTopic/index';
+import CreateForumTopicsSystemSupportAdmin from './admin/systemSupportAdmin/pages/forumTopic/create';
+import ForumTopicsDetailsSystemSupportAdmin from './admin/systemSupportAdmin/pages/forumTopic/view';
 
 import './student/assets/base.scss';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -133,11 +133,9 @@ const App = () => {
             <Route path="/partnerUniversities/:puName/modules/create" element={<CreatePartnerUniversityModule /> } />
             <Route path="/inappropriatenessContent" element={<Inappropriateness /> } />
             <Route path="/inappropriatenessContent/:typeOfComponent/:id" element={<InappropriatenessDetails />} />
-            {/* <Route path="/inappropriatenessContent/puReviews/:id" element={<InappropriatePUReviewDetails />} />
-            <Route path="/inappropriatenessContent/forumComments/:id" element={<InappropriateForumCommentDetails />} />
-            <Route path="/inappropriatenessContent/forumPosts/:id" element={<InappropriateForumPostDetails />} />
-            <Route path="/inappropriatenessContent/forumTopics/:id" element={<InappropriateForumTopicDetails />} />
-            <Route path="/inappropriatenessContent/puModuleReviews/:id" element={<InappropriatePUModuleDetails />} /> */}
+            <Route path="/forumTopics" element={<ForumTopicsSystemSupportAdmin />} />
+            <Route path="/forumTopics/create" element={<CreateForumTopicsSystemSupportAdmin />} />
+            <Route path="/forumTopics/:id" element={<ForumTopicsDetailsSystemSupportAdmin />} />
           </Routes>
         </Router>
 
