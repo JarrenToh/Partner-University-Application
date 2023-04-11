@@ -23,8 +23,8 @@ const SocialMediaModal = (props) => {
 
   // API to update student social media links (working for now)
   function updateStudentAPI(studentId, data) {
-    console.log(data);
-    console.log(data.socialMedia);
+    // console.log(data);
+    // console.log(data.socialMedia);
     props.onSocialMediaChange(socialMedia);
     return fetch(`${API_URL_STUDENT}/${studentId}`, {
       headers: {
@@ -100,25 +100,23 @@ const SocialMediaModal = (props) => {
               Add Social Media Link
             </Button>
           </div>
-          <div className="d-grid gap-2">
-            <Button
-              variant="success"
-              disabled={saveButtonDisabled}
-              onClick={() =>
-                updateStudentAPI(loggedInStudent.studentId, {
-                  ...loggedInStudent,
-                  socialMedia: socialMedia,
-                })
-              }
-            >
-              Save Changes
-            </Button>
-          </div>
         </div>
       </Modal.Body>
       <Modal.Footer>
         <Button variant="outline-danger" onClick={props.onHide}>
           Close
+        </Button>
+        <Button
+          variant="success"
+          disabled={saveButtonDisabled}
+          onClick={() =>
+            updateStudentAPI(loggedInStudent.studentId, {
+              ...loggedInStudent,
+              socialMedia: socialMedia,
+            })
+          }
+        >
+          Save Changes
         </Button>
       </Modal.Footer>
     </Modal>

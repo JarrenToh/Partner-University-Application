@@ -43,7 +43,8 @@ const UniversityCard = ({ university, index, ranking }) => {
           </div>
           {rankingInfo}
         </div>
-        <div className="university-card__ranking-container">
+        {ranking != null &&
+          <div className="university-card__ranking-container">
           <div className="university-card__rating">
             {" "}
             <div className="ratingTop">Rating:</div>{" "}
@@ -53,7 +54,7 @@ const UniversityCard = ({ university, index, ranking }) => {
             />{" "}
             {university.rating} {" "}/ 5.0
           </div>
-        </div>
+        </div>}
       </div>
     </div>
   );

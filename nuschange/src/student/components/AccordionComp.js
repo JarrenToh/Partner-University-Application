@@ -3,7 +3,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import "./AccordionComp.css";
 import React from "react";
 import { Accordion, Container, Table, Row } from "react-bootstrap";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 
 
 function AccordionComp(props) {
@@ -39,7 +39,7 @@ function AccordionComp(props) {
                                                         <td>{nusmodule.name}</td>
                                                         {nusmodule.puModules.map((pumodule) => (
                                                             <React.Fragment key={pumodule.code}>
-                                                                <td>{pumodule.code}</td>
+                                                                <td><Link to = {`/module-details/${pumodule.moduleId}`}>{pumodule.code}</Link></td>
                                                                 <td>{pumodule.name}</td>
                                                             </React.Fragment>
                                                         ))}

@@ -25,6 +25,9 @@ import MappableModule from './student/containers/mappableModules';
 import UniversityDescriptionPage from './student/containers/universityDescriptionPage';
 import ModulesTaken from './student/studentProfile/ModulesTaken';
 import ModuleDetail from './student/puModule/ModuleDetails';
+import OtherStudentProfile from './student/containers/OtherStudentProfile';
+import StudentEnquiry from './student/enquiries/Enquiries';
+
 
 // admin
 import Login from './admin/Login';
@@ -50,6 +53,7 @@ import ForumTopicsDetailsSystemSupportAdmin from './admin/systemSupportAdmin/pag
 
 import './student/assets/base.scss';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import ViewEnquiries from './student/enquiries/ViewEnquiries';
 // import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
 // import Login from './admin/Login';
@@ -104,14 +108,16 @@ const App = () => {
             <Route path="/university-rankings-country" element={<UniversityRankingsCountry universitiesData={pus} />} />
             <Route path="/university-rankings-region" element={<UniversityRankingsRegion universitiesData={pus} />} />
             <Route path="/faq" element={<FAQPage />} />
-            <Route path="/faq" element={<FAQPage/>}/>
+            <Route path="/enquiry" element={<StudentEnquiry/>}/>
+            <Route path="/viewEnquiries" element={<ViewEnquiries/>}/>
             <Route path="/profile/likedPus" element={<LikedPUs/>}/>
             <Route path="/university-description-page/:puName" element={<UniversityDescriptionPage/>}/>
             <Route path="/university-description-page/:puName/mappable-module" element={<MappableModule/>}/>
             <Route path="/university-description-page" element={<UniversityDescriptionPage/>}/>
             <Route path="/university-description-page/mappable-module" element={<MappableModule/>}/>
             <Route path="/profile/modulesTaken" element={<ModulesTaken/>}/>
-            <Route path="/module-reviews" element={<ModuleDetail/>}/>
+            <Route path="/module-details/:modId" element={<ModuleDetail/>}/>
+            <Route path='/other-profile/:studentId' element={<OtherStudentProfile/>}/>
           </Routes>
         </Router> */}
 
@@ -137,6 +143,7 @@ const App = () => {
             <Route path="/forumTopics/create" element={<CreateForumTopicsSystemSupportAdmin />} />
             <Route path="/forumTopics/:id" element={<ForumTopicsDetailsSystemSupportAdmin />} />
           </Routes>
+
         </Router>
 
         {/* <ForumTopics /> */}
@@ -164,6 +171,8 @@ const App = () => {
         {/* <UniversityDescriptionPage/> */}
         {/* <MappableModule /> */}
       </div>
+        </Router>/*}
+        
     </AuthProvider>
   );
 }

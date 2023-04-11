@@ -148,6 +148,12 @@ public class PUSessionBean implements PUSessionBeanLocal {
     }
 
     @Override
+    public void updatePU(PU pu) {
+        PU oldPu = retrievePuById(pu.getPuId());
+       oldPu.setStudentsLiked(pu.getStudentsLiked());
+    }
+    
+    @Override
     public void deletePU(Long puId) {
         PU deletedPU = retrievePuById(puId);
 
