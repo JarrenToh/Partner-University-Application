@@ -64,8 +64,8 @@
 
   .table {
     font-size: 18px;
-    font-family: Arial, sans-serif;
-    max-width: 1600px;
+    font-weight :lighter;
+    max-width: 1650px;
     align-content: center;
     margin : auto;
   }

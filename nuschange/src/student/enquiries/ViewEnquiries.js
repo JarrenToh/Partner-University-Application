@@ -29,14 +29,15 @@ const ViewEnquiries = () => {
   return (
     <div>
       <h1 className="headerEnquiries m-auto">Enquiries</h1>
+      <br/>
       <Table striped bordered hover>
         <thead>
           <tr>
-            <th style={{fontSize : '22px', padding: '20px'}}>Ticket ID</th>
-            <th style={{fontSize : '22px', padding: '20px'}}>Title</th>
-            <th style={{fontSize : '22px', padding: '20px'}}>Message</th>
-            <th style={{fontSize : '22px', padding: '20px'}}>Enquiry Date</th>
-            <th style={{fontSize : '22px', padding: '20px'}}>Response</th>
+            <th style={{fontSize : '21px', padding: '20px'}}>Ticket Number</th>
+            <th style={{fontSize : '21px', padding: '20px'}}>Title</th>
+            <th style={{fontSize : '21px', padding: '20px'}}>Message</th>
+            <th style={{fontSize : '21px', padding: '20px'}}>Enquiry Date</th>
+            <th style={{fontSize : '21px', padding: '20px'}}>Response</th>
           </tr>
         </thead>
         <tbody>
@@ -45,7 +46,7 @@ const ViewEnquiries = () => {
               <td>{enquiry.enquiryId}</td>
               <td>{enquiry.title}</td>
               <td>{enquiry.content}</td>
-              <td>{moment(enquiry.enquirydate).format('MMMM Do YYYY, h:mm:ss a')}</td> {/* convert the date using moment.js */}
+              <td>{moment(enquiry.enquiryDate).format('MMMM Do YYYY, h:mm:ss a')}</td> {/* convert the date using moment.js */}
               <td>{enquiry.response || 'Please wait 2-3 working days from the Enquiry Date'}</td>
             </tr>
           ))}

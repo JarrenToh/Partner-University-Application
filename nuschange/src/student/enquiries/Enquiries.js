@@ -142,13 +142,14 @@ const ContactForm = () => {
               {formStatus}
             </Button>
           </Form>
-        </CardBody>
-      </Card>
-      {alertVisible && (
+          {<br/>}
+          {alertVisible && (
         <Alert color={alertType} toggle={() => setAlertVisible(false)}>
           {alertMessage}
         </Alert>
       )}
+        </CardBody>
+      </Card>
     </div>
   );
 };
