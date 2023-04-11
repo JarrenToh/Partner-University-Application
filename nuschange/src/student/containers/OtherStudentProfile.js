@@ -1,11 +1,9 @@
 import React from "react";
-import { useContext, useState, useEffect } from "react";
-import { AuthContext } from "../login/AuthContext";
-import { useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 
 import {
   Image,
-  Button,
   Col,
   Form,
   Row,
@@ -14,44 +12,47 @@ import {
   ListGroupItem,
   Card,
 } from "react-bootstrap";
-import ReviewModal from "./ReviewModal";
 
-// Icon imports
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faPenToSquare,
-  faPen,
-  faHeart,
-  faChevronRight,
-} from "@fortawesome/free-solid-svg-icons";
+import defaultProfilePicture from "../images/housekeeper.png";
+import IconSocialMedia from "../studentProfile/IconSocialMedia";
 
-import SocialMediaModal from "./SocialMediaModal";
-import IconSocialMedia from "./IconSocialMedia";
-
-const StudentProfile = () => {
-  const { loggedInStudent } = useContext(AuthContext);
-  //const { studentId } = loggedInStudent;
+const OtherStudentProfile = () => {
+  const { studentId } = useParams();
   const API_URL_STUDENT = "http://localhost:8080/PU-war/webresources/student";
-  const [currentStudent, setCurrentStudent] = useState({ ...loggedInStudent });
+  const [currentStudent, setCurrentStudent] = useState({
+    email: "jessicawong@comp.nus.edu.sg", 
+    firstName: "Dummy",
+    lastName: "Student",
+    moduleReviews: [],
+    modulesTaken: [],
+    phoneNumber: "90002047",
+    puReview: {
+      isInappropriate: false,
+      noOfDislikes: 0,
+      noOfLikes: 0,
+      puReviewId: 4,
+      rating: 4,
+      review:
+        "This university provided me with an exceptional education and countless opportunities to get involved on campus. I would highly recommend it.",
+    },
+    socialMedia: [],
+    studentId: 0,
+  });
+  const [socialMedia, setSocialMedia] = useState([]);
   const [puEnrolled, setPuEnrolled] = useState({
     name: "Dummy Uni",
     puId: 0
   });
-  const [socialMedia, setSocialMedia] = useState([]);
-  const [reviewModalShow, setReviewModalShow] = useState(false);
-  const [socialMediaModalShow, setSocialMediaModalShow] = useState(false);
-  const navigate = useNavigate();
-
   useEffect(() => {
-    if (loggedInStudent) {
-      getStudentAPI(loggedInStudent.studentId);
-      getEnrolledPuAPI(loggedInStudent.studentId);
-    }
-  }, [loggedInStudent]);
+    console.log(studentId);
+    getStudentAPI(studentId);
+    getEnrolledPuAPI(studentId);
+  }, []);
 
   const getStudentAPI = async (studentId) => {
     const response = await fetch(`${API_URL_STUDENT}/${studentId}`);
     const data = await response.json();
+    console.log(data);
     setCurrentStudent(data);
     setSocialMedia(data.socialMedia);
   };
@@ -63,19 +64,15 @@ const StudentProfile = () => {
     setPuEnrolled(data);
   };
 
-  if (!loggedInStudent) {
-    return <div> Not Logged in</div>;
-  }
-
   // Concat first and last name to make full name
   const studentFullName =
-    loggedInStudent.firstName + " " + loggedInStudent.lastName;
+    currentStudent.firstName + " " + currentStudent.lastName;
 
   // Component to show relevant information
   // depending on whether student is enrolled to a PU
   const EnrolledField = (props) => {
     const isEnrolled = props.isEnrolled;
-
+    console.log(isEnrolled);
     if (isEnrolled) {
       return (
         <div>
@@ -84,43 +81,23 @@ const StudentProfile = () => {
               readOnly
               value={puEnrolled.name}
             />
-            <Button onClick={() => setReviewModalShow(true)}>
-              <FontAwesomeIcon icon={faPenToSquare} />
-              {currentStudent.puReview != null ? " Edit Review" : " Add Review"}
-            </Button>
           </InputGroup>
-
-          <Button variant="link" onClick={navToModulesTaken}>
-            View Modules Taken {"  "}
-            <FontAwesomeIcon icon={faChevronRight} size="2xs" />
-          </Button>
         </div>
       );
     } else {
       return (
         <InputGroup>
-          <Form.Control readOnly defaultValue="Unenrolled" />
+          <Form.Control readOnly value="Unenrolled" />
         </InputGroup>
       );
     }
   };
 
-  const handleSocialMediaChange = (newSocialMedia) => {
-    setSocialMedia(newSocialMedia);
-  };
-
-  const navToLikedPUs = () => {
-    navigate("/profile/likedPus");
-  };
-
-  const navToModulesTaken = () => {
-    navigate("/profile/modulesTaken");
-  };
 
   return (
     <div style={{ paddingLeft: "5%", paddingRight: "5%" }}>
       <div className="container" style={{ border: 0 }}>
-        <h1 className="text-center mb-3">User Profile</h1>
+        <h1 className="text-center mb-3">{currentStudent.firstName}'s Profile</h1>
       </div>
       <Row>
         <Col>
@@ -128,12 +105,13 @@ const StudentProfile = () => {
             <Card>
               <Card.Body style={{ padding: "5%", textAlign: "center" }}>
                 <Image
-                  src={require("../assets/images/avatars/avatar3.jpg")}
+                  src={defaultProfilePicture}
                   roundedCircle
+                  style={{ width: "200px", height: "200px" }}
                 />
               </Card.Body>
               <Card.Footer>
-                Last Active: {loggedInStudent.lastActive}
+                Last Active: {currentStudent.lastActive}
               </Card.Footer>
             </Card>
             <Card>
@@ -155,26 +133,11 @@ const StudentProfile = () => {
 
                 {socialMedia.length === 0 && (
                   <ListGroupItem>
-                    You do not have any social media links. Add them now!
+                    This user has not added any social media links.
                   </ListGroupItem>
                 )}
               </ListGroup>
-              <Card.Footer style={{ textAlign: "center" }}>
-                <Button
-                  variant="link"
-                  onClick={() => setSocialMediaModalShow(true)}
-                >
-                  <FontAwesomeIcon icon={faPen} /> {"  "}
-                  Edit Links
-                </Button>
-              </Card.Footer>
             </Card>
-            <div className="d-grid gap-2">
-              <Button variant="danger" onClick={navToLikedPUs}>
-                <FontAwesomeIcon icon={faHeart} /> {"  "}
-                View Liked Universities
-              </Button>
-            </div>
           </div>
         </Col>
 
@@ -183,22 +146,22 @@ const StudentProfile = () => {
             <Form>
               <Form.Group className="mb-3" controlId="formGroupName">
                 <Form.Label>Full Name</Form.Label>
-                <Form.Control readOnly defaultValue={studentFullName} />
+                <Form.Control readOnly value={studentFullName} />
               </Form.Group>
               <Form.Group className="mb-3" controlId="formGroupEmail">
                 <Form.Label>Email</Form.Label>
-                <Form.Control readOnly defaultValue={loggedInStudent.email} />
+                <Form.Control readOnly value={currentStudent.email} />
               </Form.Group>
               <Form.Group className="mb-3" controlId="formGroupPhone">
                 <Form.Label>Phone Number</Form.Label>
                 <Form.Control
                   readOnly
-                  defaultValue={loggedInStudent.phoneNumber}
+                  value={currentStudent.phoneNumber}
                 />
               </Form.Group>
               <Form.Group className="mb-3" controlId="formGroupFaculty">
                 <Form.Label>Faculty</Form.Label>
-                <Form.Control readOnly defaultValue={loggedInStudent.faculty} />
+                <Form.Control readOnly value={currentStudent.faculty} />
               </Form.Group>
               <Form.Group className="mb-3" controlId="formGroupEmail">
                 <Form.Label>Partner University</Form.Label>
@@ -210,27 +173,14 @@ const StudentProfile = () => {
           </div>
         </Col>
       </Row>
-
-      <ReviewModal
-        show={reviewModalShow}
-        onHide={() => setReviewModalShow(false)}
-        puReview={currentStudent.puReview}
-        studentId={currentStudent.studentId}
-      />
-      <SocialMediaModal
-        show={socialMediaModalShow}
-        onHide={() => setSocialMediaModalShow(false)}
-        socialMedia={socialMedia}
-        onSocialMediaChange={handleSocialMediaChange}
-      />
     </div>
   );
 };
 
-export default StudentProfile;
+export default OtherStudentProfile;
 
 /*
-  {loggedInStudent.social.map((socialMedia) => (
+  {currentStudent.social.map((socialMedia) => (
                   <ListGroupItem>
 
                   </ListGroupItem>

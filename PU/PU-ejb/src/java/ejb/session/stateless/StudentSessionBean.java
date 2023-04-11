@@ -153,6 +153,7 @@ public class StudentSessionBean implements StudentSessionBeanLocal {
         oldS.setLastActive(s.getLastActive());
         oldS.setEmail(s.getEmail());
         oldS.setPassword(s.getPassword());
+        oldS.setLikedPUs(s.getLikedPUs());
 
     } //end updateStudent
 
