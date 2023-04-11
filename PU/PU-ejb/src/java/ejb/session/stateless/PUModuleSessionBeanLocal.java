@@ -19,7 +19,6 @@ public interface PUModuleSessionBeanLocal {
     
     public void createModuleForPU(String puName, PUModule module);
 
-
     public Long createPUModule(PUModule module, Long puId);
 
     public List<PUModule> retrieveAllPUModules();
@@ -37,6 +36,8 @@ public interface PUModuleSessionBeanLocal {
     public List<PUModule> searchPUModuleByCode(String code);
 
     public List<PUModule> searchPUModuleByDescription(String description);
+    
+    public PUModule searchPUModuleByCodeAndPUName(String code, String puName);
 
     void associatePUModuleNUSModule(Long puModId, Long nusModId);
     

@@ -8,61 +8,209 @@ import Footer from "../../../components/dashboard/Footer";
 import API from "../../../../util/API";
 import apiPaths from "../../../../util/apiPaths";
 
-const InappropriatenessDetails = ({ apiPath }) => {
-    const { type, id } = useParams();
-    const [name, setName] = useState("");
-    const [description, setDescription] = useState("");
-    const [images, setImages] = useState("");
+const InappropriatenessDetails = () => {
+    const { typeOfComponent, id } = useParams();
+    const [isChecked, setIsChecked] = useState(false);
 
-    const handleEdit = async () => {
+    // forumComment & forumPost
+    const [message, setMessage] = useState("");
+    // puReview & puModuleReview
+    const [review, setReview] = useState("");
+    // puReview
+    const [rating, setRating] = useState("");
+    // forumTopic
+    const [topicName, setTopicName] = useState("");
+    // forumComment
+    const [title, setTitle] = useState("");
+    // general except forumTopic 
+    const [noOfDislikes, setNoOfDislikes] = useState(undefined);
+    const [noOfLikes, setNoOfLikes] = useState(undefined);
+    // general
+    const [studentName, setStudentName] = useState("");
+    const [labelOfText, setLabelOfText] = useState("");
+    const [headerMessage, setHeaderMessage] = useState("");
+    const [outputOfText, setOutputOfText] = useState("");
+
+    const handleResponse = async () => {
         try {
-            const updatedPU = {
-                name,
-                description,
-                images
-            };
+            let apiPath = "";
+            let updateApiPath = "";
+            let updatedElement = {};
 
-            // const apiPath = `${apiPaths.listOfPUs}/${id}`;
-            await API.put(apiPath, updatedPU);
+            switch (typeOfComponent) {
+                case "forumComments":
+                    apiPath = `${apiPaths.listOfForumComments}/${id}`;
+                    updateApiPath = `${apiPaths.listOfForumComments}/editForumCommentByAdmin/${id}`;
+                    updatedElement = {
+                        message,
+                        noOfLikes,
+                        noOfDislikes,
+                        isInappropriate: false
+                    };
+                    break;
+                case "puReviews":
+                    apiPath = `${apiPaths.listOfPUReviews}/${id}`;
+                    updateApiPath = `${apiPaths.listOfPUReviews}/${id}`;
+                    updatedElement = {
+                        rating,
+                        review,
+                        noOfLikes,
+                        noOfDislikes,
+                        isInappropriate: false
+                    };
+                    break;
+                case "forumTopics":
+                    apiPath = `${apiPaths.listOfForumTopics}/${id}`;
+                    updateApiPath = `${apiPaths.listOfForumTopics}/editForumTopicByAdmin/${id}`;
+                    updatedElement = {
+                        topicName,
+                        isInappropriate: false
+                    };
+                    break;
+                case "puModuleReviews":
+                    apiPath = `${apiPaths.listOfPUModuleReview}/${id}`;
+                    updateApiPath = `${apiPaths.listOfPUModuleReview}/${id}`;
+                    updatedElement = {
+                        rating,
+                        review,
+                        noOfLikes,
+                        noOfDislikes,
+                        isInappropriate: false
+                    };
+                    break;
+                case "forumPosts":
+                    apiPath = `${apiPaths.listOfForumPosts}/${id}`;
+                    updateApiPath = `${apiPaths.listOfForumPosts}/editForumPostByAdmin/${id}`;
+                    updatedElement = {
+                        title,
+                        message,
+                        noOfLikes,
+                        noOfDislikes,
+                        isInappropriate: false
+                    };
+                    break;
+                default:
+                    break;
+            }
 
-            alert("PU has been updated successfully");
+            if (isChecked) { // delete the post
+                await API.delete(apiPath);
+                alert("You have approved of removing the content successfully");
+                return;
+            } // update the post back appropriate 
+
+            await API.put(updateApiPath, updatedElement);
+            alert("You have disapproved of removing the content successfully");
         } catch (error) {
             console.error(error);
         }
     };
 
-    const handleDelete = async () => {
-        try {
-            // const apiPath = `${apiPaths.listOfFaqs}/${id}`;
-            await API.delete(apiPath);
-            alert("FAQ has been deleted successfully!");
-            // TODO: Redirect to FAQs list page
-        } catch (error) {
-            console.error(error);
-        }
+    const handleCheckboxChange = (event) => {
+        setIsChecked(event.target.checked);
     };
 
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const apiPath = `${apiPaths.listOfPUs}/getPUById/${id}`
+                let apiPath = "";
+                let message = "";
+                let review = "";
+                let rating = -1;
+                let topicName = "";
+                let title = "";
+                let studentName = "";
+                let noOfLikes = 0;
+                let noOfDislikes = 0;
+
+                switch (typeOfComponent) {
+                    case "forumComments":
+                        apiPath = `${apiPaths.listOfForumComments}/${id}`;
+                        break;
+                    case "puReviews":
+                        apiPath = `${apiPaths.listOfPUReviews}/query?id=${id}`;
+                        break;
+                    case "forumTopics":
+                        apiPath = `${apiPaths.listOfForumTopics}/${id}`;
+                        break;
+                    case "puModuleReviews":
+                        apiPath = `${apiPaths.listOfPUModuleReview}/${id}`;
+                        break;
+                    case "forumPosts":
+                        apiPath = `${apiPaths.listOfForumPosts}/${id}`;
+                        break;
+                    default:
+                        break;
+                }
+
                 const response = await API.get(apiPath);
                 const data = response.data;
 
-                const name = data.name;
-                const description = data.description;
-                const images = data.images;
+                if (!data.isInappropriate) {
+                    alert("This review is appropriate.");
+                    // TODO: navigate to where it belong
+                    return;
+                }
 
-                setName(name);
-                setDescription(description);
-                setImages(images);
+                switch (typeOfComponent) {
+                    case "forumComments":
+                        message = data.message;
+                        setMessage(message);
+                        setLabelOfText("Message");
+                        setHeaderMessage("Forum Comment");
+                        setOutputOfText(message);
+                        break;
+                    case "puReviews":
+                    case "puModuleReviews":
+                        review = data.review;
+                        rating = data.rating;
+                        setReview(review);
+                        setRating(rating);
+                        setLabelOfText("Review");
+                        setOutputOfText(review);
+
+                        if (typeOfComponent === "puReviews") {
+                            setHeaderMessage("PU Review");
+                        } else {
+                            setHeaderMessage("PU Module Review");
+                        }
+                        break;
+                    case "forumTopics":
+                        topicName = data.topicName;
+                        setTopicName(topicName);
+                        setLabelOfText("Topic Name");
+                        setHeaderMessage("Forum Topic");
+                        setOutputOfText(topicName);
+                        break;
+                    case "forumPosts":
+                        message = data.message;
+                        title = data.title;
+                        setMessage(message);
+                        setTitle(title);
+                        setLabelOfText("Title");
+                        setHeaderMessage("Forum Post");
+                        setOutputOfText(message);
+                        break;
+                    default:
+                        break;
+                }
+
+                if (typeOfComponent !== "forumTopics") {
+                    noOfLikes = data.noOfLikes;
+                    noOfDislikes = data.noOfDislikes;
+                    setNoOfLikes(noOfLikes);
+                    setNoOfDislikes(noOfDislikes);
+                }
+
+                studentName = data.studentFirstName + " " + data.studentLastName;
+                setStudentName(studentName);
             } catch (error) {
                 console.error(error);
             }
         };
-        
+
         fetchData();
-    }, [id]);
+    }, [id, typeOfComponent]);
 
     return (
         <div>
@@ -72,25 +220,34 @@ const InappropriatenessDetails = ({ apiPath }) => {
                 <div className="card">
                     <div className="card card-primary">
                         <div className="card-header">
-                            <h3 className="card-title">View PU Details</h3>
+                            <h3 className="card-title">View {headerMessage} Details</h3>
                         </div>
                         <div className="card-body">
+                            {typeOfComponent === "forumPosts" && (
+                                <div className="form-group">
+                                    <label htmlFor="inputReview">Title</label>
+                                    <textarea id="inputReview" className="form-control" rows={4} value={title} readOnly />
+                                </div>
+                            )}
                             <div className="form-group">
-                                <label htmlFor="inputName">Name</label>
-                                <input type="text" id="inputName" className="form-control" value={name} onChange={(e) => setName(e.target.value)} />
+                                <label htmlFor="inputReview">{labelOfText}</label>
+                                <textarea id="inputReview" className="form-control" rows={4} value={outputOfText} readOnly />
                             </div>
                             <div className="form-group">
-                                <label htmlFor="inputDescription">Description</label>
-                                <textarea id="inputDescription" className="form-control" rows={4} value={description} onChange={(e) => setDescription(e.target.value)} />
+                                <label htmlFor="inputStudent">Created By</label>
+                                <input type="text" id="inputStudent" className="form-control" value={studentName} readOnly />
                             </div>
-                            <div className="form-group">
-                                <label htmlFor="inputImage">Image</label>
-                                <br />
-                                <img src={images} alt="PU Image" style={{ maxWidth: "100%" }} />
+                            <div className="form-check">
+                                <input
+                                    className="form-check-input"
+                                    type="checkbox"
+                                    checked={isChecked}
+                                    onChange={handleCheckboxChange}
+                                />
+                                <label className="form-check-label">Approved of removing</label>
                             </div>
                             <div className="text-center">
-                                <button className="btn btn-success mr-2" onClick={handleEdit}>Save Changes</button>
-                                <button className="btn btn-danger" onClick={handleDelete}>Delete</button>
+                                <button className="btn btn-success mr-2" onClick={handleResponse}>Submit</button>
                             </div>
                         </div>
                         <br />

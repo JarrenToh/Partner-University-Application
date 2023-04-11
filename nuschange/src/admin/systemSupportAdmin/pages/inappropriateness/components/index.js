@@ -5,10 +5,11 @@ import API from "../../../../../util/API";
 const InappropriatenessComponent = ({ type, typeOfComponent, apiPath, selectedButton }) => {
 
     const [data, setData] = useState([]);
+    const [selectedId, setSelectedId] = useState(null); // new state variable to keep track of selected id
     const navigate = useNavigate();
 
-    const handleButtonClick = (enquiryId) => {
-        navigate(`/enquiries/${enquiryId}`);
+    const handleButtonClick = (id) => {
+        setSelectedId(id); // update the selected id state variable
     };
 
     const getId = (item) => {
@@ -22,7 +23,7 @@ const InappropriatenessComponent = ({ type, typeOfComponent, apiPath, selectedBu
             case "PUModuleReview":
                 return item.moduleReviewId;
             case "PUReview":
-                return item.PUReviewId;
+                return item.puReviewId;
             default:
                 return -1;
         }
@@ -50,7 +51,36 @@ const InappropriatenessComponent = ({ type, typeOfComponent, apiPath, selectedBu
             }
         };
         fetchData();
-    }, [selectedButton]);
+    }, [selectedButton, apiPath]);
+
+    useEffect(() => {
+        if (selectedId !== null) {
+
+            let component = "";
+
+            switch (typeOfComponent) {
+                case "ForumComment":
+                    component = "forumComments";
+                    break;
+                case "ForumPost":
+                    component = "forumPosts";
+                    break;
+                case "ForumTopic":
+                    component = "forumTopics";
+                    break;
+                case "PUModuleReview":
+                    component = "puModuleReviews";
+                    break;
+                case "PUReview":
+                    component = "puReviews";
+                    break;
+                default:
+                    return -1;
+            }
+
+            navigate(`/inappropriatenessContent/${component}/${selectedId}`);
+        }
+    }, [selectedId, typeOfComponent ,navigate]);
 
     return (
         <div>
@@ -58,7 +88,6 @@ const InappropriatenessComponent = ({ type, typeOfComponent, apiPath, selectedBu
                 <table id="example1" className="table table-bordered table-striped">
                     <thead>
                         <tr>
-                            <th>ID</th>
                             <th>{showSpecificHeader()}</th>
                             <th>Number of Likes</th>
                             <th>Number of Dislikes</th>
@@ -68,22 +97,35 @@ const InappropriatenessComponent = ({ type, typeOfComponent, apiPath, selectedBu
                         </tr>
                     </thead>
                     <tbody>
-                        {data.map((item, index) => item.isInappropriate && (
-                            <tr key={index}>
-                                <td>{getId(item)}</td>
-                                <td>{showSpecificResult(item)}s</td>
-                                <td>{showLikesDislikes(item.noOfLikes)}</td>
-                                <td>{showLikesDislikes(item.noOfDislikes)}</td>
-                                <td>{item.studentFirstName} {item.studentLastName}</td>
-                                <td>
-                                    <button onClick={() => handleButtonClick(item.enquiryId)} type="button" className="btn btn-primary">View Details</button>
-                                </td>
+                        {data.length > 0 ? (
+                            data.filter((item) => item.isInappropriate).length > 0 ? (
+                                data.map((item, index) =>
+                                    item.isInappropriate && (
+                                        <tr key={index}>
+                                            <td>{getId(item)}</td>
+                                            <td>{showSpecificResult(item)}s</td>
+                                            <td>{showLikesDislikes(item.noOfLikes)}</td>
+                                            <td>{showLikesDislikes(item.noOfDislikes)}</td>
+                                            <td>{item.studentFirstName} {item.studentLastName}</td>
+                                            <td>
+                                                <button onClick={() => handleButtonClick(getId(item))} type="button" className="btn btn-primary">View Details</button>
+                                            </td>
+                                        </tr>
+                                    )
+                                )
+                            ) : (
+                                <tr>
+                                    <td colSpan={7} style={{ textAlign: "center" }}>No inappropriate content displayed</td>
+                                </tr>
+                            )
+                        ) : (
+                            <tr>
+                                <td colSpan={7} style={{ textAlign: "center" }}>No data available</td>
                             </tr>
-                        ))}
+                        )}
                     </tbody>
                     <tfoot>
                         <tr>
-                            <th>ID</th>
                             <th>{showSpecificHeader()}</th>
                             <th>Number of Likes</th>
                             <th>Number of Dislikes</th>

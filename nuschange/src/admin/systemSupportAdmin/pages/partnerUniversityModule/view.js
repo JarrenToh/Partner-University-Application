@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, Navigate, useNavigate } from "react-router-dom";
 
 import Header from "../../../components/dashboard/Header";
 import Menu from "../../../components/dashboard/Menu";
@@ -8,25 +8,31 @@ import Footer from "../../../components/dashboard/Footer";
 import API from "../../../../util/API";
 import apiPaths from "../../../../util/apiPaths";
 
-const PUDetails = () => {
-    const { id } = useParams();
+import { convertToEncodedTextForUrl, convertNameToSlug } from "../../../../util/urlTextConverter";
+
+const PUModuleDetails = () => {
+    const navigate = useNavigate();
+
+    const { puName, puModuleCode } = useParams();
+    const [id, setId] = useState(-1);
     const [name, setName] = useState("");
+    const [code, setCode] = useState("");
     const [description, setDescription] = useState("");
-    const [images, setImages] = useState("");
 
-    // TODO: handle edit for image as well once we using the image data
-    const handleEdit = async () => {
+    const handleEdit = async (id) => {
         try {
-            const updatedPU = {
+            const updatedPUModule = {
                 name,
+                code,
                 description,
-                images
             };
+            const redirectedUrl = `${`/partnerUniversities/${convertNameToSlug(puName)}/modules`}`;
 
-            const apiPath = `${apiPaths.listOfPUModuleReview}`;
-            await API.put(apiPath, updatedPU);
+            const apiPath = `${apiPaths.listOfPUModules}/${id}`;
+            await API.put(apiPath, updatedPUModule);
 
-            alert("PU has been updated successfully");
+            alert("PU Module has been updated successfully");
+            navigate(redirectedUrl);
         } catch (error) {
             console.error(error);
         }
@@ -36,7 +42,7 @@ const PUDetails = () => {
         try {
             const apiPath = `${apiPaths.listOfFaqs}/${id}`;
             await API.delete(apiPath);
-            alert("FAQ has been deleted successfully!");
+            alert("PU Module has been deleted successfully!");
             // TODO: Redirect to FAQs list page
         } catch (error) {
             console.error(error);
@@ -46,17 +52,22 @@ const PUDetails = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const apiPath = `${apiPaths.listOfPUs}/getPUById/${id}`
+                console.log("puName " + puName);
+                console.log("puModuleCode " + puModuleCode);
+
+                const apiPath = `${apiPaths.listOfPUModules}/searchPUModuleByCodeAndPUName?code=${puModuleCode}&name=${convertToEncodedTextForUrl(puName)}`
                 const response = await API.get(apiPath);
                 const data = response.data;
 
+                const id = data.moduleId;
                 const name = data.name;
+                const code = data.code;
                 const description = data.description;
-                const images = data.images;
 
+                setId(id);
                 setName(name);
+                setCode(code);
                 setDescription(description);
-                setImages(images);
             } catch (error) {
                 console.error(error);
             }
@@ -73,7 +84,7 @@ const PUDetails = () => {
                 <div className="card">
                     <div className="card card-primary">
                         <div className="card-header">
-                            <h3 className="card-title">View PU Details</h3>
+                            <h3 className="card-title">View PU Module Details</h3>
                         </div>
                         <div className="card-body">
                             <div className="form-group">
@@ -81,16 +92,15 @@ const PUDetails = () => {
                                 <input type="text" id="inputName" className="form-control" value={name} onChange={(e) => setName(e.target.value)} />
                             </div>
                             <div className="form-group">
+                                <label htmlFor="inputName">Code</label>
+                                <input type="text" id="inputCode" className="form-control" value={code} onChange={(e) => setCode(e.target.value)} />
+                            </div>
+                            <div className="form-group">
                                 <label htmlFor="inputDescription">Description</label>
                                 <textarea id="inputDescription" className="form-control" rows={4} value={description} onChange={(e) => setDescription(e.target.value)} />
                             </div>
-                            <div className="form-group">
-                                <label htmlFor="inputImage">Image</label>
-                                <br />
-                                <img src={images} alt="PU Image" style={{ maxWidth: "100%" }} />
-                            </div>
                             <div className="text-center">
-                                <button className="btn btn-success mr-2" onClick={handleEdit}>Save Changes</button>
+                                <button className="btn btn-success mr-2" onClick={() => handleEdit(id)}>Save Changes</button>
                                 <button className="btn btn-danger" onClick={handleDelete}>Delete</button>
                             </div>
                         </div>
@@ -103,4 +113,4 @@ const PUDetails = () => {
     );
 };
 
-export default PUDetails;
+export default PUModuleDetails;

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 
 import Header from "../../../components/dashboard/Header";
 import Menu from "../../../components/dashboard/Menu";
@@ -7,12 +7,23 @@ import Footer from "../../../components/dashboard/Footer";
 
 import API from "../../../../util/API";
 import apiPaths from "../../../../util/apiPaths";
+import { convertToEncodedTextForUrl, convertNameToSlug } from "../../../../util/urlTextConverter";
 
 const PUDetails = () => {
-    const { id } = useParams();
+    const navigate = useNavigate();
+
+    const { nameFromUrl } = useParams();
+    const [id, setId] = useState(-1);
     const [name, setName] = useState("");
     const [description, setDescription] = useState("");
     const [images, setImages] = useState("");
+
+    const redirectedUrl = `${`/partnerUniversities`}`;
+
+    const alertAndNavigate = (keyword) => {
+        alert(`PU has been ${keyword} successfully`);
+        navigate(redirectedUrl);
+    }
 
     // TODO: handle edit for image as well once we using the image data
     const handleEdit = async () => {
@@ -22,11 +33,11 @@ const PUDetails = () => {
                 description,
                 images
             };
-
+            
             const apiPath = `${apiPaths.listOfPUs}/${id}`;
             await API.put(apiPath, updatedPU);
 
-            alert("PU has been updated successfully");
+            alertAndNavigate("updated");
         } catch (error) {
             console.error(error);
         }
@@ -34,10 +45,10 @@ const PUDetails = () => {
 
     const handleDelete = async () => {
         try {
-            const apiPath = `${apiPaths.listOfFaqs}/${id}`;
+            const apiPath = `${apiPaths.listOfPUs}/${id}`;
             await API.delete(apiPath);
-            alert("FAQ has been deleted successfully!");
-            // TODO: Redirect to FAQs list page
+
+            alertAndNavigate("deleted");
         } catch (error) {
             console.error(error);
         }
@@ -46,14 +57,16 @@ const PUDetails = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const apiPath = `${apiPaths.listOfPUs}/getPUById/${id}`
+                const apiPath = `${apiPaths.listOfPUs}/getPUByName/${convertToEncodedTextForUrl(nameFromUrl)}`
                 const response = await API.get(apiPath);
                 const data = response.data;
 
+                const id = data.puId;
                 const name = data.name;
                 const description = data.description;
                 const images = data.images;
 
+                setId(id);
                 setName(name);
                 setDescription(description);
                 setImages(images);

@@ -5,7 +5,7 @@ const apiPaths = {
     listOfEnquiries: `${path}/admin/enquiries`,
     listOfPUs: `${path}/pu`,
     listOfCountries: `${path}/country`,
-    listOfModules: `${path}/pumodule`,
+    listOfPUModules: `${path}/pumodule`,
     listOfPUReviews: `${path}/pureview`,
     listOfForumComments: `${path}/forumComments`,
     listOfForumPosts: `${path}/forumPosts`,

@@ -99,6 +99,18 @@ public class PUModuleSessionBean implements PUModuleSessionBeanLocal {
     } //end searchCustomers
 
     @Override
+    public PUModule searchPUModuleByCodeAndPUName(String pmCode, String puName) {
+        Query q = null;
+        if (pmCode != null && puName != null) {
+            q = em.createQuery("SELECT pm FROM PUModule pm JOIN pm.pu pUni WHERE pm.code = :pmCode AND pUni.name = :puName")
+                    .setParameter("pmCode", pmCode)
+                    .setParameter("puName", puName);
+        }
+
+        return (PUModule) q.getSingleResult();
+    }
+
+    @Override
     public void updatePUModule(Long moduleId, String code, String description) {
         try {
             PUModule module = getPUModule(moduleId);

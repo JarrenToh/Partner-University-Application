@@ -23,7 +23,7 @@ const Inappropriateness = () => {
         case "PUReview":
             additionalProps.type = "Review";
             additionalProps.typeOfComponent = "PUReview";
-            additionalProps.apiPath = `${apiPaths.listOfPUReviews}`;
+            additionalProps.apiPath = `${apiPaths.listOfPUReviews}/getAllReportedPUReviews`;
             break;
         case "ForumComment":
             additionalProps.type = "Message";
@@ -48,7 +48,7 @@ const Inappropriateness = () => {
         default:
             additionalProps.type = "Review";
             additionalProps.typeOfComponent = "PUReview";
-            additionalProps.apiPath = `${apiPaths.listOfPUReviews}`;
+            additionalProps.apiPath = `${apiPaths.listOfPUReviews}/getAllReportedPUReviews`;
     }
 
     return (
@@ -59,7 +59,6 @@ const Inappropriateness = () => {
                 <div className="card">
                     <div className="card-header">
                         <h3 className="card-title">Inappropriateness Content</h3>
-                        <br />
                         <div className="btn-group">
                             {buttons.map(({ label, category }) => (
                                 <button
@@ -72,8 +71,8 @@ const Inappropriateness = () => {
                                 </button>
                             ))}
                         </div>
-                        <InappropriatenessComponent {...additionalProps} selectedButton={selectedButton} />
                     </div>
+                    <InappropriatenessComponent {...additionalProps} selectedButton={selectedButton} />
                 </div>
             </div>
             <Footer />

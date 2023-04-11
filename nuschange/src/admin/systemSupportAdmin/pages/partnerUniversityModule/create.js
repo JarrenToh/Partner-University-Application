@@ -7,7 +7,7 @@ import Footer from '../../../components/dashboard/Footer';
 
 import API from '../../../../util/API';
 import apiPaths from '../../../../util/apiPaths';
-import { EncodedTextConverter } from '../../../../util/encodedTextConverter';
+import { convertToEncodedTextForUrl } from '../../../../util/urlTextConverter';
 
 const PartnerUniversityModule = () => {
     const { puName } = useParams();
@@ -23,7 +23,7 @@ const PartnerUniversityModule = () => {
                 description,
             };
 
-            const apiPath = `${apiPaths.listOfModules}/createModuleForPU?puName=${EncodedTextConverter.convertToEncodedTextForUrl(puName)}`;
+            const apiPath = `${apiPaths.listOfModules}/createModuleForPU?puName=${convertToEncodedTextForUrl(puName)}`;
             await API.post(apiPath, createdPUModule);
 
             alert("PU has been created successfully");

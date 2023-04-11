@@ -41,12 +41,12 @@ import CreatePartnerUniversityModule from './admin/systemSupportAdmin/pages/part
 import Main from './admin/Main';
 import PartnerUuniversity from './admin/systemSupportAdmin/pages/partnerUniversity';
 import Inappropriateness from './admin/systemSupportAdmin/pages/inappropriateness';
-// import InappropriatenessDetails from './admin/systemSupportAdmin/pages/inappropriateness/view';
-import InappropriatePUReviewDetails from './admin/systemSupportAdmin/pages/inappropriateness/puReviewDetails';
-import InappropriateForumCommentDetails from './admin/systemSupportAdmin/pages/inappropriateness/forumCommentDetails';
-import InappropriateForumPostDetails from './admin/systemSupportAdmin/pages/inappropriateness/forumPostDetails';
-import InappropriateForumTopicDetails from './admin/systemSupportAdmin/pages/inappropriateness/forumTopicDetails';
-import InappropriatePUModuleDetails from './admin/systemSupportAdmin/pages/inappropriateness/puModuleReviewDetails';
+import InappropriatenessDetails from './admin/systemSupportAdmin/pages/inappropriateness/view';
+// import InappropriatePUReviewDetails from './admin/systemSupportAdmin/pages/inappropriateness/puReviewDetails';
+// import InappropriateForumCommentDetails from './admin/systemSupportAdmin/pages/inappropriateness/forumCommentDetails';
+// import InappropriateForumPostDetails from './admin/systemSupportAdmin/pages/inappropriateness/forumPostDetails';
+// import InappropriateForumTopicDetails from './admin/systemSupportAdmin/pages/inappropriateness/forumTopicDetails';
+// import InappropriatePUModuleDetails from './admin/systemSupportAdmin/pages/inappropriateness/puModuleReviewDetails';
 
 import './student/assets/base.scss';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -85,7 +85,7 @@ const App = () => {
   return (
     <AuthProvider> {/* Wrap the app in AuthProvider */}
       <div className="App">
-        <NavbarComp isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} user={user} />
+        {/* <NavbarComp isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} user={user} />
         <Router basename='/student'>
           <Routes>
             <Route path="/home-page" element={<HomePage />} />
@@ -113,9 +113,9 @@ const App = () => {
             <Route path="/profile/modulesTaken" element={<ModulesTaken/>}/>
             <Route path="/module-reviews" element={<ModuleDetail/>}/>
           </Routes>
-        </Router>
+        </Router> */}
 
-       {/* <Router basename='/admin'>
+       <Router basename='/admin'>
           <Routes>
             <Route path="/login" element={<Login />} />
             <Route path="/main" element={<Main />} />
@@ -126,20 +126,20 @@ const App = () => {
             <Route path="/enquiries/assigned" element={<Enquiry adminId={1} />} />
             <Route path="/enquiries/:id" element={<EnquiryDetails />} />
             <Route path="/partnerUniversities" element={<PartnerUuniversity />} />
-            <Route path="/partnerUniversities/:id" element={<PartnerUuniversityDetails />} />
-            <Route path="/partnerUniversities/createPartnerUniversity" element={<CreatePartnerUuniversity />} />
+            <Route path="/partnerUniversities/:nameFromUrl" element={<PartnerUuniversityDetails />} />
+            <Route path="/partnerUniversities/create" element={<CreatePartnerUuniversity />} />
             <Route path="/partnerUniversities/:puName/modules" element={<PartnerUniversityModules />} />
             <Route path="/partnerUniversities/:puName/modules/:puModuleCode" element={<PartnerUniversityModuleDetails /> } />
-            <Route path="/partnerUniversities/:puName/modules/createModule" element={<CreatePartnerUniversityModule /> } />
+            <Route path="/partnerUniversities/:puName/modules/create" element={<CreatePartnerUniversityModule /> } />
             <Route path="/inappropriatenessContent" element={<Inappropriateness /> } />
-            { <Route path="/inappropriatenessContent/:type/:id" element={<InappropriatenessDetails />} /> }
-            <Route path="/inappropriatenessContent/puReviews/:id" element={<InappropriatePUReviewDetails />} />
+            <Route path="/inappropriatenessContent/:typeOfComponent/:id" element={<InappropriatenessDetails />} />
+            {/* <Route path="/inappropriatenessContent/puReviews/:id" element={<InappropriatePUReviewDetails />} />
             <Route path="/inappropriatenessContent/forumComments/:id" element={<InappropriateForumCommentDetails />} />
             <Route path="/inappropriatenessContent/forumPosts/:id" element={<InappropriateForumPostDetails />} />
             <Route path="/inappropriatenessContent/forumTopics/:id" element={<InappropriateForumTopicDetails />} />
-            <Route path="/inappropriatenessContent/puModuleReviews/:id" element={<InappropriatePUModuleDetails />} />
+            <Route path="/inappropriatenessContent/puModuleReviews/:id" element={<InappropriatePUModuleDetails />} /> */}
           </Routes>
-        </Router>/*}
+        </Router>
 
         {/* <ForumTopics /> */}
         {/* <TopicPosts /> */}

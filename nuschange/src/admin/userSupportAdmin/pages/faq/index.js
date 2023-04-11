@@ -49,7 +49,6 @@ const FAQ = () => {
                 <div className="card">
                     <div className="card-header">
                         <h3 className="card-title">Frequently-Asked-Questions (FAQs)</h3>
-                        <br/>
                         <button type="button" className="btn btn-block btn-outline-dark" onClick={handleToggle}>{showAll ? 'Show only my FAQs' : 'Show all FAQs'}</button>
                     </div>
                     <div className="card-body">
