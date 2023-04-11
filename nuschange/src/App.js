@@ -26,6 +26,8 @@ import UniversityDescriptionPage from './student/containers/universityDescriptio
 import ModulesTaken from './student/studentProfile/ModulesTaken';
 import ModuleDetail from './student/puModule/ModuleDetails';
 import OtherStudentProfile from './student/containers/OtherStudentProfile';
+import StudentEnquiry from './student/enquiries/Enquiries';
+
 
 // admin
 import Enquiry from './admin/userSupportAdmin/pages/enquiry';
@@ -51,6 +53,7 @@ import InappropriatePUModuleDetails from './admin/systemSupportAdmin/pages/inapp
 
 import './student/assets/base.scss';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import ViewEnquiries from './student/enquiries/ViewEnquiries';
 // import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
 // import Login from './admin/Login';
@@ -105,7 +108,8 @@ const App = () => {
             <Route path="/university-rankings-country" element={<UniversityRankingsCountry universitiesData={pus} />} />
             <Route path="/university-rankings-region" element={<UniversityRankingsRegion universitiesData={pus} />} />
             <Route path="/faq" element={<FAQPage />} />
-            <Route path="/faq" element={<FAQPage/>}/>
+            <Route path="/enquiry" element={<StudentEnquiry/>}/>
+            <Route path="/viewEnquiries" element={<ViewEnquiries/>}/>
             <Route path="/profile/likedPus" element={<LikedPUs/>}/>
             <Route path="/university-description-page/:puName" element={<UniversityDescriptionPage/>}/>
             <Route path="/university-description-page/:puName/mappable-module" element={<MappableModule/>}/>
@@ -142,32 +146,7 @@ const App = () => {
             <Route path="/inappropriatenessContent/puModuleReviews/:id" element={<InappropriatePUModuleDetails />} />
           </Routes>
         </Router>/*}
-
-        {/* <ForumTopics /> */}
-        {/* <TopicPosts /> */}
-        {/* <Router>
-        <Routes>
-          <Route path="/" element={<ForumTopics />} />
-          <Route path="/post/:id" element={<TopicPosts />} />
-        </Routes>
-      </Router> */}
-        {/* <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header> */}
-        {/* <UniversityDescriptionPage/> */}
-        {/* <MappableModule /> */}
-      </div>
+        
     </AuthProvider>
   );
 }
