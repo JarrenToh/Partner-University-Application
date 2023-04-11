@@ -65,19 +65,26 @@ const FAQ = () => {
                                 </tr>
                             </thead>
                             <tbody>
-                                {data.map((item, index) => (
-                                    <tr key={index}>
-                                        <td>{item.faqId}</td>
-                                        <td>{item.question}</td>
-                                        <td>{item.answer}</td>
-                                        <td>{item.createdBy.name}</td>
-                                        <td>{DateTimeConverter.convertDateForNicerOutput(item.created)}</td>
-                                        <td>{item.lastEdit === undefined ? "-" : DateTimeConverter.convertDateForNicerOutput(item.lastEdit)}</td>
-                                        <td>
-                                            <button onClick={() => handleButtonClick(item.faqId)} type="button" className="btn btn-primary">View Details</button>
-                                        </td>
-                                    </tr>
-                                ))}
+                                {data.length > 0 ? (
+                                    data.map((item, index) => (
+                                        <tr key={index}>
+                                            <td>{item.faqId}</td>
+                                            <td>{item.question}</td>
+                                            <td>{item.answer}</td>
+                                            <td>{item.createdBy.name}</td>
+                                            <td>{DateTimeConverter.convertDateForNicerOutput(item.created)}</td>
+                                            <td>{item.lastEdit === undefined ? "-" : DateTimeConverter.convertDateForNicerOutput(item.lastEdit)}</td>
+                                            <td>
+                                                <button onClick={() => handleButtonClick(item.faqId)} type="button" className="btn btn-primary">View Details</button>
+                                            </td>
+                                        </tr>
+                                    )
+                                    ))
+                                    : (
+                                        <tr>
+                                            <td colSpan={7} style={{ textAlign: "center" }}>No data available</td>
+                                        </tr>
+                                    )}
                             </tbody>
                             <tfoot>
                                 <tr>

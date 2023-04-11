@@ -13,9 +13,10 @@ const EnquiryDetails = () => {
     const { id } = useParams();
     const [title, setTitle] = useState("");
     const [content, setContent] = useState("");
-    const [reply, setReply] = useState("");
+    const [response, setResponse] = useState("");
 
     const [showModal, setShowModal] = useState(false);
+    const [buttonText, setButtonText] = useState("Submit");
 
     const navigate = useNavigate();
 
@@ -31,6 +32,9 @@ const EnquiryDetails = () => {
 
                 setTitle(title);
                 setContent(content);
+                setResponse(data.response);
+
+                setButtonText(Boolean(data.response) ? "Edit" : "Submit");
             } catch (error) {
                 console.error(error);
             }
@@ -43,7 +47,7 @@ const EnquiryDetails = () => {
             const updatedEnquiry = {
                 title,
                 content,
-                reply
+                response
             };
 
             // TODO: Change to get the adminId dynamically
@@ -57,7 +61,11 @@ const EnquiryDetails = () => {
     };
 
     const handleCancel = async () => {
-        navigate('../enquiries');
+        if (response === undefined) {
+            navigate('../enquiries');
+        }
+
+        navigate('../enquiries/assigned');
     };
 
     return (
@@ -81,10 +89,10 @@ const EnquiryDetails = () => {
                             </div>
                             <div className="form-group">
                                 <label htmlFor="inputDescription">Response</label>
-                                <textarea id="inputResponse" className="form-control" rows={4} placeholder="Input a response" onChange={(e) => setReply(e.target.value)} />
+                                <textarea id="inputResponse" className="form-control" rows={4} placeholder="Input a response" value={response !== undefined ? response : ""} onChange={(e) => setResponse(e.target.value)} />
                             </div>
                             <div className="text-center">
-                                <button className="btn btn-success mr-2" onClick={handleUpdate}>Submit</button>
+                                <button className="btn btn-success mr-2" onClick={handleUpdate}>{buttonText}</button>
                             </div>
                         </div>
                         <br />
@@ -96,7 +104,7 @@ const EnquiryDetails = () => {
                     <div className="modal-dialog">
                         <div className="modal-content">
                             <div className="modal-header">
-                                <h4 className="modal-title">Successful Reply to Student's Enquiry</h4>
+                                <h4 className="modal-title">Successful {response !== undefined ? "Edit of Response" : "Reply"} to Student's Enquiry</h4>
                                 <button
                                     type="button"
                                     className="close"
@@ -107,7 +115,7 @@ const EnquiryDetails = () => {
                                 </button>
                             </div>
                             <div className="modal-body">
-                                <p>You have successfully replied to a student's enquiry!</p>
+                                <p>You have successfully {response !== undefined ? "edited the response" : "replied"} to a student's enquiry!</p>
                             </div>
                             <div className="modal-footer justify-content-between">
                                 <button

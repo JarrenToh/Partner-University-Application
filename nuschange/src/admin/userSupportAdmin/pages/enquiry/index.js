@@ -9,7 +9,7 @@ import API from "../../../../util/API";
 import apiPaths from "../../../../util/apiPaths";
 import { DateTimeConverter } from "../../../../util/dateTimeConverter";
 
-const Enquiry = ({adminId}) => {
+const Enquiry = ({ adminId }) => {
 
     const [data, setData] = useState([]);
     const navigate = useNavigate();
@@ -33,13 +33,6 @@ const Enquiry = ({adminId}) => {
 
                 const response = await API.get(path);
                 setData(response.data);
-                // if (showAll) {
-                //     setData(response.data);
-                // } else {
-                //     // TODO: need to change this dyanmically later
-                //     const filteredData = response.data.filter(item => item.status === "PENDING"); // assume you have the current user's id stored somewhere
-                //     setData(filteredData);
-                // }
             } catch (error) {
                 console.error(error);
             }
@@ -69,18 +62,25 @@ const Enquiry = ({adminId}) => {
                                 </tr>
                             </thead>
                             <tbody>
-                                {data.map((item) => (item.status === 'PENDING' || (item.status === 'RESPONDED' && adminId !== undefined)) && (
-                                    <tr key={item.enquiryId}>
-                                        <td>{item.enquiryId}</td>
-                                        <td>{item.title}</td>
-                                        <td>{item.content}</td>
-                                        <td>{item.status}</td>
-                                        <td>{DateTimeConverter.convertDateForNicerOutput(item.enquiryDate)}</td>
-                                        <td>
-                                            <button onClick={() => handleButtonClick(item.enquiryId)} type="button" className="btn btn-primary">View Details</button>
-                                        </td>
-                                    </tr>
-                                ))}
+                                {(data.filter(item => item.status === "PENDING").length > 0 || (data.filter(item => item.status !== "PENDING").length > 0 && adminId !== undefined)) ? (
+                                    data.map((item, index) => item.status === "PENDING" || (item.status !== "PENDING" && adminId !== undefined) && (
+                                        <tr key={index}>
+                                            <td>{item.enquiryId}</td>
+                                            <td>{item.title}</td>
+                                            <td>{item.content}</td>
+                                            <td>{item.status}</td>
+                                            <td>{DateTimeConverter.convertDateForNicerOutput(item.enquiryDate)}</td>
+                                            <td>
+                                                <button onClick={() => handleButtonClick(item.enquiryId)} type="button" className="btn btn-primary">View Details</button>
+                                            </td>
+                                        </tr>
+                                    )
+                                    ))
+                                    : (
+                                        <tr>
+                                            <td colSpan={7} style={{ textAlign: "center" }}>No data available</td>
+                                        </tr>
+                                    )}
                             </tbody>
                             <tfoot>
                                 <tr>
