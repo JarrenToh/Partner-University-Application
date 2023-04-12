@@ -50,6 +50,7 @@ import InappropriatenessDetails from './admin/systemSupportAdmin/pages/inappropr
 import ForumTopicsSystemSupportAdmin from './admin/systemSupportAdmin/pages/forumTopic/index';
 import CreateForumTopicsSystemSupportAdmin from './admin/systemSupportAdmin/pages/forumTopic/create';
 import ForumTopicsDetailsSystemSupportAdmin from './admin/systemSupportAdmin/pages/forumTopic/view';
+import AdminProfile from './admin/Profile';
 
 import './student/assets/base.scss';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -142,6 +143,7 @@ const App = () => {
             <Route path="/forumTopics" element={<ForumTopicsSystemSupportAdmin />} />
             <Route path="/forumTopics/create" element={<CreateForumTopicsSystemSupportAdmin />} />
             <Route path="/forumTopics/:id" element={<ForumTopicsDetailsSystemSupportAdmin />} />
+            <Route path="/profile/:usernameFromUrl" element={<AdminProfile />} />
           </Routes>
 
         </Router>

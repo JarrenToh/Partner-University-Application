@@ -37,7 +37,7 @@ const ForumTopic = () => {
             }
         };
         fetchData();
-    }, [data]);
+    }, [data, showAll]);
 
     const handleToggle = () => {
         setShowAll(!showAll);

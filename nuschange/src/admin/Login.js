@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
 import API from '../util/API';
-import { LoginStyles } from './userSupportAdmin/styles/LoginStyles';
+import { LoginStyles } from './userSupportAdmin/styles/loginStyles';
 
 const Login = ({ onLogin }) => {
 

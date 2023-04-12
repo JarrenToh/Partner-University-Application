@@ -28,7 +28,7 @@ const ForumTopicDetails = () => {
                 };
 
                 // TODO: Change to get the adminId dynamically
-                const apiPath = `${apiPaths.listOfForumTopics}/editForumTopicByAdmin/${id}?adminId=1`;
+                const apiPath = `${apiPaths.listOfAdminForumTopics}/${id}`;
                 await API.put(apiPath, updatedForumTopic);
 
                 setShowUpdateSuccessModal(true);

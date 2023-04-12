@@ -6,13 +6,13 @@ const Menu = () => {
     return (
         <ul className="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
             <li className="nav-item">
-                <a href="#" className="nav-link">
+                <button className="nav-link">
                     <i className="nav-icon fas fa-question-circle" />
                     <p>
                         Frequently-Asked-Questions (FAQ)
                         <i className="right fas fa-angle-left" />
                     </p>
-                </a>
+                </button>
                 <ul className="nav nav-treeview">
                     <li className="nav-item">
                         <a href={userSupoortAdminPaths.createFaq} className="nav-link">
@@ -29,13 +29,13 @@ const Menu = () => {
                 </ul>
             </li>
             <li className="nav-item">
-                <a href="#" className="nav-link">
+                <button className="nav-link">
                     <i className="nav-icon fas fa-question-circle" />
                     <p>
                         Student Enquiries
                         <i className="right fas fa-angle-left" />
                     </p>
-                </a>
+                </button>
                 <ul className="nav nav-treeview">
                     <li className="nav-item">
                         <a href={userSupoortAdminPaths.viewEnquiries} className="nav-link">
