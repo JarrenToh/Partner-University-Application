@@ -37,7 +37,7 @@ const PartnerUuniversity = () => {
             }
         };
         fetchData();
-    }, []);
+    }, [data]);
 
     return (
         <div>
@@ -64,12 +64,14 @@ const PartnerUuniversity = () => {
                                         <td>{item.puId}</td>
                                         <td>{item.name}</td>
                                         <td>{item.description}</td>
-                                        <td style={{ display: 'flex' }}>
-                                            <div>
-                                                <button onClick={() => handleViewDetailsButtonClick(item.name)} type="button" className="btn btn-primary">View Details</button>
-                                            </div>
-                                            <div>
-                                                <button onClick={() => handleViewModulesButtonClick(item.name)} type="button" className="btn btn-primary ml-2">View Modules</button>
+                                        <td>
+                                            <div style={{ display: 'flex', backgroundColor: '#f8f9fa' }}>
+                                                <div>
+                                                    <button onClick={() => handleViewDetailsButtonClick(item.name)} type="button" className="btn btn-primary">View Details</button>
+                                                </div>
+                                                <div>
+                                                    <button onClick={() => handleViewModulesButtonClick(item.name)} type="button" className="btn btn-primary ml-2">View Modules</button>
+                                                </div>
                                             </div>
                                         </td>
                                     </tr>

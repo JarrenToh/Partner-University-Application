@@ -7,7 +7,6 @@ import Footer from "../../../components/dashboard/Footer";
 
 import API from "../../../../util/API";
 import apiPaths from "../../../../util/apiPaths";
-import { userSupoortAdminPaths } from "../../../../util/adminRoutes";
 
 const FAQDetails = () => {
     const { id } = useParams();
