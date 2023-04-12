@@ -251,11 +251,11 @@ public class ForumPostSessionBean implements ForumPostSessionBeanLocal {
         }
         
         List<ForumPost> forumPosts = q.getResultList();
-        List<ForumPost> searchPosts = forumPosts;
+        List<ForumPost> searchPosts = new ArrayList();
         
         for(ForumPost forumPost : forumPosts) {
-            if (forumPost.getForumTopic().getTopicId() != topicId) {
-                searchPosts.remove(forumPost);
+            if (forumPost.getForumTopic().getTopicId() == topicId) {
+                searchPosts.add(forumPost);
             }
         }
         

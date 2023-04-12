@@ -15,16 +15,15 @@ import {
 } from 'reactstrap';
 
 export default function NewTopic() {
-    const { studentId } = useParams();
-    const [pus, setPus] = useState([]);
+    const { studentId, puId } = useParams();
+    const [pu, setPu] = useState({});
     const [topicName, setTopicName] = useState("");
-    const [selectedPuId, setSelectedPuId] = useState(1);
 
     useEffect(() => {
         const fetchData = async () => {
           try {
-            const response = await axios.get(`http://localhost:8080/PU-war/webresources/pu`);
-            setPus(response.data);
+            const response = await axios.get(`http://localhost:8080/PU-war/webresources/pu/getPUById/${puId}`);
+            setPu(response.data);
           } catch (error) {
             console.error(error);
           }
@@ -36,17 +35,12 @@ export default function NewTopic() {
         setTopicName(e.target.value);
     };
 
-    const handlePuSelectChange = (e, puId) => {
-        e.preventDefault();
-        setSelectedPuId(puId);
-    }
-
     const handleSubmit = (e) => {
         e.preventDefault();
 
         const createdForumTopic = {
             topicName,
-            puId: selectedPuId
+            puId: puId
         };
 
         axios.post(`http://localhost:8080/PU-war/webresources/forumTopics/user/student/${studentId}`, createdForumTopic)
@@ -60,7 +54,7 @@ export default function NewTopic() {
 
     return (
         <Card>
-            <CardHeader>Create a new topic</CardHeader>
+            <CardHeader>Create a new topic for {pu.name}</CardHeader>
             <CardBody>
                 <Form onSubmit={handleSubmit}>
                     <div className="row">
@@ -76,20 +70,6 @@ export default function NewTopic() {
                                 value={topicName}
                                 onChange={handleTopicNameChange}
                             />
-                        </FormGroup>
-                        <FormGroup>
-                            <Label for="puSelect">Select Partner University</Label>
-                            <Input
-                                type="select"
-                                name="select"
-                                id="puSelect"
-                                value={selectedPuId}
-                                onChange={(e) => handlePuSelectChange(e, e.target.value)}
-                            >
-                                {pus.map(pu => (
-                                    <option value={pu.puId} key={pu.puId}>{pu.name}</option>
-                                ))}
-                            </Input>
                         </FormGroup>
                         <FormGroup>
                             <div className="text-right">

@@ -24,73 +24,31 @@ const API_URL = 'http://localhost:8080/PU-war/webresources/forumTopics/student';
 library.add(far, fas, faPlus);
 
 export default function MyTopics() {
-  const { studentId } = useParams();
+  const { puId, studentId } = useParams();
   const [forumTopics, setForumTopics] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
-  const [pus, setPus] = useState([]);
-  const [selectedPuId, setSelectedPuId] = useState(0);
 
   const [pageNumber, setPageNumber] = useState(0);
   const itemsPerPage = 5; // Change this value to the number of items you want to display per page
   const pagesVisited = pageNumber * itemsPerPage;
   const pageCount = Math.ceil(forumTopics.length / itemsPerPage);
 
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     try {
-  //       const response = await axios.get(`http://localhost:8080/PU-war/webresources/forumTopics/student/${studentId}`);
-  //       setForumTopics(response.data);
-  //     } catch (error) {
-  //       console.error(error);
-  //     }
-  //   };
-  //   fetchData();
-  // }, []);
-
   useEffect(() => {
-    console.log("selectedPuId in useEffect:", selectedPuId);
     const fetchData = async () => {
       try {
-        let response;
-        if (selectedPuId == 0) {
-          console.log("hello");
-          response = await axios.get(`http://localhost:8080/PU-war/webresources/forumTopics/student/${studentId}`);
-        } else {
-          console.log("hi");
-          response = await axios.get(`http://localhost:8080/PU-war/webresources/forumTopics/pu/${selectedPuId}/student/${studentId}`);
-        }
+        const response = await axios.get(`http://localhost:8080/PU-war/webresources/forumTopics/pu/${puId}/student/${studentId}`);
         setForumTopics(response.data);
-        const responsePu = await axios.get(`http://localhost:8080/PU-war/webresources/pu`);
-        setPus(responsePu.data);
       } catch (error) {
         console.error(error);
       }
     };
     fetchData();
-  }, [selectedPuId]);
-
-  // const searchForumTopic = async (searchQuery) => {
-  //   const fetchData = async () => {
-  //     try {
-  //       const response = await axios.get(`http://localhost:8080/PU-war/webresources/forumTopics/query/student/${studentId}?topicName=${searchQuery}`);
-  //       setForumTopics(response.data);
-  //     } catch (error) {
-  //       console.error(error);
-  //     }
-  //   };
-  //   fetchData();
-  // }
+  }, []);
 
   const searchForumTopic = async (searchQuery) => {
     const fetchData = async () => {
       try {
-       // const response = await axios.get(`http://localhost:8080/PU-war/webresources/forumTopics/query?topicName=${searchQuery}`);
-        let response;
-        if (selectedPuId === 0) {
-          response = await axios.get(`http://localhost:8080/PU-war/webresources/forumTopics/query/student/${studentId}?topicName=${searchQuery}`);
-        } else {
-          response = await axios.get(`http://localhost:8080/PU-war/webresources/forumTopics/query/student/${studentId}/pu/${selectedPuId}?topicName=${searchQuery}`);
-        }
+        const response = await axios.get(`http://localhost:8080/PU-war/webresources/forumTopics/query/student/${studentId}/pu/${puId}?topicName=${searchQuery}`);
         setForumTopics(response.data);
       } catch (error) {
         console.error(error);
@@ -110,14 +68,6 @@ export default function MyTopics() {
         console.error('Delete failed: ', error);
       });
   }
-
-  const handleSortByChange = (event) => {
-    console.log("selectedPuId before update:", selectedPuId);
-    console.log("event target value:", event.target.value);
-    setSelectedPuId(event.target.value);
-    console.log("selectedPuId after update:", selectedPuId);
-    setSearchQuery("");
-  };
 
   function getTimeDifference(timeOfCreation) {
     const now = new Date();
@@ -143,14 +93,6 @@ export default function MyTopics() {
   return (
     <Fragment>
       <div className="search-container">
-        <div className="select-wrapper">
-          <select value={selectedPuId} onChange={handleSortByChange}>
-            <option value={0}>All</option>
-            {pus.map(pu => (
-              <option value={pu.puId} key={pu.puId}>{pu.name}</option>
-            ))}
-          </select>
-        </div>
         <div className="search-wrapper">
           <input
             placeholder="Search for Forum Topic"
@@ -177,7 +119,6 @@ export default function MyTopics() {
               <thead className="thead-light">
                 <tr>
                   <th style={{ width: '40%' }}>Topics</th>
-                  <th className="text-center">Partner University</th>
                   <th className="text-center">Number of Posts</th>
                   <th className="text-center">Actions</th>
                 </tr>
@@ -210,11 +151,6 @@ export default function MyTopics() {
                           Last Edited: {getTimeDifference(item.lastEdit)}
                         </span>
                       )}
-                    </td>
-                    <td style={{ textAlign: 'center', verticalAlign: 'middle' }}>
-                      <a className="font-weight-bold text-black">
-                        {item.puName}
-                      </a>
                     </td>
                         <td style={{ textAlign: 'center', verticalAlign: 'middle' }}>
                             <a className="font-weight-bold text-black">
@@ -260,7 +196,7 @@ export default function MyTopics() {
               ) : (
                 <tbody>
                   <tr>
-                    <td colSpan="4" className="text-center">
+                    <td colSpan="3" className="text-center">
                       No topics yet
                     </td>
                   </tr>

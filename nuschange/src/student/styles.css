@@ -21,11 +21,11 @@
     cursor: pointer;
   }
 
-  .search {
+  /* .search {
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 40%; /* or 30% */
+    width: 40%;
     margin: 0 auto;
     border-radius: 1rem;
     background-color: #1f2123;
@@ -37,7 +37,7 @@
   .search input {
     flex: 1;
     border: none;
-    font-size: 1.2rem; /* or 1rem */
+    font-size: 1.2rem;
     font-family: var(--font-raleway);
     font-weight: 500;
     padding-right: 1rem;
@@ -62,6 +62,40 @@
     letter-spacing: 1px;
     cursor: pointer;
     background: #3d71a5;
+  } */
+
+  .search-container {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    border: 1px solid gray;
+    border-radius: 5px;
+    padding: 5px;
+  }
+
+  .search-wrapper:hover {
+    cursor: pointer;
+  }
+  
+  .select-wrapper {
+    margin-right: 10px;
+  }
+  
+  .search-wrapper {
+    display: flex;
+    align-items: center;
+    flex: 1;
+    margin-left: 10px;
+  }
+  
+  .search-wrapper input {
+    width: 100%;
+  }
+  
+  .search-wrapper img {
+    margin-left: 5px;
+    height: 20px;
+    width: 20px;
   }
 
   .card-header--title {

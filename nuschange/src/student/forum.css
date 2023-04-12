@@ -1,163 +1,172 @@
-.container {
-  max-width: 800px;
-  margin: auto;
-}
+  .container {
+    max-width: 800px;
+    margin: auto;
+  }
 
-.forum-item {
-  border: none;
-}
+  .forum-item {
+    border: none;
+  }
 
-.forum-item:hover {
-  background-color: white;
-}
+  .forum-item:hover {
+    background-color: white;
+  }
+  
+  .forum-item h5,
+  .forum-item h6 {
+    margin-bottom: 0;
+  }
+  
+  .forum-item p {
+    margin-bottom: 15px;
+  }
+  
+  .forum-item small {
+    color: #aaa;
+  }
+  
+  .forum-item button:hover {
+    cursor: pointer;
+  }
 
-.forum-item h5,
-.forum-item h6 {
-  margin-bottom: 0;
-}
+  .forum-body {
+    padding: 1.25rem 1.5rem;
+    padding: 20px;
+  }
 
-.forum-item p {
-  margin-bottom: 15px;
-}
+  .forum-body p:first-of-type {
+    font-size: 14px;
+  }
 
-.forum-item small {
-  color: #aaa;
-}
+  .forum-body p:last-of-type {
+    font-size: 12px;
+    margin-bottom: 0;
+  }
 
-.forum-item button:hover {
-  cursor: pointer;
-}
+  .forum-card {
+    margin-bottom: 0;
+    border-radius: 0;
+    border: 1px solid #ccc;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
 
-.forum-body {
-  padding: 1.25rem 1.5rem;
-  padding: 20px;
-}
+  .forum-header {
+    padding: 0.75rem 1.25rem;
+    border-color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: white;
+    padding: 8px;
+  }
 
-.forum-body p:first-of-type {
-  font-size: 14px;
-}
+  .forum-header h4 {
+    margin: 0;
+    margin-bottom: 0;
+    margin-left: 10px;
+  }
 
-.forum-body p:last-of-type {
-  font-size: 12px;
-  margin-bottom: 0;
-}
+  .author {
+    display: inline-block;
+    margin-right: 10px;
+  }
+  
+  .time {
+    display: inline-block;
+    margin-left: 10px;
+    vertical-align: middle;
+  }
+  
+  .comment-header .author {
+    font-size: 14px;
+  }
+  
+  .comment-body {
+    font-size: 25px;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .comments-toggle {
+    display: inline-block;
+    cursor: pointer;
+  }
+  
+  .comments-icon {
+    margin-right: 5px;
+  }
+  
+  .comments-text {
+    font-size: 14px;
+    font-weight: bold;
+  }
+  
+  .button-container {
+    display: flex;
+    align-items: flex-start;
+    flex-direction: row;
+    margin-top: 0px;
+    margin-bottom: 7px;
+    font-size: 15px;
+  }
 
-.forum-card {
-  margin-bottom: 0;
-  border-radius: 0;
-  border: 1px solid #ccc;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
+  .button-container button {
+    margin-right: 3px; /* Add margin to the right of each button */
+    border: none;
+    background-color: transparent;
+  }
 
-.forum-header {
-  padding: 0.75rem 1.25rem;
-  border-color: white;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background-color: white;
-  padding: 8px;
-}
+  .button-container button:hover {
+    color: orangered;
+    transform: translateY(-3px);
+  }
+  
+  .comment-body .list-group-item button {
+    margin-right: 10px;
+  }
 
-.forum-header h4 {
-  margin: 0;
-  margin-bottom: 0;
-}
+  .comment {
+    display: flex;
+    flex-direction: column;
+  }
 
-.author {
-  display: inline-block;
-  margin-right: 10px;
-}
+  .comment-form {
+    margin-left: 20px;
+    margin-right: 20px;
+    margin-top: 10px;
+  }
 
-.time {
-  display: inline-block;
-  margin-left: 10px;
-  vertical-align: middle;
-}
+  .reply input[type="text"] {
+    height: 28px; /* set the desired height here */
+  }
 
-.comment-header .author {
-  font-size: 14px;
-}
+  .comment-form input[type="text"] {
+    height: 28px; /* set the desired height here */
+  }
 
-.comment-body {
-  font-size: 25px;
-  display: flex;
-  flex-direction: column;
-}
+  .addButton {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 28px;
+    padding: 0.375rem 0.75rem;
+    font-size: 0.875rem;
+    text-align: center;
+    white-space: nowrap;
+  }
 
-.comments-toggle {
-  display: inline-block;
-  cursor: pointer;
-}
+  .addButton:hover {
+    color: white;
+    text-decoration-color: white !important;
+  }
 
-.comments-icon {
-  margin-right: 5px;
-}
+  .reply {
+    margin-bottom: 10px;
+  }
 
-.comments-text {
-  font-size: 14px;
-  font-weight: bold;
-}
-
-.button-container {
-  display: flex;
-  align-items: flex-start;
-  flex-direction: row;
-  margin-top: 0px;
-  margin-bottom: 7px;
-  font-size: 15px;
-}
-
-.button-container button {
-  margin-right: 3px; /* Add margin to the right of each button */
-  border: none;
-  background-color: transparent;
-}
-
-.button-container button:hover {
-  color: orangered;
-  transform: translateY(-3px);
-}
-
-.comment-body .list-group-item button {
-  margin-right: 10px;
-}
-
-.comment {
-  display: flex;
-  flex-direction: column;
-}
-
-.comment-form {
-  margin-left: 20px;
-  margin-right: 20px;
-  margin-top: 10px;
-}
-
-.reply input[type="text"] {
-  height: 28px; /* set the desired height here */
-}
-
-.comment-form input[type="text"] {
-  height: 28px; /* set the desired height here */
-}
-
-.addButton {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 28px;
-  padding: 0.375rem 0.75rem;
-  font-size: 0.875rem;
-  text-align: center;
-  white-space: nowrap;
-}
-
-.addButton:hover {
-  color: white;
-  text-decoration-color: white !important;
-}
-
-.reply {
-  margin-bottom: 10px;
-}
+  .liked {
+    color: green;
+  }
+  
+  .disliked {
+    color: red;
+  }

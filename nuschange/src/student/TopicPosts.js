@@ -36,8 +36,9 @@ const API_URL = 'http://localhost:8080/PU-war/webresources/forumPosts';
 
 library.add(far, fas, faPlus);
 
-export default function TopicPosts(props) {
+export default function TopicPosts() {
   const { id, topicName, studentId } = useParams();
+  const [puName, setPuName] = useState("");
   const [forumPosts, setForumPosts] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
   const [pageNumber, setPageNumber] = useState(0);
@@ -48,9 +49,11 @@ export default function TopicPosts(props) {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(`http://localhost:8080/PU-war/webresources/forumPosts/topic/${id}`);
-        
+        const response = await axios.get(`http://localhost:8080/PU-war/webresources/forumPosts/topic/${id}`);        
         setForumPosts(response.data);
+
+        const topicResponse = await axios.get(`http://localhost:8080/PU-war/webresources/forumTopics/${id}`);
+        setPuName(topicResponse.data.puName);
       } catch (error) {
         console.log({id})
         console.error(error);
@@ -119,22 +122,25 @@ export default function TopicPosts(props) {
 
   return (
     <Fragment>
-      <div className="search">
-        <input
-          placeholder="Search for Forum Post"
-          value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
-        />
-        <img
-          src={SearchIcon}
-          alt="search"
-          onClick={() => searchForumPost(searchQuery)}
-        />
+      <div className="search-container">
+        <div className="search-wrapper">
+          <input
+            placeholder="Search for Forum Post"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+          />
+          <img
+            src={SearchIcon}
+            alt="search"
+            onClick={() => searchForumPost(searchQuery)}
+          />
+        </div>
       </div>
       <Card className="card-box mb-5">
         <div className="card-header">
           <div className="card-header--title">
             <small>Forum Topic: {topicName}</small>
+            <small>Partner University: {puName}</small>
             <b>Forum Posts</b>
           </div>
           <div className="card-header--actions">

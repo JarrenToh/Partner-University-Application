@@ -106,34 +106,25 @@ export default function MyPosts(props) {
 
   return (
     <Fragment>
-        <div className="search">
-            <input
-                placeholder="Search for Forum Post"
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-            />
-            <img
-                src={SearchIcon}
-                alt="search"
-                onClick={() => searchForumPost(searchQuery)}
-            />
+      <div className="search-container">
+        <div className="search-wrapper">
+          <input
+            placeholder="Search for Forum Post"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+          />
+          <img
+            src={SearchIcon}
+            alt="search"
+            onClick={() => searchForumPost(searchQuery)}
+          />
         </div>
+      </div>
         <Card className="card-box mb-5">
             <div className="card-header">
                 <div className="card-header--title">
                     <small>Forum Topic: {topicName}</small>
                     <b>My Forum Posts</b>
-                </div>
-                <div className="card-header--actions">
-                    <Button
-                        tag={Link}
-                        to={`/forum-posts/${id}/${topicName}`}
-                        color="outline-primary"
-                        title="View details"
-                        className="mr-2">
-                        <FontAwesomeIcon icon={['fa', 'plus']} className="mr-1" />
-                        Create new post
-                    </Button>
                 </div>
             </div>
             <CardBody className="p-0">

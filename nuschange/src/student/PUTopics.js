@@ -17,18 +17,16 @@ import {
 } from 'reactstrap';
 
 import { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import ReactPaginate from 'react-paginate'
 
-const API_URL = 'http://localhost:8080/PU-war/webresources/forumTopics';
-
 library.add(far, fas, faPlus);
 
-export default function ForumTopics() {
-  const [pus, setPus] = useState([]);
+export default function PUTopics() {
+  const { puId, studentId } = useParams();
   const [forumTopics, setForumTopics] = useState([]);
-  const [searchQuery, setSearchQuery] = useState("");
-  const [selectedPuId, setSelectedPuId] = useState(0);
+  const [searchQuery, setSearchQuery] = useState('');
 
   const [pageNumber, setPageNumber] = useState(0);
   const itemsPerPage = 5; // Change this value to the number of items you want to display per page
@@ -36,37 +34,21 @@ export default function ForumTopics() {
   const pageCount = Math.ceil(forumTopics.length / itemsPerPage);
 
   useEffect(() => {
-    console.log("selectedPuId in useEffect:", selectedPuId);
     const fetchData = async () => {
       try {
-        let response;
-        if (selectedPuId == 0) {
-          console.log("hello");
-          response = await axios.get(`http://localhost:8080/PU-war/webresources/forumTopics`);
-        } else {
-          console.log("hi");
-          response = await axios.get(`http://localhost:8080/PU-war/webresources/forumTopics/pu/${selectedPuId}`);
-        }
+        const response = await axios.get(`http://localhost:8080/PU-war/webresources/forumTopics/pu/${puId}`);
         setForumTopics(response.data);
-        const responsePu = await axios.get(`http://localhost:8080/PU-war/webresources/pu`);
-        setPus(responsePu.data);
       } catch (error) {
         console.error(error);
       }
     };
     fetchData();
-  }, [selectedPuId]);
+  }, []);
 
   const searchForumTopic = async (searchQuery) => {
     const fetchData = async () => {
       try {
-       // const response = await axios.get(`http://localhost:8080/PU-war/webresources/forumTopics/query?topicName=${searchQuery}`);
-        let response;
-        if (selectedPuId === 0) {
-          response = await axios.get(`http://localhost:8080/PU-war/webresources/forumTopics/query?topicName=${searchQuery}`);
-        } else {
-          response = await axios.get(`http://localhost:8080/PU-war/webresources/forumTopics/query/pu/${selectedPuId}?topicName=${searchQuery}`);
-        }
+        const response = await axios.get(`http://localhost:8080/PU-war/webresources/forumTopics/query/pu/${puId}?topicName=${searchQuery}`);
         setForumTopics(response.data);
       } catch (error) {
         console.error(error);
@@ -99,14 +81,6 @@ export default function ForumTopics() {
       });
   }
 
-  const handleSortByChange = (event) => {
-    console.log("selectedPuId before update:", selectedPuId);
-    console.log("event target value:", event.target.value);
-    setSelectedPuId(event.target.value);
-    console.log("selectedPuId after update:", selectedPuId);
-    setSearchQuery("");
-  };
-
   function getTimeDifference(timeOfCreation) {
     const now = new Date();
     const diff = (now.getTime() - new Date(timeOfCreation).getTime()) / 1000;
@@ -130,33 +104,7 @@ export default function ForumTopics() {
 
   return (
     <Fragment>
-      {/* <select value={selectedPuId} onChange={handleSortByChange}>
-        <option value={0}>All</option>
-        {pus.map(pu => (
-          <option value={pu.puId} key={pu.puId}>{pu.name}</option>
-        ))}
-      </select>
-      <div className="search">
-        <input
-          placeholder="Search for Forum Topic"
-          value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
-        />
-        <img
-          src={SearchIcon}
-          alt="search"
-          onClick={() => searchForumTopic(searchQuery)}
-        />
-      </div> */}
       <div className="search-container">
-        <div className="select-wrapper">
-          <select value={selectedPuId} onChange={handleSortByChange}>
-            <option value={0}>All</option>
-            {pus.map(pu => (
-              <option value={pu.puId} key={pu.puId}>{pu.name}</option>
-            ))}
-          </select>
-        </div>
         <div className="search-wrapper">
           <input
             placeholder="Search for Forum Topic"
@@ -179,7 +127,7 @@ export default function ForumTopics() {
           <div className="card-header--actions">
             <Button
               tag={Link}
-              to={`/new-topic/${1}`}
+              to={`/new-pu-topic/${puId}/${1}`}
               color="outline-primary"
               title="View details"
               className="mr-2">
@@ -190,7 +138,7 @@ export default function ForumTopics() {
           <div className="card-header--actions">
             <Button
               tag={Link}
-              to={`/my-topics/${1}`}
+              to={`/pu-my-topics/${puId}/${1}`}
               color="outline-primary"
               title="View My Topics"
               className="ml-2">
@@ -205,7 +153,6 @@ export default function ForumTopics() {
               <thead className="thead-light">
                 <tr>
                   <th style={{ width: '40%' }}>Topics</th>
-                  <th className="text-center">Partner University</th>
                   <th className="text-center">Number of Posts</th>
                   <th className="text-center">Actions</th>
                 </tr>
@@ -227,11 +174,6 @@ export default function ForumTopics() {
                             Last Edited: {getTimeDifference(item.lastEdit)}
                           </span>
                         )}
-                      </td>
-                      <td style={{ textAlign: 'center', verticalAlign: 'middle' }}>
-                        <a className="font-weight-bold text-black">
-                          {item.puName}
-                        </a>
                       </td>
                       <td style={{ textAlign: 'center', verticalAlign: 'middle' }}>
                         <a className="font-weight-bold text-black">
@@ -303,7 +245,7 @@ export default function ForumTopics() {
               ) : (
                 <tbody>
                   <tr>
-                    <td colSpan="4" className="text-center">
+                    <td colSpan="3" className="text-center">
                       No topics yet
                     </td>
                   </tr>

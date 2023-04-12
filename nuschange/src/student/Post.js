@@ -6,29 +6,19 @@ import { useParams } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faComments } from '@fortawesome/free-solid-svg-icons'
 import {
-    Card,
-    CardBody,
-    CardHeader,
-    FormText,
     Form,
     Col,
-    Label,
-    FormGroup,
     Input,
     Button,
     Row
 } from 'reactstrap';
 import './forum.css';
-import { FaBold } from 'react-icons/fa';
-import { Divider } from '@mui/material';
 
 export default function ViewPost() {
     const { postId, studentId } = useParams();
     const [forumPost, setForumPost] = useState({});
     const [forumComments, setForumComments] = useState([]);
     const [showComments, setShowComments] = useState(false);
-    const [likes, setLikes] = useState(0);
-    const [dislikes, setDislikes] = useState(0);
     const [commentMessage, setCommentMessage] = useState("");
     const [replyMessages, setReplyMessages] = useState({});
 
@@ -98,11 +88,6 @@ export default function ViewPost() {
     const handleAddComment = (e) => {
         e.preventDefault();
 
-        //const formData = new FormData();
-
-        //formData.append('title', title);
-        //formData.append('content', content);
-
         const createdForumComment = {
             message: commentMessage
         };
@@ -119,10 +104,6 @@ export default function ViewPost() {
 
         setCommentMessage("");
     }
-
-    // const handleReplyMessageChange = (e) => {
-    //     setReplyMessage(e.target.value);
-    // }
 
     const handleReplyMessageChange = (commentId, message) => {
         setReplyMessages((prevReplyMessages) => ({
@@ -156,34 +137,79 @@ export default function ViewPost() {
 
     }
 
-    const handleLikeComment = () => {
-        setLikes(likes + 1);
-    };
-
-    const handleDislikeComment = () => {
-        setDislikes(dislikes + 1);
-    };
-
     const handleLikePost = () => {
-        setLikes(likes + 1);
     };
 
     const handleDislikePost = () => {
-        setDislikes(dislikes + 1);
     };
 
-    const handleReportPost = () => {
+    const handleLikeComment = () => {
+    };
+    
 
+    const handleDislikeComment = () => {      
+    };
+
+    const checkComments = (post) => {
+        let count = 0;
+        const comments = post.forumComments
+        comments.map((comment) => {
+            if (!comment.isInappropriate && !comment.isAReply) {
+                count++
+            }
+    });
+        return count > 0 ? true : false;
     }
 
-    const handleReportComment = () => {
+    const checkReplies = (comment) => {
+        let count = 0;
+        const replies = comment.replies;
+        replies.forEach((reply) => {
+          if (!reply.isInappropriate) {
+            count++;
+          }
+        });
+        return count > 0 ? true : false;
+    };
+    
+    const handleReportPost = (forumPostId) => {
+        axios.put(`http://localhost:8080/PU-war/webresources/forumPosts/report/${forumPostId}`)
+        .then(response => {
+          // Handle successful response here
+          console.log('Report successful');
+        })
+        .catch(error => {
+          // Handle error response here
+          console.error('Report failed: ', error);
+        });
+    }
 
+    const handleReportComment = (forumCommentId) => {
+        axios.put(`http://localhost:8080/PU-war/webresources/forumComments/report/${forumCommentId}`)
+        .then(response => {
+          // Handle successful response here
+          console.log('Report successful');
+        })
+        .catch(error => {
+          // Handle error response here
+          console.error('Report failed: ', error);
+        });
     }
 
     function countComments(forumComments) {
         let count = 0;
         forumComments.forEach(comment => {
-            if (!comment.isAReply) {
+            if (!comment.isAReply && !comment.isInappropriate) {
+                count++;
+            }
+        });
+        return count;
+    }
+
+    function countReplies(forumComment) {
+        let count = 0;
+        forumComment.replies.forEach(reply => {
+            if (!reply.isInappropriate) {
                 count++;
             }
         });
@@ -191,10 +217,9 @@ export default function ViewPost() {
     }
 
     return (
-        //  <div className="container my-5">
         <>
-            <div className="card">
-                <div className="card-header">
+            <div className="forum-card">
+                <div className="forum-header">
                     <div className="d-flex justify-content-between align-items-center">
                         <h4>{forumPost.title}</h4>
                         <div className="text-muted" style={{ display: 'flex', flexWrap: 'wrap' }}>
@@ -212,8 +237,8 @@ export default function ViewPost() {
                         </div>
                     </div>
                 </div>
-                <div className="card-body">
-                    <div className="list-group-item">
+                <div className="forum-body">
+                    <div className="forum-item">
                         <div className="d-flex w-100 justify-content-between">
                             <p style={{ fontSize: '15px' }}>{forumPost.message}</p>
                             <div className="ml-auto">
@@ -226,7 +251,7 @@ export default function ViewPost() {
                                         <FontAwesomeIcon icon="fa-regular fa-thumbs-down" className="mr-1" />
                                         {forumPost.noOfDislikes}
                                     </button>
-                                    <button onClick={handleReportPost}>
+                                    <button onClick={() => handleReportPost(forumPost.postId)}>
                                         <FontAwesomeIcon icon="fa-regular fa-flag" className="mr-1" />
                                     </button>
                                 </div>
@@ -235,8 +260,8 @@ export default function ViewPost() {
                     </div>
                 </div>
             </div >
-            <div className="card">
-                <div className="card-header">
+            <div className="forum-card">
+                <div className="forum-header">
                     <h4>Comments</h4>
                 </div>
                 <div className="comment-form">
@@ -253,27 +278,33 @@ export default function ViewPost() {
                                     onChange={handleCommentMessageChange}
                                 />
                             </Col>
-                            <Col sm={4} className="d-flex align-items-end">
-                                <Button className="btn-outline-primary" type="submit" id="addButton">
+                            <Col sm={4} className="d-flex align-items-center">
+                                <Button className="addButton" type="submit">
                                     Add comment
                                 </Button>
                             </Col>
                         </Row>
                     </Form>
                 </div>
-                <div className="card-body">
+                <div className="forum-body">
                     {forumComments.length > 0 ? (
-                        <div className="list-group">
-                            <span onClick={toggleComments} className="comments-toggle">
-                                <FontAwesomeIcon icon={faComments} className="comments-icon" />
-                                <span className="comments-text">
-                                    {showComments ? 'Hide comments' : `Show ${countComments(forumComments)} comments`}
+                        <div className="list-group"  key={forumComments.length}>
+                            {checkComments(forumPost) ? (
+                                <span onClick={toggleComments} className="comments-toggle">
+                                    <FontAwesomeIcon icon={faComments} className="comments-icon" />
+                                    <span className="comments-text">
+                                        {showComments ? 'Hide comments' : `Show ${countComments(forumComments)} comments`}
+                                    </span>
                                 </span>
-                            </span>
+                                ) : 
+                                <span className="comments-text">
+                                    There are no comments yet
+                                </span>
+                            }
                             {showComments && (
                                 forumComments.map(comment => (
-                                    !comment.isAReply && (
-                                        <div className="list-group-item" key={comment.commentId}>
+                                    !comment.isInappropriate && !comment.isAReply && (
+                                        <div className="forum-item" key={comment.commentId}>
                                             <div className="d-flex w-100 comment">
                                                 <div className="d-flex comment-header align-items-center">
                                                     <h5 className="mb-1 author">{comment.studentFirstName} {comment.studentLastName}</h5>
@@ -282,15 +313,15 @@ export default function ViewPost() {
                                                 <div>
                                                     <p className="mb-1">{comment.message}</p>
                                                     <div className="button-container">
-                                                        <button onClick={handleLikeComment}>
+                                                        <button onClick={() => handleLikeComment(comment.commentId)} className={true ? 'liked' : ''}>
                                                             <FontAwesomeIcon icon="fa-regular fa-thumbs-up" className="mr-1" />
                                                             {comment.noOfLikes}
                                                         </button>
-                                                        <button onClick={handleDislikeComment}>
+                                                        <button onClick={() => handleDislikeComment(comment.commentId)} className={true ? 'disliked' : ''}>
                                                             <FontAwesomeIcon icon="fa-regular fa-thumbs-down" className="mr-1" />
                                                             {comment.noOfDislikes}
                                                         </button>
-                                                        <button onClick={handleReportComment}>
+                                                        <button onClick={() => handleReportComment(comment.commentId)}>
                                                             <FontAwesomeIcon icon="fa-regular fa-flag" className="mr-1" />
                                                         </button>
                                                     </div>
@@ -310,8 +341,8 @@ export default function ViewPost() {
                                                                         }
                                                                     />
                                                                 </Col>
-                                                                <Col sm={4} className="d-flex align-items-end">
-                                                                    <Button className="btn-outline-primary" type="submit" id="addButton">
+                                                                <Col sm={4} className="d-flex align-items-center">
+                                                                    <Button className="addButton" type="submit">
                                                                         Add reply
                                                                     </Button>
                                                                 </Col>
@@ -322,17 +353,19 @@ export default function ViewPost() {
                                             </div>
                                             {comment.replies.length > 0 && (
                                                 <div className="ml-5">
-                                                    {/* <h6>{comment.replies.length} Replies</h6> */}
-                                                    <span onClick={() => toggleReplies(comment.commentId)} className="comments-toggle">
-                                                        <FontAwesomeIcon icon={faComments} className="comments-icon" />
-                                                        <span className="comments-text">
-                                                            {comment.showReplies ? 'Hide replies' : `Show ${comment.replies.length} replies`}
+                                                    {checkReplies(comment) && (
+                                                        <span onClick={() => toggleReplies(comment.commentId)} className="comments-toggle">
+                                                            <FontAwesomeIcon icon={faComments} className="comments-icon" />
+                                                            <span className="comments-text">
+                                                                {comment.showReplies ? 'Hide replies' : `Show ${countReplies(comment)} replies`}
+                                                            </span>
                                                         </span>
-                                                    </span>
+                                                    )}
                                                     <div className="list-group">
                                                         {comment.showReplies && (
                                                             comment.replies.map(reply => (
-                                                                <div className="list-group-item" key={reply.commentId}>
+                                                                !reply.isInappropriate && (
+                                                                <div className="forum-item" key={reply.commentId}>
                                                                     <div className="d-flex w-100 justify-content-between">
                                                                         <div className="d-flex justify-content-between comment-header">
                                                                             <h6 className="mb-1 author">{reply.studentFirstName} {reply.studentLastName}</h6>
@@ -342,20 +375,21 @@ export default function ViewPost() {
                                                                     <div className="comment-body">
                                                                         <p className="mb-1">{reply.message}</p>
                                                                         <div className="button-container">
-                                                                            <button onClick={handleLikeComment}>
+                                                                            <button onClick={() => handleLikeComment(reply.commentId)} className={true ? 'liked' : ''}>
                                                                                 <FontAwesomeIcon icon="fa-regular fa-thumbs-up" className="mr-1" />
                                                                                 {reply.noOfLikes}
                                                                             </button>
-                                                                            <button onClick={handleDislikeComment}>
+                                                                            <button onClick={() => handleDislikeComment(reply.commentId)} className={false ? 'disliked' : ''}>
                                                                                 <FontAwesomeIcon icon="fa-regular fa-thumbs-down" className="mr-1" />
                                                                                 {reply.noOfDislikes}
                                                                             </button>
-                                                                            <button onClick={handleReportComment}>
+                                                                            <button onClick={() => handleReportComment(reply.commentId)}>
                                                                                 <FontAwesomeIcon icon="fa-regular fa-flag" className="mr-1" />
                                                                             </button>
                                                                         </div>
                                                                     </div>
                                                                 </div>
+                                                                )
                                                             ))
                                                         )}
                                                     </div>
