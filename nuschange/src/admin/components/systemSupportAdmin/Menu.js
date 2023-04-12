@@ -36,7 +36,7 @@ const Menu = () => {
                 </a>
                 <ul className="nav nav-treeview">
                     <li className="nav-item">
-                        <a href="pages/charts/chartjs.html" className="nav-link">
+                        <a href="/admin/inappropriatenessContent" className="nav-link">
                             <i className="far fa-circle nav-icon" />
                             <p>View</p>
                         </a>

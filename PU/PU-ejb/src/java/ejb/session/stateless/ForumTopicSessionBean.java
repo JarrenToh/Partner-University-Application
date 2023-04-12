@@ -8,7 +8,9 @@ package ejb.session.stateless;
 import entity.ForumPost;
 import entity.ForumTopic;
 import entity.PU;
+import entity.NUSchangeAdmin;
 import entity.Student;
+import error.NoResultException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
@@ -44,6 +46,15 @@ public class ForumTopicSessionBean implements ForumTopicSessionBeanLocal {
         forumTopic.setStudentLastName(student.getLastName());
         forumTopic.setPu(pu);
         forumTopic.setPuName(pu.getName());
+        em.persist(forumTopic);
+        em.flush();
+    }
+    
+    @Override
+    public void createNewForumTopicByAdmin(ForumTopic forumTopic, Long adminId) throws NoResultException {
+        NUSchangeAdmin nusChangeAdmin = em.find(NUSchangeAdmin.class, adminId);    
+        nusChangeAdmin.getForumTopics().add(forumTopic);
+        forumTopic.setAdmin(nusChangeAdmin);
         em.persist(forumTopic);
         em.flush();
     }
@@ -102,8 +113,15 @@ public class ForumTopicSessionBean implements ForumTopicSessionBeanLocal {
     @Override
     public void deleteForumTopic(Long forumTopicId) {
         ForumTopic forumTopic = em.find(ForumTopic.class, forumTopicId);
-        Student student = em.find(Student.class, forumTopic.getStudent().getStudentId());
-        student.getTopics().remove(forumTopic);
+        
+        if (forumTopic.getStudent() != null) {
+            Student student = em.find(Student.class, forumTopic.getStudent().getStudentId());
+            student.getTopics().remove(forumTopic);
+        } else {
+            NUSchangeAdmin admin = em.find(NUSchangeAdmin.class, forumTopic.getAdmin().getAdminId());
+            admin.getForumTopics().remove(forumTopic);
+        }
+        
         List<ForumPost> forumPosts = forumTopic.getForumPosts();
 
         synchronized (forumPosts) {

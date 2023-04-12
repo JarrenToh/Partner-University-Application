@@ -44,8 +44,8 @@ public class ForumTopic implements Serializable {
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "forumTopic")
     private List<ForumPost> forumPosts;
     
-    @ManyToOne(optional = false)
-    @JoinColumn(nullable = false)
+    @ManyToOne(optional = true)
+    @JoinColumn(nullable = true)
     @JsonbTransient
     private Student student;
   
@@ -54,13 +54,13 @@ public class ForumTopic implements Serializable {
     @JsonbTransient
     private PU pu;
     
-    @Column(nullable = false)
+    @Column(nullable = true)
     private Long studentId;
     
-    @Column(nullable = false)
+    @Column(nullable = true)
     private String studentFirstName;
     
-    @Column(nullable = false)
+    @Column(nullable = true)
     private String studentLastName;
     
     @Column(nullable = false)
@@ -71,6 +71,10 @@ public class ForumTopic implements Serializable {
     
     @Column(nullable = true)
     private LocalDateTime lastEdit;
+    
+    @ManyToOne(optional = true)
+    @JoinColumn(nullable = true, name = "created_by_admin")
+    private NUSchangeAdmin admin;
     
     public ForumTopic() {
         this.timeOfCreation = LocalDateTime.now();
@@ -287,6 +291,14 @@ public class ForumTopic implements Serializable {
      */
     public void setPuName(String puName) {
         this.puName = puName;
+    }
+
+    public NUSchangeAdmin getAdmin() {
+        return admin;
+    }
+
+    public void setAdmin(NUSchangeAdmin admin) {
+        this.admin = admin;
     }
 
 }

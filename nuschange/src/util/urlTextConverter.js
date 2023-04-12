@@ -5,6 +5,11 @@ const convertToEncodedTextForUrl = (input) => {
     return encodedPUName;
 };
 
-export const EncodedTextConverter = {
-    convertToEncodedTextForUrl
+const convertNameToSlug = (input) => {
+    return input.replace(/\s+/g, '-');
+};
+
+export {
+    convertToEncodedTextForUrl,
+    convertNameToSlug
 };

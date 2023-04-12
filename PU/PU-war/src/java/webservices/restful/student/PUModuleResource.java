@@ -67,12 +67,12 @@ public class PUModuleResource {
     } //end searchPUModules
 
     @GET
-    @Path("/searchByModuleCode")
+    @Path("/searchPUModuleByCodeAndPUName")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response searchPUModuleByModuleCode(@QueryParam("code") String code) {
+    public Response searchPUModuleByCodeAndPUName(@QueryParam("code") String code, @QueryParam("name") String puName) {
 
         if (code != null) {
-            PUModule puModule = puModuleSessionBeanLocal.searchPUModuleByCode(code).get(0);
+            PUModule puModule = puModuleSessionBeanLocal.searchPUModuleByCodeAndPUName(code, puName);
 
             return Response.status(200).entity(
                     puModule
@@ -86,7 +86,7 @@ public class PUModuleResource {
             return Response.status(400).entity(exception).build();
         }
     } //end searchPUModules
-
+    
     @GET
     @Path("/{id}")
     @Produces(MediaType.APPLICATION_JSON)
@@ -105,17 +105,6 @@ public class PUModuleResource {
                     .type(MediaType.APPLICATION_JSON).build();
         }
     } //end getPUModule
-
-
-   
-
-//    @POST
-//    @Consumes(MediaType.APPLICATION_JSON)
-//    @Produces(MediaType.APPLICATION_JSON)
-//    public PUModule createPUModule(PUModule s) {
-//        puModuleSessionBeanLocal.createPUModule(s);
-//        return s;
-//    } //end createPUModule
 
     @POST
     @Path("/createModuleForPU")

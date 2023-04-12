@@ -27,4 +27,6 @@ public interface NUSchangeAdminSessionBeanLocal {
     public List<Enquiry> retrieveAllEnquiresByUserSupportAdmin(Long adminId);
     
     public List<ForumTopic> retrieveAllForumTopicsBySystemSupportAdmin(Long adminId);
+    
+    public NUSchangeAdmin retrieveAdmin(Long adminId);
 }

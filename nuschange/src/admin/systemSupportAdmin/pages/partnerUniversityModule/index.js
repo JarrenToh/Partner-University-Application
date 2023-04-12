@@ -8,21 +8,25 @@ import Footer from "../../../components/dashboard/Footer";
 
 import API from "../../../../util/API";
 import apiPaths from "../../../../util/apiPaths";
-import { EncodedTextConverter } from "../../../../util/encodedTextConverter";
+import { convertToEncodedTextForUrl } from "../../../../util/urlTextConverter";
 
 const PartnerUuniversityModules = () => {
     const { puName } = useParams();
     const [modules, setModules] = useState([]);
     const navigate = useNavigate();
 
-    const handleButtonClick = (puId) => {
-        navigate(`/partnerUniversities/getPUByName/${puName}`);
+    const handleButtonClick = (puCode) => {
+        navigate(`/partnerUniversities/${puName}/modules/${puCode}`);
+    };
+
+    const handleCreatePUModuleButtonClick = () => {
+        navigate(`/partnerUniversities/${puName}/modules/create`);
     };
 
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const encodedPUName = EncodedTextConverter.convertToEncodedTextForUrl(puName);
+                const encodedPUName = convertToEncodedTextForUrl(puName);
 
                 const apiPath = `${apiPaths.listOfPUs}/getPUByName/${encodedPUName}`;
 
@@ -44,8 +48,7 @@ const PartnerUuniversityModules = () => {
                 <div className="card">
                     <div className="card-header">
                         <h3 className="card-title">Partner University Modules</h3>
-                        <br />
-                        <button type="button" className="btn btn-block btn-outline-dark">Create Partner University Module</button>
+                        <button type="button" className="btn btn-block btn-outline-dark" onClick={() => handleCreatePUModuleButtonClick()}>Create Partner University Module</button>
                     </div>
                     <div className="card-body">
                         <table id="example1" className="table table-bordered table-striped">
@@ -64,7 +67,7 @@ const PartnerUuniversityModules = () => {
                                         <td>{item.code}</td>
                                         <td>{item.name}</td>
                                         <td>
-                                            <button onClick={() => handleButtonClick(item.puId)} type="button" className="btn btn-primary">View Details</button>
+                                            <button onClick={() => handleButtonClick(item.code)} type="button" className="btn btn-primary">View Details</button>
                                         </td>
                                     </tr>
                                 ))}

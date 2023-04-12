@@ -149,29 +149,5 @@ public class PUResource {
 
             return Response.status(StatusName.NOT_FOUND.getCode()).entity(exception).build();
         }
-    }
-
-    @PUT
-    @Path("/{id}")
-    @Consumes(MediaType.APPLICATION_JSON)
-    @Produces(MediaType.APPLICATION_JSON)
-    public Response editPU(@PathParam("id") Long puId,
-            PUUpdateRequest puUpdateRequest) {
-        try {
-            String name = puUpdateRequest.getName();
-            String description = puUpdateRequest.getDescription();
-            String images = puUpdateRequest.getImages();
-
-            pUSessionBeanLocal.updatePU(puId, name, description, images);
-            return Response.status(204).build();
-        } catch (Exception e) {
-            JsonObject exception = Json.createObjectBuilder()
-                    .add("error", "Not found")
-                    .build();
-
-            return Response.status(StatusName.NOT_FOUND.getCode()).entity(exception)
-                    .type(MediaType.APPLICATION_JSON).build();
-        }
-    }
-
+    }    
 }

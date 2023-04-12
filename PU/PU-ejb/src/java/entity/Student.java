@@ -77,6 +77,9 @@ public class Student implements Serializable {
 
     @OneToOne(mappedBy = "student")
     private PUReview puReview;
+    
+    @ManyToMany(fetch = FetchType.EAGER)
+    private List<PUReview> likedPUReviews;
 
     public Student() {
         this.socialMedia = new ArrayList<>();
@@ -87,6 +90,7 @@ public class Student implements Serializable {
         this.topics = new ArrayList<>();
         this.comments = new ArrayList<>();
         this.modulesTaken = new ArrayList<>();
+        this.likedPUReviews = new ArrayList<>();
     }
 
     public Student(String firstName, String lastName, String phoneNumber, String email, String password, String faculty) {
@@ -378,5 +382,19 @@ public class Student implements Serializable {
      */
     public void setModuleReviews(List<PUModuleReview> moduleReviews) {
         this.moduleReviews = moduleReviews;
+    }
+
+    /**
+     * @return the likedPUReviews
+     */
+    public List<PUReview> getLikedPUReviews() {
+        return likedPUReviews;
+    }
+
+    /**
+     * @param likedPUReviews the likedPUReviews to set
+     */
+    public void setLikedPUReviews(List<PUReview> likedPUReviews) {
+        this.likedPUReviews = likedPUReviews;
     }
 }

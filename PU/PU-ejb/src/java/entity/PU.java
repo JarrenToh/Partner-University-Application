@@ -62,6 +62,7 @@ public class PU implements Serializable {
     private List<Student> students;
 
     @ManyToMany(fetch = FetchType.EAGER)
+    @JsonbTransient
     private List<Student> studentsLiked;
     
     public PU() {
