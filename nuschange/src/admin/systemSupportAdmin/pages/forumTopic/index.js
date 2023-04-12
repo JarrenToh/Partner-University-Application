@@ -23,11 +23,13 @@ const ForumTopic = () => {
         const fetchData = async () => {
             try {
                 const response = await API.get(apiPaths.listOfForumTopics);
+                let filteredData = "";
                 if (showAll) {
-                    setData(response.data);
+                    filteredData = response.data.filter(item => item.admin !== undefined);
+                    setData(filteredData);
                 } else {
                     // TODO: need to change this dyanmically later
-                    const filteredData = response.data.filter(item => item.admin !== undefined && item.admin.adminId === 1); // assume you have the current user's id stored somewhere
+                    filteredData = response.data.filter(item => item.admin !== undefined && item.admin.adminId === 1); // assume you have the current user's id stored somewhere
                     setData(filteredData);
                 }
             } catch (error) {
@@ -35,7 +37,7 @@ const ForumTopic = () => {
             }
         };
         fetchData();
-    }, [showAll]);
+    }, [data]);
 
     const handleToggle = () => {
         setShowAll(!showAll);
@@ -64,18 +66,25 @@ const ForumTopic = () => {
                                 </tr>
                             </thead>
                             <tbody>
-                                {data.map((item, index) => item.admin !== undefined && (
-                                    <tr key={index}>
-                                        <td>{item.topicId}</td>
-                                        <td>{item.topicName}</td>
-                                        <td>{item.admin.name}</td>
-                                        <td>{DateTimeConverter.convertDateForNicerOutput(item.timeOfCreation)}</td>
-                                        <td>{item.lastEdit === undefined ? "-" : DateTimeConverter.convertDateForNicerOutput(item.lastEdit)}</td>
-                                        <td>
-                                            <button onClick={() => handleButtonClick(item.topicId)} type="button" className="btn btn-primary">View Details</button>
-                                        </td>
-                                    </tr>
-                                ))}
+                                {data.length > 0 ? (
+                                    data.map((item, index) => item.admin !== undefined && (
+                                        <tr key={index}>
+                                            <td>{item.topicId}</td>
+                                            <td>{item.topicName}</td>
+                                            <td>{item.admin.name}</td>
+                                            <td>{DateTimeConverter.convertDateForNicerOutput(item.timeOfCreation)}</td>
+                                            <td>{item.lastEdit === undefined ? "-" : DateTimeConverter.convertDateForNicerOutput(item.lastEdit)}</td>
+                                            <td>
+                                                <button onClick={() => handleButtonClick(item.topicId)} type="button" className="btn btn-primary">View Details</button>
+                                            </td>
+                                        </tr>
+                                    )
+                                    ))
+                                    : (
+                                        <tr>
+                                            <td colSpan={6} style={{ textAlign: "center" }}>No data available</td>
+                                        </tr>
+                                    )}
                             </tbody>
                             <tfoot>
                                 <tr>

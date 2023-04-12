@@ -38,7 +38,7 @@ const PartnerUuniversityModules = () => {
             }
         };
         fetchData();
-    }, []);
+    }, [puName]);
 
     return (
         <div>

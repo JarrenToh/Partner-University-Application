@@ -8,7 +8,7 @@ import Footer from "../../../components/dashboard/Footer";
 import API from "../../../../util/API";
 import apiPaths from "../../../../util/apiPaths";
 
-import { convertToEncodedTextForUrl, convertNameToSlug } from "../../../../util/urlTextConverter";
+import { convertToEncodedTextForUrl } from "../../../../util/urlTextConverter";
 
 const PUModuleDetails = () => {
     const navigate = useNavigate();
@@ -110,7 +110,7 @@ const PUModuleDetails = () => {
         };
 
         fetchData();
-    }, [id]);
+    }, [id, puModuleCode, puName]);
 
     return (
         <div>
