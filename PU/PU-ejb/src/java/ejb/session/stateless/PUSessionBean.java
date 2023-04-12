@@ -7,7 +7,6 @@ package ejb.session.stateless;
 
 import entity.Country;
 import entity.PU;
-import entity.Region;
 import entity.Student;
 import entity.PUModule;
 import entity.PUReview;
@@ -151,6 +150,18 @@ public class PUSessionBean implements PUSessionBeanLocal {
     public void updatePU(PU pu) {
         PU oldPu = retrievePuById(pu.getPuId());
        oldPu.setStudentsLiked(pu.getStudentsLiked());
+    }
+    
+    @Override
+    public void updatePUAdmin(Long puId, String name, String description, String images, Long countryId) {
+        PU pu = retrievePuById(puId);
+        
+        pu.setName(name);
+        pu.setDescription(description);
+        pu.setImages(images);
+        
+        Country country = countrySessionBean.retrieveCountryById(countryId);
+        pu.setCountry(country);
     }
     
     @Override

@@ -8,13 +8,13 @@ import logo from "../../../NUSChange-logoV3.png";
 
 const Menu = () => {
 
-    const admin = "UserSupportAdmin";
-    // const admin = "SystemSupportAdmin";
+    // const admin = "UserSupportAdmin";
+    const admin = "SystemSupportAdmin";
 
     return (
         <div>
             <aside className="main-sidebar elevation-4" style={{ background: 'white' }}>
-                <img src={logo} alt="AdminLTE Logo" style={{ 'width': '100%' }} />
+                <img src={logo} alt="NUSChange Logo" style={{ 'width': '100%' }} />
                 <br />
                 <div className="sidebar">
                     <nav className="mt-2">

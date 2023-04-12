@@ -1,4 +1,5 @@
 import React from 'react';
+import { systemSupportAdminPaths } from '../../../util/adminRoutes';
 
 const Menu = () => {
     return (
@@ -13,13 +14,13 @@ const Menu = () => {
                 </a>
                 <ul className="nav nav-treeview">
                     <li className="nav-item">
-                        <a href="pages/charts/chartjs.html" className="nav-link">
+                        <a href={systemSupportAdminPaths.createPu} className="nav-link">
                             <i className="far fa-circle nav-icon" />
                             <p>Create</p>
                         </a>
                     </li>
                     <li className="nav-item">
-                        <a href="pages/charts/flot.html" className="nav-link">
+                        <a href={systemSupportAdminPaths.viewPUs} className="nav-link">
                             <i className="far fa-circle nav-icon" />
                             <p>View</p>
                         </a>
@@ -36,7 +37,7 @@ const Menu = () => {
                 </a>
                 <ul className="nav nav-treeview">
                     <li className="nav-item">
-                        <a href="/admin/inappropriatenessContent" className="nav-link">
+                        <a href={systemSupportAdminPaths.viewInappropriateContent} className="nav-link">
                             <i className="far fa-circle nav-icon" />
                             <p>View</p>
                         </a>
@@ -53,13 +54,13 @@ const Menu = () => {
                 </a>
                 <ul className="nav nav-treeview">
                     <li className="nav-item">
-                        <a href="pages/charts/chartjs.html" className="nav-link">
+                        <a href={systemSupportAdminPaths.createForumTopic} className="nav-link">
                             <i className="far fa-circle nav-icon" />
                             <p>Create</p>
                         </a>
                     </li>
                     <li className="nav-item">
-                        <a href="pages/charts/chartjs.html" className="nav-link">
+                        <a href={systemSupportAdminPaths.viewForumTopics} className="nav-link">
                             <i className="far fa-circle nav-icon" />
                             <p>View</p>
                         </a>

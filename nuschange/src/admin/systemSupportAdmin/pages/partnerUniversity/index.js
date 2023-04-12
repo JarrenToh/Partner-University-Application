@@ -15,10 +15,6 @@ const PartnerUuniversity = () => {
     const [data, setData] = useState([]);
     const navigate = useNavigate();
 
-    const handleCreatePUButtonClick = () => {
-        navigate(`/partnerUniversities/create`);
-    }
-
     const handleViewDetailsButtonClick = (puName) => {
         navigate(`/partnerUniversities/${convertNameToSlug(puName)}`);
     };
@@ -51,7 +47,6 @@ const PartnerUuniversity = () => {
                 <div className="card">
                     <div className="card-header">
                         <h3 className="card-title">Partner Universities</h3>
-                        <button type="button" className="btn btn-block btn-outline-dark" onClick={() => handleCreatePUButtonClick()}>Create Partner University</button>
                     </div>
                     <div className="card-body">
                         <table id="example1" className="table table-bordered table-striped">
