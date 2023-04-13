@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { Accordion, Card, Container } from "react-bootstrap";
 import apiPaths from "../util/apiPaths";
+import NavbarComp from '../student/components/NavbarComp';
+import { AuthProvider, useAuth } from '../../src/AuthContext';
 
 const FAQPage = () => {
   const [faqs, setFAQs] = useState([]);
@@ -16,8 +18,13 @@ const FAQPage = () => {
     setFAQs(data);
   };
 
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [user, setUser] = useState(null);
+  const {loggedInStudent, login, logout} = useAuth();
+
   return (
-    <div>
+    <div className="wrapper" >
+    <NavbarComp isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} user={user} />
       <div className="container" style={{ border: 0 }}>
         <h1 className="text-center mb-3">Frequently Asked Questions</h1>
       </div>
@@ -33,7 +40,6 @@ const FAQPage = () => {
               </Accordion.Item>
             ))}
           </Accordion>
-        
       </div>
     </div>
   );

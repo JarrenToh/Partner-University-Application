@@ -7,6 +7,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faComments } from '@fortawesome/free-solid-svg-icons'
 import { AuthContext } from '../../src/AuthContext';
 import CommentComp from './CommentComp';
+import NavbarComp from '../student/components/NavbarComp';
 
 import {
   Form,
@@ -56,6 +57,9 @@ export default function ViewPost() {
   const [commentLikedByUser, setCommentLikedByUser] = useState({});
   const [commentDislikedByUser, setCommentDislikedByUser] = useState({});
   const [searchQuery, setSearchQuery] = useState("");
+
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [user, setUser] = useState(null);
 
   const navigate = useNavigate();
 
@@ -599,6 +603,7 @@ export default function ViewPost() {
 
   return (
     <>
+     <NavbarComp isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} user={user} />
       <div className="forum-card">
         <div className="forum-header">
           <div className="d-flex justify-content-between align-items-center">

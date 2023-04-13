@@ -3,7 +3,7 @@ import { useState, useContext, useEffect } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { AuthContext } from '../AuthContext';
-
+import NavbarComp from '../student/components/NavbarComp';
 
 import {
     Card,
@@ -27,6 +27,9 @@ export default function EditComment() {
     const [alertMessage, setAlertMessage] = useState('');
     const [alertType, setAlertType] = useState('danger');
     const navigate = useNavigate();
+
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const [user, setUser] = useState(null);
 
     if (!loggedInStudent) {
         return <h1 style={{ textAlign: 'center', color: 'red', margin: '0 auto', width: '50%', fontWeight: 'bold', fontSize: '2em'}}>You are not logged in.</h1>;
@@ -72,6 +75,7 @@ export default function EditComment() {
 
     return (
         <div>
+            <NavbarComp isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} user={user} />
         <Card>
             <CardHeader>Edit comment</CardHeader>
             <CardBody>

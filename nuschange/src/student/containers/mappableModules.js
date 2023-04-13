@@ -4,11 +4,15 @@ import apiPaths from '../../util/apiPaths';
 import React from "react";
 import { useParams } from 'react-router-dom';
 import _ from 'lodash';
+import NavbarComp from '../../student/components/NavbarComp';
 
 function MappableModule() {
   const { puName } = useParams();
 
   const [mappableModules, setMappableModule] = useState([]);
+
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [user, setUser] = useState(null);
 
   useEffect(() => {
     apiPaths.getMappableModulesByPU(puName)
@@ -31,6 +35,7 @@ function MappableModule() {
 
   return (
     <>
+     <NavbarComp isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} user={user} />
       <AccordionComp modules={mappableModules} universityName="NUS University" />
       {mappableModules.length === 0
         ? <div

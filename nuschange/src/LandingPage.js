@@ -11,10 +11,6 @@ const App = () => {
 
   const [showNavbar, setShowNavbar] = useState(false);
 
-    useEffect(() => {
-    setShowNavbar(url.startsWith('/student'));
-  }, [url]);
-
   return (
 
     <div className="form-container"
@@ -59,26 +55,26 @@ const App = () => {
         <br />
         <div style={{ display: 'flex', justifyContent: 'center' }}>
           <h3>Please select your portal:</h3>
+        </div>
+        <br />
+        <br />
+        <br />
+        <br />
+        <div className="button-container" style={{ display: 'flex', justifyContent: 'center' }}>
+          <div>
+            <p>Student Portal</p>
+            <Button color="primary" className='Student' style={{ backgroundColor: `green`, textDecoration : 'none'}} onClick={setUrl}>
+              <Link to="/student/home-page" className="text-white" style={{textDecoration : 'none'}}>Go to Student Portal</Link>
+            </Button>
           </div>
-          <br />
-          <br />
-          <br />
-          <br />
-          <div className="button-container" style={{ display: 'flex', justifyContent: 'center' }}>
-            <div>
-              <p>Student Portal</p>
-              <Button color="primary" className='Student' style={{ backgroundColor: `green` }} onClick={setUrl}>
-                <Link to="/student/home-page" className="text-white">Go to Student Portal</Link>
-              </Button>
-            </div>
-            <div>
-              <p>Admin Portal</p>
-              <Button color="secondary" className='Admin' style={{ backgroundColor: `orange` }}>
-                <Link to="/admin/login" className="text-white">Go to Admin Portal</Link>
-              </Button>
-            </div>
+          <div>
+            <p>Admin Portal</p>
+            <Button color="secondary" className='Admin' style={{ backgroundColor: `orange` }}>
+              <Link to="/admin/login" className="text-white" style={{textDecoration : 'none'}}>Go to Admin Portal</Link>
+            </Button>
           </div>
         </div>
+      </div>
     </div>
   );
 };

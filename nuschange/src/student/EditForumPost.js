@@ -3,7 +3,7 @@ import { useState, useContext, useEffect } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { AuthContext } from '../AuthContext';
-
+import NavbarComp from '../student/components/NavbarComp';
 
 import {
   Card,
@@ -28,6 +28,9 @@ export default function EditPost() {
   const [alertMessage, setAlertMessage] = useState('');
   const [alertType, setAlertType] = useState('danger');
   const navigate = useNavigate();
+
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [user, setUser] = useState(null);
 
   const handleTitleChange = (e) => {
     setTitle(e.target.value);
@@ -85,6 +88,7 @@ export default function EditPost() {
 
   return (
     <div>
+<NavbarComp isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} user={user} />
       <Card>
         <CardHeader>Edit post for topic: {topicName}</CardHeader>
         <CardBody>

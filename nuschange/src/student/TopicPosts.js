@@ -9,6 +9,7 @@ import './styles.css';
 import SearchIcon from './homepage/search.svg';
 import { Link } from 'react-router-dom';
 import { AuthContext } from '../AuthContext';
+import NavbarComp from '../student/components/NavbarComp';
 
 import {
   Table,
@@ -49,6 +50,8 @@ export default function TopicPosts() {
   const itemsPerPage = 5; // Change this value to the number of items you want to display per page
   const pagesVisited = pageNumber * itemsPerPage;
   const pageCount = Math.ceil(forumPosts.length / itemsPerPage);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [user, setUser] = useState(null);
 
 
   useEffect(() => {
@@ -191,6 +194,7 @@ export default function TopicPosts() {
 
   return (
     <div>
+       <NavbarComp isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} user={user} />
     <Fragment>
       <div style={{ display: "flex", justifyContent: "flex-end", alignItems: "center", marginRight: "2px", marginBottom: "3px" }}>
           <input
