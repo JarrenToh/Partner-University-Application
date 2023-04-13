@@ -1,6 +1,7 @@
 import React, { Fragment} from 'react';
 import { Link, useParams, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../src/AuthContext';
+//import NavbarComp from './components/NavbarComp';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { library } from '@fortawesome/fontawesome-svg-core';
@@ -9,7 +10,6 @@ import { fas } from '@fortawesome/free-solid-svg-icons';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import './styles.css';
 import SearchIcon from './homepage/search.svg';
-import NavbarComp from './components/NavbarComp';
 
 import {
   Table,
@@ -51,12 +51,8 @@ export default function ForumTopics() {
 
   const [pageNumber, setPageNumber] = useState(0);
   const itemsPerPage = 5; // Change this value to the number of items you want to display per page
-  //const [pageCount, setPageCount] = useState(Math.ceil(forumTopics.length / itemsPerPage));
   const pagesVisited = pageNumber * itemsPerPage;
   const pageCount = Math.ceil(forumTopics.length / itemsPerPage);
-
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [user, setUser] = useState(null);
 
   useEffect(() => {
       if (loggedInStudent) {
@@ -104,8 +100,7 @@ export default function ForumTopics() {
           console.log("hello");
           response = await axios.get(`http://localhost:8080/PU-war/webresources/forumTopics/query/pu/${selectedPuId}?topicName=${searchQuery}`);
         }
-        const filteredTopics = response.data.filter(topic => topic.isInappropriate === false);
-        setForumTopics(filteredTopics);
+        setForumTopics(response.data);
         console.log(response.data);
       } catch (error) {
         console.error(error);
@@ -221,19 +216,18 @@ export default function ForumTopics() {
     }
   }
 
-  // function calculateTopics(forumTopics) {
-  //   let count = 0;   
-  //   forumTopics.forEach((topic) => {
-  //     if (!topic.isInappropriate) {
-  //       count = count + 1;
-  //     }
-  //   })
-  //   return count;
-  // }
+  function calculateTopics(forumTopics) {
+    let count = 0;   
+    forumTopics.forEach((topic) => {
+      if (!topic.isInappropriate) {
+        count = count + 1;
+      }
+    })
+    return count;
+  }
 
   return (
-    <div className="wrapper" >
-    <NavbarComp isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} user={user} />
+    <div>
     <Fragment>
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "3px"}}>
           <div>

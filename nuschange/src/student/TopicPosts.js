@@ -8,8 +8,6 @@ import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import './styles.css';
 import SearchIcon from './homepage/search.svg';
 import { Link } from 'react-router-dom';
-import NavbarComp from './components/NavbarComp';
-// import { AuthProvider, useAuth } from '';
 import { AuthContext } from '../AuthContext';
 
 import {
@@ -59,13 +57,11 @@ export default function TopicPosts() {
     }
   }, [loggedInStudent]);
 
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [user, setUser] = useState(null);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(`http://localhost:8080/PU-war/webresources/forumPosts/topic/${id}`);   
+        const response = await axios.get(`http://localhost:8080/PU-war/webresources/forumPosts/topic/${id}`);        
         const filteredPosts = response.data.filter(post => post.isInappropriate === false);
         setForumPosts(filteredPosts);     
         const topicResponse = await axios.get(`http://localhost:8080/PU-war/webresources/forumTopics/${id}`);
@@ -86,8 +82,7 @@ export default function TopicPosts() {
     const fetchData = async () => {
       try {
         const response = await axios.get(`http://localhost:8080/PU-war/webresources/forumPosts/query/forumTopics/${id}?postTitle=${searchQuery}`);
-        const filteredPosts = response.data.filter(post => post.isInappropriate === false);
-        setForumPosts(filteredPosts);     
+        setForumPosts(response.data);
       } catch (error) {
         console.error(error);
       }
@@ -184,19 +179,18 @@ export default function TopicPosts() {
     }
   }
 
-  // function calculatePosts(forumPosts) {
-  //   let count = 0;   
-  //   forumPosts.forEach((post) => {
-  //     if (!post.isInappropriate) {
-  //       count = count + 1;
-  //     }
-  //   })
-  //   return count;
-  // }
+  function calculatePosts(forumPosts) {
+    let count = 0;   
+    forumPosts.forEach((post) => {
+      if (!post.isInappropriate) {
+        count = count + 1;
+      }
+    })
+    return count;
+  }
 
   return (
-    <div className="wrapper" >
-    <NavbarComp isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} user={user} />
+    <div>
     <Fragment>
       <div style={{ display: "flex", justifyContent: "flex-end", alignItems: "center", marginRight: "2px", marginBottom: "3px" }}>
           <input

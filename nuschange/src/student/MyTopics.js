@@ -7,8 +7,8 @@ import { fas } from '@fortawesome/free-solid-svg-icons';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import './styles.css';
 import SearchIcon from './homepage/search.svg';
-import NavbarComp from './components/NavbarComp';
 import { AuthProvider, useAuth, AuthContext } from '../../src/AuthContext';
+
 
 import {
   Table,
@@ -47,9 +47,6 @@ export default function MyTopics() {
   const itemsPerPage = 5; // Change this value to the number of items you want to display per page
   const pagesVisited = pageNumber * itemsPerPage;
   const pageCount = Math.ceil(forumTopics.length / itemsPerPage);
-
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [user, setUser] = useState(null);
 
   useEffect(() => {
       if (loggedInStudent) {
@@ -166,8 +163,7 @@ export default function MyTopics() {
   } 
 
   return (
-    <div className="wrapper" >
-    <NavbarComp isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} user={user} />
+    <div>
     <Fragment>
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "3px" }}>
           <div>
