@@ -17,9 +17,6 @@ import {
     Alert
 } from 'reactstrap';
 
-import NavbarComp from './components/NavbarComp';
-// import { AuthProvider, useAuth } from './login/AuthContext';
-
 export default function NewPost() {
     const { loggedInStudent } = useContext(AuthContext);
     const [studentId, setStudentId] = useState(0);
@@ -37,9 +34,6 @@ export default function NewPost() {
           setStudentId(loggedInStudent.studentId);
         }
     }, [loggedInStudent]);
-
-    const [isLoggedIn, setIsLoggedIn] = useState(false);
-    const [user, setUser] = useState(null);
 
     const handleTitleChange = (e) => {
         setTitle(e.target.value);

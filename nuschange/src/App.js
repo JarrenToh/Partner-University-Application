@@ -141,15 +141,17 @@ const App = () => {
             <Route path="/" element={<LandingPage />} />
             <Route path="/student/home-page" element={<HomePage />} />
             <Route path="/student/profile" element={<StudentProfile user={user} />} />
-            <Route path="/student/forum-topics" element={<ForumTopics />} />
-            <Route path="/student/forum-topics/:id/:topicName/:studentId" element={<TopicPosts />} />
+            <Route path="/student/forum-topics/:puId" element={<ForumTopics />} />
+            <Route path="/student/forum-topics/:id/:topicName" element={<TopicPosts />} />
             <Route path="/student/forum-posts/:id/:topicName" element={<NewPost />} />
-            <Route path="/student/my-topics/:studentId" element={<MyTopics />} />
-            <Route path="/student/my-posts/:id/:topicName/:studentId" element={<MyPosts />} />
-            <Route path="/student/forum-posts/edit/:id/:oldTitle/:oldMessage/:topicName" element={<EditPost />} />
-            <Route path="/student/new-topic/:studentId" element={<NewTopic />} />
+            <Route path="/student/my-topics" element={<MyTopics />} />
+            <Route path="/student/my-posts/:id/:topicName" element={<MyPosts />} />
+            <Route path="/student/forum-posts/edit/:topicId/:id/:oldTitle/:oldMessage/:topicName/:number" element={<EditPost />} />
+            <Route path="/student/new-topic" element={<NewTopic />} />
             <Route path="/student/forum-topics/edit/:topicId/:oldTopicName" element={<EditTopic />} />
-            <Route path="/student/view-post/:postId/:studentId" element={<Post />} />
+            <Route path="/student/error" element={<Error />} />
+            <Route path="/student/view-post/:postId/:topicName/:topicId" element={<Post />} />
+            <Route path="/student/edit-comment/:commentId/:oldCommentMessage/:postId/:topicName/:topicId" element={<EditComment />} />
             <Route path="/student/login" element={<StudentLogin onLogin={handleLogin} />} />
             <Route path="/student/university-rankings" element={<UniversityRankings universitiesData={pus} />} />
             <Route path="/student/university-rankings-country" element={<UniversityRankingsCountry universitiesData={pus} />} />

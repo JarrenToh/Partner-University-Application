@@ -8,8 +8,6 @@ import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import './styles.css';
 import SearchIcon from './homepage/search.svg';
 import { Link } from 'react-router-dom';
-import NavbarComp from './components/NavbarComp';
-// import { AuthProvider, useAuth } from '';
 import { AuthContext } from '../AuthContext';
 
 import {
@@ -59,15 +57,13 @@ export default function TopicPosts() {
     }
   }, [loggedInStudent]);
 
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [user, setUser] = useState(null);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await axios.get(`http://localhost:8080/PU-war/webresources/forumPosts/topic/${id}`);        
-        setForumPosts(response.data);
-
+        const filteredPosts = response.data.filter(post => post.isInappropriate === false);
+        setForumPosts(filteredPosts);     
         const topicResponse = await axios.get(`http://localhost:8080/PU-war/webresources/forumTopics/${id}`);
         setPuName(topicResponse.data.puName);
       } catch (error) {
@@ -194,8 +190,7 @@ export default function TopicPosts() {
   }
 
   return (
-    <div className="wrapper" >
-    <NavbarComp isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} user={user} />
+    <div>
     <Fragment>
       <div style={{ display: "flex", justifyContent: "flex-end", alignItems: "center", marginRight: "2px", marginBottom: "3px" }}>
           <input
@@ -271,10 +266,9 @@ export default function TopicPosts() {
                   <th className="text-center">Actions</th>
                 </tr>
               </thead> 
-              {calculatePosts(forumPosts) > 0 ? (
+              {forumPosts.length > 0 ? (
               <tbody>
                 {forumPosts.slice(pagesVisited, pagesVisited + itemsPerPage).map((item) => (
-                  !item.isInappropriate && (
                   <tr key={item.postId}>
                     <td>
                       <a
@@ -357,7 +351,6 @@ export default function TopicPosts() {
                       </td>
                     }
                   </tr>
-                  )
                 ))}
               </tbody>
               ) : (

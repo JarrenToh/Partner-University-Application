@@ -1,6 +1,7 @@
 import React, { Fragment} from 'react';
 import { Link, useParams, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../src/AuthContext';
+//import NavbarComp from './components/NavbarComp';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { library } from '@fortawesome/fontawesome-svg-core';
@@ -9,7 +10,6 @@ import { fas } from '@fortawesome/free-solid-svg-icons';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import './styles.css';
 import SearchIcon from './homepage/search.svg';
-import NavbarComp from './components/NavbarComp';
 
 import {
   Table,
@@ -54,9 +54,6 @@ export default function ForumTopics() {
   const pagesVisited = pageNumber * itemsPerPage;
   const pageCount = Math.ceil(forumTopics.length / itemsPerPage);
 
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [user, setUser] = useState(null);
-
   useEffect(() => {
       if (loggedInStudent) {
         setStudentId(loggedInStudent.studentId);
@@ -75,7 +72,8 @@ export default function ForumTopics() {
           console.log("hi");
           response = await axios.get(`http://localhost:8080/PU-war/webresources/forumTopics/pu/${selectedPuId}`);
         }
-        setForumTopics(response.data);
+        const filteredTopics = response.data.filter(topic => topic.isInappropriate === false);
+        setForumTopics(filteredTopics);
         const responsePu = await axios.get(`http://localhost:8080/PU-war/webresources/pu`);
         setPus(responsePu.data);
       } catch (error) {
@@ -229,8 +227,7 @@ export default function ForumTopics() {
   }
 
   return (
-    <div className="wrapper" >
-    <NavbarComp isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} user={user} />
+    <div>
     <Fragment>
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "3px"}}>
           <div>
@@ -316,10 +313,9 @@ export default function ForumTopics() {
                   <th className="text-center">Actions</th>
                 </tr>
               </thead>
-              {calculateTopics(forumTopics) > 0 ? (
+              {forumTopics.length > 0 ? (
               <tbody>
                 {forumTopics.slice(pagesVisited, pagesVisited + itemsPerPage).map((item) => (
-                  !item.isInappropriate && (
                     <tr key={item.topicId}>
                       <td>
                         <a className="font-weight-bold text-black">
@@ -406,7 +402,6 @@ export default function ForumTopics() {
                         </td>
                       }
                     </tr>
-                  )
                 ))}
               </tbody>
               ) : (
