@@ -8,27 +8,21 @@ import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import './styles.css';
 import SearchIcon from './homepage/search.svg';
 import { Link } from 'react-router-dom';
+import { AuthContext } from "./login/AuthContext";
+
 
 import {
     Table,
     CardBody,
     Card,
-    CardHeader,
-    CustomInput,
-    Badge,
-    Nav,
-    NavItem,
-    NavLink,
-    Pagination,
-    PaginationItem,
-    PaginationLink,
     Button,
-    ButtonGroup,
-    UncontrolledDropdown,
-    DropdownToggle,
-    DropdownMenu
+    Modal,
+    ModalHeader,
+    ModalBody,
+    ModalFooter,
+    Alert
 } from 'reactstrap';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useContext } from 'react';
 import axios from 'axios';
 import ReactPaginate from 'react-paginate'
 
@@ -36,27 +30,45 @@ const API_URL = 'http://localhost:8080/PU-war/webresources/forumPosts';
 
 library.add(far, fas, faPlus);
 
-export default function MyPosts(props) {
-  const { id, topicName, studentId } = useParams();
+export default function MyPosts() {
+  const { loggedInStudent } = useContext(AuthContext);
+  const [ studentId, setStudentId ] = useState(null);
+  const { id, topicName } = useParams();
   const [forumPosts, setForumPosts] = useState([]);
-  const [searchQuery, setSearchQuery] = useState('');
+  const [searchQuery, setSearchQuery] = useState("");
   const [pageNumber, setPageNumber] = useState(0);
+  const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
+  const [selectedDeletePostId, setSelectedDeletePostId] = useState(null);
+  const [selectedDeletePostName, setSelectedDeletePostName] = useState(null);
+  const [alertVisible, setAlertVisible] = useState(false);
+  const [alertMessage, setAlertMessage] = useState('');
+  const [alertType, setAlertType] = useState('danger');
+
   const itemsPerPage = 5; // Change this value to the number of items you want to display per page
   const pagesVisited = pageNumber * itemsPerPage;
   const pageCount = Math.ceil(forumPosts.length / itemsPerPage);
 
   useEffect(() => {
+        if (loggedInStudent) {
+        setStudentId(loggedInStudent.studentId);
+        }
+    }, [loggedInStudent]);
+
+  useEffect(() => {
     const fetchData = async () => {
         try {
             const response = await axios.get(`http://localhost:8080/PU-war/webresources/forumPosts/topic/${id}/student/${studentId}`);
-
             setForumPosts(response.data);
         } catch (error) {
             console.error(error);
         }
     };
     fetchData();
-  }, []);
+  }, [studentId]);
+
+  if (!loggedInStudent) {
+    return <h1 style={{ textAlign: 'center', color: 'red', margin: '0 auto', width: '50%', fontWeight: 'bold', fontSize: '2em'}}>You are not logged in.</h1>;
+  }
 
   const searchForumPost = async (searchQuery) => {
     const fetchData = async () => {
@@ -69,6 +81,41 @@ export default function MyPosts(props) {
     };
     fetchData();
   }
+
+  const handleDeleteButtonClick = (post) => {
+    setSelectedDeletePostId(post.postId);
+    setSelectedDeletePostName(post.title);
+    setShowDeleteConfirmation(true);
+
+  };
+
+  const toggleModal = () => {
+    setShowDeleteConfirmation(!showDeleteConfirmation);
+  }
+
+  const handleDeleteConfirmation = () => {
+    // Perform the deletion here
+    axios.delete(`http://localhost:8080/PU-war/webresources/forumPosts/${selectedDeletePostId}`)
+    .then(response => {
+      // Handle successful response here
+      console.log('Delete successful');
+      setAlertType('success');
+      setAlertMessage('The post was deleted successfully!');
+      setAlertVisible(true);
+
+      setTimeout(() => {
+        window.location.href = window.location.href;
+      }, 1000);
+    })
+    .catch(error => {
+      // Handle error response here
+      console.error('Delete failed: ', error);
+      setAlertType('danger');
+      setAlertMessage('Error deleting the post. Please try again.');
+      setAlertVisible(true);
+    });
+    setShowDeleteConfirmation(false);
+  };
 
   function getTimeDifference(timeOfCreation) {
     const now = new Date();
@@ -91,49 +138,40 @@ export default function MyPosts(props) {
     }
   }
 
-  const handleDelete = (postId) => {
-    axios.delete(`http://localhost:8080/PU-war/webresources/forumPosts/${postId}`)
-        .then(response => {
-            // Handle successful response here
-            console.log('Delete successful');
-            //setForumPosts(response.data);
-        })
-        .catch(error => {
-            // Handle error response here
-            console.error('Delete failed: ', error);
-        });
-  }
-
   return (
+    <div>
     <Fragment>
-        <div className="search">
-            <input
-                placeholder="Search for Forum Post"
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-            />
-            <img
-                src={SearchIcon}
-                alt="search"
-                onClick={() => searchForumPost(searchQuery)}
-            />
+      <div>
+      <div style={{ display: "flex", justifyContent: "flex-end", alignItems: "center", marginRight: "2px", marginBottom: "3px" }}>
+          <input
+            placeholder="Search for Forum Post"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            style={{ borderRadius: "15px", padding: "3px", border: "0.5px solid grey", marginRight: "10px" }}
+          />
+          <img
+            src={SearchIcon}
+            alt="search"
+            onClick={() => searchForumPost(searchQuery)}
+            style={{ width: "20px", height: "20px", cursor: "pointer" }}
+          />
         </div>
+      </div>
         <Card className="card-box mb-5">
             <div className="card-header">
                 <div className="card-header--title">
                     <small>Forum Topic: {topicName}</small>
                     <b>My Forum Posts</b>
-                </div>
-                <div className="card-header--actions">
-                    <Button
-                        tag={Link}
-                        to={`/forum-posts/${id}/${topicName}`}
-                        color="outline-primary"
-                        title="View details"
-                        className="mr-2">
-                        <FontAwesomeIcon icon={['fa', 'plus']} className="mr-1" />
-                        Create new post
-                    </Button>
+                      <Modal isOpen={showDeleteConfirmation} toggle={toggleModal}>
+                          <ModalHeader toggle={toggleModal}>Confirm deletion</ModalHeader>
+                          <ModalBody>
+                              Are you sure you want to delete post: {selectedDeletePostName}?
+                          </ModalBody>
+                          <ModalFooter>
+                              <Button color="primary" onClick={handleDeleteConfirmation}>Delete</Button>{' '}
+                              <Button color="secondary" onClick={toggleModal}>Cancel</Button>
+                          </ModalFooter>
+                      </Modal>
                 </div>
             </div>
             <CardBody className="p-0">
@@ -157,7 +195,7 @@ export default function MyPosts(props) {
                                                     <FontAwesomeIcon
                                                         icon={['fa', 'circle-exclamation']}
                                                         className="font-size-lg ml-2 text-danger"
-                                                        title="This forum post has been marked inappropriate by other users"
+                                                        title="This forum post has been marked inappropriate by other users and will not be shown to others"
                                                     />
                                                 </a>
                                             ) : (
@@ -165,7 +203,7 @@ export default function MyPosts(props) {
                                                     {item.title}
                                                 </a>
                                             )}
-                                            <Link to={`/`} className="text-black-50 d-block blue-link" style={{ textDecoration: 'none' }}>
+                                            <Link to={`/other-profile/${item.studentId}`} className="text-black-50 d-block blue-link" style={{ textDecoration: 'none' }}>
                                                 Author: {item.studentFirstName} {item.studentLastName}
                                             </Link>
                                             {item.isEdited && (
@@ -184,7 +222,7 @@ export default function MyPosts(props) {
                                         <td className="text-center">
                                             <Button
                                                 tag={Link}
-                                                to={`/view-post/${item.postId}`}
+                                                to={`/view-post/${item.postId}/${topicName}/${id}`}
                                                 size="sm"
                                                 color="link"
                                                 className="text-primary"
@@ -195,7 +233,7 @@ export default function MyPosts(props) {
 
                                             <Button
                                                 tag={Link}
-                                                to={`/forum-posts/edit/${item.postId}/${item.title}/${encodeURIComponent(item.message)}/${encodeURIComponent(topicName)}`}
+                                                to={`/forum-posts/edit/${id}/${item.postId}/${item.title}/${encodeURIComponent(item.message)}/${encodeURIComponent(topicName)}/${0}`}
                                                 size="sm"
                                                 color="link"
                                                 className="text-warning ml-2"
@@ -205,7 +243,7 @@ export default function MyPosts(props) {
                                             </Button>
 
                                             <Button
-                                                onClick={() => handleDelete(item.postId)}
+                                                onClick={() => handleDeleteButtonClick(item)}
                                                 size="sm"
                                                 color="link"
                                                 className="text-danger ml-2"
@@ -248,5 +286,11 @@ export default function MyPosts(props) {
             </CardBody>
         </Card>
     </Fragment>
+          {alertVisible && (
+              <Alert color={alertType} toggle={() => setAlertVisible(false)}>
+                  {alertMessage}
+              </Alert>
+          )}
+      </div>
   );
 }

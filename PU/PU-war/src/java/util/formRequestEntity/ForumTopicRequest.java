@@ -10,8 +10,10 @@ package util.formRequestEntity;
  * @author kathleen
  */
 public class ForumTopicRequest {
-    
+
     private String topicName;
+    
+    private Long puId;
     
     /**
      * @return the topicName
@@ -25,6 +27,20 @@ public class ForumTopicRequest {
      */
     public void setTopicName(String topicName) {
         this.topicName = topicName;
+    } 
+    
+    /**
+     * @return the puId
+     */
+    public Long getPuId() {
+        return puId;
     }
+
+    /**
+     * @param puId the puId to set
+     */
+    public void setPuId(Long puId) {
+        this.puId = puId;
+    }   
     
 }

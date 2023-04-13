@@ -1,60 +1,110 @@
 import React from 'react';
-import { useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useState, useEffect, useContext } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { AuthContext } from "./login/AuthContext";
 import axios from 'axios';
 
 import {
     Card,
     CardBody,
     CardHeader,
-    FormText,
     Form,
-    Col,
     Label,
     FormGroup,
     Input,
-    Button
+    Button,
+    Alert
 } from 'reactstrap';
 
 export default function NewTopic() {
-    const { studentId } = useParams();
-    const [topicName, setTopicName] = useState('');
+    const { loggedInStudent } = useContext(AuthContext);
+    const [studentId, setStudentId] = useState(loggedInStudent.studentId);
+    const [pus, setPus] = useState([]);
+    const [topicName, setTopicName] = useState("");
+    const [selectedPuId, setSelectedPuId] = useState(1);
+    const [ saveButtonDisabled, setSaveButtonDisabled ] = useState(true);
+    const [alertVisible, setAlertVisible] = useState(false);
+    const [alertMessage, setAlertMessage] = useState('');
+    const [alertType, setAlertType] = useState('danger');
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        if (loggedInStudent) {
+            setStudentId(loggedInStudent.studentId);
+        }
+    }, [loggedInStudent]);
+
+    useEffect(() => {
+        const fetchData = async () => {
+          try {
+            const response = await axios.get(`http://localhost:8080/PU-war/webresources/pu`);
+            setPus(response.data);
+          } catch (error) {
+            console.error(error);
+          }
+        };
+        fetchData();
+    }, []);
+
+    if (!loggedInStudent) {
+      return <h1 style={{ textAlign: 'center', color: 'red', margin: '0 auto', width: '50%', fontWeight: 'bold', fontSize: '2em'}}>You are not logged in.</h1>;
+    }
 
     const handleTopicNameChange = (e) => {
-        setTopicName(e.target.value);
+        const newTopicName = e.target.value;
+      
+        if (newTopicName.trim().length === 0) {
+          setSaveButtonDisabled(true);
+        } else {
+          setSaveButtonDisabled(false);
+        }
+      
+        setTopicName(newTopicName);
     };
+
+    const handlePuSelectChange = (e, puId) => {
+        e.preventDefault();
+        setSelectedPuId(puId);
+    }
 
     const handleSubmit = (e) => {
         e.preventDefault();
 
-        //const formData = new FormData();
-
-        //formData.append('title', title);
-        //formData.append('content', content);
-
-        const createdForumPost = {
-            topicName
+        const createdForumTopic = {
+            topicName,
+            puId: selectedPuId
         };
 
-        axios.post(`http://localhost:8080/PU-war/webresources/forumTopics/user/student/${studentId}`, createdForumPost)
+        axios.post(`http://localhost:8080/PU-war/webresources/forumTopics/user/student/${studentId}`, createdForumTopic)
             .then((response) => {
                 console.log(response.data);
+                setAlertType('success');
+                setAlertMessage('The topic was created successfully!');
+                setAlertVisible(true);
+        
+                setTimeout(() => {
+                    navigate(`/forum-topics/0`);
+                }, 1000);
             })
             .catch((error) => {
                 console.error(error);
+                setAlertType('danger');
+                setAlertMessage('Error creating the topic. Please try again.');
+                setAlertVisible(true);
             });
     };
 
     return (
+        <div>
         <Card>
             <CardHeader>Create a new topic</CardHeader>
             <CardBody>
                 <Form onSubmit={handleSubmit}>
-                    <FormGroup row>
-                        <Label for="topicName" sm={2}>
-                            Topic Name
-                        </Label>
-                        <Col sm={10}>
+                    <div className="row">
+                        <FormGroup>
+                            <Label for="topicName">Topic Name</Label>
+                        </FormGroup>
+                        <FormGroup>
                             <Input
                                 type="text"
                                 name="topicName"
@@ -63,19 +113,42 @@ export default function NewTopic() {
                                 value={topicName}
                                 onChange={handleTopicNameChange}
                             />
-                        </Col>
-                    </FormGroup>
-                    <FormGroup row>
-                        <Col sm={{ size: 10, offset: 2 }}>
+                        </FormGroup>
+                        <FormGroup>
+                            <Label for="puSelect">Select Partner University</Label>
+                            <Input
+                                type="select"
+                                name="select"
+                                id="puSelect"
+                                value={selectedPuId}
+                                onChange={(e) => handlePuSelectChange(e, e.target.value)}
+                            >
+                                {pus.map(pu => (
+                                    <option value={pu.puId} key={pu.puId}>{pu.name}</option>
+                                ))}
+                            </Input>
+                        </FormGroup>
+                        <FormGroup>
                             <div className="text-right">
-                                <Button color="outline-primary" type="submit">
+                                <Button variant="success"
+                                    disabled={saveButtonDisabled} type="submit">
                                     Create topic
                                 </Button>
+                                <Button variant="outline-danger" tag={Link}
+                                    to={`/forum-topics/0`}>
+                                    Close
+                                </Button>
                             </div>
-                        </Col>
-                    </FormGroup>
+                        </FormGroup>
+                    </div>
                 </Form>
             </CardBody>
         </Card>
+            {alertVisible && (
+                <Alert color={alertType} toggle={() => setAlertVisible(false)}>
+                    {alertMessage}
+                </Alert>
+            )}
+        </div>
     );
 }
