@@ -50,6 +50,7 @@ export default function ForumTopics() {
 
   const [pageNumber, setPageNumber] = useState(0);
   const itemsPerPage = 5; // Change this value to the number of items you want to display per page
+  //const [pageCount, setPageCount] = useState(Math.ceil(forumTopics.length / itemsPerPage));
   const pagesVisited = pageNumber * itemsPerPage;
   const pageCount = Math.ceil(forumTopics.length / itemsPerPage);
 
@@ -71,7 +72,8 @@ export default function ForumTopics() {
           console.log("hi");
           response = await axios.get(`http://localhost:8080/PU-war/webresources/forumTopics/pu/${selectedPuId}`);
         }
-        setForumTopics(response.data);
+        const filteredTopics = response.data.filter(topic => topic.isInappropriate === false);
+        setForumTopics(filteredTopics);
         const responsePu = await axios.get(`http://localhost:8080/PU-war/webresources/pu`);
         setPus(responsePu.data);
       } catch (error) {
@@ -98,7 +100,8 @@ export default function ForumTopics() {
           console.log("hello");
           response = await axios.get(`http://localhost:8080/PU-war/webresources/forumTopics/query/pu/${selectedPuId}?topicName=${searchQuery}`);
         }
-        setForumTopics(response.data);
+        const filteredTopics = response.data.filter(topic => topic.isInappropriate === false);
+        setForumTopics(filteredTopics);
         console.log(response.data);
       } catch (error) {
         console.error(error);
@@ -214,15 +217,15 @@ export default function ForumTopics() {
     }
   }
 
-  function calculateTopics(forumTopics) {
-    let count = 0;   
-    forumTopics.forEach((topic) => {
-      if (!topic.isInappropriate) {
-        count = count + 1;
-      }
-    })
-    return count;
-  }
+  // function calculateTopics(forumTopics) {
+  //   let count = 0;   
+  //   forumTopics.forEach((topic) => {
+  //     if (!topic.isInappropriate) {
+  //       count = count + 1;
+  //     }
+  //   })
+  //   return count;
+  // }
 
   return (
     <div>
@@ -311,10 +314,9 @@ export default function ForumTopics() {
                   <th className="text-center">Actions</th>
                 </tr>
               </thead>
-              {calculateTopics(forumTopics) > 0 ? (
+              {forumTopics.length > 0 ? (
               <tbody>
                 {forumTopics.slice(pagesVisited, pagesVisited + itemsPerPage).map((item) => (
-                  !item.isInappropriate && (
                     <tr key={item.topicId}>
                       <td>
                         <a className="font-weight-bold text-black">
@@ -401,7 +403,6 @@ export default function ForumTopics() {
                         </td>
                       }
                     </tr>
-                  )
                 ))}
               </tbody>
               ) : (

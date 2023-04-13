@@ -61,9 +61,9 @@ export default function TopicPosts() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(`http://localhost:8080/PU-war/webresources/forumPosts/topic/${id}`);        
-        setForumPosts(response.data);
-
+        const response = await axios.get(`http://localhost:8080/PU-war/webresources/forumPosts/topic/${id}`);   
+        const filteredPosts = response.data.filter(post => post.isInappropriate === false);
+        setForumPosts(filteredPosts);     
         const topicResponse = await axios.get(`http://localhost:8080/PU-war/webresources/forumTopics/${id}`);
         setPuName(topicResponse.data.puName);
       } catch (error) {
@@ -82,7 +82,8 @@ export default function TopicPosts() {
     const fetchData = async () => {
       try {
         const response = await axios.get(`http://localhost:8080/PU-war/webresources/forumPosts/query/forumTopics/${id}?postTitle=${searchQuery}`);
-        setForumPosts(response.data);
+        const filteredPosts = response.data.filter(post => post.isInappropriate === false);
+        setForumPosts(filteredPosts);     
       } catch (error) {
         console.error(error);
       }
@@ -179,15 +180,15 @@ export default function TopicPosts() {
     }
   }
 
-  function calculatePosts(forumPosts) {
-    let count = 0;   
-    forumPosts.forEach((post) => {
-      if (!post.isInappropriate) {
-        count = count + 1;
-      }
-    })
-    return count;
-  }
+  // function calculatePosts(forumPosts) {
+  //   let count = 0;   
+  //   forumPosts.forEach((post) => {
+  //     if (!post.isInappropriate) {
+  //       count = count + 1;
+  //     }
+  //   })
+  //   return count;
+  // }
 
   return (
     <div>
@@ -266,10 +267,9 @@ export default function TopicPosts() {
                   <th className="text-center">Actions</th>
                 </tr>
               </thead> 
-              {calculatePosts(forumPosts) > 0 ? (
+              {forumPosts.length > 0 ? (
               <tbody>
                 {forumPosts.slice(pagesVisited, pagesVisited + itemsPerPage).map((item) => (
-                  !item.isInappropriate && (
                   <tr key={item.postId}>
                     <td>
                       <a
@@ -352,7 +352,6 @@ export default function TopicPosts() {
                       </td>
                     }
                   </tr>
-                  )
                 ))}
               </tbody>
               ) : (
