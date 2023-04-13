@@ -8,6 +8,7 @@ import { AuthContext } from "../login/AuthContext";
 const SocialMediaModal = (props) => {
   const { loggedInStudent, logout } = useContext(AuthContext);
   const API_URL_STUDENT = "http://localhost:8080/PU-war/webresources/student";
+  const [currentStudent, setCurrentStudent] = useState({ ...loggedInStudent });
   const [socialMedia, setSocialMedia] = useState(props.socialMedia);
   const [saveButtonDisabled, setSaveButtonDisabled] = useState(true);
   const [formStatus, setFormStatus] = useState("Save Changes");
@@ -18,6 +19,18 @@ const SocialMediaModal = (props) => {
   useEffect(() => {
     setSocialMedia(props.socialMedia);
   }, [props.socialMedia]);
+
+  useEffect(() => {
+    if (loggedInStudent) {
+      getStudentAPI(loggedInStudent.studentId);
+    }
+  }, [loggedInStudent]);
+
+  const getStudentAPI = async (studentId) => {
+    const response = await fetch(`${API_URL_STUDENT}/${studentId}`);
+    const data = await response.json();
+    setCurrentStudent(data);
+  };
 
   // API to update student social media links (working for now)
   const updateStudentAPI = async (studentId, data) => {
@@ -153,7 +166,7 @@ const SocialMediaModal = (props) => {
           disabled={saveButtonDisabled || formStatus === "Saving..."}
           onClick={() =>
             updateStudentAPI(loggedInStudent.studentId, {
-              ...loggedInStudent,
+              ...currentStudent,
               socialMedia: socialMedia,
             })
           }

@@ -226,17 +226,17 @@ public class DataInitializationSessionBean {
         Long studentId40 = studentSessionBean.createStudent(student40);
 
 
-        PUModuleReview pumodulereview1 = new PUModuleReview("Test1", new Long(2), new Integer(1), new Integer(1));
-        PUModuleReview pumodulereview2 = new PUModuleReview("Test2", new Long(2), new Integer(1), new Integer(1));
-        
-        pumodulereview1.setIsInappropriate(true);
-        
-        pumodulereview1.setStudent(student1);
-        pumodulereview1.setNoOfDislikes(0);
-        pumodulereview1.setNoOfDislikes(0);
-
-        pUModuleReviewSessionBean.createPUModuleReview(pumodulereview1);
-        pUModuleReviewSessionBean.createPUModuleReview(pumodulereview2);
+//        PUModuleReview pumodulereview1 = new PUModuleReview("Test1", new Long(2), new Integer(1), new Integer(1));
+//        PUModuleReview pumodulereview2 = new PUModuleReview("Test2", new Long(2), new Integer(1), new Integer(1));
+//        
+//        pumodulereview1.setIsInappropriate(true);
+//        
+//        pumodulereview1.setStudent(student1);
+//        pumodulereview1.setNoOfDislikes(0);
+//        pumodulereview1.setNoOfDislikes(0);
+//
+//        pUModuleReviewSessionBean.createPUModuleReview(pumodulereview1);
+//        pUModuleReviewSessionBean.createPUModuleReview(pumodulereview2);
 
         Faculty faculty1 = new Faculty("Faculty of Arts and Social Sciences (FASS)");
         Faculty faculty2 = new Faculty("School of Business (NUS Business School)");
@@ -976,7 +976,26 @@ public class DataInitializationSessionBean {
         puModuleSessionBean.associatePUModuleNUSModule(puModId86, nusModId86);
         puModuleSessionBean.associatePUModuleNUSModule(puModId87, nusModId87);
         puModuleSessionBean.associatePUModuleNUSModule(puModId88, nusModId88);
-
+        
+        //Associate Ben Leong to take these 3 Modules
+        puModuleSessionBean.associatePUModuleStudent(puModId1, studentId1);
+        puModuleSessionBean.associatePUModuleStudent(puModId4, studentId1);
+        puModuleSessionBean.associatePUModuleStudent(puModId7, studentId1);
+        
+        //Associate Ben Leong with these reviews
+//        PUModuleReview pumodulereview1 = new PUModuleReview("This is a dummy review", new Long(3), new Integer(3), new Integer(0));
+//        PUModuleReview pumodulereview2 = new PUModuleReview("Test2", new Long(3), new Integer(1), new Integer(0));
+//        
+//        pumodulereview1.setIsInappropriate(true);
+//        
+//        pumodulereview1.setStudent(student1);
+//        pumodulereview2.setStudent(student1);
+//        
+//        pumodulereview1.setModule(module1);
+//        pumodulereview2.setModule(module4);
+//
+//        pUModuleReviewSessionBean.createPUModuleReview(pumodulereview1);
+//        pUModuleReviewSessionBean.createPUModuleReview(pumodulereview2);
         
         List<Long> listOfPUModules1 = new ArrayList<>();
 //        listOfPUModules1.add(mId1);
