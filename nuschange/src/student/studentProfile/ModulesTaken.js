@@ -8,10 +8,27 @@ import ModReviewModal from "./ModReviewModal";
 
 const ModulesTaken = () => {
   //const navigate = useNavigate();
+  const API_URL_STUDENT = "http://localhost:8080/PU-war/webresources/student";
   const { loggedInStudent } = useContext(AuthContext);
   const [reviewModModalShow, setReviewModModalShow] = useState(false);
+  const [puEnrolled, setPuEnrolled] = useState({
+    name: "Dummy Uni",
+    puId: 0
+  });
 
-  useEffect(() => {}, [loggedInStudent]);
+  useEffect(() => {
+    if (loggedInStudent) {
+      getEnrolledPuAPI(loggedInStudent.studentId);
+    }
+  }, [loggedInStudent]);
+
+
+  const getEnrolledPuAPI = async (studentId) => {
+    const response = await fetch(`${API_URL_STUDENT}/${studentId}/puEnrolled`);
+    const data = await response.json();
+    //console.log(data);
+    setPuEnrolled(data);
+  };
 
   const dummyModules = [
     {
@@ -71,7 +88,7 @@ const ModulesTaken = () => {
             >
               <div className="ms-2 me-auto">
                 <Link
-                  to={`/module-details/${mod.moduleId}`}
+                  to={`/module-details/${puEnrolled.name}/${mod.moduleId}`}
                   style={{ color: "black", textDecoration: "none" }}
                 >
                   <div className="fw-bold">
@@ -96,7 +113,7 @@ const ModulesTaken = () => {
               >
                 <div className="ms-2 me-auto">
                   <Link
-                    to={`/module-details/${mod.moduleId}`}
+                    to={`/module-details/${puEnrolled.name}/${mod.moduleId}`}
                     style={{ color: "black", textDecoration: "none" }}
                   >
                     <div className="fw-bold">
