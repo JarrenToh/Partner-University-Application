@@ -21,7 +21,7 @@ const Enquiry = () => {
     const { loggedInAdmin } = useContext(AuthContext);
     
     const handleButtonClick = (enquiryId) => {
-        navigate(`/${userSupportAdminPaths.viewEnquiries}/${enquiryId}`);
+        navigate(`/admin${userSupportAdminPaths.viewEnquiries}/${enquiryId}`);
     };
 
     useEffect(() => {
@@ -51,7 +51,7 @@ const Enquiry = () => {
             }
         };
         fetchData();
-    }, [loggedInAdmin]);
+    }, [loggedInAdmin, location]);
 
     return (
         <div>
