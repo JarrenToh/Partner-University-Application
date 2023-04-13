@@ -12,7 +12,7 @@ import {
   Input,
   Label,
 } from 'reactstrap';
-import { AuthContext } from '../login/AuthContext';
+import { AuthContext } from '../../AuthContext';
 import { Enquiry } from './Enquiry';
 import './ContactForm.css';
 

@@ -8,7 +8,7 @@ import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import './styles.css';
 import SearchIcon from './homepage/search.svg';
 import { Link } from 'react-router-dom';
-import { AuthContext } from "./login/AuthContext";
+import { AuthContext } from '../AuthContext';
 
 
 import {

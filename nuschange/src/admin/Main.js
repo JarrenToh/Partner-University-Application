@@ -8,9 +8,9 @@ import Footer from "../admin/components/dashboard/Footer";
 const Main = () => {
     return (
         <div>
-            <Header />
+            <Header/>
             <Menu />
-            <Dashboard />
+            <Dashboard/>
             <Footer />
         </div>
     )

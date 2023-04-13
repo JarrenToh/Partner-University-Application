@@ -54,6 +54,7 @@ public class Student implements Serializable {
     private List<Enquiry> enquiries;
 
     @ManyToMany(fetch = FetchType.EAGER)
+    @JsonbTransient
     private List<PU> likedPUs;
 
     @OneToMany(mappedBy = "student")

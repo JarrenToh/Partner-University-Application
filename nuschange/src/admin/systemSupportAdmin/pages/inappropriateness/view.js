@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 import Header from "../../../components/dashboard/Header";
 import Menu from "../../../components/dashboard/Menu";
@@ -9,8 +9,8 @@ import API from "../../../../util/API";
 import apiPaths from "../../../../util/apiPaths";
 
 const InappropriatenessDetails = () => {
+    const navigate = useNavigate();
     const { typeOfComponent, id } = useParams();
-    const [isChecked, setIsChecked] = useState(false);
 
     // forumComment & forumPost
     const [message, setMessage] = useState("");
@@ -31,84 +31,109 @@ const InappropriatenessDetails = () => {
     const [headerMessage, setHeaderMessage] = useState("");
     const [outputOfText, setOutputOfText] = useState("");
 
+    const [selectValue, setSelectValue] = useState("");
+    const [approvalError, setApprovalError] = useState("");
+
+    const [showModal, setShowModal] = useState(false);
+    const [modalTitle, setModalTitle] = useState("");
+    const [modalDescription, setModalDescription] = useState("");
+
     const handleResponse = async () => {
-        try {
-            let apiPath = "";
-            let updateApiPath = "";
-            let updatedElement = {};
+        if (validate()) {
+            try {
+                let apiPath = "";
+                let updateApiPath = "";
+                let updatedElement = {};
 
-            switch (typeOfComponent) {
-                case "forumComments":
-                    apiPath = `${apiPaths.listOfForumComments}/${id}`;
-                    updateApiPath = `${apiPaths.listOfForumComments}/editForumCommentByAdmin/${id}`;
-                    updatedElement = {
-                        message,
-                        noOfLikes,
-                        noOfDislikes,
-                        isInappropriate: false
-                    };
-                    break;
-                case "puReviews":
-                    apiPath = `${apiPaths.listOfPUReviews}/${id}`;
-                    updateApiPath = `${apiPaths.listOfPUReviews}/${id}`;
-                    updatedElement = {
-                        rating,
-                        review,
-                        noOfLikes,
-                        noOfDislikes,
-                        isInappropriate: false
-                    };
-                    break;
-                case "forumTopics":
-                    apiPath = `${apiPaths.listOfForumTopics}/${id}`;
-                    updateApiPath = `${apiPaths.listOfForumTopics}/editForumTopicByAdmin/${id}`;
-                    updatedElement = {
-                        topicName,
-                        isInappropriate: false
-                    };
-                    break;
-                case "puModuleReviews":
-                    apiPath = `${apiPaths.listOfPUModuleReview}/${id}`;
-                    updateApiPath = `${apiPaths.listOfPUModuleReview}/${id}`;
-                    updatedElement = {
-                        rating,
-                        review,
-                        noOfLikes,
-                        noOfDislikes,
-                        isInappropriate: false
-                    };
-                    break;
-                case "forumPosts":
-                    apiPath = `${apiPaths.listOfForumPosts}/${id}`;
-                    updateApiPath = `${apiPaths.listOfForumPosts}/editForumPostByAdmin/${id}`;
-                    updatedElement = {
-                        title,
-                        message,
-                        noOfLikes,
-                        noOfDislikes,
-                        isInappropriate: false
-                    };
-                    break;
-                default:
-                    break;
+                switch (typeOfComponent) {
+                    case "forumComments":
+                        apiPath = `${apiPaths.listOfForumComments}/${id}`;
+                        updateApiPath = `${apiPaths.listOfForumComments}/editForumCommentByAdmin/${id}`;
+                        updatedElement = {
+                            message,
+                            noOfLikes,
+                            noOfDislikes,
+                            isInappropriate: false
+                        };
+                        break;
+                    case "puReviews":
+                        apiPath = `${apiPaths.listOfPUReviews}/${id}`;
+                        updateApiPath = `${apiPaths.listOfPUReviews}/${id}`;
+                        updatedElement = {
+                            rating,
+                            review,
+                            noOfLikes,
+                            noOfDislikes,
+                            isInappropriate: false
+                        };
+                        break;
+                    case "forumTopics":
+                        apiPath = `${apiPaths.listOfForumTopics}/${id}`;
+                        updateApiPath = `${apiPaths.listOfForumTopics}/editForumTopicByAdmin/${id}`;
+                        updatedElement = {
+                            topicName,
+                            isInappropriate: false
+                        };
+                        break;
+                    case "puModuleReviews":
+                        apiPath = `${apiPaths.listOfPUModuleReview}/${id}`;
+                        updateApiPath = `${apiPaths.listOfPUModuleReview}/${id}`;
+                        updatedElement = {
+                            rating,
+                            review,
+                            noOfLikes,
+                            noOfDislikes,
+                            isInappropriate: false
+                        };
+                        break;
+                    case "forumPosts":
+                        apiPath = `${apiPaths.listOfForumPosts}/${id}`;
+                        updateApiPath = `${apiPaths.listOfForumPosts}/editForumPostByAdmin/${id}`;
+                        updatedElement = {
+                            title,
+                            message,
+                            noOfLikes,
+                            noOfDislikes,
+                            isInappropriate: false
+                        };
+                        break;
+                    default:
+                        break;
+                }
+
+                if (selectValue === true) {
+                    await API.delete(apiPath);
+                    setModalTitle("Successful Approval of Removal of Content");
+                    setModalDescription("You have approved of removing the content successfully");
+                } else {
+                    await API.put(updateApiPath, updatedElement);
+                    setModalTitle("Successful Disapproval of Removal of Content");
+                    setModalDescription("You have disapproved of removing the content successfully");
+                }
+
+                setShowModal(true);
+            } catch (error) {
+                console.error(error);
             }
-
-            if (isChecked) { // delete the post
-                await API.delete(apiPath);
-                alert("You have approved of removing the content successfully");
-                return;
-            } // update the post back appropriate 
-
-            await API.put(updateApiPath, updatedElement);
-            alert("You have disapproved of removing the content successfully");
-        } catch (error) {
-            console.error(error);
         }
     };
 
-    const handleCheckboxChange = (event) => {
-        setIsChecked(event.target.checked);
+    const handleCancel = async () => {
+        setShowModal(false);
+        navigate(`../systemSupportAdmin/inappropriatenessContent`);
     };
+
+    const validate = () => {
+        let isValid = true;
+        if (selectValue === "") {
+            setApprovalError("Please select an option");
+            isValid = false;
+        } else {
+            setApprovalError("");
+        }
+
+        return isValid;
+    }
 
     useEffect(() => {
         const fetchData = async () => {
@@ -237,20 +262,49 @@ const InappropriatenessDetails = () => {
                                 <label htmlFor="inputStudent">Created By</label>
                                 <input type="text" id="inputStudent" className="form-control" value={studentName} readOnly />
                             </div>
-                            <div className="form-check">
-                                <input
-                                    className="form-check-input"
-                                    type="checkbox"
-                                    checked={isChecked}
-                                    onChange={handleCheckboxChange}
-                                />
-                                <label className="form-check-label">Approved of removing</label>
+                            <div className="form-group">
+                                <label htmlFor="inputName">Approved of Inappropriate Content</label>
+                                <select className={`custom-select rounded-0 form-control ${approvalError ? "is-invalid" : ""}`} id="approvalSelectOption" value={selectValue} onChange={(e) => setSelectValue(e.target.value)}>
+                                    <option value="">Select Option</option>
+                                    <option value={true}>Yes</option>
+                                    <option value={false}>No</option>
+                                </select>
+                                {approvalError && <div className="invalid-feedback">{approvalError}</div>}
                             </div>
                             <div className="text-center">
                                 <button className="btn btn-success mr-2" onClick={handleResponse}>Submit</button>
                             </div>
                         </div>
-                        <br />
+                        {showModal && (
+                            <div className="modal fade show" id="modal-default" style={{ display: "block" }}>
+                                <div className="modal-dialog">
+                                    <div className="modal-content">
+                                        <div className="modal-header">
+                                            <h4 className="modal-title">{modalTitle}</h4>
+                                            <button
+                                                type="button"
+                                                className="close"
+                                                data-dismiss="modal"
+                                                aria-label="Close"
+                                                onClick={() => handleCancel()}>
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div className="modal-body">
+                                            <p>{modalDescription}</p>
+                                        </div>
+                                        <div className="modal-footer justify-content-between">
+                                            <button
+                                                type="button"
+                                                className="btn btn-default"
+                                                onClick={() => handleCancel()}>
+                                                Close
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        )}
                     </div>
                 </div>
             </div>

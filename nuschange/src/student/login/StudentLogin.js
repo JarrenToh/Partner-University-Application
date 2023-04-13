@@ -2,7 +2,7 @@ import React, { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import API from '../../util/API';
 import { LoginStyles } from './LoginStyles';
-import { AuthContext } from './AuthContext';
+import { AuthContext } from '../../AuthContext';
 
 import {
   Button,

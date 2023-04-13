@@ -85,7 +85,6 @@ public class EnquiriesResource {
         try {
             String response = respondStudentEnquiryRequest.getResponse();
             int status = respondStudentEnquiryRequest.getStatus();
-
             adminEnquirySessionBeanLocal.respondToStudentEnquiry(enquiryId, adminId, status, response);
             return Response.status(204).build();
         } catch (Exception e) {

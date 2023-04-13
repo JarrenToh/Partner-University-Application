@@ -1,6 +1,6 @@
 import React, { Fragment} from 'react';
 import { Link, useParams, useNavigate } from 'react-router-dom';
-import { AuthContext } from "./login/AuthContext";
+import { AuthContext } from '../AuthContext';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { library } from '@fortawesome/fontawesome-svg-core';

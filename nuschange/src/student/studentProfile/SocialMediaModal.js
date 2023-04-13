@@ -3,7 +3,7 @@ import { Modal, Button, Form, InputGroup, Col, Alert } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
 
-import { AuthContext } from "../login/AuthContext";
+import { AuthContext } from "../../AuthContext";
 
 const SocialMediaModal = (props) => {
   const { loggedInStudent, logout } = useContext(AuthContext);

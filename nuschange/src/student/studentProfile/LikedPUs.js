@@ -1,7 +1,7 @@
 import React, { useContext, useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import UniversityCard from "../ranking/UniversityCard";
-import { AuthContext } from "../login/AuthContext";
+import { AuthContext } from "../../AuthContext";
 
 const LikedPUs = () => {
   const { loggedInStudent } = useContext(AuthContext);

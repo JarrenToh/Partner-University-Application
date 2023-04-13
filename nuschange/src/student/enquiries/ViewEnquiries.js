@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { Table } from 'reactstrap';
 import moment from 'moment'; // import moment.js
-import { AuthContext } from '../login/AuthContext';
+import { AuthContext } from '../../AuthContext';
 import './ContactForm.css';
 
 const ViewEnquiries = () => {

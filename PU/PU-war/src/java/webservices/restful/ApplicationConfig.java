@@ -33,6 +33,7 @@ public class ApplicationConfig extends Application {
         resources.add(webservices.restful.admin.EnquiriesResource.class);
         resources.add(webservices.restful.admin.FaqsResource.class);
         resources.add(webservices.restful.admin.ForumTopicsResource.class);
+        resources.add(webservices.restful.admin.LikedPUResource.class);
         resources.add(webservices.restful.admin.NUSchangeAdminsResource.class);
         resources.add(webservices.restful.student.CountryResource.class);
         resources.add(webservices.restful.student.EnquiriesResource.class);

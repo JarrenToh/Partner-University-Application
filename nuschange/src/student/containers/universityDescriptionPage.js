@@ -7,7 +7,7 @@ import apiPaths from '../../util/apiPaths';
 import AlumnusComp from "../components/AlumnusComp";
 import ReviewComp from "../components/ReviewComp";
 import { FaWhatsapp, FaFacebook, FaTelegram, FaLink, FaCheck, FaShareAlt } from "react-icons/fa";
-import { AuthContext } from "../login/AuthContext";
+import { AuthContext } from "../../AuthContext";
 
 
 function UniversityDescriptionPage() {

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import API from "../../../../../util/API";
+import { systemSupportAdminPaths } from "../../../../../util/adminRoutes";
 
 const InappropriatenessComponent = ({ type, typeOfComponent, apiPath, selectedButton }) => {
 
@@ -78,9 +79,9 @@ const InappropriatenessComponent = ({ type, typeOfComponent, apiPath, selectedBu
                     return -1;
             }
 
-            navigate(`/inappropriatenessContent/${component}/${selectedId}`);
+            navigate(`${systemSupportAdminPaths.viewInappropriatenessContent}/${component}/${selectedId}`);
         }
-    }, [selectedId, typeOfComponent ,navigate]);
+    }, [selectedId, typeOfComponent, navigate]);
 
     return (
         <div>
@@ -92,7 +93,6 @@ const InappropriatenessComponent = ({ type, typeOfComponent, apiPath, selectedBu
                             <th>Number of Likes</th>
                             <th>Number of Dislikes</th>
                             <th>Created By</th>
-                            <th>Reported By</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
@@ -102,7 +102,6 @@ const InappropriatenessComponent = ({ type, typeOfComponent, apiPath, selectedBu
                                 data.map((item, index) =>
                                     item.isInappropriate && (
                                         <tr key={index}>
-                                            <td>{getId(item)}</td>
                                             <td>{showSpecificResult(item)}s</td>
                                             <td>{showLikesDislikes(item.noOfLikes)}</td>
                                             <td>{showLikesDislikes(item.noOfDislikes)}</td>
@@ -130,7 +129,6 @@ const InappropriatenessComponent = ({ type, typeOfComponent, apiPath, selectedBu
                             <th>Number of Likes</th>
                             <th>Number of Dislikes</th>
                             <th>Created By</th>
-                            <th>Reported By</th>
                             <th>Actions</th>
                         </tr>
                     </tfoot>
