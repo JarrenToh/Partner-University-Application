@@ -124,7 +124,7 @@ const App = () => {
           </Routes>
         </Router>
 
-       <Router basename='/admin'>
+       {/* <Router basename='/admin'>
           <Routes>
             <Route path="/login" element={<Login />} />
             <Route path="/main" element={<Main />} />
@@ -147,7 +147,7 @@ const App = () => {
             <Route path="/forumTopics/:id" element={<ForumTopicsDetailsSystemSupportAdmin />} />
           </Routes>
 
-        </Router>
+        </Router> */}
 
         {/* <ForumTopics /> */}
         {/* <TopicPosts /> */}
@@ -174,6 +174,7 @@ const App = () => {
         {/* <UniversityDescriptionPage/> */}
         {/* <MappableModule /> */}
       </div>
+        {/* </Router>/*} */}
         
     </AuthProvider>
   );

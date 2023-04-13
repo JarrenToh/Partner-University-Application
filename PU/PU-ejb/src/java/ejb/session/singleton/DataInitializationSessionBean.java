@@ -181,8 +181,6 @@ public class DataInitializationSessionBean {
         Student student39 = new Student("Justin", "Lim", "90002059", "justinlim@comp.nus.edu.sg", "password");
         Student student40 = new Student("Hannah", "Tan", "90002060", "hannahtan@comp.nus.edu.sg", "password");
 
-
-
         Long studentId1 = studentSessionBean.createStudent(student1);
         Long studentId2 = studentSessionBean.createStudent(student2);
         Long studentId3 = studentSessionBean.createStudent(student3);
@@ -225,12 +223,11 @@ public class DataInitializationSessionBean {
         Long studentId39 = studentSessionBean.createStudent(student39);
         Long studentId40 = studentSessionBean.createStudent(student40);
 
-
         PUModuleReview pumodulereview1 = new PUModuleReview("Test1", new Long(2), new Integer(1), new Integer(1));
         PUModuleReview pumodulereview2 = new PUModuleReview("Test2", new Long(2), new Integer(1), new Integer(1));
-        
+
         pumodulereview1.setIsInappropriate(true);
-        
+
         pumodulereview1.setStudent(student1);
         pumodulereview1.setNoOfDislikes(0);
         pumodulereview1.setNoOfDislikes(0);
@@ -269,7 +266,6 @@ public class DataInitializationSessionBean {
         NUSModule nusModule9 = new NUSModule("Computer Security", "CS2107", "This module covers the principles and techniques of computer security. It includes topics such as access control, authentication, confidentiality, integrity, and availability. It also covers topics such as network security, web security, and malware.");
         NUSModule nusModule10 = new NUSModule("Software Engineering", "CS2103T", "This module covers the principles and practices of software engineering, including requirements elicitation, software design, implementation, testing, and maintenance. It also covers topics such as project management, software process, and software quality.");
 
-
         Long nusModId1 = nUSModuleSessionBean.createNUSModule(nusModule1, facultyId3);
         Long nusModId2 = nUSModuleSessionBean.createNUSModule(nusModule2, facultyId3);
         Long nusModId3 = nUSModuleSessionBean.createNUSModule(nusModule3, facultyId3);
@@ -303,7 +299,6 @@ public class DataInitializationSessionBean {
         NUSModule nusModule19 = new NUSModule("Introduction to Southeast Asian Studies", "SSA1201E", "This module provides an interdisciplinary introduction to the study of Southeast Asia, and aims to develop critical thinking and research skills. It covers topics such as the region's history, society and culture, politics and governance, and economic development.");
         NUSModule nusModule20 = new NUSModule("Introduction to Communications and New Media", "NM1101E", "This module introduces students to the study of communications and new media, and examines their social, cultural, and political dimensions. It covers topics such as media technologies, digital cultures, and communication theories and practices.");
 
-
         Long nusModId11 = nUSModuleSessionBean.createNUSModule(nusModule11, facultyId1);
         Long nusModId12 = nUSModuleSessionBean.createNUSModule(nusModule12, facultyId1);
         Long nusModId13 = nUSModuleSessionBean.createNUSModule(nusModule13, facultyId1);
@@ -326,7 +321,6 @@ public class DataInitializationSessionBean {
         nUSModuleSessionBean.createNUSModule(nusModule19, facultyId1);
         nUSModuleSessionBean.createNUSModule(nusModule20, facultyId1);
 
-
         NUSModule nusModule21 = new NUSModule("Introduction to Accounting", "ACC1002", "This module provides an introduction to financial accounting concepts and principles. It covers topics such as the accounting equation, financial statements, accounting cycles, and accounting systems.");
         NUSModule nusModule22 = new NUSModule("Introduction to Marketing", "MKT1003", "This module introduces students to the fundamental concepts and principles of marketing. It covers topics such as market segmentation, product development, pricing strategies, promotional mix, and consumer behavior.");
         NUSModule nusModule23 = new NUSModule("Introduction to Finance", "FIN1002", "This module provides an introduction to financial management concepts and principles. It covers topics such as time value of money, risk and return, capital budgeting, financial markets, and financial instruments.");
@@ -337,7 +331,6 @@ public class DataInitializationSessionBean {
         NUSModule nusModule28 = new NUSModule("Entrepreneurship", "BSP3007", "This module introduces students to the principles and practices of entrepreneurship. It covers topics such as idea generation, business planning, funding and financing, marketing and sales, and managing growth and expansion.");
         NUSModule nusModule29 = new NUSModule("International Business", "BSP3513", "This module provides an overview of international business operations and strategies. It covers topics such as international trade theories, foreign direct investment, global business environment, cross-cultural management, and international marketing.");
         NUSModule nusModule30 = new NUSModule("Corporate Social Responsibility", "BSP3514", "This module examines the concept of corporate social responsibility and its implications for business operations and strategies. It covers topics such as ethical decision-making, stakeholder engagement, sustainability reporting, and social impact assessment.");
-
 
         Long nusModId21 = nUSModuleSessionBean.createNUSModule(nusModule21, facultyId2);
         Long nusModId22 = nUSModuleSessionBean.createNUSModule(nusModule22, facultyId2);
@@ -361,7 +354,6 @@ public class DataInitializationSessionBean {
         nUSModuleSessionBean.createNUSModule(nusModule29, facultyId2);
         nUSModuleSessionBean.createNUSModule(nusModule30, facultyId2);
 
-
         NUSModule nusModule31 = new NUSModule("Oral Biology", "DEN1101", "This module introduces students to the biological principles and processes related to the oral cavity. It covers topics such as oral anatomy, histology, embryology, and microbiology.");
         NUSModule nusModule32 = new NUSModule("Dental Materials", "DEN1201", "This module provides an overview of the materials commonly used in dentistry, and their properties, selection criteria, and clinical applications. It covers topics such as restorative materials, impression materials, and dental ceramics.");
         NUSModule nusModule33 = new NUSModule("Oral Health Promotion", "DEN1301", "This module examines the principles and strategies for promoting oral health and preventing oral diseases at the individual and community levels. It covers topics such as health education, behavior change, and social determinants of oral health.");
@@ -371,7 +363,6 @@ public class DataInitializationSessionBean {
         NUSModule nusModule37 = new NUSModule("Clinical Endodontics", "DEN3101", "This module focuses on the diagnosis, treatment, and prevention of pulpal and periapical diseases, and their management using endodontic techniques. It covers topics such as pulp biology, root canal anatomy, and endodontic instrumentation and obturation.");
         NUSModule nusModule38 = new NUSModule("Orthodontics", "DEN3201", "This module introduces students to the principles and practices of orthodontics, and their clinical applications for the correction of malocclusions and dentofacial deformities. It covers topics such as tooth movement, growth and development, and orthodontic appliances.");
         NUSModule nusModule39 = new NUSModule("Prosthodontics", "DEN3301", "This module provides an overview of the principles and practices of prosthodontics, and their clinical applications for the rehabilitation of oral function and aesthetics. It covers topics such as dental materials, fixed and removable prosthodontics, and implant dentistry.");
-
 
         Long nusModId31 = nUSModuleSessionBean.createNUSModule(nusModule31, facultyId4);
         Long nusModId32 = nUSModuleSessionBean.createNUSModule(nusModule32, facultyId4);
@@ -393,7 +384,6 @@ public class DataInitializationSessionBean {
         nUSModuleSessionBean.createNUSModule(nusModule38, facultyId4);
         nUSModuleSessionBean.createNUSModule(nusModule39, facultyId4);
 
-
         NUSModule nusModule40 = new NUSModule("Introduction to Environmental Systems and Sustainable Development", "ESD1101", "This module introduces students to the concepts and principles of environmental systems and sustainable development. It covers topics such as ecosystems and biodiversity, climate change, energy and resources, and sustainable urban development.");
         NUSModule nusModule41 = new NUSModule("Building Construction", "BC1101", "This module introduces students to the principles and practices of building construction. It covers topics such as building materials and systems, construction processes and techniques, and building regulations and codes.");
         NUSModule nusModule42 = new NUSModule("Architectural Design", "AR1101", "This module introduces students to the fundamentals of architectural design. It covers topics such as design principles and processes, site analysis and planning, and architectural representation and communication.");
@@ -404,7 +394,6 @@ public class DataInitializationSessionBean {
         NUSModule nusModule47 = new NUSModule("Design Communication", "DC1101", "This module introduces students to the principles and techniques of design communication. It covers topics such as visual communication, digital media and tools, and design presentation and critique.");
         NUSModule nusModule48 = new NUSModule("Construction and Project Management", "CPD1101", "This module introduces students to the principles and practices of construction and project management. It covers topics such as project planning and scheduling, cost estimation and control, and quality assurance and safety.");
         NUSModule nusModule49 = new NUSModule("Real Estate and Urban Economics", "RE1701", "This module introduces students to the theory and practice of real estate and urban economics. It covers topics such as real estate markets and valuation, land use and development, and urban economic policy and planning.");
-
 
         Long nusModId40 = nUSModuleSessionBean.createNUSModule(nusModule40, facultyId5);
         Long nusModId41 = nUSModuleSessionBean.createNUSModule(nusModule41, facultyId5);
@@ -428,7 +417,6 @@ public class DataInitializationSessionBean {
         nUSModuleSessionBean.createNUSModule(nusModule48, facultyId5);
         nUSModuleSessionBean.createNUSModule(nusModule49, facultyId5);
 
-
         NUSModule nusModule50 = new NUSModule("Introduction to Engineering", "EG1108", "This module provides an overview of the various disciplines of engineering and their applications in the real world. It covers topics such as the engineering design process, basic engineering principles, and case studies of engineering projects.");
         NUSModule nusModule51 = new NUSModule("Introduction to Computer Science", "CS1010", "This module introduces students to the fundamental concepts of computer science, including programming, algorithms, and data structures. It also covers software engineering principles and basic computer architecture.");
         NUSModule nusModule52 = new NUSModule("Introduction to Electrical and Electronic Engineering", "EE1001X", "This module provides an introduction to the principles of electrical and electronic engineering. It covers topics such as electric circuits, electronics, and digital systems.");
@@ -439,7 +427,6 @@ public class DataInitializationSessionBean {
         NUSModule nusModule57 = new NUSModule("Introduction to Mechanical Engineering", "ME1101E", "This module introduces the fundamental principles of mechanical engineering. It covers topics such as statics, dynamics, and mechanics of materials.");
         NUSModule nusModule58 = new NUSModule("Introduction to Aerospace Engineering", "ME2114", "This module provides an overview of the principles of aerospace engineering. It covers topics such as aerodynamics, aircraft structures, and propulsion systems.");
         NUSModule nusModule59 = new NUSModule("Introduction to Engineering Mathematics", "MA1505", "This module introduces the mathematical tools and concepts used in engineering. It covers topics such as calculus, linear algebra, and differential equations.");
-
 
         Long nusModId50 = nUSModuleSessionBean.createNUSModule(nusModule50, facultyId6);
         Long nusModId51 = nUSModuleSessionBean.createNUSModule(nusModule51, facultyId6);
@@ -463,7 +450,6 @@ public class DataInitializationSessionBean {
         nUSModuleSessionBean.createNUSModule(nusModule58, facultyId6);
         nUSModuleSessionBean.createNUSModule(nusModule59, facultyId6);
 
-
         NUSModule nusModule60 = new NUSModule("Introduction to Law", "LAW1101", "This module introduces students to the study of law and legal systems. It covers topics such as the sources of law, legal reasoning, and the administration of justice.");
         NUSModule nusModule61 = new NUSModule("Criminal Law", "LAW2201", "This module provides an introduction to the principles and concepts of criminal law. It covers topics such as the elements of criminal offenses, defenses, and sentencing.");
         NUSModule nusModule62 = new NUSModule("Contract Law", "LAW2202", "This module provides an introduction to the principles and concepts of contract law. It covers topics such as offer and acceptance, consideration, and breach of contract.");
@@ -474,7 +460,6 @@ public class DataInitializationSessionBean {
         NUSModule nusModule67 = new NUSModule("International Law", "LAW3203", "This module provides an introduction to the principles and concepts of international law. It covers topics such as the sources and subjects of international law, the law of treaties, and the settlement of disputes.");
         NUSModule nusModule68 = new NUSModule("Commercial Law", "LAW3204", "This module provides an introduction to the principles and concepts of commercial law. It covers topics such as sales, agency, and the law of business organizations.");
         NUSModule nusModule69 = new NUSModule("Family Law", "LAW3205", "This module provides an introduction to the principles and concepts of family law. It covers topics such as marriage and divorce, child custody, and the legal rights and obligations of family members.");
-
 
         Long nusModId60 = nUSModuleSessionBean.createNUSModule(nusModule60, facultyId7);
         Long nusModId61 = nUSModuleSessionBean.createNUSModule(nusModule61, facultyId7);
@@ -498,7 +483,6 @@ public class DataInitializationSessionBean {
         nUSModuleSessionBean.createNUSModule(nusModule68, facultyId7);
         nUSModuleSessionBean.createNUSModule(nusModule69, facultyId7);
 
-
         NUSModule nusModule70 = new NUSModule("Anatomy", "MDP1101", "This module provides an overview of the human body's structure, including its organs, tissues, and systems.");
         NUSModule nusModule71 = new NUSModule("Physiology", "MDP1102", "This module covers the functions and mechanisms of the human body's cells, organs, and systems.");
         NUSModule nusModule72 = new NUSModule("Pharmacology", "MDP2101", "This module introduces students to the principles and mechanisms of drug actions in the human body.");
@@ -509,7 +493,6 @@ public class DataInitializationSessionBean {
         NUSModule nusModule77 = new NUSModule("Clinical Pharmacology and Therapeutics", "MDP4101", "This module covers the principles and practice of drug therapy in clinical settings, including drug interactions, adverse effects, and patient monitoring.");
         NUSModule nusModule78 = new NUSModule("Clinical Skills", "MDP4102", "This module focuses on developing practical clinical skills, including physical examination, diagnostic reasoning, and communication with patients.");
         NUSModule nusModule79 = new NUSModule("Medical Research Methods", "MDP4103", "This module introduces students to the basic principles and methods of medical research, including study design, data analysis, and ethical considerations.");
-
 
         Long nusModId70 = nUSModuleSessionBean.createNUSModule(nusModule70, facultyId8);
         Long nusModId71 = nUSModuleSessionBean.createNUSModule(nusModule71, facultyId8);
@@ -533,7 +516,6 @@ public class DataInitializationSessionBean {
         nUSModuleSessionBean.createNUSModule(nusModule78, facultyId8);
         nUSModuleSessionBean.createNUSModule(nusModule79, facultyId8);
 
-
         NUSModule nusModule80 = new NUSModule("Chemistry for Life Sciences", "CM1121", "This module provides an introduction to the principles and applications of chemistry in the context of life sciences. Topics covered include atomic and molecular structure, chemical bonding, thermodynamics, and organic chemistry.");
         NUSModule nusModule81 = new NUSModule("Mathematics I", "MA1100", "This module provides an introduction to calculus and linear algebra. Topics covered include limits, derivatives, integrals, differential equations, matrices, and systems of linear equations.");
         NUSModule nusModule82 = new NUSModule("Mathematics II", "MA1101R", "This module builds on the concepts and techniques introduced in Mathematics I. Topics covered include multivariable calculus, vector calculus, and Fourier series and transforms.");
@@ -544,7 +526,6 @@ public class DataInitializationSessionBean {
         NUSModule nusModule87 = new NUSModule("Introduction to Data Science", "DSA1101", "This module provides an introduction to the principles and techniques of data science. Topics covered include data manipulation, data visualization, statistical inference, and machine learning.");
         NUSModule nusModule88 = new NUSModule("Environmental Science", "GES1002", "This module provides an introduction to the scientific study of the environment. Topics covered include the earth's atmosphere, hydrosphere, and lithosphere, and the interactions between human activities and the environment.");
         NUSModule nusModule89 = new NUSModule("Introduction to Computational Thinking", "CS1010S", "This module provides an introduction to computational thinking and programming. Topics covered include problem-solving strategies, algorithms, data structures, and programming in a high-level language.");
-
 
         Long nusModId80 = nUSModuleSessionBean.createNUSModule(nusModule80, facultyId9);
         Long nusModId81 = nUSModuleSessionBean.createNUSModule(nusModule81, facultyId9);
@@ -557,7 +538,6 @@ public class DataInitializationSessionBean {
         Long nusModId88 = nUSModuleSessionBean.createNUSModule(nusModule88, facultyId9);
         Long nusModId89 = nUSModuleSessionBean.createNUSModule(nusModule89, facultyId9);
 
-
         nUSModuleSessionBean.createNUSModule(nusModule80, facultyId9);
         nUSModuleSessionBean.createNUSModule(nusModule81, facultyId9);
         nUSModuleSessionBean.createNUSModule(nusModule82, facultyId9);
@@ -568,7 +548,6 @@ public class DataInitializationSessionBean {
         nUSModuleSessionBean.createNUSModule(nusModule87, facultyId9);
         nUSModuleSessionBean.createNUSModule(nusModule88, facultyId9);
         nUSModuleSessionBean.createNUSModule(nusModule89, facultyId9);
-        
 
         Region region1 = new Region("Africa");
         Region region2 = new Region("Europe");
@@ -614,13 +593,76 @@ public class DataInitializationSessionBean {
                 "The University of Melbourne is a public research university located in Melbourne, Australia. Founded in 1853, it is Australia's second oldest university and the oldest in Victoria.[9] Its main campus is located in Parkville, an inner suburb north of Melbourne's central business district, with several other campuses located across Victoria.",
                 "https://upload.wikimedia.org/wikipedia/en/thumb/e/ed/Logo_of_the_University_of_Melbourne.svg/800px-Logo_of_the_University_of_Melbourne.svg.png"
         );
+        PU pu6 = new PU("Stanford University",
+                "Stanford University is a private research university located in Stanford, California. It was founded in 1885 by Leland and Jane Stanford in memory of their only child, Leland Stanford Jr., who had died of typhoid fever at age 15.",
+                "data:image/png;base64,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"
+        );
 
+        PU pu7 = new PU("Massachusetts Institute of Technology",
+                "The Massachusetts Institute of Technology (MIT) is a private land-grant research university in Cambridge, Massachusetts. The institute has an urban campus that extends more than a mile alongside the Charles River.",
+                "https://upload.wikimedia.org/wikipedia/en/thumb/4/44/MIT_Seal.svg/800px-MIT_Seal.svg.png"
+        );
+
+        PU pu8 = new PU("California Institute of Technology",
+                "The California Institute of Technology (Caltech) is a private research university in Pasadena, California. The university is known for its strength in science and engineering, and is one of the world's top research universities.",
+                "https://upload.wikimedia.org/wikipedia/en/thumb/a/a4/Seal_of_the_California_Institute_of_Technology.svg/1200px-Seal_of_the_California_Institute_of_Technology.svg.png"
+        );
+
+        PU pu9 = new PU("Harvard University",
+                "Harvard University is a private Ivy League research university in Cambridge, Massachusetts. Established in 1636 and named for its first benefactor, clergyman John Harvard, Harvard is the oldest institution of higher learning in the United States.",
+                "https://upload.wikimedia.org/wikipedia/en/thumb/2/29/Harvard_shield_wreath.svg/1200px-Harvard_shield_wreath.svg.png"
+        );
+
+        PU pu10 = new PU("Princeton University",
+                "Princeton University is a private Ivy League research university in Princeton, New Jersey. Founded in 1746 in Elizabeth as the College of New Jersey, Princeton is the fourth-oldest institution of higher education in the United States and one of the nine colonial colleges chartered before the American Revolution.",
+                "data:image/png;base64,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"
+        );
+
+        PU pu11 = new PU("University of Cambridge",
+                "The University of Cambridge is a collegiate research university in Cambridge, United Kingdom. Founded in 1209 and granted a royal charter by King Henry III in 1231, Cambridge is the second-oldest university in the English-speaking world and the world's fourth-oldest surviving university.",
+                "https://brandslogos.com/wp-content/uploads/images/large/university-of-cambridge-logo-1.png"
+        );
+        PU pu12 = new PU("ETH Zurich",
+                "ETH Zurich is a science, technology, engineering, and mathematics university in the city of Zürich, Switzerland. It was founded in 1855 as the Swiss Federal Polytechnic School, and is considered one of the most prestigious universities in the world in these fields.",
+                "data:image/png;base64,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"
+        );
+
+        PU pu13 = new PU("University of Tokyo",
+                "The University of Tokyo, abbreviated as Todai or UTokyo, is a public research university located in Tokyo, Japan. Established in 1877 as the first imperial university, it is one of Japan's most prestigious universities, and is considered to be one of the top universities in the world.",
+                "https://upload.wikimedia.org/wikipedia/commons/c/c2/UnivOfTokyo_logo.svg"
+        );
+
+        PU pu14 = new PU("Tsinghua University",
+                "Tsinghua University is a major research university in Beijing, China, and a member of the elite C9 League of Chinese universities. It was established in 1911 as a preparatory school for students studying abroad, and has since grown to become one of China's most prestigious universities.",
+                "https://www.sist.tsinghua.edu.cn/sisten/images/2.png"
+        );
+
+        PU pu15 = new PU("University of California, Berkeley",
+                "The University of California, Berkeley is a public research university located in Berkeley, California. It was founded in 1868 and is the flagship institution of the ten research universities affiliated with the University of California system.",
+                "https://logos-world.net/wp-content/uploads/2022/02/UC-Berkeley-Symbol.png"
+        );
+        PU pu16 = new PU("University of Chicago",
+                "The University of Chicago is a private research university located in Chicago, Illinois. It was founded in 1890 as the University of Chicago by John D. Rockefeller, and has since grown to become one of the most prestigious universities in the United States and the world.",
+                "https://upload.wikimedia.org/wikipedia/commons/c/cd/University_of_Chicago_Coat_of_arms.png"
+        );
 
         Long pId1 = pUSessionBean.createNewPu(pu1, cId1);
         Long pId2 = pUSessionBean.createNewPu(pu2, cId2);
         Long pId3 = pUSessionBean.createNewPu(pu3, cId3);
         Long pId4 = pUSessionBean.createNewPu(pu4, cId4);
         Long pId5 = pUSessionBean.createNewPu(pu5, cId5);
+        Long pId6 = pUSessionBean.createNewPu(pu6, cId4);
+        Long pId7 = pUSessionBean.createNewPu(pu7, cId4);
+        Long pId8 = pUSessionBean.createNewPu(pu8, cId4);
+        Long pId9 = pUSessionBean.createNewPu(pu9, cId4);
+        Long pId10 = pUSessionBean.createNewPu(pu10, cId4);
+        Long pId11 = pUSessionBean.createNewPu(pu11, cId2);
+        Long pId12 = pUSessionBean.createNewPu(pu12, cId2);
+        Long pId13 = pUSessionBean.createNewPu(pu13, cId3);
+        Long pId14 = pUSessionBean.createNewPu(pu14, cId3);
+        Long pId15 = pUSessionBean.createNewPu(pu15, cId4);
+        Long pId16 = pUSessionBean.createNewPu(pu16, cId4);
+
 
         PUReview review1 = new PUReview(4l, "I had a great experience at this university. The professors were knowledgeable and supportive, and the campus was beautiful. However, the administrative processes could be more streamlined.");
 
@@ -658,6 +700,46 @@ public class DataInitializationSessionBean {
 
         PUReview review18 = new PUReview(2l, "I would not recommend this university. The professors seemed uninterested and the facilities were outdated. Save your money and go elsewhere.");
 
+        PUReview review19 = new PUReview(3l, "I had a great experience studying at this university. The professors were knowledgeable and helpful, and the campus was beautiful.");
+
+        PUReview review20 = new PUReview(3l, "The workload at this university was extremely heavy, but I learned a lot and felt well-prepared for my career.");
+
+        PUReview review21 = new PUReview(4l, "I loved the sense of community at this university. There were always events and activities to participate in, and I made some great friends.");
+
+        PUReview review22 = new PUReview(4l, "The dorms at this university were not great. They were small and poorly maintained, and the food in the dining hall was not very good.");
+
+        PUReview review23 = new PUReview(5l, "I had a fantastic time studying abroad through this university's program. It was a life-changing experience.");
+
+        PUReview review24 = new PUReview(5l, "The career center at this university was extremely helpful in finding me an internship and eventually a job after graduation.");
+
+        PUReview review25 = new PUReview(3l, "The professors at this university were hit or miss. Some were excellent, but others seemed to be phoning it in.");
+
+        PUReview review26 = new PUReview(4l, "The location of this university was perfect for me. It was close to everything I needed, and there was always something to do in the surrounding area.");
+
+        PUReview review27 = new PUReview(2l, "I found the coursework at this university to be extremely challenging, but I felt well-prepared for my field after graduation.");
+
+        PUReview review28 = new PUReview(1l, "The campus at this university was beautiful, but the administration was not very helpful or organized.");
+
+        PUReview review29 = new PUReview(3l, "I had a great time participating in extracurricular activities at this university. They were well-organized and diverse.");
+
+        PUReview review30 = new PUReview(3l, "The classes at this university were often overcrowded, and it was difficult to get the attention I needed from the professors.");
+
+        PUReview review31 = new PUReview(4l, "The financial aid process at this university was straightforward and easy to navigate.");
+
+        PUReview review32 = new PUReview(3l, "The facilities at this university were top-notch, and I always felt safe and comfortable on campus.");
+
+        PUReview review33 = new PUReview(5l, "I had a great experience with the study abroad program at this university. The staff were extremely helpful and supportive.");
+
+        PUReview review34 = new PUReview(2l, "The dorms at this university were pretty average, but the dining hall had some great options.");
+
+        PUReview review35 = new PUReview(4l, "I found the coursework at this university to be challenging, but the professors were always available to help.");
+
+        PUReview review36 = new PUReview(1l, "The campus at this university was not very diverse, and I sometimes felt out of place as a minority student.");
+
+        PUReview review37 = new PUReview(2l, "The extracurricular activities at this university were not well-organized, and I didn't find many that interested me.");
+
+        PUReview review38 = new PUReview(2l, "I had some issues with the administration at this university, but overall I enjoyed my experience and felt well-prepared for my career.");
+
         review1.setIsInappropriate(true);
         review2.setIsInappropriate(true);
         review3.setIsInappropriate(true);
@@ -683,6 +765,25 @@ public class DataInitializationSessionBean {
         pUReviewSessionBean.createPUReview(review17, pId4, studentId17);
         pUReviewSessionBean.createPUReview(review18, pId4, studentId18);
 
+        pUReviewSessionBean.createPUReview(review19, pId1, studentId19);
+        pUReviewSessionBean.createPUReview(review20, pId1, studentId20);
+        pUReviewSessionBean.createPUReview(review21, pId1, studentId21);
+        pUReviewSessionBean.createPUReview(review22, pId1, studentId22);
+        pUReviewSessionBean.createPUReview(review23, pId1, studentId23);
+        pUReviewSessionBean.createPUReview(review24, pId2, studentId24);
+        pUReviewSessionBean.createPUReview(review25, pId2, studentId25);
+        pUReviewSessionBean.createPUReview(review26, pId2, studentId26);
+        pUReviewSessionBean.createPUReview(review27, pId2, studentId27);
+        pUReviewSessionBean.createPUReview(review28, pId2, studentId28);
+        pUReviewSessionBean.createPUReview(review29, pId3, studentId29);
+        pUReviewSessionBean.createPUReview(review30, pId3, studentId30);
+        pUReviewSessionBean.createPUReview(review31, pId3, studentId31);
+        pUReviewSessionBean.createPUReview(review32, pId3, studentId32);
+        pUReviewSessionBean.createPUReview(review33, pId3, studentId33);
+        pUReviewSessionBean.createPUReview(review34, pId4, studentId34);
+        pUReviewSessionBean.createPUReview(review35, pId4, studentId35);
+        pUReviewSessionBean.createPUReview(review36, pId4, studentId36);
+
         pUSessionBean.enrollStudent(pId1, studentId1);
         pUSessionBean.enrollStudent(pId1, studentId2);
         pUSessionBean.enrollStudent(pId1, studentId3);
@@ -701,6 +802,25 @@ public class DataInitializationSessionBean {
         pUSessionBean.enrollStudent(pId4, studentId16);
         pUSessionBean.enrollStudent(pId4, studentId17);
         pUSessionBean.enrollStudent(pId4, studentId18);
+
+        pUSessionBean.enrollStudent(pId1, studentId19);
+        pUSessionBean.enrollStudent(pId1, studentId20);
+        pUSessionBean.enrollStudent(pId1, studentId21);
+        pUSessionBean.enrollStudent(pId1, studentId22);
+        pUSessionBean.enrollStudent(pId1, studentId23);
+        pUSessionBean.enrollStudent(pId2, studentId24);
+        pUSessionBean.enrollStudent(pId2, studentId25);
+        pUSessionBean.enrollStudent(pId2, studentId26);
+        pUSessionBean.enrollStudent(pId2, studentId27);
+        pUSessionBean.enrollStudent(pId2, studentId28);
+        pUSessionBean.enrollStudent(pId3, studentId29);
+        pUSessionBean.enrollStudent(pId3, studentId30);
+        pUSessionBean.enrollStudent(pId3, studentId31);
+        pUSessionBean.enrollStudent(pId3, studentId32);
+        pUSessionBean.enrollStudent(pId3, studentId33);
+        pUSessionBean.enrollStudent(pId4, studentId34);
+        pUSessionBean.enrollStudent(pId4, studentId35);
+        pUSessionBean.enrollStudent(pId4, studentId36);
 
         PUModule module1 = new PUModule("Introduction to Programming", "CS101", "This module covers the basics of programming with Java.");
         PUModule module2 = new PUModule("Data Structures and Algorithms", "CS201", "This module explores various data structures and algorithms used in programming.");
@@ -977,7 +1097,6 @@ public class DataInitializationSessionBean {
         puModuleSessionBean.associatePUModuleNUSModule(puModId87, nusModId87);
         puModuleSessionBean.associatePUModuleNUSModule(puModId88, nusModId88);
 
-        
         List<Long> listOfPUModules1 = new ArrayList<>();
 //        listOfPUModules1.add(mId1);
 //        listOfPUModules1.add(mId2);
@@ -987,7 +1106,7 @@ public class DataInitializationSessionBean {
 //        Long pId3 = pUSessionBean.createNewPu(pu3, cId3, cId3);
 //        Long pId4 = pUSessionBean.createNewPu(pu4, cId4, cId4);
 //        Long pId5 = pUSessionBean.createNewPu(pu5, cId5, cId5);
-        Long pId6 = pUSessionBean.createNewPu(pu5, listOfPUModules1);
+//        Long pId6 = pUSessionBean.createNewPu(pu5, listOfPUModules1);
 
 //        PUReview puReview1 = new PUReview(new Long(5), pId1);
 //        PUReview puReview2 = new PUReview(new Long(4), pId1);
@@ -1024,14 +1143,12 @@ public class DataInitializationSessionBean {
 //        puReview3.setIsInappropriate(true);
 //        puReview4.setIsInappropriate(true);
 //        puReview5.setIsInappropriate(true);
-
-
         ForumTopic forumTopic1 = new ForumTopic("WTF Topic");
         ForumTopic forumTopic2 = new ForumTopic("CCB Topic");
         ForumTopic forumTopic3 = new ForumTopic("CHAO Topic");
         ForumTopic forumTopic4 = new ForumTopic("Fourth Topic");
         ForumTopic forumTopic5 = new ForumTopic("Fifth Topic");
-        
+
         forumTopic1.setIsInappropriate(true);
         forumTopic2.setIsInappropriate(true);
         forumTopic3.setIsInappropriate(true);
@@ -1045,46 +1162,44 @@ public class DataInitializationSessionBean {
         ForumPost forumPost1 = new ForumPost("This is stupid?", "Stupid PU!!");
         ForumPost forumPost2 = new ForumPost("HK nice food?", "What a joke!!");
         ForumPost forumPost3 = new ForumPost("Places to stay?", "I want to stay in Singapore");
-        
+
         forumPost1.setIsInappropriate(true);
         forumPost2.setIsInappropriate(true);
-        
+
         forumPost1.setNoOfLikes(0);
         forumPost1.setNoOfDislikes(0);
-        
+
         forumPost2.setNoOfLikes(0);
         forumPost2.setNoOfDislikes(0);
-        
+
         forumPost1.getDislikedStudents().add(student1.getStudentId());
         forumPost1.getDislikedStudents().add(student2.getStudentId());
-        
+
         forumPostSessionBeanLocal.createNewForumPost(forumPost1, forumTopic2.getTopicId(), student1.getStudentId());
         forumPostSessionBeanLocal.createNewForumPost(forumPost2, forumTopic2.getTopicId(), student3.getStudentId());
         forumPostSessionBeanLocal.createNewForumPost(forumPost3, forumTopic1.getTopicId(), student2.getStudentId());
-        
+
         ForumComment forumComment1 = new ForumComment("Wow this is such a fking shit!", false);
         ForumComment forumComment2 = new ForumComment("fk you uds", false);
         ForumComment forumComment3 = new ForumComment("Marina Bay Sands!", false);
-        
+
         forumComment1.setIsInappropriate(true);
         forumComment2.setIsInappropriate(true);
-        
+
         forumComment1.setNoOfLikes(0);
         forumComment1.setNoOfDislikes(0);
-        
+
         forumComment2.setNoOfLikes(0);
         forumComment2.setNoOfDislikes(0);
-        
+
         forumCommentSessionBeanLocal.createNewForumComment(forumComment1, forumPost1.getPostId(), student3.getStudentId());
         forumCommentSessionBeanLocal.createNewForumComment(forumComment2, forumPost2.getPostId(), student2.getStudentId());
         forumCommentSessionBeanLocal.createNewForumComment(forumComment3, forumPost3.getPostId(), student1.getStudentId());
-        
 
 //        Enquiry enquiry1 = new Enquiry("Hello", "Help");
 //        Enquiry enquiry2 = new Enquiry("Bye", "World");
 //        Enquiry enquiry3 = new Enquiry("Interesting", "Story");
 //
-
 //        studentEnquirySessionBeanLocal.createEnquiry(enquiry1, 1L);
 //        studentEnquirySessionBeanLocal.createEnquiry(enquiry2, 1L);
 //        studentEnquirySessionBeanLocal.createEnquiry(enquiry3, 2L);

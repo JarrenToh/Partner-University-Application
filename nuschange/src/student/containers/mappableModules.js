@@ -30,8 +30,23 @@ function MappableModule() {
   }, [puName])
 
   return (
-    <AccordionComp modules={mappableModules} universityName="NUS University" />
-    // <></>
+    <>
+      <AccordionComp modules={mappableModules} universityName="NUS University" />
+      {mappableModules.length === 0
+        ? <div
+          style={{
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            height: '60vh',
+            fontSize: '40px',
+          }}
+          className="text-muted"
+        >
+          No mappable modules found.
+        </div> : null
+      }
+    </>
   );
 }
 

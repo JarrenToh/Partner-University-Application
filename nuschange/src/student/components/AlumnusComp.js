@@ -18,42 +18,48 @@ function AlumnusComp(props) {
           className="scroll-area rounded bg-white shadow-overflow"
           style={{ width: "100%", overflowX: "auto" }}
         >
-          <PerfectScrollbar>
-            {props.alumnus.map((alumni) => (
-              <>
-                <ListGroupItem className="py-3 border-0" key={alumni.studentId}>
-                  <Link
-                    to={`/other-profile/${alumni.studentId}`}
-                    style={{ color: "black", textDecoration: "none" }}
-                  >
-                    <div className="align-box-row w-100">
-                      <div className="mr-2">
-                        <img
-                          src={defaultProfilePicture}
-                          alt="Default Profile"
-                          className="rounded-circle"
-                          style={{ width: "40px", height: "40px" }}
-                        />
-                      </div>
+          {props.alumnus.length === 0 ? (
+            <div className="text-center py-5">
+              <h4 className="text-muted">No Alumni Found</h4>
+            </div>
+          ) :
+            <PerfectScrollbar>
+              {props.alumnus.map((alumni) => (
+                <>
+                  <ListGroupItem className="py-3 border-0" key={alumni.studentId}>
+                    <Link
+                      to={`/other-profile/${alumni.studentId}`}
+                      style={{ color: "black", textDecoration: "none" }}
+                    >
+                      <div className="align-box-row w-100">
+                        <div className="mr-2">
+                          <img
+                            src={defaultProfilePicture}
+                            alt="Default Profile"
+                            className="rounded-circle"
+                            style={{ width: "40px", height: "40px" }}
+                          />
+                        </div>
 
-                      <div>
-                        <div className="font-weight-bold d-block opacity-8">
-                          {alumni.firstName} {alumni.lastName}
-                        </div>
-                        <div
-                          className="text-dark opacity-50"
-                          style={{ color: "#111111" }}
-                        >
-                          <a href={`mailto:${alumni.email}`}>{alumni.email}</a>
+                        <div>
+                          <div className="font-weight-bold d-block opacity-8">
+                            {alumni.firstName} {alumni.lastName}
+                          </div>
+                          <div
+                            className="text-dark opacity-50"
+                            style={{ color: "#111111" }}
+                          >
+                            <a href={`mailto:${alumni.email}`}>{alumni.email}</a>
+                          </div>
                         </div>
                       </div>
-                    </div>
-                  </Link>
-                </ListGroupItem>
-                <div className="divider" />
-              </>
-            ))}
-          </PerfectScrollbar>
+                    </Link>
+                  </ListGroupItem>
+                  <div className="divider" />
+                </>
+              ))}
+            </PerfectScrollbar>
+          }
         </div>
       </ListGroup>
     </Card>
