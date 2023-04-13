@@ -18,7 +18,7 @@ public interface ForumCommentSessionBeanLocal {
     
     public ForumComment createNewForumComment(ForumComment forumComment, Long forumPostId, Long studentId);
     
-    public ForumComment createNewForumReply(ForumComment forumReply, Long forumCommentId, Long forumPostId, Long studentId);
+//    public ForumComment createNewForumReply(ForumComment forumReply, Long forumCommentId, Long forumPostId, Long studentId);
     
     public void updateShowReply(Long commentId);
     
@@ -47,4 +47,6 @@ public interface ForumCommentSessionBeanLocal {
     public void undislikeForumComment(Long forumCommentId, Long studentId);
     
     public void replyForumComment(ForumComment reply, Long replyingToCommentId, Long studentId);
+    
+    public List<ForumComment> searchForumComment(String searchQuery, Long postId);
 }

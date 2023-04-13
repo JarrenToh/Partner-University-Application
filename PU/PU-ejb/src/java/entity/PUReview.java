@@ -6,13 +6,17 @@
 package entity;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import javax.json.bind.annotation.JsonbTransient;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 
@@ -44,15 +48,23 @@ public class PUReview implements Serializable {
     @JoinColumn(name = "student_studentId", nullable = false)
     private Student student;
 
-    public PUReview() {
+    @ManyToMany(mappedBy = "likedPUReviews",fetch = FetchType.EAGER)
+    private List<Student> studentsLiked;
 
+    @ManyToMany(mappedBy = "dislikedPUReviews", fetch = FetchType.EAGER)
+    private List<Student> studentsDisliked;
+
+    public PUReview() {
         this.noOfLikes = 0;
         this.noOfDislikes = 0;
         this.isInappropriate = false;
+        this.studentsLiked = new ArrayList<>();
+        this.studentsDisliked = new ArrayList<>();
     }
 
     //not needed
     public PUReview(Long rating, Long puReviewId) {
+        this();
         this.puReviewId = puReviewId;
         this.rating = rating;
     }
@@ -195,5 +207,35 @@ public class PUReview implements Serializable {
      */
     public void setStudent(Student student) {
         this.student = student;
+    }
+
+    /**
+     * @return the studentsLiked
+     */
+    @JsonbTransient
+    public List<Student> getStudentsLiked() {
+        return studentsLiked;
+    }
+
+    /**
+     * @param studentsLiked the studentsLiked to set
+     */
+    public void setStudentsLiked(List<Student> studentsLiked) {
+        this.studentsLiked = studentsLiked;
+    }
+
+    /**
+     * @return the studentsDisliked
+     */
+    @JsonbTransient
+    public List<Student> getStudentsDisliked() {
+        return studentsDisliked;
+    }
+
+    /**
+     * @param studentsDisliked the studentsDisliked to set
+     */
+    public void setStudentsDisliked(List<Student> studentsDisliked) {
+        this.studentsDisliked = studentsDisliked;
     }
 }

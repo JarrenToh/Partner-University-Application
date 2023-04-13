@@ -44,12 +44,12 @@ public class ForumTopicsResource {
     private ForumTopicSessionBeanLocal forumTopicSessionBeanLocal;
 
     @POST
-    @Path("/student/{studentId}")
+    @Path("/student/{studentId}/{puId}")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response createForumTopic(ForumTopic t, @PathParam("studentId") Long studentId, @Context UriInfo uriInfo) {
+    public Response createForumTopic(ForumTopic t, @PathParam("studentId") Long studentId, @PathParam("puId") Long puId, @Context UriInfo uriInfo) {
         
-        forumTopicSessionBeanLocal.createNewForumTopic(t, studentId);
+        forumTopicSessionBeanLocal.createNewForumTopic(t, studentId, puId);
         
         URI createdUri = uriInfo.getAbsolutePathBuilder()
                 .path(t.getTopicId().toString())
@@ -72,7 +72,7 @@ public class ForumTopicsResource {
         forumTopic.setIsInappropriate(false);
         forumTopic.setIsEdited(false);
 
-        forumTopicSessionBeanLocal.createNewForumTopic(forumTopic, studentId);
+        forumTopicSessionBeanLocal.createNewForumTopic(forumTopic, studentId, request.getPuId());
         
         URI createdUri = UriBuilder.fromResource(ForumTopicsResource.class)
                                    .path(forumTopic.getTopicId().toString())
@@ -85,6 +85,20 @@ public class ForumTopicsResource {
     @Produces(MediaType.APPLICATION_JSON)
     public Response getAllForumTopics() {
         List<ForumTopic> forumTopics = forumTopicSessionBeanLocal.retrieveAllForumTopics();
+
+        GenericEntity<List<ForumTopic>> entity = new GenericEntity<List<ForumTopic>>(forumTopics) {
+        };
+
+        return Response.status(200).entity(
+                entity
+        ).build();
+    }
+    
+    @GET
+    @Path("/pu/{puId}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getForumTopicsByPu(@PathParam("puId") Long puId) {
+        List<ForumTopic> forumTopics = forumTopicSessionBeanLocal.retrieveForumTopicsByPuId(puId);
 
         GenericEntity<List<ForumTopic>> entity = new GenericEntity<List<ForumTopic>>(forumTopics) {
         };
@@ -109,6 +123,20 @@ public class ForumTopicsResource {
     @Produces(MediaType.APPLICATION_JSON)
     public Response getForumTopicsByStudentId(@PathParam("studentId") Long sId) {
         List<ForumTopic> forumTopics = forumTopicSessionBeanLocal.retrieveForumTopicsByStudentId(sId);
+        
+        GenericEntity<List<ForumTopic>> entity = new GenericEntity<List<ForumTopic>>(forumTopics) {
+        };
+
+        return Response.status(200).entity(
+                entity
+        ).build();
+    }
+    
+    @GET
+    @Path("/pu/{puId}/student/{studentId}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getPuForumTopicsByStudentId(@PathParam("puId") Long puId, @PathParam("studentId") Long sId) {
+        List<ForumTopic> forumTopics = forumTopicSessionBeanLocal.retrievePUForumTopicsByStudentId(puId, sId);
         
         GenericEntity<List<ForumTopic>> entity = new GenericEntity<List<ForumTopic>>(forumTopics) {
         };
@@ -154,6 +182,22 @@ public class ForumTopicsResource {
     }
     
     @GET
+    @Path("/query/pu/{id}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response searchForumTopicsByPu(@QueryParam("topicName") String topicName, @PathParam("id") Long puId) {
+        if (topicName != null) {
+            List<ForumTopic> results
+                    = forumTopicSessionBeanLocal.searchForumTopicsByPu(topicName, puId);
+            GenericEntity<List<ForumTopic>> entity = new GenericEntity<List<ForumTopic>>(results) {
+            };
+            return Response.status(200).entity(entity).build();
+        } else {
+            JsonObject exception = Json.createObjectBuilder().add("error", "No query conditions").build();
+            return Response.status(400).entity(exception).build();
+        }
+    }
+    
+    @GET
     @Path("/query/student/{id}")
     @Produces(MediaType.APPLICATION_JSON)
     public Response searchForumTopicsByStudent(@QueryParam("topicName") String topicName, @PathParam("id") Long studentId) {
@@ -169,6 +213,22 @@ public class ForumTopicsResource {
         }
     }
     
+    @GET
+    @Path("/query/student/{id}/pu/{puId}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response searchForumTopicsByStudentAndPu(@QueryParam("topicName") String topicName, @PathParam("id") Long studentId, @PathParam("puId") Long puId) {
+        if (topicName != null) {
+            List<ForumTopic> results
+                    = forumTopicSessionBeanLocal.searchForumTopicsByStudentAndPu(topicName, studentId, puId);
+            GenericEntity<List<ForumTopic>> entity = new GenericEntity<List<ForumTopic>>(results) {
+            };
+            return Response.status(200).entity(entity).build();
+        } else {
+            JsonObject exception = Json.createObjectBuilder().add("error", "No query conditions").build();
+            return Response.status(400).entity(exception).build();
+        }
+    }
+
     @PUT
     @Path("/report/{id}")
     @Consumes(MediaType.APPLICATION_JSON)

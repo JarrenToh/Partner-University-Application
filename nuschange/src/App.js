@@ -12,11 +12,12 @@ import TopicPosts from './student/TopicPosts';
 import NewPost from './student/NewPost';
 import MyTopics from './student/MyTopics';
 import MyPosts from './student/MyPosts';
-import EditPost from './student/EditPost';
+import EditPost from './student/EditForumPost';
 import NewTopic from './student/NewTopic';
 import EditTopic from './student/EditTopic';
-//import EachPost from './student/EachPost';
 import Post from './student/Post';
+import Error from './student/ErrorPage';
+import EditComment from './student/EditComment';
 import FAQPage from './student/FAQpage';
 import LikedPUs from './student/studentProfile/LikedPUs';
 import UniversityRankingsCountry from './student/ranking/UniversityRankingsCountry';
@@ -108,20 +109,22 @@ const App = () => {
   return (
     <AuthProvider> {/* Wrap the app in AuthProvider */}
       <div className="App">
-        {/* <NavbarComp isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} user={user} />
+        <NavbarComp isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} user={user} />
         <Router basename='/student'>
           <Routes>
             <Route path="/home-page" element={<HomePage />} />
             <Route path="/profile" element={<StudentProfile user={user} />} />
-            <Route path="/forum-topics" element={<ForumTopics />} />
-            <Route path="/forum-topics/:id/:topicName/:studentId" element={<TopicPosts />} />
+            <Route path="/forum-topics/:puId" element={<ForumTopics />} />
+            <Route path="/forum-topics/:id/:topicName" element={<TopicPosts />} />
             <Route path="/forum-posts/:id/:topicName" element={<NewPost />} />
-            <Route path="/my-topics/:studentId" element={<MyTopics />} />
-            <Route path="/my-posts/:id/:topicName/:studentId" element={<MyPosts />} />
-            <Route path="/forum-posts/edit/:id/:oldTitle/:oldMessage/:topicName" element={<EditPost />} />
-            <Route path="/new-topic/:studentId" element={<NewTopic />} />
+            <Route path="/my-topics" element={<MyTopics />} />
+            <Route path="/my-posts/:id/:topicName" element={<MyPosts />} />
+            <Route path="/forum-posts/edit/:topicId/:id/:oldTitle/:oldMessage/:topicName/:number" element={<EditPost />} />
+            <Route path="/new-topic" element={<NewTopic />} />
             <Route path="/forum-topics/edit/:topicId/:oldTopicName" element={<EditTopic />} />
-            <Route path="/view-post/:postId/:studentId" element={<Post />} />
+            <Route path="/error" element={<Error />} />
+            <Route path="/view-post/:postId/:topicName/:topicId" element={<Post />} />
+            <Route path="/edit-comment/:commentId/:oldCommentMessage/:postId/:topicName/:topicId" element={<EditComment />} />
             <Route path="/login" element={<StudentLogin onLogin={handleLogin} />} />
             <Route path="/university-rankings" element={<UniversityRankings universitiesData={pus} />} />
             <Route path="/university-rankings-country" element={<UniversityRankingsCountry universitiesData={pus} />} />
@@ -138,9 +141,9 @@ const App = () => {
             <Route path="/module-details/:modId" element={<ModuleDetail/>}/>
             <Route path='/other-profile/:studentId' element={<OtherStudentProfile/>}/>
           </Routes>
-        </Router> */}
+        </Router>
 
-        <Router basename='/admin'>
+       {/* <Router basename='/admin'>
           <Routes>
             <Route path="/login" element={<Login />} />
             <Route path="/:typeOfAdmin/main" element={<ProtectedMain />} />
@@ -163,8 +166,41 @@ const App = () => {
             <Route path="/systemSupportAdmin/forumTopics/create" element={<ProtectedCreateForumTopicsSystemSupportAdmin />} />
             <Route path="/systemSupportAdmin/forumTopics/:id" element={<ProtectedForumTopicsDetailsSystemSupportAdmin />} />
           </Routes>
+<<<<<<< HEAD
         </Router>
       </div>
+=======
+
+        </Router> */}
+
+        {/* <ForumTopics /> */}
+        {/* <TopicPosts /> */}
+        {/* <Router>
+        <Routes>
+          <Route path="/" element={<ForumTopics />} />
+          <Route path="/post/:id" element={<TopicPosts />} />
+        </Routes>
+      </Router> */}
+        {/* <header className="App-header">
+        <img src={logo} className="App-logo" alt="logo" />
+        <p>
+          Edit <code>src/App.js</code> and save to reload.
+        </p>
+        <a
+          className="App-link"
+          href="https://reactjs.org"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Learn React
+        </a>
+      </header> */}
+        {/* <UniversityDescriptionPage/> */}
+        {/* <MappableModule /> */}
+      </div>
+        {/* </Router>/*} */}
+        
+>>>>>>> aa6652caff2f97975d8f81464edf7a202dad2939
     </AuthProvider>
   );
 }

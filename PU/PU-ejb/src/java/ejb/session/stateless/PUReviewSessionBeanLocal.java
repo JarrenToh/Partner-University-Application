@@ -32,5 +32,9 @@ public interface PUReviewSessionBeanLocal {
     List<PUReview> retrieveReportedPUReview();
     
     Double retrieveRating(Long puId);
+
+    Long updatePUReviewLikedByStudent(Long puReviewId, Long studentId, Integer choice);
+    
+    Long updatePUReviewDislikedByStudent(Long puReviewId, Long studentId, Integer choice);
     
 }

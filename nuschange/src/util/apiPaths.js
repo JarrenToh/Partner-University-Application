@@ -45,6 +45,30 @@ const apiPaths = {
         });
       },
 
+      updateStudentLikedReview(sId, rId, choice) {
+        return fetch(`${path}/pureview/like/?studentId=${sId}&puReviewId=${rId}&choice=${choice}`, {
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+          },
+          method: "PUT",
+        });      
+      },
+
+      updateStudentDislikedReview(sId, rId, choice) {
+        return fetch(`${path}/pureview/dislike/?studentId=${sId}&puReviewId=${rId}&choice=${choice}`, {
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+          },
+          method: "PUT",
+        });    
+      },
+      getStudentsById(id) {
+
+        return fetch(`${path}/student/${id}`);
+    },
+
 };
 
 export default apiPaths;

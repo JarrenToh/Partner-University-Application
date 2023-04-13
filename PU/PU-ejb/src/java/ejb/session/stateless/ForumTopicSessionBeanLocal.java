@@ -17,7 +17,7 @@ import javax.ejb.Local;
 @Local
 public interface ForumTopicSessionBeanLocal {
     
-    public void createNewForumTopic(ForumTopic forumTopic, Long studentId);
+    public void createNewForumTopic(ForumTopic forumTopic, Long studentId, Long puId);
     
     public void createNewForumTopicByAdmin(ForumTopic forumTopic, Long adminId) throws NoResultException;
     
@@ -33,12 +33,20 @@ public interface ForumTopicSessionBeanLocal {
     
     public List<ForumTopic> retrieveForumTopicsByStudentId(Long studentId);
     
+    public List<ForumTopic> retrievePUForumTopicsByStudentId(Long puId, Long studentId);
+    
     public ForumTopic retrieveForumTopicById(Long forumTopicId);
     
     public List<ForumTopic> searchForumTopics(String topicName);
     
     public List<ForumTopic> searchForumTopicsByStudent(String topicName, Long studentId);
     
+    public List<ForumTopic> searchForumTopicsByPu(String topicName, Long puId);
+    
+    public List<ForumTopic> searchForumTopicsByStudentAndPu(String topicName, Long studentId, Long puId);
+    
     public void reportForumTopic(Long topicId);
+    
+    public List<ForumTopic> retrieveForumTopicsByPuId(Long puId);
     
 }

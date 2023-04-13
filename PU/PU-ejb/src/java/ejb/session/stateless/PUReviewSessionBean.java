@@ -101,4 +101,44 @@ public class PUReviewSessionBean implements PUReviewSessionBeanLocal {
         }
     }
 
+    @Override
+    public Long updatePUReviewLikedByStudent(Long puReviewId, Long studentId, Integer choice) {
+
+        PUReview puReview = em.find(PUReview.class, puReviewId);
+        Student student = em.find(Student.class, studentId);
+        //choice == 0, set like
+        if (choice.equals(0)) {
+
+            puReview.getStudentsLiked().add(student);
+            student.getLikedPUReviews().add(puReview);
+
+        } else if (choice.equals(1)) {
+
+            puReview.getStudentsLiked().remove(student);
+            student.getLikedPUReviews().remove(puReview);
+
+        }
+        return puReview.getPuReviewId();
+    }
+
+    @Override
+    public Long updatePUReviewDislikedByStudent(Long puReviewId, Long studentId, Integer choice) {
+
+        PUReview puReview = em.find(PUReview.class, puReviewId);
+        Student student = em.find(Student.class, studentId);
+        //choice == 0, set dislike
+        if (choice.equals(0)) {
+
+            puReview.getStudentsDisliked().add(student);
+            student.getDislikedPUReviews().add(puReview);
+
+        } else if (choice.equals(1)) {
+
+            puReview.getStudentsDisliked().remove(student);
+            student.getDislikedPUReviews().remove(puReview);
+
+        }
+        return puReview.getPuReviewId();
+    }
+
 }
