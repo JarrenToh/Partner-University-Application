@@ -165,6 +165,15 @@ public class PUModuleReviewResource {
 //                    .type(MediaType.APPLICATION_JSON).build();
 //        }
 //    } //end getStudent
+    
+    @POST
+    @Path("/{studentId}/{moduleId}")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public PUModuleReview createPUModuleReview(PUModuleReview s,@PathParam("studentId") Long studentId,@PathParam("moduleId") Long moduleId) {
+        puModuleReviewSessionBeanLocal.createPUModuleReview(s, studentId, moduleId);
+        return s;
+    } //end createPUModuleReview
 
     @POST
     @Consumes(MediaType.APPLICATION_JSON)

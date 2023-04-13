@@ -5,7 +5,7 @@ import { Rating } from "@mui/material";
 const ModReviewModal = (props) => {
   const API_URL_PUMODREVIEW =
     "http://localhost:8080/PU-war/webresources/pumodulereview";
-  const { modReview } = props;
+  const { modReview, studentId, modId } = props;
   const [stars, setStars] = useState(0);
   const [review, setReview] = useState("");
   const [editedModReview, setEditedModReview] = useState({
@@ -19,7 +19,10 @@ const ModReviewModal = (props) => {
   const [saveButtonDisabled, setSaveButtonDisabled] = useState(true);
 
   useEffect(() => {
+    console.log(studentId);
+    console.log(modId);
     if (modReview) {
+      console.log(modReview);
       setStars(modReview.rating);
       setReview(modReview.review);
       setEditedModReview({ ...modReview });
@@ -27,11 +30,12 @@ const ModReviewModal = (props) => {
     }
   }, [modReview]);
 
-  const puModReviewAPI = () => {
-    if (editedModReview.moduleReviewId) {
+  const puModReviewAPI = (data) => {
+    if (editedModReview.moduleReviewId > 0) {
       //edit existing review
     } else {
       // add fresh review
+      createPUModReviewAPI(data);
     }
   };
 
@@ -49,7 +53,7 @@ const ModReviewModal = (props) => {
 
   const createPUModReviewAPI = async (data) => {
     console.log(data);
-    return await fetch(`${API_URL_PUMODREVIEW}`, {
+    return await fetch(`${API_URL_PUMODREVIEW}/${studentId}/${modId}`, {
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
@@ -114,12 +118,11 @@ const ModReviewModal = (props) => {
         <Button
           variant="success"
           disabled={saveButtonDisabled}
-          onClick={() =>
-            updatePUModReviewAPI(editedModReview.moduleReviewId, {
-              ...editedModReview,
-              rating: stars,
-              review: review,
-            })
+          onClick={() => puModReviewAPI({
+            ...editedModReview,
+            rating: stars,
+            review: review,
+          })
           }
         >
           Save changes

@@ -24,6 +24,7 @@ const ModulesTaken = () => {
     name: "Dummy Uni",
     puId: 0,
   });
+  const [modId, setModId] = useState(0);
 
   useEffect(() => {
     if (loggedInStudent) {
@@ -48,6 +49,7 @@ const ModulesTaken = () => {
   const setModalWithReview = (mod) => {
     const moduleReviewId = hasCommonReview(mod);
     getModuleReviewAPI(moduleReviewId)
+    setModId(mod.moduleId);
     setReviewModModalShow(true);
   };
 
@@ -116,6 +118,8 @@ const ModulesTaken = () => {
         show={reviewModModalShow}
         onHide={() => setReviewModModalShow(false)}
         modReview={modReview}
+        studentId={currentStudent.studentId}
+        modId={modId}
       />
     </div>
   );

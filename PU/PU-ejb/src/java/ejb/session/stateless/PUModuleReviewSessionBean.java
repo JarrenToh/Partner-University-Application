@@ -6,11 +6,13 @@
 package ejb.session.stateless;
 
 import entity.FAQ;
+import entity.PUModule;
 import entity.PUModuleReview;
 import entity.Student;
 import error.NoResultException;
 import java.time.LocalDateTime;
 import java.util.List;
+import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -23,6 +25,12 @@ import javax.persistence.Query;
 @Stateless
 public class PUModuleReviewSessionBean implements PUModuleReviewSessionBeanLocal {
 
+    @EJB
+    private PUModuleSessionBeanLocal pUModuleSessionBean;
+
+    @EJB
+    private StudentSessionBeanLocal studentSessionBean;
+
     @PersistenceContext(unitName = "PU-ejbPU")
     private EntityManager em;
 
@@ -30,6 +38,33 @@ public class PUModuleReviewSessionBean implements PUModuleReviewSessionBeanLocal
     public void createPUModuleReview(PUModuleReview moduleReview) {
         em.persist(moduleReview);
         em.flush();
+    }
+    
+    @Override
+    public void createPUModuleReview(PUModuleReview moduleReview, Long studentId, Long moduleId) {
+        try {
+        Student student = studentSessionBean.getStudent(studentId);
+        PUModule mod = pUModuleSessionBean.getPUModule(moduleId);
+        
+        //Add to students
+        List<PUModuleReview> stuModuleReviews = student.getModuleReviews();
+        stuModuleReviews.add(moduleReview);
+        student.setModuleReviews(stuModuleReviews);
+        
+        //Add to module
+        List<PUModuleReview> moduleReviews = mod.getModuleReviews();
+        moduleReviews.add(moduleReview);
+        mod.setModuleReviews(moduleReviews);
+        
+        moduleReview.setStudent(student);
+        moduleReview.setModule(mod);
+        
+        em.persist(moduleReview);
+        em.flush();
+        
+        } catch(NoResultException ex) {
+            
+        }
     }
 
     @Override

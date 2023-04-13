@@ -38,4 +38,6 @@ public interface PUModuleReviewSessionBeanLocal {
     public void toggleInappropiate(Long moduleReviewReviewId) throws NoResultException;
 
     public List<PUModuleReview> viewInappropiatePUModuleReview();
+
+    public void createPUModuleReview(PUModuleReview moduleReview, Long studentId, Long moduleId);
 }
