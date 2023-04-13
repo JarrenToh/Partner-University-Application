@@ -2,6 +2,7 @@ import React from "react";
 import { useContext, useState, useEffect } from "react";
 import { AuthContext } from "../login/AuthContext";
 import { useNavigate } from "react-router-dom";
+import NotLoggedIn from '../components/NotLoggedInPage';
 
 import {
   Image,
@@ -27,6 +28,8 @@ import {
 
 import SocialMediaModal from "./SocialMediaModal";
 import IconSocialMedia from "./IconSocialMedia";
+import NavbarComp from '../../student/components/NavbarComp';
+import { AuthProvider, useAuth } from '../../student/login/AuthContext';
 
 const StudentProfile = () => {
   const { loggedInStudent } = useContext(AuthContext);
@@ -38,6 +41,9 @@ const StudentProfile = () => {
   const [reviewModalShow, setReviewModalShow] = useState(false);
   const [socialMediaModalShow, setSocialMediaModalShow] = useState(false);
   const navigate = useNavigate();
+
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [user, setUser] = useState(null);
 
   useEffect(() => {
     if (loggedInStudent) {
@@ -56,7 +62,7 @@ const StudentProfile = () => {
   };
 
   if (!loggedInStudent) {
-    return <div> Not Logged in</div>;
+    return NotLoggedIn();
   }
 
   // Concat first and last name to make full name
@@ -109,109 +115,113 @@ const StudentProfile = () => {
   };
 
   return (
-    <div style={{ paddingLeft: "5%", paddingRight: "5%" }}>
-      <div className="container" style={{border: 0}}>
-        <h1>User Profile</h1>
-      </div>
-      <Row>
-        <Col>
-          <div id="profilePicDiv" style={{ padding: "5%" }}>
-            <Card>
-              <Card.Body style={{ padding: "5%", textAlign: "center" }}>
-                <Image
-                  src={require("../assets/images/avatars/avatar3.jpg")}
-                  roundedCircle
-                />
-              </Card.Body>
-              <Card.Footer>
-                Last Active: {loggedInStudent.lastActive}
-              </Card.Footer>
-            </Card>
-            <Card>
-              <Card.Header as="h5">Social Media</Card.Header>
-              <ListGroup variant="flush">
-                {socialMedia != null &&
-                  socialMedia.map((link) => (
+    <div className="wrapper" >
+      <NavbarComp isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} user={user} />
+      <div style={{ paddingLeft: "5%", paddingRight: "5%" }}>
+
+        <div className="container" style={{ border: 0 }}>
+          <h1>User Profile</h1>
+        </div>
+        <Row>
+          <Col>
+            <div id="profilePicDiv" style={{ padding: "5%" }}>
+              <Card>
+                <Card.Body style={{ padding: "5%", textAlign: "center" }}>
+                  <Image
+                    src={require("../assets/images/avatars/avatar3.jpg")}
+                    roundedCircle
+                  />
+                </Card.Body>
+                <Card.Footer>
+                  Last Active: {loggedInStudent.lastActive}
+                </Card.Footer>
+              </Card>
+              <Card>
+                <Card.Header as="h5">Social Media</Card.Header>
+                <ListGroup variant="flush">
+                  {socialMedia != null &&
+                    socialMedia.map((link) => (
+                      <ListGroupItem>
+                        <IconSocialMedia linkType={link} /> {"   "}
+                        <a
+                          href={`https://${link}`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          {link}
+                        </a>
+                      </ListGroupItem>
+                    ))}
+
+                  {socialMedia.length == 0 && (
                     <ListGroupItem>
-                      <IconSocialMedia linkType={link} /> {"   "}
-                      <a
-                        href={`https://${link}`}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
-                        {link}
-                      </a>
+                      You do not have any social media links. Add them now!
                     </ListGroupItem>
-                  ))}
-
-                {socialMedia.length == 0 && (
-                  <ListGroupItem>
-                    You do not have any social media links. Add them now!
-                  </ListGroupItem>
-                )}
-              </ListGroup>
-              <Card.Footer style={{ textAlign: "center" }}>
-                <Button
-                  variant="link"
-                  onClick={() => setSocialMediaModalShow(true)}
-                >
-                  <FontAwesomeIcon icon={faPen} /> {"  "}
-                  Edit Links
+                  )}
+                </ListGroup>
+                <Card.Footer style={{ textAlign: "center" }}>
+                  <Button
+                    variant="link"
+                    onClick={() => setSocialMediaModalShow(true)}
+                  >
+                    <FontAwesomeIcon icon={faPen} /> {"  "}
+                    Edit Links
+                  </Button>
+                </Card.Footer>
+              </Card>
+              <div className="d-grid gap-2">
+                <Button variant="danger" onClick={navToLikedPUs}>
+                  <FontAwesomeIcon icon={faHeart} /> {"  "}
+                  View Liked Universities
                 </Button>
-              </Card.Footer>
-            </Card>
-            <div className="d-grid gap-2">
-              <Button variant="danger" onClick={navToLikedPUs}>
-                <FontAwesomeIcon icon={faHeart} /> {"  "}
-                View Liked Universities
-              </Button>
+              </div>
             </div>
-          </div>
-        </Col>
+          </Col>
 
-        <Col>
-          <div id="formDiv" style={{ padding: "5%" }}>
-            <Form>
-              <Form.Group className="mb-3" controlId="formGroupName">
-                <Form.Label>Full Name</Form.Label>
-                <Form.Control readOnly defaultValue={studentFullName} />
-              </Form.Group>
-              <Form.Group className="mb-3" controlId="formGroupEmail">
-                <Form.Label>Email</Form.Label>
-                <Form.Control readOnly defaultValue={loggedInStudent.email} />
-              </Form.Group>
-              <Form.Group className="mb-3" controlId="formGroupPhone">
-                <Form.Label>Phone Number</Form.Label>
-                <Form.Control
-                  readOnly
-                  defaultValue={loggedInStudent.phoneNumber}
-                />
-              </Form.Group>
-              <Form.Group className="mb-3" controlId="formGroupFaculty">
-                <Form.Label>Faculty</Form.Label>
-                <Form.Control readOnly defaultValue={loggedInStudent.faculty} />
-              </Form.Group>
-              <Form.Group className="mb-3" controlId="formGroupEmail">
-                <Form.Label>Partner University</Form.Label>
-                <EnrolledField
-                  isEnrolled={loggedInStudent.partnerUniversity == null}
-                />
-              </Form.Group>
-            </Form>
-          </div>
-        </Col>
-      </Row>
+          <Col>
+            <div id="formDiv" style={{ padding: "5%" }}>
+              <Form>
+                <Form.Group className="mb-3" controlId="formGroupName">
+                  <Form.Label>Full Name</Form.Label>
+                  <Form.Control readOnly defaultValue={studentFullName} />
+                </Form.Group>
+                <Form.Group className="mb-3" controlId="formGroupEmail">
+                  <Form.Label>Email</Form.Label>
+                  <Form.Control readOnly defaultValue={loggedInStudent.email} />
+                </Form.Group>
+                <Form.Group className="mb-3" controlId="formGroupPhone">
+                  <Form.Label>Phone Number</Form.Label>
+                  <Form.Control
+                    readOnly
+                    defaultValue={loggedInStudent.phoneNumber}
+                  />
+                </Form.Group>
+                <Form.Group className="mb-3" controlId="formGroupFaculty">
+                  <Form.Label>Faculty</Form.Label>
+                  <Form.Control readOnly defaultValue={loggedInStudent.faculty} />
+                </Form.Group>
+                <Form.Group className="mb-3" controlId="formGroupEmail">
+                  <Form.Label>Partner University</Form.Label>
+                  <EnrolledField
+                    isEnrolled={loggedInStudent.partnerUniversity == null}
+                  />
+                </Form.Group>
+              </Form>
+            </div>
+          </Col>
+        </Row>
 
-      <ReviewModal
-        show={reviewModalShow}
-        onHide={() => setReviewModalShow(false)}
-      />
-      <SocialMediaModal
-        show={socialMediaModalShow}
-        onHide={() => setSocialMediaModalShow(false)}
-        socialMedia={socialMedia}
-        onSocialMediaChange={handleSocialMediaChange}
-      />
+        <ReviewModal
+          show={reviewModalShow}
+          onHide={() => setReviewModalShow(false)}
+        />
+        <SocialMediaModal
+          show={socialMediaModalShow}
+          onHide={() => setSocialMediaModalShow(false)}
+          socialMedia={socialMedia}
+          onSocialMediaChange={handleSocialMediaChange}
+        />
+      </div>
     </div>
   );
 };

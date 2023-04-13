@@ -8,6 +8,8 @@ import "bootstrap/dist/css/bootstrap.min.css"
 import UniversityRankings from "../ranking/UniversityRankings";
 import universities from "../universitiesData";
 import logo from '../../NUSChange-logoV3.png';
+import NavbarComp from '../../student/components/NavbarComp';
+import { AuthProvider, useAuth } from '../../student/login/AuthContext';
 
 const HomePage = () => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -40,9 +42,14 @@ const HomePage = () => {
     setSearchTerm(searchQuery);
   }, [searchQuery]);
 
-  return (
-    <div className="wrapper" >
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [user, setUser] = useState(null);
+  const { loggedInStudent, login, logout } = useAuth();
 
+  return (
+    
+    <div className="wrapper" >
+      <NavbarComp isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} user={user} />
       <div className="app" style={{
 
         backgroundImage: `url('https://gov-web.s3.ap-northeast-1.amazonaws.com/uploads/2018/04/NUS-ERC.jpg')`,

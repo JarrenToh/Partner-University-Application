@@ -8,6 +8,8 @@ import { fas } from '@fortawesome/free-solid-svg-icons';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import './styles.css';
 import SearchIcon from './homepage/search.svg';
+import NavbarComp from './components/NavbarComp';
+import { AuthProvider, useAuth } from './login/AuthContext';
 
 import {
   Table,
@@ -45,6 +47,10 @@ export default function ForumTopics() {
   const pagesVisited = pageNumber * itemsPerPage;
   const pageCount = Math.ceil(forumTopics.length / itemsPerPage);
   // const navigate = useNavigate();
+
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [user, setUser] = useState(null);
+  const { loggedInStudent, login, logout } = useAuth();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -116,6 +122,8 @@ export default function ForumTopics() {
   }
 
   return (
+    <div className="wrapper" >
+    <NavbarComp isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} user={user} />
     <Fragment>
       <div className="search">
         <input
@@ -284,5 +292,6 @@ export default function ForumTopics() {
         </CardBody>
       </Card>
     </Fragment>
+    </div>
   );
 }

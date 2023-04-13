@@ -2,6 +2,8 @@ import React from 'react';
 import { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
+import NavbarComp from './components/NavbarComp';
+import { AuthProvider, useAuth } from './login/AuthContext';
 
 import {
     Card,
@@ -20,6 +22,10 @@ export default function EditPost() {
     const { id, oldTitle, oldMessage, topicName} = useParams();
     const [title, setTitle] = useState(oldTitle);
     const [content, setContent] = useState(oldMessage);
+
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const [user, setUser] = useState(null);
+    const { loggedInStudent, login, logout } = useAuth();
 
     const handleTitleChange = (e) => {
         setTitle(e.target.value);
@@ -52,6 +58,8 @@ export default function EditPost() {
     };
 
     return (
+        <div className="wrapper" >
+        <NavbarComp isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} user={user} />
         <Card>
             <CardHeader>Edit post for topic: {topicName}</CardHeader>
             <CardBody>
@@ -96,5 +104,6 @@ export default function EditPost() {
                 </Form>
             </CardBody>
         </Card>
+    </div>
     );
 }

@@ -4,6 +4,8 @@ import { Button, Input, FormGroup } from "reactstrap";
 import UniversityCard from "./UniversityCard";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./UniversityRanking.css";
+import NavbarComp from '../../student/components/NavbarComp';
+import { AuthProvider, useAuth } from '../../student/login/AuthContext';
 
 const UniversityRankings = ({ universitiesData }) => {
 
@@ -122,8 +124,13 @@ const UniversityRankings = ({ universitiesData }) => {
     ? sortedUniversities.filter((university) => university.isFavorite)
     : sortedUniversities.slice(0, displayLimit);
 
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const [user, setUser] = useState(null);
+    const { loggedInStudent, login, logout } = useAuth();
+
   return (
     <div className="wrapper">
+      <NavbarComp isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} user={user} />
       <div className="container">
         <div className="universityRankings">
           <div className="universityRankings_description">

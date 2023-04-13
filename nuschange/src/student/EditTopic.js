@@ -2,6 +2,8 @@ import React from 'react';
 import { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
+import NavbarComp from './components/NavbarComp';
+import { AuthProvider, useAuth } from './login/AuthContext';
 
 import {
     Card,
@@ -19,6 +21,10 @@ import {
 export default function EditTopic() {
     const { topicId, oldTopicName } = useParams();
     const [topicName, setTopicName] = useState(oldTopicName);
+
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const [user, setUser] = useState(null);
+    const { loggedInStudent, login, logout } = useAuth();
 
     const handleTopicNameChange = (e) => {
         setTopicName(e.target.value);
@@ -46,6 +52,8 @@ export default function EditTopic() {
     };
 
     return (
+        <div className="wrapper" >
+        <NavbarComp isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} user={user} />
         <Card>
             <CardHeader>Edit topic</CardHeader>
             <CardBody>
@@ -76,5 +84,6 @@ export default function EditTopic() {
                 </Form>
             </CardBody>
         </Card>
+        </div>
     );
 }

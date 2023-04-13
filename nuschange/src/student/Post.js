@@ -21,6 +21,8 @@ import {
 import './forum.css';
 import { FaBold } from 'react-icons/fa';
 import { Divider } from '@mui/material';
+import NavbarComp from './components/NavbarComp';
+import { AuthProvider, useAuth } from './login/AuthContext';
 
 export default function ViewPost() {
     const { postId, studentId } = useParams();
@@ -31,6 +33,10 @@ export default function ViewPost() {
     const [dislikes, setDislikes] = useState(0);
     const [commentMessage, setCommentMessage] = useState("");
     const [replyMessages, setReplyMessages] = useState({});
+
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const [user, setUser] = useState(null);
+    const { loggedInStudent, login, logout } = useAuth();
 
     useEffect(() => {
         const fetchData = async () => {
@@ -194,6 +200,7 @@ export default function ViewPost() {
         //  <div className="container my-5">
         <>
             <div className="card">
+            <NavbarComp isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} user={user} />
                 <div className="card-header">
                     <div className="d-flex justify-content-between align-items-center">
                         <h4>{forumPost.title}</h4>

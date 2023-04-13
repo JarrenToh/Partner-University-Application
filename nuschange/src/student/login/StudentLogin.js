@@ -49,7 +49,7 @@ const Login = () => {
         setAlertMessage('You have logged in successfully');
         setAlertVisible(true);
         setTimeout(() => {
-          navigate('/home-page');
+          navigate('/student/home-page');
         }, 2000);
       } else {
         setAlertType('danger');
