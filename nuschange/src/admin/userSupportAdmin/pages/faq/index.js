@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { useNavigate } from 'react-router-dom';
 
 import Header from "../../../components/dashboard/Header";
@@ -8,6 +8,8 @@ import Footer from "../../../components/dashboard/Footer";
 import API from "../../../../util/API";
 import apiPaths from "../../../../util/apiPaths";
 import { DateTimeConverter } from "../../../../util/dateTimeConverter";
+import { userSupportAdminPaths } from "../../../../util/adminRoutes";
+import { AuthContext } from "../../../../AuthContext";
 
 const FAQ = () => {
 
@@ -15,19 +17,22 @@ const FAQ = () => {
     const [showAll, setShowAll] = useState(true);
     const navigate = useNavigate();
 
+    const { loggedInAdmin } = useContext(AuthContext);
+
     const handleButtonClick = (faqId) => {
-        navigate(`/faqs/${faqId}`);
+        navigate(`/${userSupportAdminPaths.viewFaqs}/${faqId}`);
     };
 
     useEffect(() => {
+        if (loggedInAdmin === null) return;
+
         const fetchData = async () => {
             try {
                 const response = await API.get(apiPaths.listOfFaqs);
                 if (showAll) {
                     setData(response.data);
                 } else {
-                    // TODO: need to change this dyanmically later
-                    const filteredData = response.data.filter(item => item.createdBy.adminId === 1); // assume you have the current user's id stored somewhere
+                    const filteredData = response.data.filter(item => item.createdBy.adminId === loggedInAdmin.adminId); // assume you have the current user's id stored somewhere
                     setData(filteredData);
                 }
             } catch (error) {
@@ -35,7 +40,7 @@ const FAQ = () => {
             }
         };
         fetchData();
-    }, [showAll]);
+    }, [showAll, loggedInAdmin]);
 
     const handleToggle = () => {
         setShowAll(!showAll);

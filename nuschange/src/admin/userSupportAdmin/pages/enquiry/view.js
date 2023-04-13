@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 
 import Footer from '../../../components/dashboard/Footer';
@@ -7,6 +7,7 @@ import Menu from '../../../components/dashboard/Menu';
 
 import API from '../../../../util/API';
 import apiPaths from '../../../../util/apiPaths';
+import { AuthContext } from '../../../../AuthContext';
 
 const EnquiryDetails = () => {
 
@@ -24,6 +25,8 @@ const EnquiryDetails = () => {
     const [responseError, setResponseError] = useState("");
 
     const navigate = useNavigate();
+
+    const { loggedInAdmin } = useContext(AuthContext);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -66,8 +69,7 @@ const EnquiryDetails = () => {
                     response
                 };
 
-                // TODO: Change to get the adminId dynamically
-                const apiPath = `${apiPaths.listOfEnquiries}/${id}/respond?adminId=1`;
+                const apiPath = `${apiPaths.listOfEnquiries}/${id}/respond?adminId=${loggedInAdmin.adminId}`;
                 await API.put(apiPath, updatedEnquiry);
 
                 setShowModal(true);

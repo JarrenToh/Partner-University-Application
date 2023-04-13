@@ -9,6 +9,7 @@ import Footer from "../../../components/dashboard/Footer";
 import API from "../../../../util/API";
 import apiPaths from "../../../../util/apiPaths";
 import { convertToEncodedTextForUrl } from "../../../../util/urlTextConverter";
+import { systemSupportAdminPaths } from "../../../../util/adminRoutes";
 
 const PartnerUuniversityModules = () => {
     const { puName } = useParams();
@@ -16,11 +17,11 @@ const PartnerUuniversityModules = () => {
     const navigate = useNavigate();
 
     const handleButtonClick = (puCode) => {
-        navigate(`/partnerUniversities/${puName}/modules/${puCode}`);
+        navigate(`${systemSupportAdminPaths.viewPUs}/${puName}/modules/${puCode}`);
     };
 
     const handleCreatePUModuleButtonClick = () => {
-        navigate(`/partnerUniversities/${puName}/modules/create`);
+        navigate(`${systemSupportAdminPaths.viewPUs}/${puName}/modules/create`);
     };
 
     useEffect(() => {

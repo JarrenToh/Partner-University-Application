@@ -143,25 +143,25 @@ const App = () => {
         <Router basename='/admin'>
           <Routes>
             <Route path="/login" element={<Login />} />
-            <Route path="/main" element={<ProtectedMain />} />
-            <Route path="/faqs" element={<ProtectedFAQs />} />
-            <Route path="/faqs/:id" element={<ProtectedFAQDetails />} />
-            <Route path="/faqs/create" element={<ProtectedCreateFAQ />} />
-            <Route path="/enquiries" element={<ProtectedEnquiry />} />
-            <Route path="/enquiries/assigned" element={<ProtectedEnquiry adminId={1} />} />
-            <Route path="/enquiries/:id" element={<ProtectedEnquiryDetails />} />
-            <Route path="/partnerUniversities" element={<ProtectedPartnerUniversity />} />
-            <Route path="/partnerUniversities/:nameFromUrl" element={<ProtectedPartnerUniversityDetails />} />
-            <Route path="/partnerUniversities/create" element={<ProtectedCreatePartnerUniversity />} />
-            <Route path="/partnerUniversities/:puName/modules" element={<ProtectedPartnerUniversityModules />} />
-            <Route path="/partnerUniversities/:puName/modules/:puModuleCode" element={<ProtectedPartnerUniversityModuleDetails />} />
-            <Route path="/partnerUniversities/:puName/modules/create" element={<ProtectedCreatePartnerUniversityModule />} />
-            <Route path="/inappropriatenessContent" element={<ProtectedInappropriateness />} />
-            <Route path="/inappropriatenessContent/:typeOfComponent/:id" element={<ProtectedInappropriatenessDetails />} />
-            <Route path="/forumTopics" element={<ProtectedForumTopicsSystemSupportAdmin />} />
-            <Route path="/forumTopics/create" element={<ProtectedCreateForumTopicsSystemSupportAdmin />} />
-            <Route path="/forumTopics/:id" element={<ProtectedForumTopicsDetailsSystemSupportAdmin />} />
-            <Route path="/profile/:usernameFromUrl" element={<ProtectedAdminProfile />} />
+            <Route path="/:typeOfAdmin/main" element={<ProtectedMain />} />
+            <Route path="/:typeOfAdmin/profile/:usernameFromUrl" element={<ProtectedAdminProfile />} />
+            <Route path="/userSupportAdmin/faqs" element={<ProtectedFAQs />} />
+            <Route path="/userSupportAdmin/faqs/:id" element={<ProtectedFAQDetails />} />
+            <Route path="/userSupportAdmin/faqs/create" element={<ProtectedCreateFAQ />} />
+            <Route path="/userSupportAdmin/enquiries" element={<ProtectedEnquiry />} />
+            <Route path="/userSupportAdmin/enquiries/assigned" element={<ProtectedEnquiry adminId={1} />} />
+            <Route path="/userSupportAdmin/enquiries/:id" element={<ProtectedEnquiryDetails />} />
+            <Route path="/systemSupportAdmin/partnerUniversities" element={<ProtectedPartnerUniversity />} />
+            <Route path="/systemSupportAdmin/partnerUniversities/:nameFromUrl" element={<ProtectedPartnerUniversityDetails />} />
+            <Route path="/systemSupportAdmin/partnerUniversities/create" element={<ProtectedCreatePartnerUniversity />} />
+            <Route path="/systemSupportAdmin/partnerUniversities/:puName/modules" element={<ProtectedPartnerUniversityModules />} />
+            <Route path="/systemSupportAdmin/partnerUniversities/:puName/modules/:puModuleCode" element={<ProtectedPartnerUniversityModuleDetails />} />
+            <Route path="/systemSupportAdmin/partnerUniversities/:puName/modules/create" element={<ProtectedCreatePartnerUniversityModule />} />
+            <Route path="/systemSupportAdmin/inappropriatenessContent" element={<ProtectedInappropriateness />} />
+            <Route path="/systemSupportAdmin/inappropriatenessContent/:typeOfComponent/:id" element={<ProtectedInappropriatenessDetails />} />
+            <Route path="/systemSupportAdmin/forumTopics" element={<ProtectedForumTopicsSystemSupportAdmin />} />
+            <Route path="/systemSupportAdmin/forumTopics/create" element={<ProtectedCreateForumTopicsSystemSupportAdmin />} />
+            <Route path="/systemSupportAdmin/forumTopics/:id" element={<ProtectedForumTopicsDetailsSystemSupportAdmin />} />
           </Routes>
         </Router>
       </div>

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { useNavigate } from 'react-router-dom';
 
 import Header from "../../../components/dashboard/Header";
@@ -8,6 +8,8 @@ import Footer from "../../../components/dashboard/Footer";
 import API from "../../../../util/API";
 import apiPaths from "../../../../util/apiPaths";
 import { DateTimeConverter } from "../../../../util/dateTimeConverter";
+import { systemSupportAdminPaths } from "../../../../util/adminRoutes";
+import { AuthContext } from "../../../../AuthContext";
 
 const ForumTopic = () => {
 
@@ -15,11 +17,16 @@ const ForumTopic = () => {
     const [showAll, setShowAll] = useState(true);
     const navigate = useNavigate();
 
+    const { loggedInAdmin } = useContext(AuthContext);
+
     const handleButtonClick = (forumTopicId) => {
-        navigate(`/forumTopics/${forumTopicId}`);
+        navigate(`${systemSupportAdminPaths.viewForumTopics}/${forumTopicId}`);
     };
 
     useEffect(() => {
+
+        if (loggedInAdmin === null) return;
+
         const fetchData = async () => {
             try {
                 const response = await API.get(apiPaths.listOfForumTopics);
@@ -28,8 +35,7 @@ const ForumTopic = () => {
                     filteredData = response.data.filter(item => item.admin !== undefined);
                     setData(filteredData);
                 } else {
-                    // TODO: need to change this dyanmically later
-                    filteredData = response.data.filter(item => item.admin !== undefined && item.admin.adminId === 1); // assume you have the current user's id stored somewhere
+                    filteredData = response.data.filter(item => item.admin !== undefined && item.admin.adminId === loggedInAdmin.adminId); // assume you have the current user's id stored somewhere
                     setData(filteredData);
                 }
             } catch (error) {
@@ -37,7 +43,7 @@ const ForumTopic = () => {
             }
         };
         fetchData();
-    }, [data, showAll]);
+    }, [data, showAll, loggedInAdmin]);
 
     const handleToggle = () => {
         setShowAll(!showAll);

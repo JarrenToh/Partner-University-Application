@@ -6,12 +6,12 @@ const withAdminAuth = (WrappedComponent) => {
     const navigate = useNavigate();
 
     useEffect(() => {
-      if (localStorage.getItem("loggedInAdmin") === null || localStorage.getItem("loggedInStudent") === null) {
+      if (localStorage.getItem("loggedInAdmin") === null) {
         navigate('../login');
       }
     }, [navigate]);
 
-    return localStorage.getItem("loggedInAdmin") !== null || localStorage.getItem("loggedInStudent") !== null ? <WrappedComponent {...props} /> : null;
+    return localStorage.getItem("loggedInAdmin") !== null ? <WrappedComponent {...props} /> : null;
   };
 
   return WithAdminAuthComponent;

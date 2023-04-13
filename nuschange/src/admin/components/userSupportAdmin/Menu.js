@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { userSupoortAdminPaths } from '../../../util/adminRoutes';
+import { userSupportAdminPaths } from '../../../util/adminRoutes';
 
 const Menu = () => {
     return (
@@ -15,13 +15,13 @@ const Menu = () => {
                 </button>
                 <ul className="nav nav-treeview">
                     <li className="nav-item">
-                        <a href={userSupoortAdminPaths.createFaq} className="nav-link">
+                        <a href={`/admin${userSupportAdminPaths.createFaq}`} className="nav-link">
                             <i className="far fa-circle nav-icon" />
                             <p>Create</p>
                         </a>
                     </li>
                     <li className="nav-item">
-                        <a href={userSupoortAdminPaths.viewFaqs} className="nav-link">
+                        <a href={`/admin${userSupportAdminPaths.viewFaqs}`} className="nav-link">
                             <i className="far fa-circle nav-icon" />
                             <p>View</p>
                         </a>
@@ -38,13 +38,13 @@ const Menu = () => {
                 </button>
                 <ul className="nav nav-treeview">
                     <li className="nav-item">
-                        <a href={userSupoortAdminPaths.viewEnquiries} className="nav-link">
+                        <a href={`/admin${userSupportAdminPaths.viewEnquiries}`} className="nav-link">
                             <i className="far fa-circle nav-icon" />
                             <p>View</p>
                         </a>
                     </li>
                     <li className="nav-item">
-                        <a href={userSupoortAdminPaths.viewAssignedEnquiries} className="nav-link">
+                        <a href={`/admin${userSupportAdminPaths.viewAssignedEnquiries}`} className="nav-link">
                             <i className="far fa-circle nav-icon" />
                             <p>View Past Responses</p>
                         </a>

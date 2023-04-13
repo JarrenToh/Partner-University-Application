@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 
 import Header from '../../../components/dashboard/Header';
 import Menu from '../../../components/dashboard/Menu';
@@ -6,6 +6,7 @@ import Footer from '../../../components/dashboard/Footer';
 
 import API from '../../../../util/API';
 import apiPaths from '../../../../util/apiPaths';
+import { AuthContext } from '../../../../AuthContext';
 
 const ForumTopic = () => {
     const [topicName, setTopicName] = useState("");
@@ -14,15 +15,16 @@ const ForumTopic = () => {
 
     const [showModal, setShowModal] = useState(false);
 
+    const { loggedInAdmin } = useContext(AuthContext);
+
     const handleCreate = async () => {
-        if (validadte()) {
+        if (validate()) {
             try {
                 const createForumTopic = {
                     topicName
                 };
 
-                // TODO: Change to get the adminId dynamically
-                const apiPath = `${apiPaths.listOfAdminForumTopics}?adminId=${2}`;
+                const apiPath = `${apiPaths.listOfAdminForumTopics}?adminId=${loggedInAdmin.adminId}`;
                 await API.post(apiPath, createForumTopic);
 
                 setShowModal(true);
@@ -37,7 +39,7 @@ const ForumTopic = () => {
         setShowModal(false);
     };
 
-    const validadte = () => {
+    const validate = () => {
         let isValid = true;
         if (topicName.trim() === "") {
             setTopicNameError("Please enter a topic name");

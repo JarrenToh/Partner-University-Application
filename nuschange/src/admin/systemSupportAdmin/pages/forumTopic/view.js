@@ -27,7 +27,6 @@ const ForumTopicDetails = () => {
                     isInappropriate
                 };
 
-                // TODO: Change to get the adminId dynamically
                 const apiPath = `${apiPaths.listOfAdminForumTopics}/${id}`;
                 await API.put(apiPath, updatedForumTopic);
 

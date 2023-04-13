@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import Chart from "chart.js/auto";
 import { CategoryScale } from "chart.js";
 
@@ -6,11 +6,13 @@ import LikedPUs from '../systemSupportAdmin/chart/LikedPUs';
 import InappropriatenessContent from '../systemSupportAdmin/chart/InappropriatenessContent';
 import StudentEnquiries from '../userSupportAdmin/chart/StudentEnquiries';
 
+import { AuthContext } from '../../../AuthContext';
+
 const Dashboard = () => {
 
-    // const user = "SystemSupportAdmin";
-    const user = "UserSupportAdmin";
     Chart.register(CategoryScale);
+
+    const { loggedInAdmin } = useContext(AuthContext);
 
     return (
         <div>
@@ -27,7 +29,7 @@ const Dashboard = () => {
                 <section className="content">
                     <div className="container-fluid">
                         <div className="row">
-                            {user === "SystemSupportAdmin" &&
+                            {loggedInAdmin !== null && loggedInAdmin.userGroupEnum === "SYSTEM_SUPPORT" &&
                                 (
                                     <div>
                                         <LikedPUs />
@@ -35,7 +37,7 @@ const Dashboard = () => {
                                     </div>
                                 )
                             }
-                            {user === "UserSupportAdmin" &&
+                            {loggedInAdmin != null && loggedInAdmin.userGroupEnum === "USER_SUPPORT" &&
                                 (
                                     <div>
                                         <StudentEnquiries/>

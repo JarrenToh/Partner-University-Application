@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import API from "../../../../../util/API";
+import { systemSupportAdminPaths } from "../../../../../util/adminRoutes";
 
 const InappropriatenessComponent = ({ type, typeOfComponent, apiPath, selectedButton }) => {
 
@@ -78,7 +79,7 @@ const InappropriatenessComponent = ({ type, typeOfComponent, apiPath, selectedBu
                     return -1;
             }
 
-            navigate(`/inappropriatenessContent/${component}/${selectedId}`);
+            navigate(`${systemSupportAdminPaths.viewInappropriatenessContent}/${component}/${selectedId}`);
         }
     }, [selectedId, typeOfComponent ,navigate]);
 

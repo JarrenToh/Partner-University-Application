@@ -9,6 +9,7 @@ import API from "../../../../util/API";
 import apiPaths from "../../../../util/apiPaths";
 
 import { convertNameToSlug } from "../../../../util/urlTextConverter";
+import { systemSupportAdminPaths } from "../../../../util/adminRoutes";
 
 const PartnerUuniversity = () => {
 
@@ -16,11 +17,11 @@ const PartnerUuniversity = () => {
     const navigate = useNavigate();
 
     const handleViewDetailsButtonClick = (puName) => {
-        navigate(`/partnerUniversities/${convertNameToSlug(puName)}`);
+        navigate(`${systemSupportAdminPaths.viewPUs}/${convertNameToSlug(puName)}`);
     };
 
     const handleViewModulesButtonClick = (puName) => {
-        navigate(`/partnerUniversities/${convertNameToSlug(puName)}/modules`);
+        navigate(`${systemSupportAdminPaths.viewPUs}/${convertNameToSlug(puName)}/modules`);
     };
 
     const handleSort = (data) => {

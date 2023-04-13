@@ -9,6 +9,7 @@ import API from "../util/API";
 import apiPaths from "../util/apiPaths";
 
 const Profile = () => {
+    
     const { usernameFromUrl } = useParams();
     const [name, setName] = useState("");
     const [username, setUsername] = useState("");

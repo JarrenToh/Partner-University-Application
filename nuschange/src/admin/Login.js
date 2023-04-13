@@ -31,9 +31,10 @@ const Login = () => {
 
       if (response.status === 200) {
         const admin = response.data;
+        const userGroup = admin.userGroupEnum === "SYSTEM_SUPPORT" ? "systemSupportAdmin" : "userSupportAdmin";
         loginAdmin(admin);
         setTimeout(() => {
-          navigate('/main');
+          navigate(`/${userGroup}/main`);
         }, 2000);
       }
     } catch (error) {

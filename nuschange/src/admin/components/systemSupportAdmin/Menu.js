@@ -14,13 +14,13 @@ const Menu = () => {
                 </button>
                 <ul className="nav nav-treeview">
                     <li className="nav-item">
-                        <a href={systemSupportAdminPaths.createPu} className="nav-link">
+                        <a href={`/admin${systemSupportAdminPaths.createPu}`} className="nav-link">
                             <i className="far fa-circle nav-icon" />
                             <p>Create</p>
                         </a>
                     </li>
                     <li className="nav-item">
-                        <a href={systemSupportAdminPaths.viewPUs} className="nav-link">
+                        <a href={`/admin${systemSupportAdminPaths.viewPUs}`} className="nav-link">
                             <i className="far fa-circle nav-icon" />
                             <p>View</p>
                         </a>
@@ -37,7 +37,7 @@ const Menu = () => {
                 </button>
                 <ul className="nav nav-treeview">
                     <li className="nav-item">
-                        <a href={systemSupportAdminPaths.viewInappropriatenessContent} className="nav-link">
+                        <a href={`/admin${systemSupportAdminPaths.viewInappropriatenessContent}`} className="nav-link">
                             <i className="far fa-circle nav-icon" />
                             <p>View</p>
                         </a>
@@ -54,13 +54,13 @@ const Menu = () => {
                 </button>
                 <ul className="nav nav-treeview">
                     <li className="nav-item">
-                        <a href={systemSupportAdminPaths.createForumTopic} className="nav-link">
+                        <a href={`/admin${systemSupportAdminPaths.createForumTopic}`} className="nav-link">
                             <i className="far fa-circle nav-icon" />
                             <p>Create</p>
                         </a>
                     </li>
                     <li className="nav-item">
-                        <a href={systemSupportAdminPaths.viewForumTopics} className="nav-link">
+                        <a href={`/admin${systemSupportAdminPaths.viewForumTopics}`} className="nav-link">
                             <i className="far fa-circle nav-icon" />
                             <p>View</p>
                         </a>

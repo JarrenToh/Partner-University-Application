@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 
 import Header from '../../../components/dashboard/Header';
 import Menu from '../../../components/dashboard/Menu';
@@ -6,6 +6,7 @@ import Footer from '../../../components/dashboard/Footer';
 
 import API from '../../../../util/API';
 import apiPaths from '../../../../util/apiPaths';
+import { AuthContext } from '../../../../AuthContext';
 
 const FAQ = () => {
     const [question, setQuestion] = useState("");
@@ -15,6 +16,8 @@ const FAQ = () => {
     const [questionError, setQuestionError] = useState("");
     const [answerError, setAnswerError] = useState("");
 
+    const { loggedInAdmin } = useContext(AuthContext);
+
     const handleCreate = async () => {
         if (validate()) {
             try {
@@ -23,8 +26,7 @@ const FAQ = () => {
                     answer
                 };
 
-                // TODO: Change to get the adminId dynamically
-                const apiPath = `${apiPaths.listOfFaqs}?adminId=1`;
+                const apiPath = `${apiPaths.listOfFaqs}?adminId=${loggedInAdmin.adminId}`;
                 await API.post(apiPath, createdFAQ);
 
                 setShowModal(true);

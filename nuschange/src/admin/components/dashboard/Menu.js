@@ -1,15 +1,15 @@
-import React from 'react';
+import React, { useContext } from 'react';
 
 import UserSupportAdminMenu from '../userSupportAdmin/Menu';
 import SystemSupportAdminMenu from '../systemSupportAdmin/Menu';
 
-
+import { AuthContext } from '../../../AuthContext';
 import logo from "../../../NUSChange-logoV3.png";
 
 const Menu = () => {
 
-    const admin = "UserSupportAdmin";
-    // const admin = "SystemSupportAdmin";
+    const { loggedInAdmin } = useContext(AuthContext);
+    const userGroupEnum = loggedInAdmin !== null && loggedInAdmin.userGroupEnum;
 
     return (
         <div>
@@ -18,7 +18,7 @@ const Menu = () => {
                 <br />
                 <div className="sidebar">
                     <nav className="mt-2">
-                        {admin === "UserSupportAdmin" ? <UserSupportAdminMenu/> : <SystemSupportAdminMenu/>}
+                        {userGroupEnum === "USER_SUPPORT" ? <UserSupportAdminMenu/> : <SystemSupportAdminMenu/>}
                     </nav>
                 </div>
             </aside>
