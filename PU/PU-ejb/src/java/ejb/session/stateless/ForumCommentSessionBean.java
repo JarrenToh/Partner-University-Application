@@ -52,15 +52,15 @@ public class ForumCommentSessionBean implements ForumCommentSessionBeanLocal {
         return forumComment;
     }
     
-    @Override
-    public ForumComment createNewForumReply(ForumComment forumReply, Long forumCommentId, Long forumPostId, Long studentId) {
-        ForumComment forumComment = em.find(ForumComment.class, forumCommentId);
-        ForumComment reply = createNewForumComment(forumReply, forumPostId, studentId);
-        forumComment.getReplies().add(reply);
-        
-        return reply;
-    }
-    
+//    @Override
+//    public ForumComment createNewForumReply(ForumComment forumReply, Long forumCommentId, Long forumPostId, Long studentId) {
+//        ForumComment forumComment = em.find(ForumComment.class, forumCommentId);
+//        ForumComment reply = createNewForumComment(forumReply, forumPostId, studentId);
+//        forumComment.getReplies().add(reply);
+//        
+//        return reply;
+//    }
+//    
     @Override
     public void updateShowReply(Long forumCommentId) {
         ForumComment forumComment = em.find(ForumComment.class, forumCommentId);
@@ -91,6 +91,7 @@ public class ForumCommentSessionBean implements ForumCommentSessionBeanLocal {
         oldComment.setDislikedStudents(forumComment.getDislikedStudents());
         oldComment.setReplies(forumComment.getReplies());
         oldComment.setIsAReply(forumComment.getIsAReply());
+        oldComment.setParentComment(forumComment.getParentComment());
  
     }
     
@@ -114,6 +115,7 @@ public class ForumCommentSessionBean implements ForumCommentSessionBeanLocal {
         oldComment.setDislikedStudents(forumComment.getDislikedStudents());
         oldComment.setReplies(forumComment.getReplies());
         oldComment.setIsAReply(forumComment.getIsAReply());
+        oldComment.setParentComment(forumComment.getParentComment());
     }
     
     @Override
@@ -138,24 +140,32 @@ public class ForumCommentSessionBean implements ForumCommentSessionBeanLocal {
     @Override
     public void deleteForumComment(Long forumCommentId) {
         ForumComment forumComment = em.find(ForumComment.class, forumCommentId);
-        Student student = em.find(Student.class, forumComment.getStudent().getStudentId());
-        student.getComments().remove(forumComment);
-        ForumPost forumPost = forumComment.getForumPost();
-        forumPost.getForumComments().remove(forumComment);
-        forumPostSessionBeanLocal.updateForumPost(forumPost);
-        
+        // remove all replies
+        System.out.println("The number of replies:" + forumComment.getReplies().size());
         List<ForumComment> forumReplies = new ArrayList<>(forumComment.getReplies());
-
-        synchronized (forumReplies) {
-            Iterator<ForumComment> iterator = forumReplies.iterator();
-            while (iterator.hasNext()) {
-                ForumComment forumReply = iterator.next();
-                forumComment.getReplies().remove(forumReply);
-                deleteForumComment(forumReply.getCommentId());
-                iterator.remove();
-            }
+        System.out.println("Hi");
+        for (ForumComment reply : forumReplies) {
+            deleteForumComment(reply.getCommentId());
+            System.out.println("deleted");
         }
-
+        // remove forum comment from post and student
+        Student student = em.find(Student.class, forumComment.getStudentId());
+        System.out.println("find student " + student);
+        student.getComments().remove(forumComment);
+        System.out.println("remove comment from student");
+        ForumPost forumPost = forumComment.getForumPost();
+        System.out.println("find forumPost");
+        forumPost.getForumComments().remove(forumComment);
+        System.out.println("remove comment from post");
+        forumPostSessionBeanLocal.updateForumPost(forumPost);
+        if (forumComment.getParentComment() != null) {
+            ForumComment parentComment = forumComment.getParentComment();
+            System.out.println("find parent comment");
+            parentComment.getReplies().remove(forumComment);
+            System.out.println("remove reply from parent comment");
+            updateForumComment(parentComment);
+        }
+        // remove comment
         em.remove(forumComment);
         em.flush();
     }
@@ -227,10 +237,35 @@ public class ForumCommentSessionBean implements ForumCommentSessionBeanLocal {
     @Override
     public void replyForumComment(ForumComment reply, Long replyingToCommentId, Long studentId) {
         ForumComment forumComment = em.find(ForumComment.class, replyingToCommentId);
-        reply.setIsAReply(true);
+        forumComment.setReplies(new ArrayList());
+        reply.setParentComment(forumComment);
         ForumComment theReply = createNewForumComment(reply, forumComment.getForumPost().getPostId(), studentId);
         
         forumComment.getReplies().add(theReply);
     }
+    
+       
+    @Override
+    public List<ForumComment> searchForumComment(String searchQuery, Long postId) {
+        Query q;
+        if (searchQuery != null) {
+            q = em.createQuery("SELECT fc FROM ForumComment fc WHERE "
+                    + "LOWER(fc.message) LIKE :message");
+            q.setParameter("message", "%" + searchQuery.toLowerCase() + "%");
+        } else {
+            q = em.createQuery("SELECT fc FROM ForumPost fc");
+        }
+        List<ForumComment> comments = q.getResultList();
+        List<ForumComment> searches = new ArrayList();
+        
+        for (ForumComment forumComment : comments) {
+            if (forumComment.getForumPost().getPostId() == postId) {
+                searches.add(forumComment);
+            }
+        }
+        
+        return searches;
+    }
+
 
 }

@@ -1,5 +1,6 @@
 import React, { Fragment} from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useParams, useNavigate } from 'react-router-dom';
+import { AuthContext } from "./login/AuthContext";
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { library } from '@fortawesome/fontawesome-svg-core';
@@ -14,9 +15,14 @@ import {
   CardBody,
   Card,
   Button,
+  Modal, 
+  ModalHeader, 
+  ModalBody, 
+  ModalFooter,
+  Alert
 } from 'reactstrap';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useContext } from 'react';
 import axios from 'axios';
 import ReactPaginate from 'react-paginate'
 
@@ -25,15 +31,33 @@ const API_URL = 'http://localhost:8080/PU-war/webresources/forumTopics';
 library.add(far, fas, faPlus);
 
 export default function ForumTopics() {
+  const { loggedInStudent } = useContext(AuthContext);
+  const [studentId, setStudentId] = useState(0);
+  const { puId } = useParams();
   const [pus, setPus] = useState([]);
   const [forumTopics, setForumTopics] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
-  const [selectedPuId, setSelectedPuId] = useState(0);
+  const [selectedPuId, setSelectedPuId] = useState(puId);
+  const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
+  const [selectedDeleteTopicId, setSelectedDeleteTopicId] = useState(null);
+  const [selectedDeleteTopicName, setSelectedDeleteTopicName] = useState(null);
+  const [showReportConfirmation, setShowReportConfirmation] = useState(false);
+  const [selectedReportTopicId, setSelectedReportTopicId] = useState(null);
+  const [selectedReportTopicName, setSelectedReportTopicName] = useState(null);
+  const [alertVisible, setAlertVisible] = useState(false);
+  const [alertMessage, setAlertMessage] = useState('');
+  const [alertType, setAlertType] = useState('danger');
 
   const [pageNumber, setPageNumber] = useState(0);
   const itemsPerPage = 5; // Change this value to the number of items you want to display per page
   const pagesVisited = pageNumber * itemsPerPage;
   const pageCount = Math.ceil(forumTopics.length / itemsPerPage);
+
+  useEffect(() => {
+      if (loggedInStudent) {
+        setStudentId(loggedInStudent.studentId);
+      }
+  }, [loggedInStudent]);
 
   useEffect(() => {
     console.log("selectedPuId in useEffect:", selectedPuId);
@@ -57,46 +81,30 @@ export default function ForumTopics() {
     fetchData();
   }, [selectedPuId]);
 
+
+  if (!loggedInStudent) {
+    return <h1 style={{ textAlign: 'center', color: 'red', margin: '0 auto', width: '50%', fontWeight: 'bold', fontSize: '2em'}}>You are not logged in.</h1>;
+  }
+
   const searchForumTopic = async (searchQuery) => {
     const fetchData = async () => {
       try {
-       // const response = await axios.get(`http://localhost:8080/PU-war/webresources/forumTopics/query?topicName=${searchQuery}`);
         let response;
-        if (selectedPuId === 0) {
+        console.log(selectedPuId);
+        if (selectedPuId == 0) {
+          console.log("hi");
           response = await axios.get(`http://localhost:8080/PU-war/webresources/forumTopics/query?topicName=${searchQuery}`);
         } else {
+          console.log("hello");
           response = await axios.get(`http://localhost:8080/PU-war/webresources/forumTopics/query/pu/${selectedPuId}?topicName=${searchQuery}`);
         }
         setForumTopics(response.data);
+        console.log(response.data);
       } catch (error) {
         console.error(error);
       }
     };
     fetchData();
-  }
-
-  const handleDelete = (id) => {
-    axios.delete(`http://localhost:8080/PU-war/webresources/forumTopics/${id}`)
-      .then(response => {
-        // Handle successful response here
-        console.log('Delete successful');
-      })
-      .catch(error => {
-        // Handle error response here
-        console.error('Delete failed: ', error);
-      });
-  }
-
-  const handleReport = (id) => {
-    axios.put(`http://localhost:8080/PU-war/webresources/forumTopics/report/${id}`)
-      .then(response => {
-        // Handle successful response here
-        console.log('Report successful');
-      })
-      .catch(error => {
-        // Handle error response here
-        console.error('Report failed: ', error);
-      });
   }
 
   const handleSortByChange = (event) => {
@@ -106,6 +114,84 @@ export default function ForumTopics() {
     console.log("selectedPuId after update:", selectedPuId);
     setSearchQuery("");
   };
+
+  const handleReportButtonClick = (topic) => {
+    setSelectedReportTopicId(topic.topicId);
+    setSelectedReportTopicName(topic.topicName);
+    setShowReportConfirmation(true);
+  }
+
+  const toggleReportModal = () => {
+    setShowReportConfirmation(!showReportConfirmation);
+  }
+
+  const handleReportConfirmation = () => {
+    axios.put(`http://localhost:8080/PU-war/webresources/forumTopics/report/${selectedReportTopicId}`)
+    .then(response => {
+      // Handle successful response here
+      console.log('Report successful');
+      setAlertType('success');
+      setAlertMessage('The topic was reported successfully!');
+      setAlertVisible(true);
+
+      setTimeout(() => {
+        window.location.href = window.location.href;
+      }, 1000);
+    })
+    .catch(error => {
+      // Handle error response here
+      console.error('Report failed: ', error);
+      setAlertType('danger');
+      setAlertMessage('Error reporting the topic. Please try again.');
+      setAlertVisible(true);
+    });
+    setShowReportConfirmation(false);
+  }
+
+  const handleDeleteButtonClick = (topic) => {
+    setSelectedDeleteTopicId(topic.topicId);
+    setSelectedDeleteTopicName(topic.topicName);
+    setShowDeleteConfirmation(true);
+
+  };
+
+  const toggleModal = () => {
+    setShowDeleteConfirmation(!showDeleteConfirmation);
+  }
+
+  const handleDeleteConfirmation = () => {
+    // Perform the deletion here
+    axios.delete(`http://localhost:8080/PU-war/webresources/forumTopics/${selectedDeleteTopicId}`)
+    .then(response => {
+      // Handle successful response here
+      console.log('Delete successful');
+      setAlertType('success');
+      setAlertMessage('The topic was deleted successfully!');
+      setAlertVisible(true);
+
+      setTimeout(() => {
+        window.location.href = window.location.href;
+      }, 1000);
+    })
+    .catch(error => {
+      // Handle error response here
+      console.error('Delete failed: ', error);
+      setAlertType('danger');
+      setAlertMessage('Error deleting the topic. Please try again.');
+      setAlertVisible(true);
+    });
+    setShowDeleteConfirmation(false);
+  };
+
+  function calculatePostNumber(forumPosts) {
+    let count = 0;
+    forumPosts.forEach((forumPost) => {
+      if (!forumPost.isInappropriate) {
+        count = count + 1;
+      }
+    })
+    return count;
+  }
 
   function getTimeDifference(timeOfCreation) {
     const now = new Date();
@@ -128,58 +214,73 @@ export default function ForumTopics() {
     }
   }
 
+  function calculateTopics(forumTopics) {
+    let count = 0;   
+    forumTopics.forEach((topic) => {
+      if (!topic.isInappropriate) {
+        count = count + 1;
+      }
+    })
+    return count;
+  }
+
   return (
+    <div>
     <Fragment>
-      {/* <select value={selectedPuId} onChange={handleSortByChange}>
-        <option value={0}>All</option>
-        {pus.map(pu => (
-          <option value={pu.puId} key={pu.puId}>{pu.name}</option>
-        ))}
-      </select>
-      <div className="search">
-        <input
-          placeholder="Search for Forum Topic"
-          value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
-        />
-        <img
-          src={SearchIcon}
-          alt="search"
-          onClick={() => searchForumTopic(searchQuery)}
-        />
-      </div> */}
-      <div className="search-container">
-        <div className="select-wrapper">
-          <select value={selectedPuId} onChange={handleSortByChange}>
-            <option value={0}>All</option>
-            {pus.map(pu => (
-              <option value={pu.puId} key={pu.puId}>{pu.name}</option>
-            ))}
-          </select>
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "3px"}}>
+          <div>
+            <select value={selectedPuId} onChange={handleSortByChange}>
+              <option value={0}>All</option>
+              {pus.map(pu => (
+                <option value={pu.puId} key={pu.puId}>{pu.name}</option>
+              ))}
+            </select>
+          </div>
+          <div style={{ display: "flex", justifyContent: "flex-end", alignItems: "center", marginRight: "2px" }}>
+            <input
+              placeholder="Search for Forum Topic"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              style={{ borderRadius: "15px", padding: "3px", border: "0.5px solid grey", marginRight: "10px" }}
+            />
+            <img
+              src={SearchIcon}
+              alt="search"
+              onClick={() => searchForumTopic(searchQuery)}
+              style={{ width: "20px", height: "20px", cursor: "pointer" }}
+            />
+          </div>
         </div>
-        <div className="search-wrapper">
-          <input
-            placeholder="Search for Forum Topic"
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-          />
-          <img
-            src={SearchIcon}
-            alt="search"
-            onClick={() => searchForumTopic(searchQuery)}
-          />
-        </div>
-      </div>
       <Card className="card-box mb-5">
         <div className="card-header">
           <div className="card-header--title">
             <small>Forum</small>
             <b>Forum Topics</b>
+            <Modal isOpen={showDeleteConfirmation} toggle={toggleModal}>
+              <ModalHeader toggle={toggleModal}>Confirm deletion</ModalHeader>
+              <ModalBody>
+                Are you sure you want to delete topic: {selectedDeleteTopicName}?
+              </ModalBody>
+              <ModalFooter>
+                <Button color="primary" onClick={handleDeleteConfirmation}>Delete</Button>{' '}
+                <Button color="secondary" onClick={toggleModal}>Cancel</Button>
+              </ModalFooter>
+            </Modal>
+            <Modal isOpen={showReportConfirmation} toggle={toggleReportModal}>
+              <ModalHeader toggle={toggleReportModal}>Confirm report</ModalHeader>
+              <ModalBody>
+                Are you sure you want to report topic: {selectedReportTopicName}?
+              </ModalBody>
+              <ModalFooter>
+                <Button color="primary" onClick={handleReportConfirmation}>Report</Button>{' '}
+                <Button color="secondary" onClick={toggleReportModal}>Cancel</Button>
+              </ModalFooter>
+            </Modal>
           </div>
           <div className="card-header--actions">
             <Button
               tag={Link}
-              to={`/new-topic/${1}`}
+              to={`/new-topic`}
               color="outline-primary"
               title="View details"
               className="mr-2">
@@ -190,7 +291,7 @@ export default function ForumTopics() {
           <div className="card-header--actions">
             <Button
               tag={Link}
-              to={`/my-topics/${1}`}
+              to={`/my-topics`}
               color="outline-primary"
               title="View My Topics"
               className="ml-2">
@@ -210,7 +311,7 @@ export default function ForumTopics() {
                   <th className="text-center">Actions</th>
                 </tr>
               </thead>
-              {forumTopics.length > 0 ? (
+              {calculateTopics(forumTopics) > 0 ? (
               <tbody>
                 {forumTopics.slice(pagesVisited, pagesVisited + itemsPerPage).map((item) => (
                   !item.isInappropriate && (
@@ -219,9 +320,12 @@ export default function ForumTopics() {
                         <a className="font-weight-bold text-black">
                           {item.topicName}
                         </a>
-                          <Link to={`/`} className="text-black-50 d-block blue-link" style={{ textDecoration: 'none' }}>
-                            Author: {item.studentFirstName} {item.studentLastName}
-                          </Link>
+                        {studentId === item.studentId ? 
+                        (<Link to={`/profile`} className="text-black-50 d-block blue-link" style={{ textDecoration: 'none' }}>
+                          Author: {item.studentFirstName} {item.studentLastName}
+                        </Link>) : (<Link to={`/other-profile/${item.studentId}`} className="text-black-50 d-block blue-link" style={{ textDecoration: 'none' }}>
+                          Author: {item.studentFirstName} {item.studentLastName}
+                        </Link>)}
                         {item.isEdited && (
                           <span className="edited-info">
                             Last Edited: {getTimeDifference(item.lastEdit)}
@@ -235,14 +339,14 @@ export default function ForumTopics() {
                       </td>
                       <td style={{ textAlign: 'center', verticalAlign: 'middle' }}>
                         <a className="font-weight-bold text-black">
-                          {item.forumPosts.length}
+                          {calculatePostNumber(item.forumPosts)}
                         </a>
                       </td>
-                      {item.studentId == 1 ? (
+                      {item.studentId == studentId ? (
                         <td className="text-center">
                           <Button
                             tag={Link}
-                            to={`/forum-topics/${item.topicId}/${encodeURIComponent(item.topicName)}/1`}
+                            to={`/forum-topics/${item.topicId}/${encodeURIComponent(item.topicName)}`}
                             size="sm"
                             color="link"
                             className="text-primary"
@@ -263,7 +367,7 @@ export default function ForumTopics() {
                           </Button>
               
                           <Button
-                            onClick={() => handleDelete(item.topicId)}
+                            onClick={() => handleDeleteButtonClick(item)}
                             size="sm"
                             color="link"
                             className="text-danger ml-2"
@@ -276,7 +380,7 @@ export default function ForumTopics() {
                         <td className="text-center">
                           <Button
                             tag={Link}
-                            to={`/forum-topics/${item.topicId}/${encodeURIComponent(item.topicName)}/1`}
+                            to={`/forum-topics/${item.topicId}/${encodeURIComponent(item.topicName)}`}
                             size="sm"
                             color="link"
                             className="text-primary"
@@ -286,7 +390,7 @@ export default function ForumTopics() {
                           </Button>
               
                           <Button
-                            onClick={() => handleReport(item.topicId)}
+                            onClick={() => handleReportButtonClick(item)}
                             size="sm"
                             color="link"
                             className="text-secondary ml-2"
@@ -331,5 +435,11 @@ export default function ForumTopics() {
         </CardBody>
       </Card>
     </Fragment>
+      {alertVisible && (
+        <Alert color={alertType} toggle={() => setAlertVisible(false)}>
+          {alertMessage}
+        </Alert>
+      )}
+    </div>
   );
 }

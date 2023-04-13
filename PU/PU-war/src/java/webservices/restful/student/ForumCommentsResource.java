@@ -18,9 +18,12 @@ import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PUT;
 import javax.enterprise.context.RequestScoped;
+import javax.json.Json;
+import javax.json.JsonObject;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.POST;
 import javax.ws.rs.PathParam;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.GenericEntity;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -239,4 +242,21 @@ public class ForumCommentsResource {
         return Response.status(204).build();
 
     }   
+    
+    @GET
+    @Path("/query/{postId}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response searchForumComment(@QueryParam("searchQuery") String searchQuery, @PathParam("postId") Long postId) {
+        if (searchQuery != null) {
+            List<ForumComment> results
+                    = forumCommentSessionBeanLocal.searchForumComment(searchQuery, postId);
+            GenericEntity<List<ForumComment>> entity = new GenericEntity<List<ForumComment>>(results) {
+            };
+            return Response.status(200).entity(entity).build();
+        } else {
+            JsonObject exception = Json.createObjectBuilder().add("error", "No query conditions").build();
+            return Response.status(400).entity(exception).build();
+        }
+    }
+    
 }

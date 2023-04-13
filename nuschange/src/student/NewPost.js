@@ -1,25 +1,39 @@
 import React from 'react';
-import { useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useState, useContext, useEffect } from 'react';
+import { useParams, Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { AuthContext } from "./login/AuthContext";
 
 import {
     Card,
     CardBody,
     CardHeader,
-    FormText,
     Form,
     Col,
     Label,
     FormGroup,
     Input,
-    Button
+    Button,
+    Alert
 } from 'reactstrap';
 
 export default function NewPost() {
+    const { loggedInStudent } = useContext(AuthContext);
+    const [studentId, setStudentId] = useState(0);
     const { id, topicName } = useParams();
-    const [title, setTitle] = useState('');
-    const [content, setContent] = useState('');
+    const [title, setTitle] = useState("");
+    const [content, setContent] = useState("");
+    const [ saveButtonDisabled, setSaveButtonDisabled ] = useState(true);
+    const [alertVisible, setAlertVisible] = useState(false);
+    const [alertMessage, setAlertMessage] = useState('');
+    const [alertType, setAlertType] = useState('danger');
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        if (loggedInStudent) {
+          setStudentId(loggedInStudent.studentId);
+        }
+    }, [loggedInStudent]);
 
     const handleTitleChange = (e) => {
         setTitle(e.target.value);
@@ -29,29 +43,51 @@ export default function NewPost() {
         setContent(e.target.value);
     };
 
+    useEffect(() => {
+        function checkButton() {
+            if (title.trim().length === 0 || content.trim().length === 0) {
+                setSaveButtonDisabled(true);
+            } else {
+                setSaveButtonDisabled(false);
+            }
+        }
+      
+        checkButton();
+      }, [title, content]);
+
+    if (!loggedInStudent) {
+      return <h1 style={{ textAlign: 'center', color: 'red', margin: '0 auto', width: '50%', fontWeight: 'bold', fontSize: '2em'}}>You are not logged in.</h1>;
+    }
+
     const handleSubmit = (e) => {
         e.preventDefault();
-
-        //const formData = new FormData();
-
-        //formData.append('title', title);
-        //formData.append('content', content);
 
         const createdForumPost = {
             title,
             content
         };
 
-        axios.post(`http://localhost:8080/PU-war/webresources/forumPosts/user/forumTopics/${id}/student/1/forumPosts`, createdForumPost)
+        axios.post(`http://localhost:8080/PU-war/webresources/forumPosts/user/forumTopics/${id}/student/${studentId}/forumPosts`, createdForumPost)
             .then((response) => {
                 console.log(response.data);
+                setAlertType('success');
+                setAlertMessage('The post was created successfully!');
+                setAlertVisible(true);
+        
+                setTimeout(() => {
+                    navigate(`/forum-topics/${id}/${topicName}`);
+                }, 1000);
             })
             .catch((error) => {
                 console.error(error);
+                setAlertType('danger');
+                setAlertMessage('Error creating the post. Please try again.');
+                setAlertVisible(true);
             });
     };
 
     return (
+        <div>
         <Card>
             <CardHeader>Create a new post for topic: {topicName}</CardHeader>
             <CardBody>
@@ -88,8 +124,13 @@ export default function NewPost() {
                     <FormGroup row>
                         <Col sm={{ size: 10, offset: 1 }}>
                             <div className="text-right">
-                                <Button color="outline-primary" type="submit">
+                            <Button variant="success"
+                                    disabled={saveButtonDisabled} type="submit">
                                     Create post
+                                </Button>
+                                <Button variant="outline-danger" tag={Link}
+                                    to={`/forum-topics/${id}/${topicName}`}>
+                                    Close
                                 </Button>
                             </div>
                         </Col>
@@ -97,5 +138,11 @@ export default function NewPost() {
                 </Form>
             </CardBody>
         </Card>
+        {alertVisible && (
+                <Alert color={alertType} toggle={() => setAlertVisible(false)}>
+                    {alertMessage}
+                </Alert>
+            )}
+        </div>
     );
 }

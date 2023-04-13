@@ -1036,11 +1036,11 @@ public class DataInitializationSessionBean {
         forumTopic2.setIsInappropriate(true);
         forumTopic3.setIsInappropriate(true);
         
-        forumTopicSessionBeanLocal.createNewForumTopic(forumTopic1, studentId1);
-        forumTopicSessionBeanLocal.createNewForumTopic(forumTopic2, studentId2);
-        forumTopicSessionBeanLocal.createNewForumTopic(forumTopic3, studentId3);
-        forumTopicSessionBeanLocal.createNewForumTopic(forumTopic4, studentId1);
-        forumTopicSessionBeanLocal.createNewForumTopic(forumTopic5, studentId2);
+        forumTopicSessionBeanLocal.createNewForumTopic(forumTopic1, studentId1, pId1);
+        forumTopicSessionBeanLocal.createNewForumTopic(forumTopic2, studentId2, pId2);
+        forumTopicSessionBeanLocal.createNewForumTopic(forumTopic3, studentId3, pId3);
+        forumTopicSessionBeanLocal.createNewForumTopic(forumTopic4, studentId1, pId4);
+        forumTopicSessionBeanLocal.createNewForumTopic(forumTopic5, studentId2, pId5);
         
         ForumPost forumPost1 = new ForumPost("This is stupid?", "Stupid PU!!");
         ForumPost forumPost2 = new ForumPost("HK nice food?", "What a joke!!");

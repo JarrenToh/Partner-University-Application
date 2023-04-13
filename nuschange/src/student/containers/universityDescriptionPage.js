@@ -209,7 +209,7 @@ function UniversityDescriptionPage() {
                             </InputGroup>
                         </PopoverBody>
                     </Popover>
-                    <Button tag={Link} to={`/pu-topics/${pu.puId}/${1}`} color="primary" className="m-4" size="lg">
+                    <Button tag={Link} to={`/forum-topics/${pu.puId}`} color="primary" className="m-4" size="lg">
                         Forum
                     </Button>
                     <Link to={`/university-description-page/${pu.name}/mappable-module`}>

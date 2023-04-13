@@ -38,7 +38,7 @@
   }
 
   .forum-body p:last-of-type {
-    font-size: 12px;
+    font-size: 15px;
     margin-bottom: 0;
   }
 
@@ -65,6 +65,18 @@
     margin-left: 10px;
   }
 
+    .forum-header .author,
+    .forum-header .time {
+      white-space: nowrap;
+      font-size: 14px;
+    }
+
+  .forum-header .text-muted {
+    display: flex;
+    align-items: center;
+    max-width: 500px; /* adjust as necessary */
+  }
+
   .author {
     display: inline-block;
     margin-right: 10px;
@@ -77,7 +89,7 @@
   }
   
   .comment-header .author {
-    font-size: 14px;
+    font-size: 16px;
   }
   
   .comment-body {
@@ -101,23 +113,27 @@
   }
   
   .button-container {
-    display: flex;
-    align-items: flex-start;
-    flex-direction: row;
-    margin-top: 0px;
-    margin-bottom: 7px;
-    font-size: 15px;
+    display: flex !important;
+    align-items: flex-start !important;
+    flex-direction: row !important;
+    margin-top: 0px !important;
+    margin-bottom: 7px !important;
+    font-size: 15px !important;
   }
 
-  .button-container button {
-    margin-right: 3px; /* Add margin to the right of each button */
-    border: none;
-    background-color: transparent;
-  }
-
-  .button-container button:hover {
-    color: orangered;
-    transform: translateY(-3px);
+.button-container .forumButton {
+  margin-right: 3px !important;
+  border: none !important;
+  background-color: transparent !important;
+  outline: none !important;
+  background: none !important;
+  border: none !important;
+  box-shadow: none !important;
+  color: grey !important;
+}
+  .button-container .forumButton:hover {
+    color: darkblue !important;
+    transform: translateY(-3px) !important;
   }
   
   .comment-body .list-group-item button {
@@ -163,10 +179,10 @@
     margin-bottom: 10px;
   }
 
-  .liked {
-    color: green;
+  .forumButton.liked {
+    color: green !important;
   }
   
-  .disliked {
-    color: red;
+  .forumButton.disliked {
+    color: red !important;
   }

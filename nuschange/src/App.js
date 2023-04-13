@@ -15,10 +15,9 @@ import MyPosts from './student/MyPosts';
 import EditPost from './student/EditForumPost';
 import NewTopic from './student/NewTopic';
 import EditTopic from './student/EditTopic';
-import PUTopics from './student/PUTopics';
-import PUMyTopics from './student/PUMyTopics';
-import PUNewTopic from './student/PUNewTopic';
 import Post from './student/Post';
+import Error from './student/ErrorPage';
+import EditComment from './student/EditComment';
 import FAQPage from './student/FAQpage';
 import LikedPUs from './student/studentProfile/LikedPUs';
 import UniversityRankingsCountry from './student/ranking/UniversityRankingsCountry';
@@ -96,18 +95,17 @@ const App = () => {
           <Routes>
             <Route path="/home-page" element={<HomePage />} />
             <Route path="/profile" element={<StudentProfile user={user} />} />
-            <Route path="/forum-topics" element={<ForumTopics />} />
-            <Route path="/pu-topics/:puId" element={<PUTopics/>} />
-            <Route path="/pu-my-topics/:puId/:studentId" element={<PUMyTopics/>} />
-            <Route path="/new-pu-topic/:puId/:studentId" element={<PUNewTopic/>} />
-            <Route path="/forum-topics/:id/:topicName/:studentId" element={<TopicPosts />} />
+            <Route path="/forum-topics/:puId" element={<ForumTopics />} />
+            <Route path="/forum-topics/:id/:topicName" element={<TopicPosts />} />
             <Route path="/forum-posts/:id/:topicName" element={<NewPost />} />
-            <Route path="/my-topics/:studentId" element={<MyTopics />} />
-            <Route path="/my-posts/:id/:topicName/:studentId" element={<MyPosts />} />
-            <Route path="/forum-posts/edit/:id/:oldTitle/:oldMessage/:topicName" element={<EditPost />} />
-            <Route path="/new-topic/:studentId" element={<NewTopic />} />
+            <Route path="/my-topics" element={<MyTopics />} />
+            <Route path="/my-posts/:id/:topicName" element={<MyPosts />} />
+            <Route path="/forum-posts/edit/:topicId/:id/:oldTitle/:oldMessage/:topicName/:number" element={<EditPost />} />
+            <Route path="/new-topic" element={<NewTopic />} />
             <Route path="/forum-topics/edit/:topicId/:oldTopicName" element={<EditTopic />} />
-            <Route path="/view-post/:postId/:studentId" element={<Post />} />
+            <Route path="/error" element={<Error />} />
+            <Route path="/view-post/:postId/:topicName/:topicId" element={<Post />} />
+            <Route path="/edit-comment/:commentId/:oldCommentMessage/:postId/:topicName/:topicId" element={<EditComment />} />
             <Route path="/login" element={<StudentLogin onLogin={handleLogin} />} />
             <Route path="/university-rankings" element={<UniversityRankings universitiesData={pus} />} />
             <Route path="/university-rankings-country" element={<UniversityRankingsCountry universitiesData={pus} />} />
@@ -176,7 +174,6 @@ const App = () => {
         {/* <UniversityDescriptionPage/> */}
         {/* <MappableModule /> */}
       </div>
-        </Router>/*}
         
     </AuthProvider>
   );

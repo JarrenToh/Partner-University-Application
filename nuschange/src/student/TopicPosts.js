@@ -8,27 +8,20 @@ import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import './styles.css';
 import SearchIcon from './homepage/search.svg';
 import { Link } from 'react-router-dom';
+import { AuthContext } from "./login/AuthContext";
 
 import {
   Table,
   CardBody,
   Card,
-  CardHeader,
-  CustomInput,
-  Badge,
-  Nav,
-  NavItem,
-  NavLink,
-  Pagination,
-  PaginationItem,
-  PaginationLink,
   Button,
-  ButtonGroup,
-  UncontrolledDropdown,
-  DropdownToggle,
-  DropdownMenu
+  Modal,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
+  Alert
 } from 'reactstrap';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useContext } from 'react';
 import axios from 'axios';
 import ReactPaginate from 'react-paginate'
 
@@ -37,14 +30,33 @@ const API_URL = 'http://localhost:8080/PU-war/webresources/forumPosts';
 library.add(far, fas, faPlus);
 
 export default function TopicPosts() {
-  const { id, topicName, studentId } = useParams();
+  const { loggedInStudent } = useContext(AuthContext);
+  const [studentId, setStudentId] = useState(0);
+  const { id, topicName } = useParams();
   const [puName, setPuName] = useState("");
   const [forumPosts, setForumPosts] = useState([]);
-  const [searchQuery, setSearchQuery] = useState('');
+  const [searchQuery, setSearchQuery] = useState("");
+  const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
+  const [selectedDeletePostId, setSelectedDeletePostId] = useState(null);
+  const [selectedDeletePostName, setSelectedDeletePostName] = useState(null);
+  const [showReportConfirmation, setShowReportConfirmation] = useState(false);
+  const [selectedReportPostId, setSelectedReportPostId] = useState(null);
+  const [selectedReportPostName, setSelectedReportPostName] = useState(null);
+  const [alertVisible, setAlertVisible] = useState(false);
+  const [alertMessage, setAlertMessage] = useState('');
+  const [alertType, setAlertType] = useState('danger');
   const [pageNumber, setPageNumber] = useState(0);
   const itemsPerPage = 5; // Change this value to the number of items you want to display per page
   const pagesVisited = pageNumber * itemsPerPage;
   const pageCount = Math.ceil(forumPosts.length / itemsPerPage);
+
+
+  useEffect(() => {
+    if (loggedInStudent) {
+      setStudentId(loggedInStudent.studentId);
+    }
+  }, [loggedInStudent]);
+
 
   useEffect(() => {
     const fetchData = async () => {
@@ -62,6 +74,10 @@ export default function TopicPosts() {
     fetchData();
   }, []);
 
+  if (!loggedInStudent) {
+    return <h1 style={{ textAlign: 'center', color: 'red', margin: '0 auto', width: '50%', fontWeight: 'bold', fontSize: '2em'}}>You are not logged in.</h1>;
+  }
+
   const searchForumPost = async (searchQuery) => {
     const fetchData = async () => {
       try {
@@ -74,30 +90,73 @@ export default function TopicPosts() {
     fetchData();
   }
 
-  const handleDelete = (postId) => {
-    axios.delete(`http://localhost:8080/PU-war/webresources/forumPosts/${postId}`)
-        .then(response => {
-            // Handle successful response here
-            console.log('Delete successful');
-            //setForumPosts(response.data);
-        })
-        .catch(error => {
-            // Handle error response here
-            console.error('Delete failed: ', error);
-        });
+  const handleReportButtonClick = (post) => {
+    setSelectedReportPostId(post.postId);
+    setSelectedReportPostName(post.title);
+    setShowReportConfirmation(true);
   }
 
-  const handleReport = (id) => {
-    axios.put(`http://localhost:8080/PU-war/webresources/forumPosts/report/${id}`)
-      .then(response => {
-        // Handle successful response here
-        console.log('Report successful');
-      })
-      .catch(error => {
-        // Handle error response here
-        console.error('Report failed: ', error);
-      });
+  const toggleReportModal = () => {
+    setShowReportConfirmation(!showReportConfirmation);
   }
+
+  const handleReportConfirmation = () => {
+    axios.put(`http://localhost:8080/PU-war/webresources/forumPosts/report/${selectedReportPostId}`)
+    .then(response => {
+      // Handle successful response here
+      console.log('Report successful');
+      setAlertType('success');
+      setAlertMessage('The post was reported successfully!');
+      setAlertVisible(true);
+
+      setTimeout(() => {
+        window.location.href = window.location.href;
+      }, 1000);
+    })
+    .catch(error => {
+      // Handle error response here
+      console.error('Report failed: ', error);
+      setAlertType('danger');
+      setAlertMessage('Error reporting the post. Please try again.');
+      setAlertVisible(true);
+    });
+    setShowReportConfirmation(false);
+  }
+
+  const handleDeleteButtonClick = (post) => {
+    setSelectedDeletePostId(post.postId);
+    setSelectedDeletePostName(post.title);
+    setShowDeleteConfirmation(true);
+
+  };
+
+  const toggleModal = () => {
+    setShowDeleteConfirmation(!showDeleteConfirmation);
+  }
+
+  const handleDeleteConfirmation = () => {
+    // Perform the deletion here
+    axios.delete(`http://localhost:8080/PU-war/webresources/forumPosts/${selectedDeletePostId}`)
+    .then(response => {
+      // Handle successful response here
+      console.log('Delete successful');
+      setAlertType('success');
+      setAlertMessage('The post was deleted successfully!');
+      setAlertVisible(true);
+
+      setTimeout(() => {
+        window.location.href = window.location.href;
+      }, 1000);
+    })
+    .catch(error => {
+      // Handle error response here
+      console.error('Delete failed: ', error);
+      setAlertType('danger');
+      setAlertMessage('Error deleting the post. Please try again.');
+      setAlertVisible(true);
+    });
+    setShowDeleteConfirmation(false);
+  };
 
   function getTimeDifference(timeOfCreation) {
     const now = new Date();
@@ -120,28 +179,59 @@ export default function TopicPosts() {
     }
   }
 
+  function calculatePosts(forumPosts) {
+    let count = 0;   
+    forumPosts.forEach((post) => {
+      if (!post.isInappropriate) {
+        count = count + 1;
+      }
+    })
+    return count;
+  }
+
   return (
+    <div>
     <Fragment>
-      <div className="search-container">
-        <div className="search-wrapper">
+      <div style={{ display: "flex", justifyContent: "flex-end", alignItems: "center", marginRight: "2px", marginBottom: "3px" }}>
           <input
             placeholder="Search for Forum Post"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
+            style={{ borderRadius: "15px", padding: "3px", border: "0.5px solid grey", marginRight: "10px" }}
           />
           <img
             src={SearchIcon}
             alt="search"
             onClick={() => searchForumPost(searchQuery)}
+            style={{ width: "20px", height: "20px", cursor: "pointer" }}
           />
         </div>
-      </div>
       <Card className="card-box mb-5">
         <div className="card-header">
           <div className="card-header--title">
             <small>Forum Topic: {topicName}</small>
             <small>Partner University: {puName}</small>
             <b>Forum Posts</b>
+            <Modal isOpen={showDeleteConfirmation} toggle={toggleModal}>
+              <ModalHeader toggle={toggleModal}>Confirm deletion</ModalHeader>
+              <ModalBody>
+                Are you sure you want to delete post: {selectedDeletePostName}?
+              </ModalBody>
+              <ModalFooter>
+                <Button color="primary" onClick={handleDeleteConfirmation}>Delete</Button>{' '}
+                <Button color="secondary" onClick={toggleModal}>Cancel</Button>
+              </ModalFooter>
+            </Modal>
+            <Modal isOpen={showReportConfirmation} toggle={toggleReportModal}>
+              <ModalHeader toggle={toggleReportModal}>Confirm report</ModalHeader>
+              <ModalBody>
+                Are you sure you want to report post: {selectedReportPostName}?
+              </ModalBody>
+              <ModalFooter>
+                <Button color="primary" onClick={handleReportConfirmation}>Report</Button>{' '}
+                <Button color="secondary" onClick={toggleReportModal}>Cancel</Button>
+              </ModalFooter>
+            </Modal>
           </div>
           <div className="card-header--actions">
             <Button
@@ -157,7 +247,7 @@ export default function TopicPosts() {
           <div className="card-header--actions">
             <Button
               tag={Link}
-              to={`/my-posts/${id}/${encodeURIComponent(topicName)}/${studentId}`}
+              to={`/my-posts/${id}/${encodeURIComponent(topicName)}`}
               color="outline-primary"
               title="View My Posts"
               className="ml-2">
@@ -176,7 +266,7 @@ export default function TopicPosts() {
                   <th className="text-center">Actions</th>
                 </tr>
               </thead> 
-              {forumPosts.length > 0 ? (
+              {calculatePosts(forumPosts) > 0 ? (
               <tbody>
                 {forumPosts.slice(pagesVisited, pagesVisited + itemsPerPage).map((item) => (
                   !item.isInappropriate && (
@@ -187,7 +277,7 @@ export default function TopicPosts() {
                       >
                         {item.title}
                       </a>
-                        <Link to={`/`} className="text-black-50 d-block blue-link" style={{ textDecoration: 'none' }}>
+                        <Link to={`/other-profile/${item.studentId}`} className="text-black-50 d-block blue-link" style={{ textDecoration: 'none' }}>
                           Author: {item.studentFirstName} {item.studentLastName}
                         </Link>
                       {item.isEdited && (
@@ -203,11 +293,11 @@ export default function TopicPosts() {
                         </a>
                       </div>    
                     </td>
-                    {item.studentId == 1 ? (
+                    {item.studentId == studentId ? (
                       <td className="text-center">
                         <Button
                           tag={Link}
-                          to={`/view-post/${item.postId}/${studentId}`}
+                          to={`/view-post/${item.postId}/${topicName}/${id}`}
                           size="sm"
                           color="link"
                           className="text-primary"
@@ -218,7 +308,7 @@ export default function TopicPosts() {
 
                         <Button
                           tag={Link}
-                          to={`/forum-posts/edit/${item.postId}/${item.title}/${encodeURIComponent(item.message)}/${encodeURIComponent(topicName)}`}
+                          to={`/forum-posts/edit/${id}/${item.postId}/${item.title}/${encodeURIComponent(item.message)}/${encodeURIComponent(topicName)}/${0}`}
                           size="sm"
                           color="link"
                           className="text-warning ml-2"
@@ -228,7 +318,7 @@ export default function TopicPosts() {
                         </Button>
 
                         <Button
-                          onClick={() => handleDelete(item.postId)}
+                          onClick={() => handleDeleteButtonClick(item)}
                           size="sm"
                           color="link"
                           className="text-danger ml-2"
@@ -241,7 +331,7 @@ export default function TopicPosts() {
                       <td className="text-center">
                         <Button
                           tag={Link}
-                          to={`/view-post/${item}`}
+                          to={`/view-post/${item.postId}/${topicName}/${id}`}
                           size="sm"
                           color="link"
                           className="text-primary"
@@ -251,7 +341,7 @@ export default function TopicPosts() {
                         </Button>
 
                         <Button
-                          onClick={() => handleReport(item.postId)}
+                          onClick={() => handleReportButtonClick(item)}
                           size="sm"
                           color="link"
                           className="text-secondary ml-2"
@@ -296,5 +386,11 @@ export default function TopicPosts() {
         </CardBody>
       </Card>
     </Fragment>
+      {alertVisible && (
+        <Alert color={alertType} toggle={() => setAlertVisible(false)}>
+          {alertMessage}
+        </Alert>
+      )}
+    </div>
   );
 }
