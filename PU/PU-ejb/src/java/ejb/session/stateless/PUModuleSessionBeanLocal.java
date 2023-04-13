@@ -42,5 +42,7 @@ public interface PUModuleSessionBeanLocal {
     public PUModule searchPUModuleByCodeAndPUName(String code, String puName);
 
     void associatePUModuleNUSModule(Long puModId, Long nusModId);
+
+    public void associatePUModuleStudent(Long puModId, Long studentId);
     
 }

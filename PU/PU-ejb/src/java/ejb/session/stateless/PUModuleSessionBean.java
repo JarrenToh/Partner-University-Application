@@ -8,6 +8,7 @@ package ejb.session.stateless;
 import entity.NUSModule;
 import entity.PU;
 import entity.PUModule;
+import entity.Student;
 import error.NoResultException;
 import java.util.List;
 import java.util.logging.Level;
@@ -163,6 +164,17 @@ public class PUModuleSessionBean implements PUModuleSessionBeanLocal {
 
         pUModule.getMappableModules().add(nUSModule);
         nUSModule.getPuModules().add(pUModule);
+    }
+    
+    @Override
+    public void associatePUModuleStudent(Long puModId, Long studentId) {
+
+        PUModule pUModule = em.find(PUModule.class, puModId);
+        Student student = em.find(Student.class, studentId);
+
+        List<PUModule> newList = student.getModulesTaken();
+        newList.add(pUModule);
+        student.setModulesTaken(newList);
     }
 
     @Override
