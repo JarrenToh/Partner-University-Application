@@ -1,5 +1,5 @@
 import React, { useEffect, useContext, useState } from "react";
-import { Modal, Button, Form, InputGroup, Col } from "react-bootstrap";
+import { Modal, Button, Form, InputGroup, Col, Alert } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
 
@@ -10,31 +10,59 @@ const SocialMediaModal = (props) => {
   const API_URL_STUDENT = "http://localhost:8080/PU-war/webresources/student";
   const [socialMedia, setSocialMedia] = useState(props.socialMedia);
   const [saveButtonDisabled, setSaveButtonDisabled] = useState(true);
+  const [formStatus, setFormStatus] = useState("Save Changes");
+  const [alertVisible, setAlertVisible] = useState(false);
+  const [alertMessage, setAlertMessage] = useState("");
+  const [alertType, setAlertType] = useState("danger");
 
   useEffect(() => {
     setSocialMedia(props.socialMedia);
   }, [props.socialMedia]);
 
-  const getStudentAPI = async (studentId) => {
-    const response = await fetch(`${API_URL_STUDENT}/${studentId}`);
-    const data = await response.json();
-    //setCurrentStudent(data);
-  };
-
   // API to update student social media links (working for now)
-  function updateStudentAPI(studentId, data) {
-    // console.log(data);
-    // console.log(data.socialMedia);
-    props.onSocialMediaChange(socialMedia);
-    return fetch(`${API_URL_STUDENT}/${studentId}`, {
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      },
-      method: "PUT",
-      body: JSON.stringify(data),
-    });
-  }
+  const updateStudentAPI = async (studentId, data) => {
+    setFormStatus("Saving...");
+    const containsEmptyString = socialMedia.some((str) => str === "");
+
+    if (containsEmptyString) {
+      setFormStatus("Save Changes");
+      setAlertMessage("Please fill in all fields!");
+      setAlertType("danger");
+      setAlertVisible(true);
+    }
+
+    try {
+      const response = await fetch(`${API_URL_STUDENT}/${studentId}`, {
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        method: "PUT",
+        body: JSON.stringify(data),
+      });
+
+      if (response.ok) {
+        props.onSocialMediaChange(socialMedia);
+        setFormStatus("Save Changes");
+        setAlertType("success");
+        setAlertMessage(
+          "You have edited your social media links successfully!"
+        );
+        setAlertVisible(true);
+        setSaveButtonDisabled(true);
+      } else {
+        setFormStatus("Save Changes");
+        setAlertType("danger");
+        setAlertMessage("An error occured!");
+        setAlertVisible(true);
+      }
+    } catch (error) {
+      setFormStatus("Save Changes");
+      setAlertType("danger");
+      setAlertMessage("An error occured!");
+      setAlertVisible(true);
+    }
+  };
 
   function handleAdd() {
     const values = [...socialMedia];
@@ -74,8 +102,9 @@ const SocialMediaModal = (props) => {
             socialMedia.map((field, idx) => (
               <div style={{ paddingBottom: "2.5%" }} key={idx}>
                 <Form.Label>{`Link ${idx + 1}`}</Form.Label>
-                <InputGroup>
+                <InputGroup hasValidation>
                   <Form.Control
+                    required
                     placeholder={`Social Media Link ${idx + 1}`}
                     value={field}
                     onChange={(e) => handleChange(idx, e)}
@@ -83,10 +112,13 @@ const SocialMediaModal = (props) => {
                   <Button variant="danger" onClick={() => handleRemove(idx)}>
                     <FontAwesomeIcon icon={faTrash} />
                   </Button>
+                  <Form.Control.Feedback type="invalid">
+                    Please type a relevant link!
+                  </Form.Control.Feedback>
                 </InputGroup>
               </div>
             ))}
-          {socialMedia.length == 0 && (
+          {socialMedia.length === 0 && (
             <div style={{ textAlign: "center", margin: "5%" }}>
               <h5>
                 You have no social media links now. You can add them by clicking
@@ -100,6 +132,16 @@ const SocialMediaModal = (props) => {
               Add Social Media Link
             </Button>
           </div>
+          {alertVisible && (
+            <Alert
+              variant={alertType}
+              toggle={() => setAlertVisible(false)}
+              onClose={() => setAlertVisible(false)}
+              dismissible
+            >
+              {alertMessage}
+            </Alert>
+          )}
         </div>
       </Modal.Body>
       <Modal.Footer>
@@ -108,7 +150,7 @@ const SocialMediaModal = (props) => {
         </Button>
         <Button
           variant="success"
-          disabled={saveButtonDisabled}
+          disabled={saveButtonDisabled || formStatus === "Saving..."}
           onClick={() =>
             updateStudentAPI(loggedInStudent.studentId, {
               ...loggedInStudent,
@@ -116,7 +158,7 @@ const SocialMediaModal = (props) => {
             })
           }
         >
-          Save Changes
+          {formStatus}
         </Button>
       </Modal.Footer>
     </Modal>
@@ -124,51 +166,3 @@ const SocialMediaModal = (props) => {
 };
 
 export default SocialMediaModal;
-
-/*
-<div>
-          {socialMedia.length > 0 &&
-            socialMedia.map((field, idx) => (
-              <div style={{ paddingBottom: "5%" }} key={idx}>
-                <InputGroup>
-                  <Form.Control
-                    placeholder={`Social Media Link ${idx + 1}`}
-                    value={field}
-                    onChange={(e) => handleChange(idx, e)}
-                  />
-                  <Button variant="danger" onClick={() => handleRemove(idx)}>
-                    <FontAwesomeIcon icon={faTrash} />
-                  </Button>
-                </InputGroup>
-              </div>
-            ))}
-          {socialMedia.length == 0 && (
-            <div style={{ textAlign: "center", margin: "5%" }}>
-              <h5>
-                You have no social media links now. You can add them by clicking
-                on the button below!
-              </h5>
-            </div>
-          )}
-
-          <div className="d-grid gap-2" style={{ paddingBottom: "2.5%" }}>
-            <Button variant="primary" onClick={() => handleAdd()}>
-              Add Social Media Link
-            </Button>
-          </div>
-          <div className="d-grid gap-2">
-            <Button
-              variant="success"
-              disabled={saveButtonDisabled}
-              onClick={() =>
-                updateStudentAPI(loggedInStudent.studentId, {
-                  ...loggedInStudent,
-                  socialMedia: socialMedia,
-                })
-              }
-            >
-              Save Changes
-            </Button>
-          </div>
-        </div>
-*/

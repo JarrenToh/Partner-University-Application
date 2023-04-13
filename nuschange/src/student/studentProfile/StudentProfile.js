@@ -27,6 +27,7 @@ import {
 
 import SocialMediaModal from "./SocialMediaModal";
 import IconSocialMedia from "./IconSocialMedia";
+import defaultProfilePicture from "../images/housekeeper.png";
 
 const StudentProfile = () => {
   const { loggedInStudent } = useContext(AuthContext);
@@ -120,7 +121,7 @@ const StudentProfile = () => {
   return (
     <div style={{ paddingLeft: "5%", paddingRight: "5%" }}>
       <div className="container" style={{ border: 0 }}>
-        <h1 className="text-center mb-3">User Profile</h1>
+        <h1 className="text-center mb-3">Your Profile</h1>
       </div>
       <Row>
         <Col>
@@ -128,8 +129,9 @@ const StudentProfile = () => {
             <Card>
               <Card.Body style={{ padding: "5%", textAlign: "center" }}>
                 <Image
-                  src={require("../assets/images/avatars/avatar3.jpg")}
+                  src={defaultProfilePicture}
                   roundedCircle
+                  style={{ width: "200px", height: "200px" }}
                 />
               </Card.Body>
               <Card.Footer>

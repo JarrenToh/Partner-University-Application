@@ -89,7 +89,7 @@ const App = () => {
   return (
     <AuthProvider> {/* Wrap the app in AuthProvider */}
       <div className="App">
-        {/* <NavbarComp isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} user={user} />
+        <NavbarComp isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} user={user} />
         <Router basename='/student'>
           <Routes>
             <Route path="/home-page" element={<HomePage />} />
@@ -119,7 +119,7 @@ const App = () => {
             <Route path="/module-details/:modId" element={<ModuleDetail/>}/>
             <Route path='/other-profile/:studentId' element={<OtherStudentProfile/>}/>
           </Routes>
-        </Router> */}
+        </Router>
 
        <Router basename='/admin'>
           <Routes>
@@ -171,7 +171,7 @@ const App = () => {
         {/* <UniversityDescriptionPage/> */}
         {/* <MappableModule /> */}
       </div>
-        </Router>/*}
+        {/* </Router>*/}
         
     </AuthProvider>
   );

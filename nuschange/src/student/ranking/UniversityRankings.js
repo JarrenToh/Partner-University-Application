@@ -61,7 +61,7 @@ const UniversityRankings = ({ universitiesData }) => {
     setCurrentStudent(data);
     setStudentLikedPus(data.likedPUs);
     setUniversities(
-      universities.map((uni) => ({
+      universitiesData.map((uni) => ({
         ...uni,
         isFavorite: data.some((u) => u.puId === uni.puId),
       }))
@@ -81,7 +81,10 @@ const UniversityRankings = ({ universitiesData }) => {
         "http://localhost:8080/PU-war/webresources/pu"
       );
       const data = await response.json();
-      setUniversities(data);
+      setUniversities(data.map((uni) => ({
+        ...uni,
+        isFavorite: studentLikedPus.some((u) => u.puId === uni.puId),
+      })));
     };
 
     fetchUniversities();
@@ -194,13 +197,11 @@ const UniversityRankings = ({ universitiesData }) => {
     }
   });
 
-  const displayedUniversities = favoritesOnly
-    ? sortedUniversities.filter((university) => university.isFavorite)
-    : sortedUniversities.slice(0, displayLimit);
+  const displayedUniversities = sortedUniversities.slice(0, displayLimit);
 
   return (
     <div className="wrapper">
-      <div className="container">
+      <div className="container" style={{ border: 0 }}>
         <div className="universityRankings">
           <div className="universityRankings_description">
             <h1 className="headerRanking">Partner University Rankings</h1>
