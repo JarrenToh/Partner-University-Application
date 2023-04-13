@@ -1,12 +1,17 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import API from '../util/API';
 import { LoginStyles } from './userSupportAdmin/styles/loginStyles';
+import { AuthContext } from '../AuthContext';
 
-const Login = ({ onLogin }) => {
+const Login = () => {
 
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const navigate = useNavigate();
+
+  const { loginAdmin } = useContext(AuthContext);
 
   const handleUsernameChange = (e) => {
     setUsername(e.target.value);
@@ -24,10 +29,15 @@ const Login = ({ onLogin }) => {
         password,
       });
 
-      // TODO: need to do redirect to main page
-      alert("You have logged in successfully");
+      if (response.status === 200) {
+        const admin = response.data;
+        loginAdmin(admin);
+        setTimeout(() => {
+          navigate('/main');
+        }, 2000);
+      }
     } catch (error) {
-      console.error(error);
+      alert("Invalid credentials");
     }
   };
 
@@ -49,7 +59,7 @@ const Login = ({ onLogin }) => {
             </div>
           </div>
           <div className="card-footer">
-            <button type="submit" className="btn btn-primary">Submit</button>
+            <button type="submit" className="btn btn-primary">Login</button>
           </div>
         </form>
       </div>

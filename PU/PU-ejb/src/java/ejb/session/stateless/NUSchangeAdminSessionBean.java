@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import util.enumeration.UserGroupEnum;
@@ -85,7 +86,12 @@ public class NUSchangeAdminSessionBean implements NUSchangeAdminSessionBeanLocal
         query.setParameter("username", username);
         query.setParameter("password", password);
 
-        return (NUSchangeAdmin) query.getSingleResult();
+        try {
+            return (NUSchangeAdmin) query.getSingleResult();
+        } catch (NoResultException e) {
+            // Handle the case when there is no result
+            return null;
+        }
     }
 
     @Override

@@ -5,7 +5,7 @@ import HomePage from './student/homepage/HomePage';
 import UniversityRankings from './student/ranking/UniversityRankings';
 import NavbarComp from './student/components/NavbarComp';
 import StudentLogin from './student/login/StudentLogin';
-import { AuthProvider, useAuth } from './student/login/AuthContext';
+import { AuthProvider, useAuth } from './AuthContext';
 import StudentProfile from './student/studentProfile/StudentProfile';
 import ForumTopics from './student/ForumTopics';
 import TopicPosts from './student/TopicPosts';
@@ -38,13 +38,13 @@ import FAQs from './admin/userSupportAdmin/pages/faq';
 import CreateFAQ from './admin/userSupportAdmin/pages/faq/create';
 import FAQDetails from './admin/userSupportAdmin/pages/faq/view';
 // system support admin
-import CreatePartnerUuniversity from './admin/systemSupportAdmin/pages/partnerUniversity/create';
-import PartnerUuniversityDetails from './admin/systemSupportAdmin/pages/partnerUniversity/view';
+import CreatePartnerUniversity from './admin/systemSupportAdmin/pages/partnerUniversity/create';
+import PartnerUniversityDetails from './admin/systemSupportAdmin/pages/partnerUniversity/view';
 import PartnerUniversityModules from './admin/systemSupportAdmin/pages/partnerUniversityModule';
 import PartnerUniversityModuleDetails from './admin/systemSupportAdmin/pages/partnerUniversityModule/view';
 import CreatePartnerUniversityModule from './admin/systemSupportAdmin/pages/partnerUniversityModule/create';
 import Main from './admin/Main';
-import PartnerUuniversity from './admin/systemSupportAdmin/pages/partnerUniversity';
+import PartnerUniversity from './admin/systemSupportAdmin/pages/partnerUniversity';
 import Inappropriateness from './admin/systemSupportAdmin/pages/inappropriateness';
 import InappropriatenessDetails from './admin/systemSupportAdmin/pages/inappropriateness/view';
 import ForumTopicsSystemSupportAdmin from './admin/systemSupportAdmin/pages/forumTopic/index';
@@ -52,12 +52,11 @@ import CreateForumTopicsSystemSupportAdmin from './admin/systemSupportAdmin/page
 import ForumTopicsDetailsSystemSupportAdmin from './admin/systemSupportAdmin/pages/forumTopic/view';
 import AdminProfile from './admin/Profile';
 
+import withAdminAuth from './withAdminAuth';
+
 import './student/assets/base.scss';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import ViewEnquiries from './student/enquiries/ViewEnquiries';
-// import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-
-// import Login from './admin/Login';
+// import ViewEnquiries from './student/enquiries/ViewEnquiries';
 
 const App = () => {
   const API_URL = "http://localhost:8080/PU-war/webresources/pu";
@@ -65,6 +64,25 @@ const App = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [user, setUser] = useState(null);
   const { loggedInStudent, login, logout } = useAuth();
+
+  const ProtectedMain = withAdminAuth(Main);
+  const ProtectedFAQs = withAdminAuth(FAQs);
+  const ProtectedFAQDetails = withAdminAuth(FAQDetails);
+  const ProtectedCreateFAQ = withAdminAuth(CreateFAQ);
+  const ProtectedEnquiry = withAdminAuth(Enquiry);
+  const ProtectedEnquiryDetails = withAdminAuth(EnquiryDetails);
+  const ProtectedPartnerUniversity = withAdminAuth(PartnerUniversity);
+  const ProtectedPartnerUniversityDetails = withAdminAuth(PartnerUniversityDetails);
+  const ProtectedCreatePartnerUniversity = withAdminAuth(CreatePartnerUniversity);
+  const ProtectedPartnerUniversityModules = withAdminAuth(PartnerUniversityModules);
+  const ProtectedPartnerUniversityModuleDetails = withAdminAuth(PartnerUniversityModuleDetails);
+  const ProtectedCreatePartnerUniversityModule = withAdminAuth(CreatePartnerUniversityModule);
+  const ProtectedInappropriateness = withAdminAuth(Inappropriateness);
+  const ProtectedInappropriatenessDetails = withAdminAuth(InappropriatenessDetails);
+  const ProtectedForumTopicsSystemSupportAdmin = withAdminAuth(ForumTopicsSystemSupportAdmin);
+  const ProtectedCreateForumTopicsSystemSupportAdmin = withAdminAuth(CreateForumTopicsSystemSupportAdmin);
+  const ProtectedForumTopicsDetailsSystemSupportAdmin = withAdminAuth(ForumTopicsDetailsSystemSupportAdmin);
+  const ProtectedAdminProfile = withAdminAuth(AdminProfile);
 
   useEffect(() => {
     searchPUs("");
@@ -125,27 +143,26 @@ const App = () => {
         <Router basename='/admin'>
           <Routes>
             <Route path="/login" element={<Login />} />
-            <Route path="/main" element={<Main />} />
-            <Route path="/faqs" element={<FAQs />} />
-            <Route path="/faqs/:id" element={<FAQDetails />} />
-            <Route path="/faqs/create" element={<CreateFAQ />} />
-            <Route path="/enquiries" element={<Enquiry />} />
-            <Route path="/enquiries/assigned" element={<Enquiry adminId={1} />} />
-            <Route path="/enquiries/:id" element={<EnquiryDetails />} />
-            <Route path="/partnerUniversities" element={<PartnerUuniversity />} />
-            <Route path="/partnerUniversities/:nameFromUrl" element={<PartnerUuniversityDetails />} />
-            <Route path="/partnerUniversities/create" element={<CreatePartnerUuniversity />} />
-            <Route path="/partnerUniversities/:puName/modules" element={<PartnerUniversityModules />} />
-            <Route path="/partnerUniversities/:puName/modules/:puModuleCode" element={<PartnerUniversityModuleDetails />} />
-            <Route path="/partnerUniversities/:puName/modules/create" element={<CreatePartnerUniversityModule />} />
-            <Route path="/inappropriatenessContent" element={<Inappropriateness />} />
-            <Route path="/inappropriatenessContent/:typeOfComponent/:id" element={<InappropriatenessDetails />} />
-            <Route path="/forumTopics" element={<ForumTopicsSystemSupportAdmin />} />
-            <Route path="/forumTopics/create" element={<CreateForumTopicsSystemSupportAdmin />} />
-            <Route path="/forumTopics/:id" element={<ForumTopicsDetailsSystemSupportAdmin />} />
-            <Route path="/profile/:usernameFromUrl" element={<AdminProfile />} />
+            <Route path="/main" element={<ProtectedMain />} />
+            <Route path="/faqs" element={<ProtectedFAQs />} />
+            <Route path="/faqs/:id" element={<ProtectedFAQDetails />} />
+            <Route path="/faqs/create" element={<ProtectedCreateFAQ />} />
+            <Route path="/enquiries" element={<ProtectedEnquiry />} />
+            <Route path="/enquiries/assigned" element={<ProtectedEnquiry adminId={1} />} />
+            <Route path="/enquiries/:id" element={<ProtectedEnquiryDetails />} />
+            <Route path="/partnerUniversities" element={<ProtectedPartnerUniversity />} />
+            <Route path="/partnerUniversities/:nameFromUrl" element={<ProtectedPartnerUniversityDetails />} />
+            <Route path="/partnerUniversities/create" element={<ProtectedCreatePartnerUniversity />} />
+            <Route path="/partnerUniversities/:puName/modules" element={<ProtectedPartnerUniversityModules />} />
+            <Route path="/partnerUniversities/:puName/modules/:puModuleCode" element={<ProtectedPartnerUniversityModuleDetails />} />
+            <Route path="/partnerUniversities/:puName/modules/create" element={<ProtectedCreatePartnerUniversityModule />} />
+            <Route path="/inappropriatenessContent" element={<ProtectedInappropriateness />} />
+            <Route path="/inappropriatenessContent/:typeOfComponent/:id" element={<ProtectedInappropriatenessDetails />} />
+            <Route path="/forumTopics" element={<ProtectedForumTopicsSystemSupportAdmin />} />
+            <Route path="/forumTopics/create" element={<ProtectedCreateForumTopicsSystemSupportAdmin />} />
+            <Route path="/forumTopics/:id" element={<ProtectedForumTopicsDetailsSystemSupportAdmin />} />
+            <Route path="/profile/:usernameFromUrl" element={<ProtectedAdminProfile />} />
           </Routes>
-
         </Router>
       </div>
     </AuthProvider>

@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback, useContext } from "react";
-import { AuthContext } from "../login/AuthContext";
+import { AuthContext } from "../../AuthContext";
 import { useLocation, Link } from "react-router-dom";
 import { Button } from "reactstrap";
 import UniversityCard from "./UniversityCard";

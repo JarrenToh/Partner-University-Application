@@ -106,7 +106,6 @@ const StudentEnquiries = () => {
                                     <p>No data to show...</p>
                                 )
                             }
-
                         </div>
                     </div>
                 </div>
