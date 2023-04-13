@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Modal, Button, Form } from "react-bootstrap";
+import { Alert, Modal, Button, Form } from "react-bootstrap";
 import { Rating } from "@mui/material";
 
 const ReviewModal = (props) => {
@@ -9,6 +9,10 @@ const ReviewModal = (props) => {
   const [review, setReview] = useState("");
   const [editedPuReview, setEditedPuReview] = useState({});
   const [saveButtonDisabled, setSaveButtonDisabled] = useState(true);
+  const [formStatus, setFormStatus] = useState("Save Changes");
+  const [alertVisible, setAlertVisible] = useState(false);
+  const [alertMessage, setAlertMessage] = useState("");
+  const [alertType, setAlertType] = useState('success');
 
   useEffect(() => {
     if (puReview) {
@@ -16,22 +20,39 @@ const ReviewModal = (props) => {
       setReview(puReview.review);
       setEditedPuReview({ ...puReview });
     } else {
-      
     }
   }, [puReview]);
 
   // Method to detect if edit or add review
   const puReviewAPI = () => {
-    if (editedPuReview.puReviewId) { //edit existing review 
-
-    } else { // add fresh review
-
+    if (editedPuReview.puReviewId) {
+      //edit existing review
+    } else {
+      // add fresh review
     }
-  }
-  
-  function updatePUReviewAPI(reviewId, data) {
-    console.log(data);
-    return fetch(`${API_URL_PUREVIEW}/${reviewId}`, {
+  };
+
+  const updatePUReviewAPI = async (event, reviewId, data) => {
+    event.preventDefault();
+    setFormStatus("Saving...");
+
+    if (stars === 0 || stars === null) {
+      setFormStatus("Save Changes");
+      setAlertType("danger");
+      setAlertMessage("Your Rating of a University cannot be zero! Please rate at least 1 star.");
+      setAlertVisible(true);
+      setStars(puReview.rating);
+      return;
+    } else if (review.length === 0) {
+      setFormStatus("Save Changes");
+      setAlertType("danger");
+      setAlertMessage("Your Review of a University cannot be empty!");
+      setAlertVisible(true);
+      setReview(puReview.review);
+      return;
+    }
+
+    const response = await fetch(`${API_URL_PUREVIEW}/${reviewId}`, {
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
@@ -39,7 +60,20 @@ const ReviewModal = (props) => {
       method: "PUT",
       body: JSON.stringify(data),
     });
-  }
+
+    if (response.ok) {
+      setFormStatus("Save Changes");
+      setAlertType('success');
+      setAlertMessage("You have edited your review successfully!");
+      setAlertVisible(true);
+      setSaveButtonDisabled(true);
+    } else {
+      setFormStatus("Save Changes");
+      setAlertType("danger");
+      setAlertMessage("An error occured!");
+      setAlertVisible(true);
+    }
+  };
 
   const handleReviewChange = (event) => {
     setReview(event.target.value);
@@ -53,60 +87,77 @@ const ReviewModal = (props) => {
       aria-labelledby="contained-modal-title-vcenter"
       centered
     >
-      <Modal.Header closeButton>
-        <Modal.Title id="contained-modal-title-vcenter">
-          Your Partner University Review
-        </Modal.Title>
-      </Modal.Header>
-      <Modal.Body>
-        <h5>Rating</h5>
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "row",
-            alignItems: "center",
-            margin: "2.5%",
-          }}
-        >
-          <Rating
-            name="simple-controlled"
-            value={stars}
-            onChange={(event, newValue) => {
-              setStars(newValue);
-              setSaveButtonDisabled(false);
+      <Form
+        noValidate
+        onSubmit={(event) => updatePUReviewAPI(event, editedPuReview.puReviewId, {
+          ...editedPuReview,
+          rating: stars,
+          review: review,
+        })}
+      >
+        <Modal.Header closeButton>
+          <Modal.Title id="contained-modal-title-vcenter">
+            Your Partner University Review
+          </Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <h5>Rating</h5>
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              alignItems: "center",
+              margin: "2.5%",
             }}
-            size="large"
-          />
-        </div>
+          >
+            <Rating
+              name="simple-controlled"
+              value={stars}
+              onChange={(event, newValue) => {
+                setStars(newValue);
+                setSaveButtonDisabled(false);
+              }}
+              size="large"
+            />
+          </div>
 
-        <h5>Review</h5>
-        <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
-          <Form.Control
-            as="textarea"
-            rows={4}
-            value={review}
-            onChange={handleReviewChange}
-          />
-        </Form.Group>
-      </Modal.Body>
-      <Modal.Footer>
-        <Button variant="outline-danger" onClick={props.onHide}>
-          Close
-        </Button>
-        <Button
-          variant="success"
-          disabled={saveButtonDisabled}
-          onClick={() =>
-            updatePUReviewAPI(editedPuReview.puReviewId, {
-              ...editedPuReview,
-              rating: stars,
-              review: review,
-            })
-          }
-        >
-          Save changes
-        </Button>
-      </Modal.Footer>
+          <h5>Review</h5>
+          <Form.Group
+            className="mb-3"
+            controlId="exampleForm.ControlTextarea1"
+            hasValidation
+          >
+            <Form.Control
+              as="textarea"
+              rows={4}
+              value={review}
+              required
+              onChange={handleReviewChange}
+            />
+            <Form.Control.Feedback type="invalid">
+              Please fill in your review.
+            </Form.Control.Feedback>
+          </Form.Group>
+          {alertVisible && (
+            <Alert
+              variant={alertType}
+              toggle={() => setAlertVisible(false)}
+              onClose={() => setAlertVisible(false)}
+              dismissible
+            >
+              {alertMessage}
+            </Alert>
+          )}
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="outline-danger" onClick={props.onHide}>
+            Close
+          </Button>
+          <Button type="submit" variant="success" disabled={saveButtonDisabled}>
+            {formStatus}
+          </Button>
+        </Modal.Footer>
+      </Form>
     </Modal>
   );
 };

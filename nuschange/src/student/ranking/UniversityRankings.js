@@ -24,6 +24,10 @@ const UniversityRankings = ({ universitiesData }) => {
   const [displayLimit, setDisplayLimit] = useState(10);
   const [ranking, setRanking] = useState(false);
   const [studentLikedPus, setStudentLikedPus] = useState([]);
+  const [puEnrolled, setPuEnrolled] = useState({
+    name: "Dummy Uni",
+    puId: 0,
+  });
 
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
@@ -34,10 +38,11 @@ const UniversityRankings = ({ universitiesData }) => {
   }, [searchQuery]);
 
   useEffect(() => {
+    console.log(universitiesData);
     setUniversities(
       universitiesData.map((university) => ({
         ...university,
-        isFavorite: false,
+        isFavorite: studentLikedPus.some((u) => u.puId === university.puId),
       }))
     );
   }, [universitiesData]);
@@ -45,6 +50,7 @@ const UniversityRankings = ({ universitiesData }) => {
   useEffect(() => {
     if (loggedInStudent) {
       fetchLikedPus(loggedInStudent.studentId);
+      getEnrolledPuAPI(loggedInStudent.studentId);
     }
   }, [loggedInStudent]);
 
@@ -54,6 +60,19 @@ const UniversityRankings = ({ universitiesData }) => {
     console.log(data);
     setCurrentStudent(data);
     setStudentLikedPus(data.likedPUs);
+    setUniversities(
+      universitiesData.map((uni) => ({
+        ...uni,
+        isFavorite: data.some((u) => u.puId === uni.puId),
+      }))
+    );
+  };
+
+  const getEnrolledPuAPI = async (studentId) => {
+    const response = await fetch(`${API_URL_STUDENT}/${studentId}/puEnrolled`);
+    const data = await response.json();
+    console.log(data);
+    setPuEnrolled(data);
   };
 
   useEffect(() => {
@@ -62,7 +81,10 @@ const UniversityRankings = ({ universitiesData }) => {
         "http://localhost:8080/PU-war/webresources/pu"
       );
       const data = await response.json();
-      setUniversities(data);
+      setUniversities(data.map((uni) => ({
+        ...uni,
+        isFavorite: studentLikedPus.some((u) => u.puId === uni.puId),
+      })));
     };
 
     fetchUniversities();
@@ -93,7 +115,9 @@ const UniversityRankings = ({ universitiesData }) => {
       //remove from likes
       const tempArr = [...studentLikedPus];
       delete likedUniversity.isFavorite;
-      const removedArr = tempArr.filter((pu) => pu.puId !== likedUniversity.puId);
+      const removedArr = tempArr.filter(
+        (pu) => pu.puId !== likedUniversity.puId
+      );
       console.log(removedArr);
       setStudentLikedPus(removedArr);
       setCurrentStudent({
@@ -137,6 +161,8 @@ const UniversityRankings = ({ universitiesData }) => {
     });
   };
 
+  
+
   const handleShowMore = useCallback(() => {
     setDisplayLimit(displayLimit + 10);
   }, [setDisplayLimit, displayLimit]);
@@ -171,13 +197,11 @@ const UniversityRankings = ({ universitiesData }) => {
     }
   });
 
-  const displayedUniversities = favoritesOnly
-    ? sortedUniversities.filter((university) => university.isFavorite)
-    : sortedUniversities.slice(0, displayLimit);
+  const displayedUniversities = sortedUniversities.slice(0, displayLimit);
 
   return (
     <div className="wrapper">
-      <div className="container">
+      <div className="container" style={{ border: 0 }}>
         <div className="universityRankings">
           <div className="universityRankings_description">
             <h1 className="headerRanking">Partner University Rankings</h1>
@@ -227,7 +251,7 @@ const UniversityRankings = ({ universitiesData }) => {
                 Favorites only
               </label>
             </div>
-  */}
+            */}
           </div>
         </div>
         {displayedUniversities.length > 0 ? (
@@ -245,7 +269,7 @@ const UniversityRankings = ({ universitiesData }) => {
                     ranking={ranking}
                   />
                 </Link>
-                {loggedInStudent != null && (
+                {(loggedInStudent && puEnrolled.puId !== university.puId) && (
                   <button
                     className={`university-card__favorite-button`}
                     onClick={() => handleToggleFavorite(university)}

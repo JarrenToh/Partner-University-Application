@@ -119,7 +119,7 @@ const App = () => {
             <Route path="/university-description-page" element={<UniversityDescriptionPage/>}/>
             <Route path="/university-description-page/mappable-module" element={<MappableModule/>}/>
             <Route path="/profile/modulesTaken" element={<ModulesTaken/>}/>
-            <Route path="/module-details/:modId" element={<ModuleDetail/>}/>
+            <Route path="/module-details/:puName/:modId" element={<ModuleDetail/>}/>
             <Route path='/other-profile/:studentId' element={<OtherStudentProfile/>}/>
           </Routes>
         </Router>

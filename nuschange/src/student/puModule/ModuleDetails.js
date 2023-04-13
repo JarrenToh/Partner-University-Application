@@ -4,7 +4,7 @@ import ModReviewComp from "./ModReviewComp";
 import "./PuModule.css";
 
 const ModuleDetail = (props) => {
-  const { modId } = useParams();
+  const { puName, modId } = useParams();
   const API_URL_MOD = "http://localhost:8080/PU-war/webresources/pumodule";
   const [module, setModule] = useState({
     code: "AB123",
@@ -75,7 +75,7 @@ const ModuleDetail = (props) => {
         <h1 className="text-center mb-3">{module.code}</h1>
       </div>
       <h3>{module.name}</h3>
-      <h4>  University of Name Here</h4>
+      <h4>{puName}</h4>
       <hr></hr>
       <p>{module.description}</p>
 

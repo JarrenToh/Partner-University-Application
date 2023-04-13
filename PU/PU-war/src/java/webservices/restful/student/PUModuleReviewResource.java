@@ -1,6 +1,7 @@
 package webservices.restful.student;
 
 import ejb.session.stateless.PUModuleReviewSessionBeanLocal;
+import ejb.session.stateless.StudentSessionBeanLocal;
 import entity.PUModuleReview;
 import entity.Student;
 import error.NoResultException;
@@ -27,6 +28,9 @@ import util.dataTransferObject.PUModuleReviewDTO;
 @Path("pumodulereview")
 @RequestScoped
 public class PUModuleReviewResource {
+
+    @EJB
+    private StudentSessionBeanLocal studentSessionLocal;
 
     @EJB
     private PUModuleReviewSessionBeanLocal puModuleReviewSessionBeanLocal;
@@ -110,7 +114,6 @@ public class PUModuleReviewResource {
 //
 //        return Response.status(200).entity(puReviewDtos).build();
 //    }
-    
     @GET
     @Path("/{id}")
     @Produces(MediaType.APPLICATION_JSON)
@@ -118,7 +121,7 @@ public class PUModuleReviewResource {
         try {
             PUModuleReview c = puModuleReviewSessionBeanLocal.getPUModuleReview(cId);
             Student student = c.getStudent();
-            
+
             PUModuleReviewDTO puModuleReviewDto = new PUModuleReviewDTO(
                     c.getModuleReviewId(),
                     c.getRating(),
@@ -130,8 +133,7 @@ public class PUModuleReviewResource {
                     student.getFirstName(),
                     student.getLastName()
             );
-            
-            
+
             return Response.status(200).entity(
                     puModuleReviewDto
             ).type(MediaType.APPLICATION_JSON).build();
@@ -144,6 +146,25 @@ public class PUModuleReviewResource {
                     .type(MediaType.APPLICATION_JSON).build();
         }
     } //end getPUModuleReview
+
+//    @GET
+//    @Path("/getByStudent/{studentId}/{id}")
+//    @Produces(MediaType.APPLICATION_JSON)
+//    public Response getPUModuleReview(@PathParam("id") Long modId, @PathParam("studentId") Long studentId) {
+//        try {
+//            Student c = studentSessionLocal.getStudent(studentId);
+//            return Response.status(200).entity(
+//                    c
+//            ).type(MediaType.APPLICATION_JSON).build();
+//        } catch (NoResultException e) {
+//            JsonObject exception = Json.createObjectBuilder()
+//                    .add("error", "Not found")
+//                    .build();
+//
+//            return Response.status(404).entity(exception)
+//                    .type(MediaType.APPLICATION_JSON).build();
+//        }
+//    } //end getStudent
 
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
