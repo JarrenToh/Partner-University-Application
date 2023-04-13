@@ -245,7 +245,7 @@ function UniversityDescriptionPage() {
                     <Button tag={Link} to={`/forum-topics/${pu.puId}`} color="primary" className="m-4" size="lg">
                         Forum
                     </Button>
-                    <Link to={`/university-description-page/${pu.name}/mappable-module`}>
+                    <Link to={`/student/university-description-page/${pu.name}/mappable-module`}>
                         <Button color="primary" className="m-4" size="lg">
                             Mappable modules
                         </Button>
