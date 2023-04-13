@@ -11,7 +11,7 @@ import apiPaths from "../../../../util/apiPaths";
 import { convertNameToSlug } from "../../../../util/urlTextConverter";
 import { systemSupportAdminPaths } from "../../../../util/adminRoutes";
 
-const PartnerUuniversity = () => {
+const PartnerUniversity = () => {
 
     const [data, setData] = useState([]);
     const navigate = useNavigate();
@@ -95,4 +95,4 @@ const PartnerUuniversity = () => {
     )
 };
 
-export default PartnerUuniversity;
+export default PartnerUniversity;

@@ -30,7 +30,7 @@ const Menu = () => {
             </li>
             <li className="nav-item">
                 <button className="nav-link">
-                    <i className="nav-icon fas fa-question-circle" />
+                    <i className="nav-icon fas fa-user" />
                     <p>
                         Student Enquiries
                         <i className="right fas fa-angle-left" />

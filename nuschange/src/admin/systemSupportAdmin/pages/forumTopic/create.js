@@ -49,7 +49,7 @@ const ForumTopic = () => {
         }
 
         return isValid;
-    }
+    };
 
     return (
         <div>

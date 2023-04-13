@@ -120,7 +120,7 @@ const InappropriatenessDetails = () => {
 
     const handleCancel = async () => {
         setShowModal(false);
-        navigate(`../inappropriatenessContent`);
+        navigate(`../systemSupportAdmin/inappropriatenessContent`);
     };
 
     const validate = () => {
@@ -263,7 +263,7 @@ const InappropriatenessDetails = () => {
                                 <input type="text" id="inputStudent" className="form-control" value={studentName} readOnly />
                             </div>
                             <div className="form-group">
-                                <label htmlFor="inputName">Approved of Inapprpriate Content</label>
+                                <label htmlFor="inputName">Approved of Inappropriate Content</label>
                                 <select className={`custom-select rounded-0 form-control ${approvalError ? "is-invalid" : ""}`} id="approvalSelectOption" value={selectValue} onChange={(e) => setSelectValue(e.target.value)}>
                                     <option value="">Select Option</option>
                                     <option value={true}>Yes</option>

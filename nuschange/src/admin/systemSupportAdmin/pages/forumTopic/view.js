@@ -53,7 +53,7 @@ const ForumTopicDetails = () => {
     };
 
     const handleCancelDeleteSuccessModal = () => {
-        navigate('../forumTopics');
+        navigate('../systemSupportAdmin/forumTopics');
     };
 
     const validate = () => {

@@ -6,7 +6,7 @@ const Menu = () => {
         <ul className="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
             <li className="nav-item">
                 <button className="nav-link">
-                    <i className="nav-icon fas fa-question-circle" />
+                    <i className="nav-icon fas fa-university" />
                     <p>
                         Partner Universities
                         <i className="right fas fa-angle-left" />
@@ -29,7 +29,7 @@ const Menu = () => {
             </li>
             <li className="nav-item">
                 <button className="nav-link">
-                    <i className="nav-icon fas fa-question-circle" />
+                    <i className="nav-icon fas fa-ban" />
                     <p>
                         Inappropriate Content
                         <i className="right fas fa-angle-left" />
@@ -46,7 +46,7 @@ const Menu = () => {
             </li>
             <li className="nav-item">
                 <button className="nav-link">
-                    <i className="nav-icon fas fa-question-circle" />
+                    <i className="nav-icon fas fa-comments" />
                     <p>
                         Forum Topic
                         <i className="right fas fa-angle-left" />
