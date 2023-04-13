@@ -16,11 +16,11 @@ import java.util.List;
 import javax.json.bind.annotation.JsonbTransient;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
-
 
 /**
  *
@@ -55,10 +55,10 @@ public class Student implements Serializable {
 
     @ManyToMany(fetch = FetchType.EAGER)
     private List<PU> likedPUs;
-    
+
     @OneToMany(mappedBy = "student")
     private List<PUModuleReview> moduleReviews;
-    
+
     @ManyToOne
     @JoinColumn(nullable = true)
     private PU puEnrolled;
@@ -77,9 +77,22 @@ public class Student implements Serializable {
 
     @OneToOne(mappedBy = "student")
     private PUReview puReview;
-    
+
     @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "STUDENT_PUREVIEW_LIKED",
+            joinColumns = @JoinColumn(name = "STUDENT_ID"),
+            inverseJoinColumns = @JoinColumn(name = "PUREVIEW_ID")
+    )
     private List<PUReview> likedPUReviews;
+
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "STUDENT_PUREVIEW_DISLIKED",
+            joinColumns = @JoinColumn(name = "STUDENT_ID"),
+            inverseJoinColumns = @JoinColumn(name = "PUREVIEW_ID")
+    )
+    private List<PUReview> dislikedPUReviews;
 
     public Student() {
         this.socialMedia = new ArrayList<>();
@@ -91,6 +104,7 @@ public class Student implements Serializable {
         this.comments = new ArrayList<>();
         this.modulesTaken = new ArrayList<>();
         this.likedPUReviews = new ArrayList<>();
+        this.dislikedPUReviews = new ArrayList<>();
     }
 
     public Student(String firstName, String lastName, String phoneNumber, String email, String password, String faculty) {
@@ -396,5 +410,19 @@ public class Student implements Serializable {
      */
     public void setLikedPUReviews(List<PUReview> likedPUReviews) {
         this.likedPUReviews = likedPUReviews;
+    }
+
+    /**
+     * @return the dislikedPUReviews
+     */
+    public List<PUReview> getDislikedPUReviews() {
+        return dislikedPUReviews;
+    }
+
+    /**
+     * @param dislikedPUReviews the dislikedPUReviews to set
+     */
+    public void setDislikedPUReviews(List<PUReview> dislikedPUReviews) {
+        this.dislikedPUReviews = dislikedPUReviews;
     }
 }

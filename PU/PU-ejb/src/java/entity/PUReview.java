@@ -48,19 +48,23 @@ public class PUReview implements Serializable {
     @JoinColumn(name = "student_studentId", nullable = false)
     private Student student;
 
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany(mappedBy = "likedPUReviews",fetch = FetchType.EAGER)
     private List<Student> studentsLiked;
 
-    public PUReview() {
+    @ManyToMany(mappedBy = "dislikedPUReviews", fetch = FetchType.EAGER)
+    private List<Student> studentsDisliked;
 
+    public PUReview() {
         this.noOfLikes = 0;
         this.noOfDislikes = 0;
         this.isInappropriate = false;
         this.studentsLiked = new ArrayList<>();
+        this.studentsDisliked = new ArrayList<>();
     }
 
     //not needed
     public PUReview(Long rating, Long puReviewId) {
+        this();
         this.puReviewId = puReviewId;
         this.rating = rating;
     }
@@ -218,5 +222,20 @@ public class PUReview implements Serializable {
      */
     public void setStudentsLiked(List<Student> studentsLiked) {
         this.studentsLiked = studentsLiked;
+    }
+
+    /**
+     * @return the studentsDisliked
+     */
+    @JsonbTransient
+    public List<Student> getStudentsDisliked() {
+        return studentsDisliked;
+    }
+
+    /**
+     * @param studentsDisliked the studentsDisliked to set
+     */
+    public void setStudentsDisliked(List<Student> studentsDisliked) {
+        this.studentsDisliked = studentsDisliked;
     }
 }

@@ -144,8 +144,8 @@ public class PUModuleSessionBean implements PUModuleSessionBeanLocal {
     @Override
     public void associatePUModuleNUSModule(Long puModId, Long nusModId) {
 
-        System.err.println("PUMODID : " + puModId);
-        System.err.println("NUSMODID : " + nusModId);
+//        System.err.println("PUMODID : " + puModId);
+//        System.err.println("NUSMODID : " + nusModId);
 
         PUModule pUModule = em.find(PUModule.class, puModId);
         NUSModule nUSModule = em.find(NUSModule.class, nusModId);
