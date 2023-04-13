@@ -15,6 +15,7 @@ import {
 import { AuthContext } from '../login/AuthContext';
 import { Enquiry } from './Enquiry';
 import './ContactForm.css';
+import NotLoggedIn from '../components/NotLoggedInPage';
 
 const ContactForm = () => {
   const { loggedInStudent } = useContext(AuthContext);
@@ -79,7 +80,7 @@ const ContactForm = () => {
   };
 
   if (!loggedInStudent) {
-    return <div>Not Logged in</div>;
+    return NotLoggedIn();
   }
 
   return (
