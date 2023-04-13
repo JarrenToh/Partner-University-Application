@@ -37,7 +37,7 @@ const Menu = () => {
                 </button>
                 <ul className="nav nav-treeview">
                     <li className="nav-item">
-                        <a href={systemSupportAdminPaths.viewInappropriateContent} className="nav-link">
+                        <a href={systemSupportAdminPaths.viewInappropriatenessContent} className="nav-link">
                             <i className="far fa-circle nav-icon" />
                             <p>View</p>
                         </a>

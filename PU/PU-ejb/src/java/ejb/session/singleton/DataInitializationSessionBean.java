@@ -181,8 +181,6 @@ public class DataInitializationSessionBean {
         Student student39 = new Student("Justin", "Lim", "90002059", "justinlim@comp.nus.edu.sg", "password");
         Student student40 = new Student("Hannah", "Tan", "90002060", "hannahtan@comp.nus.edu.sg", "password");
 
-
-
         Long studentId1 = studentSessionBean.createStudent(student1);
         Long studentId2 = studentSessionBean.createStudent(student2);
         Long studentId3 = studentSessionBean.createStudent(student3);
@@ -614,13 +612,21 @@ public class DataInitializationSessionBean {
                 "The University of Melbourne is a public research university located in Melbourne, Australia. Founded in 1853, it is Australia's second oldest university and the oldest in Victoria.[9] Its main campus is located in Parkville, an inner suburb north of Melbourne's central business district, with several other campuses located across Victoria.",
                 "https://upload.wikimedia.org/wikipedia/en/thumb/e/ed/Logo_of_the_University_of_Melbourne.svg/800px-Logo_of_the_University_of_Melbourne.svg.png"
         );
-
-
+        
         Long pId1 = pUSessionBean.createNewPu(pu1, cId1);
         Long pId2 = pUSessionBean.createNewPu(pu2, cId2);
         Long pId3 = pUSessionBean.createNewPu(pu3, cId3);
         Long pId4 = pUSessionBean.createNewPu(pu4, cId4);
         Long pId5 = pUSessionBean.createNewPu(pu5, cId5);
+        
+        student1.getLikedPUs().add(pu1);
+        
+        student2.getLikedPUs().add(pu1);
+        student2.getLikedPUs().add(pu2);
+        
+        student3.getLikedPUs().add(pu1);
+        student3.getLikedPUs().add(pu2);
+        student3.getLikedPUs().add(pu3);
 
         PUReview review1 = new PUReview(4l, "I had a great experience at this university. The professors were knowledgeable and supportive, and the campus was beautiful. However, the administrative processes could be more streamlined.");
 

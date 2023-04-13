@@ -8,7 +8,7 @@ export const userSupoortAdminPaths = {
 export const systemSupportAdminPaths = {
     viewPUs: '/admin/partnerUniversities',
     createPu: '/admin/partnerUniversities/create',
-    viewInappropriateContent: '/admin/inappropriateContent',
+    viewInappropriatenessContent: '/admin/inappropriatenessContent',
     viewForumTopics: '/admin/forumTopics',
     createForumTopic: '/admin/forumTopics/create'
 };
