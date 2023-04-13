@@ -57,7 +57,7 @@ import withAdminAuth from './withAdminAuth';
 
 import './student/assets/base.scss';
 import 'bootstrap/dist/css/bootstrap.min.css';
-// import ViewEnquiries from './student/enquiries/ViewEnquiries';
+import ViewEnquiries from './student/enquiries/ViewEnquiries';
 
 const App = () => {
   const API_URL = "http://localhost:8080/PU-war/webresources/pu";
@@ -166,10 +166,8 @@ const App = () => {
             <Route path="/systemSupportAdmin/forumTopics/create" element={<ProtectedCreateForumTopicsSystemSupportAdmin />} />
             <Route path="/systemSupportAdmin/forumTopics/:id" element={<ProtectedForumTopicsDetailsSystemSupportAdmin />} />
           </Routes>
-<<<<<<< HEAD
         </Router>
       </div>
-=======
 
         </Router> */}
 
@@ -200,7 +198,6 @@ const App = () => {
       </div>
         {/* </Router>/*} */}
         
->>>>>>> aa6652caff2f97975d8f81464edf7a202dad2939
     </AuthProvider>
   );
 }

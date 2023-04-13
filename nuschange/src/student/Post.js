@@ -5,7 +5,7 @@ import axios from 'axios';
 import { useParams } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faComments } from '@fortawesome/free-solid-svg-icons'
-import { AuthContext } from "./login/AuthContext";
+import { AuthContext } from '../AuthContext';
 import CommentComp from './CommentComp';
 
 import {
