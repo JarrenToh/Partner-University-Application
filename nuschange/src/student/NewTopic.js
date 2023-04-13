@@ -1,6 +1,7 @@
 import React from 'react';
-import { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useState, useEffect, useContext } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { AuthContext } from "./login/AuthContext";
 import axios from 'axios';
 
 import {
@@ -11,14 +12,27 @@ import {
     Label,
     FormGroup,
     Input,
-    Button
+    Button,
+    Alert
 } from 'reactstrap';
 
 export default function NewTopic() {
-    const { studentId } = useParams();
+    const { loggedInStudent } = useContext(AuthContext);
+    const [studentId, setStudentId] = useState(loggedInStudent.studentId);
     const [pus, setPus] = useState([]);
     const [topicName, setTopicName] = useState("");
     const [selectedPuId, setSelectedPuId] = useState(1);
+    const [ saveButtonDisabled, setSaveButtonDisabled ] = useState(true);
+    const [alertVisible, setAlertVisible] = useState(false);
+    const [alertMessage, setAlertMessage] = useState('');
+    const [alertType, setAlertType] = useState('danger');
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        if (loggedInStudent) {
+            setStudentId(loggedInStudent.studentId);
+        }
+    }, [loggedInStudent]);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -32,8 +46,20 @@ export default function NewTopic() {
         fetchData();
     }, []);
 
+    if (!loggedInStudent) {
+      return <h1 style={{ textAlign: 'center', color: 'red', margin: '0 auto', width: '50%', fontWeight: 'bold', fontSize: '2em'}}>You are not logged in.</h1>;
+    }
+
     const handleTopicNameChange = (e) => {
-        setTopicName(e.target.value);
+        const newTopicName = e.target.value;
+      
+        if (newTopicName.trim().length === 0) {
+          setSaveButtonDisabled(true);
+        } else {
+          setSaveButtonDisabled(false);
+        }
+      
+        setTopicName(newTopicName);
     };
 
     const handlePuSelectChange = (e, puId) => {
@@ -52,13 +78,24 @@ export default function NewTopic() {
         axios.post(`http://localhost:8080/PU-war/webresources/forumTopics/user/student/${studentId}`, createdForumTopic)
             .then((response) => {
                 console.log(response.data);
+                setAlertType('success');
+                setAlertMessage('The topic was created successfully!');
+                setAlertVisible(true);
+        
+                setTimeout(() => {
+                    navigate(`/forum-topics/0`);
+                }, 1000);
             })
             .catch((error) => {
                 console.error(error);
+                setAlertType('danger');
+                setAlertMessage('Error creating the topic. Please try again.');
+                setAlertVisible(true);
             });
     };
 
     return (
+        <div>
         <Card>
             <CardHeader>Create a new topic</CardHeader>
             <CardBody>
@@ -93,8 +130,13 @@ export default function NewTopic() {
                         </FormGroup>
                         <FormGroup>
                             <div className="text-right">
-                                <Button color="outline-primary" type="submit">
+                                <Button variant="success"
+                                    disabled={saveButtonDisabled} type="submit">
                                     Create topic
+                                </Button>
+                                <Button variant="outline-danger" tag={Link}
+                                    to={`/forum-topics/0`}>
+                                    Close
                                 </Button>
                             </div>
                         </FormGroup>
@@ -102,5 +144,11 @@ export default function NewTopic() {
                 </Form>
             </CardBody>
         </Card>
+            {alertVisible && (
+                <Alert color={alertType} toggle={() => setAlertVisible(false)}>
+                    {alertMessage}
+                </Alert>
+            )}
+        </div>
     );
 }

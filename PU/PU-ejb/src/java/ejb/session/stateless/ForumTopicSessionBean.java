@@ -115,7 +115,7 @@ public class ForumTopicSessionBean implements ForumTopicSessionBeanLocal {
         ForumTopic forumTopic = em.find(ForumTopic.class, forumTopicId);
         
         if (forumTopic.getStudent() != null) {
-            Student student = em.find(Student.class, forumTopic.getStudent().getStudentId());
+            Student student = em.find(Student.class, forumTopic.getStudentId());
             student.getTopics().remove(forumTopic);
         } else {
             NUSchangeAdmin admin = em.find(NUSchangeAdmin.class, forumTopic.getAdmin().getAdminId());

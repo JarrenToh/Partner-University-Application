@@ -10,6 +10,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import javax.json.bind.annotation.JsonbTransient;
 import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -56,8 +57,13 @@ public class ForumComment implements Serializable {
     @JsonbTransient
     private Student student;
     
-    @OneToMany(fetch = FetchType.EAGER)
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "parentComment")
     private List<ForumComment> replies;
+    
+    @ManyToOne(optional = true)
+    @JoinColumn(nullable = true)
+    @JsonbTransient
+    private ForumComment parentComment;
     
     @Column(nullable = false)
     private Long studentId;
@@ -97,6 +103,7 @@ public class ForumComment implements Serializable {
         this.isEdited = false;
         this.isAReply = false;
         this.showReplies = false;
+        this.replies = new ArrayList();
     }
 
     public ForumComment(String message, Boolean isAReply) {
@@ -111,6 +118,7 @@ public class ForumComment implements Serializable {
         this.isAReply = isAReply;
         this.message = message;
         this.showReplies = false;
+        this.replies = new ArrayList();
     }
 
     public Long getCommentId() {
@@ -385,6 +393,20 @@ public class ForumComment implements Serializable {
      */
     public void setShowReplies(Boolean showReplies) {
         this.showReplies = showReplies;
+    }
+    
+    /**
+     * @return the parentComment
+     */
+    public ForumComment getParentComment() {
+        return parentComment;
+    }
+
+    /**
+     * @param parentComment the parentComment to set
+     */
+    public void setParentComment(ForumComment parentComment) {
+        this.parentComment = parentComment;
     }
 
 }
