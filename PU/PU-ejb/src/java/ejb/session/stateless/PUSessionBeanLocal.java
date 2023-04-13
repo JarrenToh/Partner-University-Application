@@ -36,6 +36,8 @@ public interface PUSessionBeanLocal {
     
     public void updatePU(PU pu);
     
+    public void updatePUAdmin(Long puId, String name, String description, String images, Long countryId);
+    
     public void deletePU(Long puId);
     
 }

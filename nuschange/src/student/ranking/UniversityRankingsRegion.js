@@ -4,6 +4,8 @@ import { Button, Input, FormGroup } from "reactstrap";
 import UniversityCard from "./UniversityCard";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./UniversityRanking.css";
+import NavbarComp from '../../student/components/NavbarComp';
+import { AuthProvider, useAuth } from '../../../src/AuthContext';
 
 const UniversityRankings = ({ universitiesData }) => {
 
@@ -18,6 +20,11 @@ const UniversityRankings = ({ universitiesData }) => {
   const [selectedOption, setSelectedOption] = useState("");
   const [selectedRegion, setSelectedRegion] = useState('');
   const [ranking, setRanking] = useState(false);
+
+
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [user, setUser] = useState(null);
+  const { loggedInStudent, login, logout } = useAuth();
 
   useEffect(() => {
     setFilter(searchTerm);
@@ -124,6 +131,7 @@ const UniversityRankings = ({ universitiesData }) => {
 
   return (
     <div className="wrapper">
+       <NavbarComp isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} user={user} />
       <div className="container">
         <div className="universityRankings">
         <div className="universityRankings_description">

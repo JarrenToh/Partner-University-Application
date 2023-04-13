@@ -20,6 +20,9 @@ public class EnquiryDTO {
     private EnquiryStatusEnum status;
     private LocalDateTime enquiryDate;
     private LocalDateTime responseStatusDate;
+    
+    private String studentFirstName;
+    private String studentLastName;
 
     public Long getEnquiryId() {
         return enquiryId;
@@ -75,6 +78,22 @@ public class EnquiryDTO {
 
     public void setResponseStatusDate(LocalDateTime responseStatusDate) {
         this.responseStatusDate = responseStatusDate;
+    }
+
+    public String getStudentFirstName() {
+        return studentFirstName;
+    }
+
+    public void setStudentFirstName(String studentFirstName) {
+        this.studentFirstName = studentFirstName;
+    }
+
+    public String getStudentLastName() {
+        return studentLastName;
+    }
+
+    public void setStudentLastName(String studentLastName) {
+        this.studentLastName = studentLastName;
     }
     
     

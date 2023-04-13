@@ -99,6 +99,7 @@ public class ForumTopicSessionBean implements ForumTopicSessionBeanLocal {
     public void editForumTopicByAdmin(ForumTopic forumTopic) {
         ForumTopic oldTopic = retrieveForumTopicById(forumTopic.getTopicId());
 
+        oldTopic.setLastEdit(forumTopic.getLastEdit());
         oldTopic.setTopicName(forumTopic.getTopicName());
         oldTopic.setIsInappropriate(forumTopic.getIsInappropriate());
         oldTopic.setTimeOfCreation(forumTopic.getTimeOfCreation());

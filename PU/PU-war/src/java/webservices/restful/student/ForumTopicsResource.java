@@ -156,21 +156,7 @@ public class ForumTopicsResource {
         forumTopicSessionBeanLocal.editForumTopic(forumTopic);
         return Response.status(204).build();
     }
-    
-    @PUT
-    @Path("/editForumTopicByAdmin/{id}")
-    @Consumes(MediaType.APPLICATION_JSON)
-    @Produces(MediaType.APPLICATION_JSON)
-    public Response editForumTopicByAdmin(@PathParam("id") Long cId, AdminForumTopicRequest adminForumTopicRequest) {
         
-        ForumTopic forumTopic = forumTopicSessionBeanLocal.retrieveForumTopicById(cId);
-        forumTopic.setTopicName(adminForumTopicRequest.getTopicName());
-        forumTopic.setIsInappropriate(adminForumTopicRequest.getIsInappropriate());
-        forumTopicSessionBeanLocal.editForumTopicByAdmin(forumTopic);
-        return Response.status(204).build();
-
-    }
-    
     @DELETE
     @Path("/{id}")
     @Produces(MediaType.APPLICATION_JSON)

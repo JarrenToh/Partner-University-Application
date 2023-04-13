@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useParams } from 'react-router-dom';
 
 import Header from '../../../components/dashboard/Header';
@@ -15,21 +15,59 @@ const PartnerUniversityModule = () => {
     const [code, setCode] = useState("");
     const [description, setDescription] = useState("");
 
+    const [nameError, setNameError] = useState("");
+    const [codeError, setCodeError] = useState("");
+    const [descriptionError, setDescriptionError] = useState("");
+
+    const [showModal, setShowModal] = useState(false);
+
     const handleCreate = async () => {
-        try {
-            const createdPUModule = {
-                code,
-                name,
-                description,
-            };
+        if (validate()) {
+            try {
+                const createdPUModule = {
+                    code,
+                    name,
+                    description,
+                };
 
-            const apiPath = `${apiPaths.listOfModules}/createModuleForPU?puName=${convertToEncodedTextForUrl(puName)}`;
-            await API.post(apiPath, createdPUModule);
+                const apiPath = `${apiPaths.listOfPUModules}/createModuleForPU?puName=${convertToEncodedTextForUrl(puName)}`;
+                await API.post(apiPath, createdPUModule);
 
-            alert("PU has been created successfully");
-        } catch (error) {
-            console.error(error);
+                setShowModal(true);
+            } catch (error) {
+                console.error(error);
+            }
         }
+    };
+
+    const handleCancel = async () => {
+        setName("");
+        setCode("");
+        setDescription("");
+        setShowModal(false);
+    };
+
+    const validate = () => {
+        let isValid = true;
+        if (name.trim() === "") {
+            setNameError("Please enter a name");
+            isValid = false;
+        } else {
+            setNameError("");
+        }
+        if (code.trim() === "") {
+            setCodeError("Please enter a code");
+            isValid = false;
+        } else {
+            setCodeError("");
+        }
+        if (description.trim() === "") {
+            setDescriptionError("Please enter a description");
+            isValid = false;
+        } else {
+            setDescriptionError("");
+        }
+        return isValid;
     };
 
     return (
@@ -45,21 +83,53 @@ const PartnerUniversityModule = () => {
                         <div className="card-body">
                             <div className="form-group">
                                 <label htmlFor="inputName">Code</label>
-                                <input type="text" id="inputName" className="form-control" placeholder="Input a module code" onChange={(e) => setCode(e.target.value)} />
+                                <input type="text" id="inputName" className={`form-control ${codeError ? "is-invalid" : ""}`} placeholder="Input a module code" value={code} onChange={(e) => setCode(e.target.value)} />
+                                {codeError && <div className="invalid-feedback">{codeError}</div>}
                             </div>
                             <div className="form-group">
                                 <label htmlFor="inputName">Name</label>
-                                <input type="text" id="inputName" className="form-control" placeholder="Input a module name" onChange={(e) => setName(e.target.value)} />
+                                <input type="text" id="inputName" className={`form-control ${nameError ? "is-invalid" : ""}`} placeholder="Input a module name" value={name} onChange={(e) => setName(e.target.value)} />
+                                {nameError && <div className="invalid-feedback">{nameError}</div>}
                             </div>
                             <div className="form-group">
                                 <label htmlFor="inputDescription">Description</label>
-                                <textarea id="inputDescription" className="form-control" rows={4} placeholder="Input a description" onChange={(e) => setDescription(e.target.value)} />
+                                <textarea id="inputDescription" className={`form-control ${descriptionError ? "is-invalid" : ""}`} rows={4} placeholder="Input a description" value={description} onChange={(e) => setDescription(e.target.value)} />
+                                {descriptionError && <div className="invalid-feedback">{descriptionError}</div>}
                             </div>
                             <div className="text-center">
                                 <button className="btn btn-success mr-2" onClick={handleCreate}>Create</button>
                             </div>
                         </div>
-                        <br />
+                        {showModal && (
+                            <div className="modal fade show" id="modal-default" style={{ display: "block" }}>
+                                <div className="modal-dialog">
+                                    <div className="modal-content">
+                                        <div className="modal-header">
+                                            <h4 className="modal-title">Successful Creation of Module</h4>
+                                            <button
+                                                type="button"
+                                                className="close"
+                                                data-dismiss="modal"
+                                                aria-label="Close"
+                                                onClick={() => handleCancel()}>
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div className="modal-body">
+                                            <p>You have successfully created a module!</p>
+                                        </div>
+                                        <div className="modal-footer justify-content-between">
+                                            <button
+                                                type="button"
+                                                className="btn btn-default"
+                                                onClick={() => handleCancel()}>
+                                                Close
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        )}
                     </div>
                 </div>
             </div>

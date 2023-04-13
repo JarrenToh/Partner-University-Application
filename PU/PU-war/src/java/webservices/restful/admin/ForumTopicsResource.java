@@ -6,10 +6,9 @@
 package webservices.restful.admin;
 
 import ejb.session.stateless.ForumTopicSessionBeanLocal;
-import ejb.session.stateless.NUSchangeAdminSessionBeanLocal;
 import entity.ForumTopic;
-import entity.NUSchangeAdmin;
 import error.NoResultException;
+import java.time.LocalDateTime;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.ws.rs.Consumes;
@@ -21,10 +20,12 @@ import javax.enterprise.context.RequestScoped;
 import javax.json.Json;
 import javax.json.JsonObject;
 import javax.ws.rs.POST;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import util.enumeration.StatusName;
+import util.formRequestEntity.AdminForumTopicRequest;
 import util.formRequestEntity.ForumTopicRequest;
 
 /**
@@ -66,5 +67,20 @@ public class ForumTopicsResource {
 
             return Response.status(Response.Status.NOT_FOUND).entity(exception).build();
         }
+    }
+    
+    @PUT
+    @Path("/{id}")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response editForumTopicByAdmin(@PathParam("id") Long cId, AdminForumTopicRequest adminForumTopicRequest) {
+        
+        ForumTopic forumTopic = forumTopicSessionBeanLocal.retrieveForumTopicById(cId);
+        forumTopic.setTopicName(adminForumTopicRequest.getTopicName());
+        forumTopic.setIsInappropriate(adminForumTopicRequest.getIsInappropriate());
+        forumTopic.setLastEdit(LocalDateTime.now());
+        forumTopicSessionBeanLocal.editForumTopicByAdmin(forumTopic);
+        return Response.status(204).build();
+
     }
 }

@@ -8,7 +8,9 @@ import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import './styles.css';
 import SearchIcon from './homepage/search.svg';
 import { Link } from 'react-router-dom';
-import { AuthContext } from "./login/AuthContext";
+import NavbarComp from './components/NavbarComp';
+// import { AuthProvider, useAuth } from '';
+import { AuthContext } from '../AuthContext';
 
 import {
   Table,
@@ -57,6 +59,8 @@ export default function TopicPosts() {
     }
   }, [loggedInStudent]);
 
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [user, setUser] = useState(null);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -191,7 +195,8 @@ export default function TopicPosts() {
   // }
 
   return (
-    <div>
+    <div className="wrapper" >
+    <NavbarComp isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} user={user} />
     <Fragment>
       <div style={{ display: "flex", justifyContent: "flex-end", alignItems: "center", marginRight: "2px", marginBottom: "3px" }}>
           <input

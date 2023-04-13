@@ -25,6 +25,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.core.GenericEntity;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import util.dataTransferObject.PUDTO;
 import util.enumeration.StatusName;
 import util.formRequestEntity.PUUpdateRequest;
 
@@ -82,6 +83,34 @@ public class PUResource {
         try {            
             PU pu = pUSessionBeanLocal.retrievePuByName(puName);
             return Response.status(200).entity(pu).type(MediaType.APPLICATION_JSON).build();
+        } catch (Exception e) {
+            JsonObject exception = Json.createObjectBuilder()
+                    .add("error", "Not found")
+                    .build();
+
+            return Response.status(404).entity(exception)
+                    .type(MediaType.APPLICATION_JSON).build();
+        }
+    }
+    
+    @GET
+    @Path("/getPUByNameAdmin/{name}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getPUbyNameAdmin(@PathParam("name") String puName) {
+
+        try {            
+            PU pu = pUSessionBeanLocal.retrievePuByName(puName);
+            
+            Country country = pu.getCountry();
+            
+            PUDTO puDTO = new PUDTO(
+                    pu.getPuId(),
+                    pu.getName(),
+                    pu.getDescription(),
+                    pu.getImages(),
+                    country.getCountryId()
+            );
+            return Response.status(200).entity(puDTO).type(MediaType.APPLICATION_JSON).build();
         } catch (Exception e) {
             JsonObject exception = Json.createObjectBuilder()
                     .add("error", "Not found")
@@ -150,4 +179,28 @@ public class PUResource {
             return Response.status(StatusName.NOT_FOUND.getCode()).entity(exception).build();
         }
     }    
+    
+    @PUT
+    @Path("/{id}")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response editPU(@PathParam("id") Long puId, 
+                            PUUpdateRequest puUpdateRequest) {
+        try {
+            String name = puUpdateRequest.getName();
+            String description = puUpdateRequest.getDescription();
+            String images = puUpdateRequest.getImages();
+            Long countryId = puUpdateRequest.getCountryId();
+            
+            pUSessionBeanLocal.updatePUAdmin(puId, name, description, images, countryId);
+            return Response.status(204).build();
+        } catch (Exception e) {
+            JsonObject exception = Json.createObjectBuilder()
+                    .add("error", "Not found")
+                    .build();
+
+            return Response.status(StatusName.NOT_FOUND.getCode()).entity(exception)
+                    .type(MediaType.APPLICATION_JSON).build();
+        }
+    }
 }

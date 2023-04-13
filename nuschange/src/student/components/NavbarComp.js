@@ -8,7 +8,7 @@ import './Navbar.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Button } from 'reactstrap';
 import UniversityRankings from '../ranking/UniversityRankings';
-import { AuthContext } from '../login/AuthContext';
+import { AuthContext } from '../../AuthContext';
 
 const NavbarComp = () => {
   const API_URL = "http://localhost:8080/PU-war/webresources/pu";

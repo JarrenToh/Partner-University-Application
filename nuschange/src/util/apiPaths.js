@@ -12,6 +12,8 @@ const apiPaths = {
     listOfForumTopics: `${path}/forumTopics`,
     listOfPUModuleReview: `${path}/pumodulereview`,
     listOfAdminForumTopics: `${path}/admin/forumTopics`,
+    admin: `${path}/admin`,
+    listOfLikedPUs: `${path}/admin/likedPUs`,
 
     getPUbyName(puName) {
         return fetch(`${path}/pu/getPUByName/${puName}`);
@@ -42,6 +44,30 @@ const apiPaths = {
           body: JSON.stringify(data),
         });
       },
+
+      updateStudentLikedReview(sId, rId, choice) {
+        return fetch(`${path}/pureview/like/?studentId=${sId}&puReviewId=${rId}&choice=${choice}`, {
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+          },
+          method: "PUT",
+        });      
+      },
+
+      updateStudentDislikedReview(sId, rId, choice) {
+        return fetch(`${path}/pureview/dislike/?studentId=${sId}&puReviewId=${rId}&choice=${choice}`, {
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+          },
+          method: "PUT",
+        });    
+      },
+      getStudentsById(id) {
+
+        return fetch(`${path}/student/${id}`);
+    },
 
 };
 

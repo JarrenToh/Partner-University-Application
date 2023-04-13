@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext,useCallback } from "react";
 import "../assets/base.scss";
 import './styles.css';
 import { Row, Col, Popover, PopoverHeader, PopoverBody, Button, InputGroup, Input } from "reactstrap";
@@ -7,9 +7,12 @@ import apiPaths from '../../util/apiPaths';
 import AlumnusComp from "../components/AlumnusComp";
 import ReviewComp from "../components/ReviewComp";
 import { FaWhatsapp, FaFacebook, FaTelegram, FaLink, FaCheck, FaShareAlt } from "react-icons/fa";
+import { AuthContext } from "../../AuthContext";
 
 
 function UniversityDescriptionPage() {
+    const { loggedInStudent } = useContext(AuthContext);
+    const [currentStudent, setCurrentStudent] = useState({});
     const { puName } = useParams();
     const [pu, setPU] = useState({});
     const [studentsWithReview, setStudentsWithReview] = useState([]);
@@ -17,8 +20,8 @@ function UniversityDescriptionPage() {
     const [copied, setCopied] = useState(false);
     const [popoverOpen, setPopoverOpen] = useState(false);
     const togglePopover = () => setPopoverOpen(!popoverOpen);
-    const [likes, setLikes] = useState({});
-    const [dislikes, setDislikes] = useState({});
+    const [studentLikedPUReview, setStudentLikedPUReview] = useState([])
+    const [studentDislikedPUReview, setStudentDislikedPUReview] = useState([])
 
     const handleFlagged = (id) => {
         const confirmRemove = window.confirm("Are you sure you want to flag this review?");
@@ -34,17 +37,26 @@ function UniversityDescriptionPage() {
         }
     };
 
-    const toggleLike = (id) => {
+    const toggleLike = useCallback((id) => {
+
+        // console.log(currentStudent)
+        // console.log(loggedInStudent)
+        // console.log(studentLikedPUReview)
 
         const studentsWithReviewIndex = studentsWithReview.findIndex((student) => student.studentId === id);
         // console.log(studentsWithReviewIndex);
         // console.log(studentsWithReview[studentsWithReviewIndex].puReview.noOfLikes)
         let updatedReview = {}
-        if (likes[id] === "like") {
-            setLikes((prevLikes) => ({
-                ...prevLikes,
-                [id]: "",
-            }));
+
+        const puReviewLikedCheck = studentLikedPUReview.some((likedPUReview) => {
+            return likedPUReview.puReviewId === studentsWithReview[studentsWithReviewIndex].puReview.puReviewId;
+        })
+
+        console.log(puReviewLikedCheck)
+        //currently Liked
+        if (puReviewLikedCheck) {
+            //unlike
+            apiPaths.updateStudentLikedReview(currentStudent.studentId,studentsWithReview[studentsWithReviewIndex].puReview.puReviewId, 1);
 
             if (studentsWithReview[studentsWithReviewIndex].puReview.noOfLikes === 0) {
                 return;
@@ -55,42 +67,48 @@ function UniversityDescriptionPage() {
                 noOfLikes: studentsWithReview[studentsWithReviewIndex].puReview.noOfLikes - 1,
             };
         } else {
-            setLikes((prevLikes) => ({
-                ...prevLikes,
-                [id]: "like",
-            }));
+            //like
+            apiPaths.updateStudentLikedReview(currentStudent.studentId,studentsWithReview[studentsWithReviewIndex].puReview.puReviewId, 0);
 
             updatedReview = {
                 ...studentsWithReview[studentsWithReviewIndex].puReview,
                 noOfLikes: studentsWithReview[studentsWithReviewIndex].puReview.noOfLikes + 1,
             };
 
-            if (dislikes[id] === "dislike") {
-                setDislikes((prevDislikes) => ({
-                    ...prevDislikes,
-                    [id]: "",
-                }));
+            const puReviewDislikedCheck = studentDislikedPUReview.some((dislikedPUReview) => {
+                return dislikedPUReview.puReviewId === studentsWithReview[studentsWithReviewIndex].puReview.puReviewId;
+            })
+
+            //currently Disliked
+            if (puReviewDislikedCheck) {
+
+                // "unDislike"
+                apiPaths.updateStudentDislikedReview(currentStudent.studentId,studentsWithReview[studentsWithReviewIndex].puReview.puReviewId, 1);
                 updatedReview.noOfDislikes -= 1;
             }
 
         }
 
         apiPaths.updateStudentReview(studentsWithReview[studentsWithReviewIndex].puReview.puReviewId, updatedReview);
+        // console.log(studentLikedPUReview);
         // console.log(studentsWithReview[studentsWithReviewIndex].puReview.noOfLikes);
-    };
+    });
 
-    const toggleDislike = (id) => {
+    const toggleDislike = useCallback((id) => {
 
         const studentsWithReviewIndex = studentsWithReview.findIndex((student) => student.studentId === id);
         // console.log(studentsWithReviewIndex);
         // console.log(studentsWithReview[studentsWithReviewIndex].puReview.noOfLikes)
         let updatedReview = {}
 
-        if (dislikes[id] === "dislike") {
-            setDislikes((prevDislikes) => ({
-                ...prevDislikes,
-                [id]: "",
-            }));
+        const puReviewDislikedCheck = studentDislikedPUReview.some((dislikedPUReview) => {
+            return dislikedPUReview.puReviewId === studentsWithReview[studentsWithReviewIndex].puReview.puReviewId;
+        })
+        // Currently Disliked
+        if (puReviewDislikedCheck) {
+
+            // "unDislike"
+            apiPaths.updateStudentDislikedReview(currentStudent.studentId,studentsWithReview[studentsWithReviewIndex].puReview.puReviewId, 1);
 
             if (studentsWithReview[studentsWithReviewIndex].puReview.noOfDislikes === 0) {
                 return;
@@ -102,28 +120,31 @@ function UniversityDescriptionPage() {
             };
 
         } else {
-            setDislikes((prevDislikes) => ({
-                ...prevDislikes,
-                [id]: "dislike",
-            }));
+
+            // Dislike
+            apiPaths.updateStudentDislikedReview(currentStudent.studentId,studentsWithReview[studentsWithReviewIndex].puReview.puReviewId, 0)
 
             updatedReview = {
                 ...studentsWithReview[studentsWithReviewIndex].puReview,
                 noOfDislikes: studentsWithReview[studentsWithReviewIndex].puReview.noOfDislikes + 1,
             };
 
-            if (likes[id] === "like") {
-                setLikes((prevLikes) => ({
-                    ...prevLikes,
-                    [id]: "",
-                }));
+            const puReviewLikedCheck = studentLikedPUReview.some((likedPUReview) => {
+                return likedPUReview.puReviewId === studentsWithReview[studentsWithReviewIndex].puReview.puReviewId;
+            })
 
+            // currently liked
+            if (puReviewLikedCheck) {
+                
+                // unlike
+                apiPaths.updateStudentLikedReview(currentStudent.studentId,studentsWithReview[studentsWithReviewIndex].puReview.puReviewId, 1);
                 updatedReview.noOfLikes -= 1;
             }
         }
         apiPaths.updateStudentReview(studentsWithReview[studentsWithReviewIndex].puReview.puReviewId, updatedReview);
 
-    };
+    });
+
     const shareToWhatsapp = () => {
         window.open(`whatsapp://send?text=${encodeURIComponent('Check out this cool content!')}`, '_blank');
     };
@@ -167,6 +188,18 @@ function UniversityDescriptionPage() {
                 // console.log(student);
             });
     }, [puName])
+
+    useEffect(() => {
+        if (loggedInStudent != null) {
+            apiPaths.getStudentsById(loggedInStudent?.studentId)
+                .then((res) => res.json())
+                .then((s) => {
+                    setCurrentStudent(s);
+                    setStudentLikedPUReview(s.likedPUReviews);
+                    setStudentDislikedPUReview(s.dislikedPUReviews)
+                })
+        }
+    }, [loggedInStudent, toggleLike]);
 
 
 
@@ -222,7 +255,7 @@ function UniversityDescriptionPage() {
             <div style={{ display: "flex", flexDirection: "column", margin: "0 2vw 0 2vw" }}>
                 <Row className="justify-content-between">
                     <Col xs="12" md="12" lg="9">
-                        <ReviewComp student={studentsWithReview} toggleLike={toggleLike} toggleDislike={toggleDislike} handleFlagged={handleFlagged} likes={likes} dislikes={dislikes} />
+                        <ReviewComp student={studentsWithReview} toggleLike={toggleLike} toggleDislike={toggleDislike} handleFlagged={handleFlagged} loggedInStudent={loggedInStudent} studentLikedPUReviews={studentLikedPUReview} studentDislikedPUReviews={studentDislikedPUReview}/>
                     </Col>
                     <Col xs="12" md="12" lg="3">
                         <AlumnusComp alumnus={alumnus} />

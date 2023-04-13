@@ -5,7 +5,7 @@ import axios from 'axios';
 import { useParams } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faComments } from '@fortawesome/free-solid-svg-icons'
-import { AuthContext } from "./login/AuthContext";
+import { AuthContext } from '../../src/AuthContext';
 import CommentComp from './CommentComp';
 
 import {
@@ -22,6 +22,10 @@ import {
 } from 'reactstrap';
 import './forum.css';
 import SearchIcon from './homepage/search.svg';
+import { FaBold } from 'react-icons/fa';
+import { Divider } from '@mui/material';
+import NavbarComp from './components/NavbarComp';
+// import { AuthProvider, useAuth } from './login/AuthContext';
 
 export default function ViewPost() {
   const { loggedInStudent } = useContext(AuthContext);
@@ -58,6 +62,21 @@ export default function ViewPost() {
   const [searchQuery, setSearchQuery] = useState("");
 
   const navigate = useNavigate();
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const [user, setUser] = useState(null);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const response = await axios.get(`http://localhost:8080/PU-war/webresources/forumPosts/${postId}`);
+                setForumPost(response.data);
+                setForumComments(response.data.forumComments);
+            } catch (error) {
+                console.error(error);
+            }
+        };
+        fetchData();
+    }, [forumComments, forumPost]);
 
   useEffect(() => {
     if (loggedInStudent) {
@@ -600,6 +619,7 @@ export default function ViewPost() {
   return (
     <>
       <div className="forum-card">
+      <NavbarComp isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} user={user} />
         <div className="forum-header">
           <div className="d-flex justify-content-between align-items-center">
             <h4>{forumPost.title}</h4>

@@ -24,7 +24,8 @@ public class DTOUtility {
         dto.setStatus(enquiry.getStatus());
         dto.setEnquiryDate(enquiry.getEnquiryDate());
         dto.setResponseStatusDate(enquiry.getResponseStatusDate());
-
+        dto.setStudentFirstName(enquiry.getStudent().getFirstName());
+        dto.setStudentLastName(enquiry.getStudent().getLastName());
         return dto;
     }
 

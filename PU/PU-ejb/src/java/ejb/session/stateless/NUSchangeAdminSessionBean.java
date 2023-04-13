@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import util.enumeration.UserGroupEnum;
@@ -40,11 +41,11 @@ public class NUSchangeAdminSessionBean implements NUSchangeAdminSessionBeanLocal
     @Override
     public List<FAQ> retrieveAllFAQsByUserSupportAdmin(Long adminId) {
         NUSchangeAdmin admin = retrieveAdmin(adminId);
-        
+
         if (admin.getUserGroupEnum() == UserGroupEnum.SYSTEM_SUPPORT) {
             return new ArrayList<>();
         }
-       
+
         Query q = em.createQuery("SELECT f FROM FAQ f WHERE f.createdBy = :admin");
         q.setParameter("admin", admin);
         List<FAQ> faqs = q.getResultList();
@@ -63,7 +64,7 @@ public class NUSchangeAdminSessionBean implements NUSchangeAdminSessionBeanLocal
         Query q = em.createQuery("SELECT e FROM Enquiry e WHERE e.nuschangeAdmin.adminId = :admin");
         q.setParameter("admin", admin);
         List<Enquiry> enquiries = q.getResultList();
-        
+
         return enquiries;
     }
 
@@ -85,7 +86,12 @@ public class NUSchangeAdminSessionBean implements NUSchangeAdminSessionBeanLocal
         query.setParameter("username", username);
         query.setParameter("password", password);
 
-        return (NUSchangeAdmin) query.getSingleResult();
+        try {
+            return (NUSchangeAdmin) query.getSingleResult();
+        } catch (NoResultException e) {
+            // Handle the case when there is no result
+            return null;
+        }
     }
 
     @Override
@@ -95,6 +101,47 @@ public class NUSchangeAdminSessionBean implements NUSchangeAdminSessionBeanLocal
 
         NUSchangeAdmin admin = (NUSchangeAdmin) query.getSingleResult();
         return admin;
+    }
+
+    @Override
+    public NUSchangeAdmin searchAdminByUsername(String adminUsername) {
+        Query query = em.createQuery("SELECT n FROM NUSchangeAdmin n WHERE LOWER(n.username) = :adminUsername");
+        query.setParameter("adminUsername", adminUsername.toLowerCase());
+
+        NUSchangeAdmin admin = (NUSchangeAdmin) query.getSingleResult();
+        return admin;
+    }
+
+    @Override
+    public void editAdminByName(String username, String name) {
+        NUSchangeAdmin nuschangeAdmin = searchAdminByUsername(username);
+        nuschangeAdmin.setName(name);
+    }
+
+    @Override
+    public void editAdminByUsername(String username, String newUsername) {
+        NUSchangeAdmin nuschangeAdmin = searchAdminByUsername(username);
+        nuschangeAdmin.setUsername(newUsername);
+    }
+
+    @Override
+    public void editAdminByPassword(String username, String password) {
+        NUSchangeAdmin nuschangeAdmin = searchAdminByUsername(username);
+        nuschangeAdmin.setPassword(password);
+    }
+
+    @Override
+    public NUSchangeAdmin searchAdminByPassword(String adminUsername, String password) {
+        Query query = em.createQuery("SELECT n FROM NUSchangeAdmin n WHERE LOWER(n.username) = :adminUsername AND LOWER(n.password) = :adminPassword");
+        query.setParameter("adminUsername", adminUsername.toLowerCase());
+        query.setParameter("adminPassword", password);
+
+        List<NUSchangeAdmin> resultList = query.getResultList();
+        if (resultList.isEmpty()) {
+            return null;
+        } else {
+            return resultList.get(0);
+        }
     }
 
 }

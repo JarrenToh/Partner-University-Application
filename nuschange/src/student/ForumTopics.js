@@ -1,6 +1,6 @@
 import React, { Fragment} from 'react';
 import { Link, useParams, useNavigate } from 'react-router-dom';
-import { AuthContext } from "./login/AuthContext";
+import { AuthContext } from '../../src/AuthContext';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { library } from '@fortawesome/fontawesome-svg-core';
@@ -9,6 +9,7 @@ import { fas } from '@fortawesome/free-solid-svg-icons';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import './styles.css';
 import SearchIcon from './homepage/search.svg';
+import NavbarComp from './components/NavbarComp';
 
 import {
   Table,
@@ -53,6 +54,9 @@ export default function ForumTopics() {
   //const [pageCount, setPageCount] = useState(Math.ceil(forumTopics.length / itemsPerPage));
   const pagesVisited = pageNumber * itemsPerPage;
   const pageCount = Math.ceil(forumTopics.length / itemsPerPage);
+
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [user, setUser] = useState(null);
 
   useEffect(() => {
       if (loggedInStudent) {
@@ -228,7 +232,8 @@ export default function ForumTopics() {
   // }
 
   return (
-    <div>
+    <div className="wrapper" >
+    <NavbarComp isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} user={user} />
     <Fragment>
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "3px"}}>
           <div>

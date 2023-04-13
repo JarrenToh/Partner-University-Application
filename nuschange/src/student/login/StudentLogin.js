@@ -2,7 +2,7 @@ import React, { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import API from '../../util/API';
 import { LoginStyles } from './LoginStyles';
-import { AuthContext } from './AuthContext';
+import { AuthContext } from '../../AuthContext';
 
 import {
   Button,
@@ -49,7 +49,7 @@ const Login = () => {
         setAlertMessage('You have logged in successfully');
         setAlertVisible(true);
         setTimeout(() => {
-          navigate('/home-page');
+          navigate('/student/home-page');
         }, 2000);
       } else {
         setAlertType('danger');

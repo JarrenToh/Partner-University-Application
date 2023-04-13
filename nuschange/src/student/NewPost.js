@@ -2,7 +2,7 @@ import React from 'react';
 import { useState, useContext, useEffect } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import { AuthContext } from "./login/AuthContext";
+import { AuthContext } from '../../src/AuthContext';
 
 import {
     Card,
@@ -16,6 +16,9 @@ import {
     Button,
     Alert
 } from 'reactstrap';
+
+import NavbarComp from './components/NavbarComp';
+// import { AuthProvider, useAuth } from './login/AuthContext';
 
 export default function NewPost() {
     const { loggedInStudent } = useContext(AuthContext);
@@ -34,6 +37,9 @@ export default function NewPost() {
           setStudentId(loggedInStudent.studentId);
         }
     }, [loggedInStudent]);
+
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const [user, setUser] = useState(null);
 
     const handleTitleChange = (e) => {
         setTitle(e.target.value);

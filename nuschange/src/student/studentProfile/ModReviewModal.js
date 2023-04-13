@@ -3,16 +3,41 @@ import { Modal, Button, Form } from "react-bootstrap";
 import { Rating } from "@mui/material";
 
 const ModReviewModal = (props) => {
-  const API_URL_PUMODREVIEW = "http://localhost:8080/PU-war/webresources/pumodulereview";
-  const { puReview } = props;
+  const API_URL_PUMODREVIEW =
+    "http://localhost:8080/PU-war/webresources/pumodulereview";
+  const { modReview } = props;
   const [stars, setStars] = useState(0);
   const [review, setReview] = useState("");
-  const [editedPuReview, setEditedPuReview] = useState({});
+  const [editedModReview, setEditedModReview] = useState({
+    isInappropriate: false,
+    moduleReviewId: 0,
+    noOfDislikes: 0,
+    noOfLikes: 1,
+    rating: 2,
+    review: "Dummy Review",
+  });
   const [saveButtonDisabled, setSaveButtonDisabled] = useState(true);
 
-  function updatePUModReviewAPI(moduleReviewId, data) {
+  useEffect(() => {
+    if (modReview) {
+      setStars(modReview.rating);
+      setReview(modReview.review);
+      setEditedModReview({ ...modReview });
+    } else {
+    }
+  }, [modReview]);
+
+  const puModReviewAPI = () => {
+    if (editedModReview.moduleReviewId) {
+      //edit existing review
+    } else {
+      // add fresh review
+    }
+  };
+
+  const updatePUModReviewAPI = async (moduleReviewId, data) => {
     console.log(data);
-    return fetch(`${API_URL_PUMODREVIEW}/${moduleReviewId}`, {
+    return await fetch(`${API_URL_PUMODREVIEW}/${moduleReviewId}`, {
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
@@ -20,17 +45,19 @@ const ModReviewModal = (props) => {
       method: "PUT",
       body: JSON.stringify(data),
     });
-  }
+  };
 
-  useEffect(() => {
-    console.log(puReview);
-
-    if (puReview) {
-      setStars(puReview.rating);
-      setReview(puReview.review);
-      setEditedPuReview({ ...puReview });
-    }
-  }, [puReview]);
+  const createPUModReviewAPI = async (data) => {
+    console.log(data);
+    return await fetch(`${API_URL_PUMODREVIEW}`, {
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      method: "POST",
+      body: JSON.stringify(data),
+    });
+  };
 
   const handleReviewChange = (event) => {
     setReview(event.target.value);
@@ -88,8 +115,8 @@ const ModReviewModal = (props) => {
           variant="success"
           disabled={saveButtonDisabled}
           onClick={() =>
-            updatePUModReviewAPI(editedPuReview.puReviewId, {
-              ...editedPuReview,
+            updatePUModReviewAPI(editedModReview.moduleReviewId, {
+              ...editedModReview,
               rating: stars,
               review: review,
             })

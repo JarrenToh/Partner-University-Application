@@ -41,7 +41,6 @@ public class PUReviewResource {
     @EJB
     private PUReviewSessionBeanLocal puReviewSessionBeanLocal;
 
-
     @EJB
     private PUSessionBeanLocal pUSessionBeanLocal;
 
@@ -79,7 +78,7 @@ public class PUReviewResource {
         try {
             PUReview p = puReviewSessionBeanLocal.retrievePUReviewById(id);
             Student student = p.getStudent();
-            
+
             PUReviewDTO puReviewDto = new PUReviewDTO(
                     p.getPuReviewId(),
                     p.getRating(),
@@ -91,7 +90,7 @@ public class PUReviewResource {
                     student.getFirstName(),
                     student.getLastName()
             );
-            
+
             return Response.status(200).entity(
                     puReviewDto
             ).type(MediaType.APPLICATION_JSON).build();
@@ -127,8 +126,8 @@ public class PUReviewResource {
                     .type(MediaType.APPLICATION_JSON).build();
         }
     }
-        
-    @GET    
+
+    @GET
     @Path("/getAllReportedPUReviews")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getAllReportedPUReviews() {
@@ -159,6 +158,42 @@ public class PUReviewResource {
         p.setPuReviewId(id);
         try {
             puReviewSessionBeanLocal.updatePUReview(p);
+            return Response.status(204).build();
+        } catch (Exception e) {
+            JsonObject exception = Json.createObjectBuilder()
+                    .add("error", "Not found")
+                    .build();
+
+            return Response.status(404).entity(exception)
+                    .type(MediaType.APPLICATION_JSON).build();
+        }
+    }
+
+    @PUT
+    @Path("/like/")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response editPUReviewLike(@QueryParam("studentId") Long studentId, @QueryParam("puReviewId") Long puReviewId, @QueryParam("choice") Integer choice) {
+        try {
+            puReviewSessionBeanLocal.updatePUReviewLikedByStudent(puReviewId, studentId, choice);
+            return Response.status(204).build();
+        } catch (Exception e) {
+            JsonObject exception = Json.createObjectBuilder()
+                    .add("error", "Not found")
+                    .build();
+
+            return Response.status(404).entity(exception)
+                    .type(MediaType.APPLICATION_JSON).build();
+        }
+    }
+
+    @PUT
+    @Path("/dislike/")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response editPUReviewdislike(@QueryParam("studentId") Long studentId, @QueryParam("puReviewId") Long puReviewId, @QueryParam("choice") Integer choice) {
+        try {
+            puReviewSessionBeanLocal.updatePUReviewDislikedByStudent(puReviewId, studentId, choice);
             return Response.status(204).build();
         } catch (Exception e) {
             JsonObject exception = Json.createObjectBuilder()

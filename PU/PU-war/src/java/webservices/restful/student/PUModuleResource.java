@@ -142,6 +142,33 @@ public class PUModuleResource {
                     .type(MediaType.APPLICATION_JSON).build();
         }
     } //end editPUModule
+    
+    @PUT
+    @Path("/editPUModuleAdmin/{id}")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response editPUModuleAdmin(@PathParam("id") Long cId, PUModuleRequest puModuleRequest) {
+        String code = puModuleRequest.getCode();
+        String name = puModuleRequest.getName();
+        String description = puModuleRequest.getDescription();
+        
+        PUModule puModule = new PUModule();
+        puModule.setCode(code);
+        puModule.setName(name);
+        puModule.setDescription(description);
+        
+        try {
+            puModuleSessionBeanLocal.updatePUModuleAdmin(cId, puModule);
+            return Response.status(204).build();
+        } catch (NoResultException e) {
+            JsonObject exception = Json.createObjectBuilder()
+                    .add("error", "Not found")
+                    .build();
+
+            return Response.status(404).entity(exception)
+                    .type(MediaType.APPLICATION_JSON).build();
+        }
+    } //end editPUModule
 
     @DELETE
     @Path("/{id}")
@@ -160,11 +187,11 @@ public class PUModuleResource {
     } //end deletePUModule
 
     @DELETE
-    @Path("/deletePUModuleFromPU/{id}")
+    @Path("/deletePUModuleFromPU/{code}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response deletePUModuleFromPU(@PathParam("id") Long moduleId, @QueryParam("pu") String pu) {
+    public Response deletePUModuleFromPU(@PathParam("code") String code, @QueryParam("pu") String pu) {
         try {
-            puModuleSessionBeanLocal.deletePUModuleFromPU(moduleId, pu);
+            puModuleSessionBeanLocal.deletePUModuleFromPU(code, pu);
             return Response.status(204).build();
         } catch (NoResultException e) {
             JsonObject exception = Json.createObjectBuilder()

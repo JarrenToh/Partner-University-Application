@@ -1,8 +1,9 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { Table } from 'reactstrap';
 import moment from 'moment'; // import moment.js
-import { AuthContext } from '../login/AuthContext';
+import { AuthContext } from '../../AuthContext';
 import './ContactForm.css';
+import NotLoggedIn from '../components/NotLoggedInPage';
 
 const ViewEnquiries = () => {
   const [enquiries, setEnquiries] = useState([]);
@@ -23,7 +24,7 @@ const ViewEnquiries = () => {
   }, [loggedInStudent]);
 
   if (!loggedInStudent) {
-    return <div>Not Logged in</div>;
+    return NotLoggedIn();
   }
 
   return (
