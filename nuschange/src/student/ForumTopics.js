@@ -11,6 +11,7 @@ import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import './styles.css';
 import SearchIcon from './homepage/search.svg';
 import NavbarComp from '../student/components/NavbarComp';
+import NotLoggedIn from './components/NotLoggedInPage';
 
 import {
   Table,
@@ -88,7 +89,7 @@ export default function ForumTopics() {
 
 
   if (!loggedInStudent) {
-    return <h1 style={{ textAlign: 'center', color: 'red', margin: '0 auto', width: '50%', fontWeight: 'bold', fontSize: '2em'}}>You are not logged in.</h1>;
+    return NotLoggedIn();
   }
 
   const searchForumTopic = async (searchQuery) => {

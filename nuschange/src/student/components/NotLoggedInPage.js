@@ -1,12 +1,19 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import Navbar from 'react-bootstrap/Navbar';
 // import { AuthContext } from '../login/AuthContext';
 import { Card, CardBody, CardHeader } from 'reactstrap';
 import NotLoggedIn from '../components/NotLoggedInPage';
 import { AuthContext } from '../../../src/AuthContext';
+import NavbarCompo from './NavbarComp';
 
 const NotLoggedInPage = () => {
+    const { loggedInStudent } = useContext(AuthContext);
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const [user, setUser] = useState(null);
+
     return (
+        <div className="wrapper">
+            <NavbarCompo isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} user={user} />
         <div
             className="form-container"
             style={{
@@ -45,6 +52,7 @@ const NotLoggedInPage = () => {
                     <br/>
                 </CardBody>
             </Card>
+        </div>
         </div>
     );
 };

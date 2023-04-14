@@ -4,6 +4,7 @@ import { useParams, Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { AuthContext } from '../AuthContext';
 import NavbarComp from '../student/components/NavbarComp';
+import NotLoggedIn from './components/NotLoggedInPage';
 
 import {
     Card,
@@ -32,7 +33,7 @@ export default function EditComment() {
     const [user, setUser] = useState(null);
 
     if (!loggedInStudent) {
-        return <h1 style={{ textAlign: 'center', color: 'red', margin: '0 auto', width: '50%', fontWeight: 'bold', fontSize: '2em'}}>You are not logged in.</h1>;
+        return NotLoggedIn();
     }
 
     const handleCommentMessageChange = (e) => {
