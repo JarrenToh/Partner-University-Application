@@ -165,7 +165,8 @@ const App = () => {
             <Route path="/student/university-description-page" element={<UniversityDescriptionPage />} />
             <Route path="/student/university-description-page/mappable-module" element={<MappableModule />} />
             <Route path="/student/profile/modulesTaken" element={<ModulesTaken />} />
-            <Route path="/student/module-reviews" element={<ModuleDetail />} />
+            <Route path="/student/module-details/:puName/:modId" element={<ModuleDetail />} />
+            <Route path="student/other-profile/:studentId" element={<OtherStudentProfile/>}/>
 
             {/* admin */}
             <Route path="/admin/login" element={<Login />} />
