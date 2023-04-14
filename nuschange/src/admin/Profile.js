@@ -9,8 +9,10 @@ import API from "../util/API";
 import apiPaths from "../util/apiPaths";
 import { AuthContext } from "../AuthContext";
 
+import { Helmet } from "react-helmet";
+
 const Profile = () => {
-    
+
     const navigate = useNavigate();
     const { usernameFromUrl } = useParams();
     const { loggedInAdmin } = useContext(AuthContext);
@@ -199,6 +201,9 @@ const Profile = () => {
 
     return (
         <div>
+            <Helmet>
+                <title>Profile</title>
+            </Helmet>
             <Header />
             <Menu />
             <div className="content-wrapper">
@@ -226,7 +231,7 @@ const Profile = () => {
                             </div>
                             <div className="form-group">
                                 <label htmlFor="inputCurrentPassword">Current Password</label>
-                                <input type="password" id="inputCurrentPassword" className={`form-control ${currentPasswordError ? "is-invalid" : ""}`} placeholder="Input a current password" onChange={(e) => setCurrentPassowrd(e.target.value)} value={currentPassword}  readOnly={isCurrentPasswordReadOnly}/>
+                                <input type="password" id="inputCurrentPassword" className={`form-control ${currentPasswordError ? "is-invalid" : ""}`} placeholder="Input a current password" onChange={(e) => setCurrentPassowrd(e.target.value)} value={currentPassword} readOnly={isCurrentPasswordReadOnly} />
                                 {currentPasswordError && <div className="invalid-feedback">{currentPasswordError}</div>}
                             </div>
                             {showCheckPasswordButton && (
@@ -238,7 +243,7 @@ const Profile = () => {
                                 <>
                                     <div className="form-group">
                                         <label htmlFor="inputPassword">Password</label>
-                                        <input type="password" id="inputPassword" className={`form-control ${passwordError ? "is-invalid" : ""}`} placeholder="Input a password" onChange={(e) => setPassword(e.target.value)} value={password}/>
+                                        <input type="password" id="inputPassword" className={`form-control ${passwordError ? "is-invalid" : ""}`} placeholder="Input a password" onChange={(e) => setPassword(e.target.value)} value={password} />
                                         {passwordError && <div className="invalid-feedback">{passwordError}</div>}
                                     </div>
                                     <div className="form-group">

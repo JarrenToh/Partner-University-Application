@@ -9,6 +9,8 @@ import API from '../../../../util/API';
 import apiPaths from '../../../../util/apiPaths';
 import { convertToEncodedTextForUrl } from '../../../../util/urlTextConverter';
 
+import { Helmet } from 'react-helmet';
+
 const PartnerUniversityModule = () => {
     const { puName } = useParams();
     const [name, setName] = useState("");
@@ -110,6 +112,9 @@ const PartnerUniversityModule = () => {
 
     return (
         <div>
+            <Helmet>
+                <title>Create Partner University Module</title>
+            </Helmet>
             <Header />
             <Menu />
             <div className="content-wrapper">

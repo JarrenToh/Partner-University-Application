@@ -8,6 +8,8 @@ import Footer from "../../../components/dashboard/Footer";
 import API from "../../../../util/API";
 import apiPaths from "../../../../util/apiPaths";
 
+import { Helmet } from "react-helmet";
+
 const ForumTopicDetails = () => {
     const navigate = useNavigate();
     const { id } = useParams();
@@ -144,6 +146,9 @@ const ForumTopicDetails = () => {
 
     return (
         <div>
+            <Helmet>
+                <title>View Forum Topic Details</title>
+            </Helmet>
             <Header />
             <Menu />
             <div className="content-wrapper">

@@ -7,6 +7,8 @@ import Footer from '../../../components/dashboard/Footer';
 import API from '../../../../util/API';
 import apiPaths from '../../../../util/apiPaths';
 
+import { Helmet } from 'react-helmet';
+
 const PartnerUniversity = () => {
     const [name, setName] = useState("");
     const [description, setDescription] = useState("");
@@ -120,6 +122,9 @@ const PartnerUniversity = () => {
 
     return (
         <div>
+            <Helmet>
+                <title>Create Partner University</title>
+            </Helmet>
             <Header />
             <Menu />
             <div className="content-wrapper">

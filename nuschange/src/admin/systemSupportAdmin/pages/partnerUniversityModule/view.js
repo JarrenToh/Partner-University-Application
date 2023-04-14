@@ -10,6 +10,8 @@ import apiPaths from "../../../../util/apiPaths";
 
 import { convertToEncodedTextForUrl } from "../../../../util/urlTextConverter";
 
+import { Helmet } from "react-helmet";
+
 const PUModuleDetails = () => {
     const navigate = useNavigate();
 
@@ -159,6 +161,9 @@ const PUModuleDetails = () => {
 
     return (
         <div>
+            <Helmet>
+                <title>View Partner University Module Details</title>
+            </Helmet>
             <Header />
             <Menu />
             <div className="content-wrapper">

@@ -9,6 +9,8 @@ import API from "../../../../util/API";
 import apiPaths from "../../../../util/apiPaths";
 import { AuthContext } from "../../../../AuthContext";
 
+import { Helmet } from "react-helmet";
+
 const FAQDetails = () => {
     const { id } = useParams();
     const [question, setQuestion] = useState("");
@@ -49,7 +51,7 @@ const FAQDetails = () => {
         try {
             const apiPath = `${apiPaths.listOfFaqs}/${id}`;
             await API.delete(apiPath);
-            
+
             setShowDeleteSuccessModal(true);
         } catch (error) {
             console.error(error);
@@ -107,7 +109,7 @@ const FAQDetails = () => {
                 } else {
                     const question = data.question;
                     const answer = data.answer;
-    
+
                     setQuestion(question);
                     setAnswer(answer);
                 }
@@ -132,6 +134,9 @@ const FAQDetails = () => {
 
     return (
         <div>
+            <Helmet>
+                <title>View FAQ Details</title>
+            </Helmet>
             <Header />
             <Menu />
             <div className="content-wrapper">

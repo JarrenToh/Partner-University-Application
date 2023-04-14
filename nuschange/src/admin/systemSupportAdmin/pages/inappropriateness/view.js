@@ -8,6 +8,8 @@ import Footer from "../../../components/dashboard/Footer";
 import API from "../../../../util/API";
 import apiPaths from "../../../../util/apiPaths";
 
+import { Helmet } from "react-helmet";
+
 const InappropriatenessDetails = () => {
     const navigate = useNavigate();
     const { typeOfComponent, id } = useParams();
@@ -251,6 +253,9 @@ const InappropriatenessDetails = () => {
 
     return (
         <div>
+            <Helmet>
+                <title>View Inappropriate Content Details</title>
+            </Helmet>
             <Header />
             <Menu />
             <div className="content-wrapper">
@@ -347,7 +352,7 @@ const InappropriatenessDetails = () => {
                                 </div>
                             </div>
                         )}
-                         {showAppropriateModal && (
+                        {showAppropriateModal && (
                             <div className="modal fade show" id="modal-default" style={{ display: "block" }}>
                                 <div className="modal-dialog">
                                     <div className="modal-content">

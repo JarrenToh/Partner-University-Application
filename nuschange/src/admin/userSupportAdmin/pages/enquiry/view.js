@@ -9,6 +9,8 @@ import API from '../../../../util/API';
 import apiPaths from '../../../../util/apiPaths';
 import { AuthContext } from '../../../../AuthContext';
 
+import { Helmet } from 'react-helmet';
+
 const EnquiryDetails = () => {
 
     const { id } = useParams();
@@ -113,6 +115,9 @@ const EnquiryDetails = () => {
 
     return (
         <div>
+            <Helmet>
+                <title>View Student Enquiry Details</title>
+            </Helmet>
             <Header />
             <Menu />
             <div className="content-wrapper">

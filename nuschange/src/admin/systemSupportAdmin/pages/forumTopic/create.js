@@ -8,6 +8,8 @@ import API from '../../../../util/API';
 import apiPaths from '../../../../util/apiPaths';
 import { AuthContext } from '../../../../AuthContext';
 
+import { Helmet } from 'react-helmet';
+
 const ForumTopic = () => {
     const [topicName, setTopicName] = useState("");
     const [puId, setPuId] = useState("");
@@ -59,7 +61,7 @@ const ForumTopic = () => {
                 const duplicateTopicName = forumTopics.some(
                     (forumTopic) => forumTopic.topicName.toLowerCase() === topicName.toLowerCase()
                 );
-    
+
                 if (duplicateTopicName) {
                     setTopicNameError("Topic name already exists in this PU");
                     isValid = false;
@@ -96,6 +98,9 @@ const ForumTopic = () => {
 
     return (
         <div>
+            <Helmet>
+                <title>Create Forum Topic</title>
+            </Helmet>
             <Header />
             <Menu />
             <div className="content-wrapper">

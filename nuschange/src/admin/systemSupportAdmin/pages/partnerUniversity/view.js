@@ -9,6 +9,8 @@ import API from "../../../../util/API";
 import apiPaths from "../../../../util/apiPaths";
 import { convertToEncodedTextForUrl, convertNameToSlug } from "../../../../util/urlTextConverter";
 
+import { Helmet } from "react-helmet";
+
 const PUDetails = () => {
     const navigate = useNavigate();
 
@@ -173,6 +175,9 @@ const PUDetails = () => {
 
     return (
         <div>
+            <Helmet>
+                <title>View Partner University Details</title>
+            </Helmet>
             <Header />
             <Menu />
             <div className="content-wrapper">

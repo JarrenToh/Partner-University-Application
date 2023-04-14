@@ -8,6 +8,8 @@ import API from '../../../../util/API';
 import apiPaths from '../../../../util/apiPaths';
 import { AuthContext } from '../../../../AuthContext';
 
+import { Helmet } from 'react-helmet';
+
 const FAQ = () => {
     const [question, setQuestion] = useState("");
     const [answer, setAnswer] = useState("");
@@ -90,6 +92,9 @@ const FAQ = () => {
 
     return (
         <div>
+            <Helmet>
+                <title>Create FAQ</title>
+            </Helmet>
             <Header />
             <Menu />
             <div className="content-wrapper">
