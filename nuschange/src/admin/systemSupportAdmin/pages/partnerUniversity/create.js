@@ -123,7 +123,7 @@ const PartnerUniversity = () => {
     return (
         <div>
             <Helmet>
-                <title>Create Partner University</title>
+                <title>Create PU</title>
             </Helmet>
             <Header />
             <Menu />

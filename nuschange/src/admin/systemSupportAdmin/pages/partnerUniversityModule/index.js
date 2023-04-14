@@ -46,7 +46,7 @@ const PartnerUuniversityModules = () => {
     return (
         <div>
             <Helmet>
-                <title>View Partner University Module</title>
+                <title>View PU Module</title>
             </Helmet>
             <Header />
             <Menu />

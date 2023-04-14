@@ -113,7 +113,7 @@ const PartnerUniversityModule = () => {
     return (
         <div>
             <Helmet>
-                <title>Create Partner University Module</title>
+                <title>Create PU Module</title>
             </Helmet>
             <Header />
             <Menu />

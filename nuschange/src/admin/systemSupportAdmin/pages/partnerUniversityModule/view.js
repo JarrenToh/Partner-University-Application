@@ -162,7 +162,7 @@ const PUModuleDetails = () => {
     return (
         <div>
             <Helmet>
-                <title>View Partner University Module Details</title>
+                <title>View PU Module Details</title>
             </Helmet>
             <Header />
             <Menu />
@@ -170,7 +170,7 @@ const PUModuleDetails = () => {
                 <div className="card">
                     <div className="card card-primary">
                         <div className="card-header">
-                            <h3 className="card-title">View PU Module Details</h3>
+                            <h3 className="card-title">View Partner University Module Details</h3>
                         </div>
                         <div className="card-body">
                             <div className="form-group">
