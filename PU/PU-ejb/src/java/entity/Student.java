@@ -94,6 +94,22 @@ public class Student implements Serializable {
             inverseJoinColumns = @JoinColumn(name = "PUREVIEW_ID")
     )
     private List<PUReview> dislikedPUReviews;
+    
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "STUDENT_MODREVIEW_LIKED",
+            joinColumns = @JoinColumn(name = "STUDENT_ID"),
+            inverseJoinColumns = @JoinColumn(name = "MODREVIEW_ID")
+    )
+    private List<PUModuleReview> likedModReviews;
+    
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "STUDENT_MODREVIEW_DISLIKED",
+            joinColumns = @JoinColumn(name = "STUDENT_ID"),
+            inverseJoinColumns = @JoinColumn(name = "MODREVIEW_ID")
+    )
+    private List<PUModuleReview> dislikedModReviews;
 
     public Student() {
         this.socialMedia = new ArrayList<>();
@@ -106,6 +122,8 @@ public class Student implements Serializable {
         this.modulesTaken = new ArrayList<>();
         this.likedPUReviews = new ArrayList<>();
         this.dislikedPUReviews = new ArrayList<>();
+        this.likedModReviews = new ArrayList<>();
+        this.dislikedModReviews = new ArrayList<>();
     }
 
     public Student(String firstName, String lastName, String phoneNumber, String email, String password, String faculty) {
@@ -426,4 +444,24 @@ public class Student implements Serializable {
     public void setDislikedPUReviews(List<PUReview> dislikedPUReviews) {
         this.dislikedPUReviews = dislikedPUReviews;
     }
+
+    public List<PUModuleReview> getLikedModReviews() {
+        return likedModReviews;
+    }
+
+    public void setLikedModReviews(List<PUModuleReview> likedModReviews) {
+        this.likedModReviews = likedModReviews;
+    }
+
+    public List<PUModuleReview> getDislikedModReviews() {
+        return dislikedModReviews;
+    }
+
+    public void setDislikedModReviews(List<PUModuleReview> dislikedModReviews) {
+        this.dislikedModReviews = dislikedModReviews;
+    }
+
+   
+    
+    
 }

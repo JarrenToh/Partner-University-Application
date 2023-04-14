@@ -140,4 +140,44 @@ public class PUModuleReviewSessionBean implements PUModuleReviewSessionBeanLocal
         
         moduleReview.setIsInappropriate(!moduleReview.getIsInappropriate());
     }
+    
+    @Override
+    public Long updatePUModReviewLikedByStudent(Long modReviewId, Long studentId, Integer choice) {
+
+        PUModuleReview pUModuleReview = em.find(PUModuleReview.class, modReviewId);
+        Student student = em.find(Student.class, studentId);
+        //choice == 0, set like
+        if (choice.equals(0)) {
+
+            pUModuleReview.getStudentsLiked().add(student);
+            student.getLikedModReviews().add(pUModuleReview);
+
+        } else if (choice.equals(1)) {
+
+            pUModuleReview.getStudentsLiked().remove(student);
+            student.getLikedModReviews().remove(pUModuleReview);
+
+        }
+        return pUModuleReview.getModuleReviewId();
+    }
+
+    @Override
+    public Long updateModPUReviewDislikedByStudent(Long puReviewId, Long studentId, Integer choice) {
+
+        PUModuleReview pUModuleReview = em.find(PUModuleReview.class, puReviewId);
+        Student student = em.find(Student.class, studentId);
+        //choice == 0, set dislike
+        if (choice.equals(0)) {
+
+            pUModuleReview.getStudentsDisliked().add(student);
+            student.getDislikedModReviews().add(pUModuleReview);
+
+        } else if (choice.equals(1)) {
+
+            pUModuleReview.getStudentsDisliked().remove(student);
+            student.getDislikedModReviews().remove(pUModuleReview);
+
+        }
+        return pUModuleReview.getModuleReviewId();
+    }
 }

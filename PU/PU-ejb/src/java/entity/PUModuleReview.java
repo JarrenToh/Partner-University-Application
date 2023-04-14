@@ -6,13 +6,17 @@
 package entity;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import javax.json.bind.annotation.JsonbTransient;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 
 /**
@@ -38,12 +42,19 @@ public class PUModuleReview implements Serializable {
     @ManyToOne
     @JoinColumn(name = "moduleId")
     private PUModule module;
-    
+
     @ManyToOne
     @JoinColumn(name = "studentId")
     private Student student;
 
+    @ManyToMany(mappedBy = "likedModReviews", fetch = FetchType.EAGER)
+    private List<Student> studentsLiked;
+
+    @ManyToMany(mappedBy = "dislikedModReviews", fetch = FetchType.EAGER)
+    private List<Student> studentsDisliked;
+
     public PUModuleReview(String review, Long rating, Integer noOfLikes, Integer noOfDislikes) {
+        this();
         this.review = review;
         this.rating = rating;
         this.noOfLikes = noOfLikes;
@@ -52,6 +63,8 @@ public class PUModuleReview implements Serializable {
     }
 
     public PUModuleReview() {
+        this.studentsLiked = new ArrayList<>();
+        this.studentsDisliked = new ArrayList<>();
     }
 
     public Long getModuleReviewId() {
@@ -185,6 +198,24 @@ public class PUModuleReview implements Serializable {
      */
     public void setStudent(Student student) {
         this.student = student;
+    }
+
+    @JsonbTransient
+    public List<Student> getStudentsLiked() {
+        return studentsLiked;
+    }
+
+    public void setStudentsLiked(List<Student> studentsLiked) {
+        this.studentsLiked = studentsLiked;
+    }
+
+    @JsonbTransient
+    public List<Student> getStudentsDisliked() {
+        return studentsDisliked;
+    }
+
+    public void setStudentsDisliked(List<Student> studentsDisliked) {
+        this.studentsDisliked = studentsDisliked;
     }
 
 }

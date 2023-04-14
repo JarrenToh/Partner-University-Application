@@ -1,74 +1,63 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { useLocation, useParams } from "react-router-dom";
-import ModReviewComp from "./ModReviewComp";
 import "./PuModule.css";
 import NavbarComp from '../../student/components/NavbarComp';
+import ModReviewComp from "./ModReviewComp";
+import { AuthContext } from "../../AuthContext";
 
 const ModuleDetail = (props) => {
   const { puName, modId } = useParams();
+  const { loggedInStudent } = useContext(AuthContext);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [user, setUser] = useState(null);
   const API_URL_MOD = "http://localhost:8080/PU-war/webresources/pumodule";
+  const API_URL_STUDENT = "http://localhost:8080/PU-war/webresources/student";
+  const API_URL_MODREVIEW = "http://localhost:8080/PU-war/webresources/pumodulereview"
   const [module, setModule] = useState({
     code: "AB123",
     moduleId: 1,
-    moduleReviews: [
-      {
-        moduleReviewId: 123,
-        rating: 4,
-        review: "This module is great!",
-        noOfLikes: 10,
-        noOfDislikes: 2,
-        isInappropriate: false,
-      },
-      {
-        moduleReviewId: 124,
-        rating: 3,
-        review: "This module is okay.",
-        noOfLikes: 5,
-        noOfDislikes: 3,
-        isInappropriate: false,
-      },
-      {
-        moduleReviewId: 125,
-        rating: 5,
-        review: "This module exceeded my expectations!",
-        noOfLikes: 20,
-        noOfDislikes: 1,
-        isInappropriate: false,
-      },
-      {
-        moduleReviewId: 126,
-        rating: 2,
-        review: "I don't like this module.",
-        noOfLikes: 1,
-        noOfDislikes: 10,
-        isInappropriate: true,
-      },
-      {
-        moduleReviewId: 127,
-        rating: 4,
-        review: "This module is amazing!",
-        noOfLikes: 15,
-        noOfDislikes: 0,
-        isInappropriate: false,
-      },
-    ],
+    moduleReviews: [],
     name: "Dummy Module Name",
     description:
       "This module aims to train students to be conversant in front-end development for Enterprise Systems. It complements IS2103 which focuses on backend development aspects for Enterprise Systems. Topics covered include web development scripting languages, web templating design and component design, integrating with backend application, and basic mobile application development.",
     pu_puid: "1",
   });
+  const [currentStudent, setCurrentStudent] = useState({});
+  const [reviews, setReviews] = useState([]);
+  const [studentLikedModReview, setStudentLikedModReview] = useState([])
+  const [studentDislikedModReviews, setStudentDislikedModReview] = useState([])
 
   useEffect(() => {
     getPuModApi(modId);
+    getPuModReviewsApi(modId);
   }, []);
+
+  useEffect(() => {
+    if (loggedInStudent) {
+      getStudentAPI(loggedInStudent.studentId);
+    }
+  }, [loggedInStudent]);
+
+  const getStudentAPI = async (studentId) => {
+    const response = await fetch(`${API_URL_STUDENT}/${studentId}`);
+    const data = await response.json();
+    setCurrentStudent(data);
+    setStudentDislikedModReview(data.dislikedPUReviews);
+    setStudentLikedModReview(data.likedPUReviews);
+  };
 
   const getPuModApi = async (moduleId) => {
     const response = await fetch(`${API_URL_MOD}/${moduleId}`);
     const data = await response.json();
     //setCurrentStudent(data);
     setModule(data);
+  };
+
+  const getPuModReviewsApi = async (moduleId) => {
+    const response = await fetch(`${API_URL_MODREVIEW}/from-module/${moduleId}`);
+    const data = await response.json();
+    setReviews(data);
+    return data
   };
 
 
@@ -85,7 +74,8 @@ const ModuleDetail = (props) => {
         <hr></hr>
         <p>{module.description}</p>
 
-        <ModReviewComp reviews={module.moduleReviews} />
+        {/* <ModReviewComp reviews={module.moduleReviews} /> */}
+        <ModReviewComp reviews={reviews} studentLikedModReviews={studentLikedModReview} studentDislikedModReviews={studentDislikedModReviews}/>
       </div>
     </div>
   );
