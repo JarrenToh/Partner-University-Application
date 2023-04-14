@@ -17,8 +17,10 @@ const PUDetails = () => {
     const { nameFromUrl } = useParams();
     const [id, setId] = useState(-1);
     const [name, setName] = useState("");
+    const [currentName, setCurrentName] = useState("");
     const [description, setDescription] = useState("");
     const [images, setImages] = useState("");
+    const [currentImages, setCurrentImages] = useState("");
     const [countryId, setCountryId] = useState("");
 
     const [countries, setCountries] = useState([]);
@@ -85,15 +87,17 @@ const PUDetails = () => {
             setNameError("Please enter a name");
             isValid = false;
         } else {
-            const duplicateName = existingPUs.some(
-                (pu) => pu.name.toLowerCase() === name.toLowerCase()
-            );
+            if (name.trim() !== currentName) {
+                const duplicateName = existingPUs.some(
+                    (pu) => pu.name.toLowerCase() === name.toLowerCase()
+                );
 
-            if (duplicateName) {
-                setNameError("PU Name already exists");
-                isValid = false;
-            } else {
-                setNameError("");
+                if (duplicateName) {
+                    setNameError("PU Name already exists");
+                    isValid = false;
+                } else {
+                    setNameError("");
+                }
             }
         }
         if (description.trim() === "") {
@@ -135,8 +139,10 @@ const PUDetails = () => {
 
                     setId(id);
                     setName(name);
+                    setCurrentName(name);
                     setDescription(description);
                     setImages(images);
+                    setCurrentImages(images);
                     setCountryId(countryId);
                 }
             } catch (error) {
@@ -198,9 +204,11 @@ const PUDetails = () => {
                                 {descriptionError && <div className="invalid-feedback">{descriptionError}</div>}
                             </div>
                             <div className="form-group">
-                                <label htmlFor="inputImage">Image</label>
+                                <label htmlFor="inputName">Image</label>
+                                <input type="text" id="inputName" className={`form-control ${imagesError ? "is-invalid" : ""}`} placeholder="Input a image" value={images} onChange={(e) => setImages(e.target.value)} />
                                 <br />
-                                <img src={images} alt="" style={{ maxWidth: "100%" }} />
+                                <img src={currentImages} alt="" style={{ maxWidth: "100%" }} />
+                                {imagesError && <div className="invalid-feedback">{imagesError}</div>}
                             </div>
                             <div className="form-group">
                                 <label htmlFor="inputName">Country</label>

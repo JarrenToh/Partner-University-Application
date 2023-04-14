@@ -14,6 +14,7 @@ import { Helmet } from "react-helmet";
 const FAQDetails = () => {
     const { id } = useParams();
     const [question, setQuestion] = useState("");
+    const [currentQuestion, setCurrentQuestion] = useState("");
     const [answer, setAnswer] = useState("");
 
     const [existingFAQs, setExistingFAQs] = useState([]);
@@ -77,15 +78,17 @@ const FAQDetails = () => {
             setQuestionError("Please enter a question");
             isValid = false;
         } else {
-            const duplicateQuestion = existingFAQs.some(
-                (faq) => faq.question.toLowerCase() === question.toLowerCase()
-            );
+            if (question.trim() !== currentQuestion) {
+                const duplicateQuestion = existingFAQs.some(
+                    (faq) => faq.question.toLowerCase() === question.toLowerCase()
+                );
 
-            if (duplicateQuestion) {
-                setQuestionError("Question already exists");
-                isValid = false;
-            } else {
-                setQuestionError("");
+                if (duplicateQuestion) {
+                    setQuestionError("Question already exists");
+                    isValid = false;
+                } else {
+                    setQuestionError("");
+                }
             }
         }
         if (answer.trim() === "") {
@@ -111,6 +114,7 @@ const FAQDetails = () => {
                     const answer = data.answer;
 
                     setQuestion(question);
+                    setCurrentQuestion(question);
                     setAnswer(answer);
                 }
             } catch (error) {
