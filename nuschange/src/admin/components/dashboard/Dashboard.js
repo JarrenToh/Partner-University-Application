@@ -37,7 +37,7 @@ const Dashboard = () => {
                                     </div>
                                 )
                             }
-                            {loggedInAdmin != null && loggedInAdmin.userGroupEnum === "USER_SUPPORT" &&
+                            {loggedInAdmin !== null && loggedInAdmin.userGroupEnum === "USER_SUPPORT" &&
                                 (
                                     <div>
                                         <StudentEnquiries/>

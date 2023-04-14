@@ -57,7 +57,7 @@ public class ForumComment implements Serializable {
     @JsonbTransient
     private Student student;
     
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "parentComment")
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.REMOVE, orphanRemoval = true, mappedBy = "parentComment")
     private List<ForumComment> replies;
     
     @ManyToOne(optional = true)

@@ -11,6 +11,8 @@ import apiPaths from "../../../../util/apiPaths";
 import { convertNameToSlug } from "../../../../util/urlTextConverter";
 import { systemSupportAdminPaths } from "../../../../util/adminRoutes";
 
+import { Helmet } from "react-helmet";
+
 const PartnerUniversity = () => {
 
     const [data, setData] = useState([]);
@@ -42,6 +44,9 @@ const PartnerUniversity = () => {
 
     return (
         <div>
+            <Helmet>
+                <title>View PU</title>
+            </Helmet>
             <Header />
             <Menu />
             <div className="content-wrapper">

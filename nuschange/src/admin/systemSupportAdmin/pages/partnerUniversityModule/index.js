@@ -11,6 +11,8 @@ import apiPaths from "../../../../util/apiPaths";
 import { convertToEncodedTextForUrl } from "../../../../util/urlTextConverter";
 import { systemSupportAdminPaths } from "../../../../util/adminRoutes";
 
+import { Helmet } from "react-helmet";
+
 const PartnerUuniversityModules = () => {
     const { puName } = useParams();
     const [modules, setModules] = useState([]);
@@ -43,6 +45,9 @@ const PartnerUuniversityModules = () => {
 
     return (
         <div>
+            <Helmet>
+                <title>View PU Module</title>
+            </Helmet>
             <Header />
             <Menu />
             <div className="content-wrapper">

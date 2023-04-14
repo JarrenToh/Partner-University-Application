@@ -9,6 +9,8 @@ import API from "../../../../util/API";
 import apiPaths from "../../../../util/apiPaths";
 import { convertToEncodedTextForUrl, convertNameToSlug } from "../../../../util/urlTextConverter";
 
+import { Helmet } from "react-helmet";
+
 const PUDetails = () => {
     const navigate = useNavigate();
 
@@ -20,9 +22,11 @@ const PUDetails = () => {
     const [countryId, setCountryId] = useState("");
 
     const [countries, setCountries] = useState([]);
+    const [existingPUs, setExistingPUs] = useState([]);
 
     const [showUpdateSuccessModal, setShowUpdateSuccessModal] = useState(false);
     const [showDeleteSuccessModal, setShowDeleteSuccessModal] = useState(false);
+    const [showNotFoundModal, setShowNotFoundModal] = useState(false);
 
     const [nameError, setNameError] = useState("");
     const [descriptionError, setDescriptionError] = useState("");
@@ -70,13 +74,27 @@ const PUDetails = () => {
         navigate('../admin/systemSupportAdmin/partnerUniversities');
     };
 
+    const handleCancelNotFoundModal = () => {
+        setShowNotFoundModal(false);
+        navigate('../admin/systemSupportAdmin/partnerUniversities');
+    };
+
     const validate = () => {
         let isValid = true;
         if (name.trim() === "") {
             setNameError("Please enter a name");
             isValid = false;
         } else {
-            setNameError("");
+            const duplicateName = existingPUs.some(
+                (pu) => pu.name.toLowerCase() === name.toLowerCase()
+            );
+
+            if (duplicateName) {
+                setNameError("PU Name already exists");
+                isValid = false;
+            } else {
+                setNameError("");
+            }
         }
         if (description.trim() === "") {
             setDescriptionError("Please enter a description");
@@ -106,17 +124,21 @@ const PUDetails = () => {
                 const response = await API.get(apiPath);
                 const data = response.data;
 
-                const id = data.puId;
-                const name = data.name;
-                const description = data.description;
-                const images = data.images;
-                const countryId = data.countryId;
+                if (data.stringStatus === "404") {
+                    setShowNotFoundModal(true);
+                } else {
+                    const id = data.puId;
+                    const name = data.name;
+                    const description = data.description;
+                    const images = data.images;
+                    const countryId = data.countryId;
 
-                setId(id);
-                setName(name);
-                setDescription(description);
-                setImages(images);
-                setCountryId(countryId);
+                    setId(id);
+                    setName(name);
+                    setDescription(description);
+                    setImages(images);
+                    setCountryId(countryId);
+                }
             } catch (error) {
                 console.error(error);
             }
@@ -132,21 +154,37 @@ const PUDetails = () => {
             } catch (error) {
                 console.error(error);
             }
-        }
+        };
+
+        const fetchPUs = async () => {
+            try {
+                const apiPath = `${apiPaths.listOfPUs}`
+                const response = await API.get(apiPath);
+                const data = response.data;
+
+                setExistingPUs(data);
+            } catch (error) {
+                console.error(error);
+            }
+        };
 
         fetchPUData();
         fetchCountriesData();
+        fetchPUs();
     }, [nameFromUrl]);
 
     return (
         <div>
+            <Helmet>
+                <title>View PU Details</title>
+            </Helmet>
             <Header />
             <Menu />
             <div className="content-wrapper">
                 <div className="card">
                     <div className="card card-primary">
                         <div className="card-header">
-                            <h3 className="card-title">View PU Details</h3>
+                            <h3 className="card-title">View Partner University Details</h3>
                         </div>
                         <div className="card-body">
                             <div className="form-group">
@@ -240,6 +278,36 @@ const PUDetails = () => {
                                     type="button"
                                     className="btn btn-default"
                                     onClick={() => handleCancelDeleteSuccessModal()}>
+                                    Close
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            )}
+            {showNotFoundModal && (
+                <div className="modal fade show" id="modal-default" style={{ display: "block" }}>
+                    <div className="modal-dialog">
+                        <div className="modal-content">
+                            <div className="modal-header">
+                                <h4 className="modal-title">Partner University Not Found</h4>
+                                <button
+                                    type="button"
+                                    className="close"
+                                    data-dismiss="modal"
+                                    aria-label="Close"
+                                    onClick={() => handleCancelNotFoundModal()}>
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div className="modal-body">
+                                <p>The requested partner university could not be found!</p>
+                            </div>
+                            <div className="modal-footer justify-content-between">
+                                <button
+                                    type="button"
+                                    className="btn btn-default"
+                                    onClick={() => handleCancelNotFoundModal()}>
                                     Close
                                 </button>
                             </div>

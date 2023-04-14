@@ -124,7 +124,7 @@ public class StudentResource {
     @GET
     @Path("/pu/puname/{puName}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getStudentByPUName(@PathParam("puName") String puName) {
+    public Response getStudentByPUName(@PathParam("puName") String puName) throws NoResultException {
 
         PU pu = pUSessionBeanLocal.retrievePuByName(puName);
         List<Student> results = studentSessionLocal.retrieveStudentsByPU(pu);
@@ -139,7 +139,7 @@ public class StudentResource {
     @GET
     @Path("/pu/puname/withreview/{puName}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getStudentWithReviewByPUName(@PathParam("puName") String puName) {
+    public Response getStudentWithReviewByPUName(@PathParam("puName") String puName) throws NoResultException {
 
         PU pu = pUSessionBeanLocal.retrievePuByName(puName);
         List<Student> results = studentSessionLocal.retrieveStudentWithReviewByPU(pu);

@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import React, { useState, useEffect, useContext } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 
 import Header from "./components/dashboard/Header";
 import Menu from "./components/dashboard/Menu";
@@ -7,10 +7,16 @@ import Footer from "./components/dashboard/Footer";
 
 import API from "../util/API";
 import apiPaths from "../util/apiPaths";
+import { AuthContext } from "../AuthContext";
+
+import { Helmet } from "react-helmet";
 
 const Profile = () => {
-    
+
+    const navigate = useNavigate();
     const { usernameFromUrl } = useParams();
+    const { loggedInAdmin } = useContext(AuthContext);
+
     const [name, setName] = useState("");
     const [username, setUsername] = useState("");
     const [currentPassword, setCurrentPassowrd] = useState("");
@@ -168,6 +174,8 @@ const Profile = () => {
     }
 
     useEffect(() => {
+        if (loggedInAdmin === null) return;
+
         const fetchData = async () => {
             try {
                 const apiPath = `${apiPaths.admin}/searchAdminByUsername/${usernameFromUrl}`;
@@ -183,11 +191,19 @@ const Profile = () => {
                 console.error(error);
             }
         };
-        fetchData();
-    }, [usernameFromUrl]);
+
+        if (loggedInAdmin.username !== usernameFromUrl) {
+            navigate(`/admin/${loggedInAdmin.userGroupEnum === "USER_SUPPORT" ? "userSupportAdmin" : "systemSupportAdmin"}/profile/${loggedInAdmin.username}`);
+        } else {
+            fetchData();
+        }
+    }, [loggedInAdmin, usernameFromUrl, navigate]);
 
     return (
         <div>
+            <Helmet>
+                <title>Profile</title>
+            </Helmet>
             <Header />
             <Menu />
             <div className="content-wrapper">
@@ -215,7 +231,7 @@ const Profile = () => {
                             </div>
                             <div className="form-group">
                                 <label htmlFor="inputCurrentPassword">Current Password</label>
-                                <input type="password" id="inputCurrentPassword" className={`form-control ${currentPasswordError ? "is-invalid" : ""}`} placeholder="Input a current password" onChange={(e) => setCurrentPassowrd(e.target.value)} value={currentPassword}  readOnly={isCurrentPasswordReadOnly}/>
+                                <input type="password" id="inputCurrentPassword" className={`form-control ${currentPasswordError ? "is-invalid" : ""}`} placeholder="Input a current password" onChange={(e) => setCurrentPassowrd(e.target.value)} value={currentPassword} readOnly={isCurrentPasswordReadOnly} />
                                 {currentPasswordError && <div className="invalid-feedback">{currentPasswordError}</div>}
                             </div>
                             {showCheckPasswordButton && (
@@ -227,7 +243,7 @@ const Profile = () => {
                                 <>
                                     <div className="form-group">
                                         <label htmlFor="inputPassword">Password</label>
-                                        <input type="password" id="inputPassword" className={`form-control ${passwordError ? "is-invalid" : ""}`} placeholder="Input a password" onChange={(e) => setPassword(e.target.value)} value={password}/>
+                                        <input type="password" id="inputPassword" className={`form-control ${passwordError ? "is-invalid" : ""}`} placeholder="Input a password" onChange={(e) => setPassword(e.target.value)} value={password} />
                                         {passwordError && <div className="invalid-feedback">{passwordError}</div>}
                                     </div>
                                     <div className="form-group">
