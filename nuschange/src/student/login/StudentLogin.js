@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import API from '../../util/API';
 import { LoginStyles } from './LoginStyles';
 import { AuthContext } from '../../AuthContext';
+import NavbarComp from '../../student/components/NavbarComp';
 
 import {
   Button,
@@ -66,7 +67,12 @@ const Login = () => {
     }
   };
 
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [user, setUser] = useState(null);
+
   return (
+    <div className='wrapper'>
+       <NavbarComp isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} user={user} />
     <div
       className="form-container"
       style={{
@@ -82,6 +88,7 @@ const Login = () => {
         //overflow: 'hidden', // Hide anything that overflows the container
       }}
     >
+     
       <Card
         className="form"
         style={{
@@ -131,6 +138,7 @@ const Login = () => {
           {alertMessage}
         </Alert>
       )}
+    </div>
     </div>
   );
 };

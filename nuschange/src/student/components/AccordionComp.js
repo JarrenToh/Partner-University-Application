@@ -39,7 +39,7 @@ function AccordionComp(props) {
                                                         <td>{nusmodule.name}</td>
                                                         {nusmodule.puModules.map((pumodule) => (
                                                             <React.Fragment key={pumodule.code}>
-                                                                <td><Link to = {`/module-details/${puName}/${pumodule.moduleId}`}>{pumodule.code}</Link></td>
+                                                                <td><Link to = {`/student/module-details/${puName}/${pumodule.moduleId}`}>{pumodule.code}</Link></td>
                                                                 <td>{pumodule.name}</td>
                                                             </React.Fragment>
                                                         ))}

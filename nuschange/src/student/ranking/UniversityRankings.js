@@ -211,7 +211,8 @@ const UniversityRankings = ({ universitiesData }) => {
   return (
     <div className="wrapper">
       <NavbarComp isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} user={user} />
-      <div className="container">
+      <br/>
+      <div className="container" style={{maxWidth : '1300px'}}>
         <div className="universityRankings">
           <div className="universityRankings_description">
             <h1 className="headerRanking">Partner University Rankings</h1>
@@ -270,7 +271,7 @@ const UniversityRankings = ({ universitiesData }) => {
             {displayedUniversities.map((university, index) => (
               <div className="university-card-wrapper" key={university.puId}>
                 <Link
-                  to={`/university-rankings?search=${university.name}`}
+                  to={`/student/university-description-page/${university.name}`}
                   style={{ textDecoration: "none" }}
                 >
                   <UniversityCard

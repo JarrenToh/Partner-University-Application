@@ -2,9 +2,12 @@ import React, { useEffect, useState } from "react";
 import { useLocation, useParams } from "react-router-dom";
 import ModReviewComp from "./ModReviewComp";
 import "./PuModule.css";
+import NavbarComp from '../../student/components/NavbarComp';
 
 const ModuleDetail = (props) => {
   const { puName, modId } = useParams();
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [user, setUser] = useState(null);
   const API_URL_MOD = "http://localhost:8080/PU-war/webresources/pumodule";
   const [module, setModule] = useState({
     code: "AB123",
@@ -70,16 +73,20 @@ const ModuleDetail = (props) => {
 
 
   return (
-    <div style={{ paddingLeft: "5%", paddingRight: "5%" }}>
-      <div >
-        <h1 className="text-center mb-3">{module.code}</h1>
-      </div>
-      <h3>{module.name}</h3>
-      <h4>{puName}</h4>
-      <hr></hr>
-      <p>{module.description}</p>
+    <div className="wrapper" >
+      <NavbarComp isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} user={user} />
+      <div style={{ paddingLeft: "5%", paddingRight: "5%" }}>
 
-      <ModReviewComp reviews={module.moduleReviews} />
+        <div >
+          <h1 className="text-center mb-3">{module.code}</h1>
+        </div>
+        <h3>{module.name}</h3>
+        <h4>{puName}</h4>
+        <hr></hr>
+        <p>{module.description}</p>
+
+        <ModReviewComp reviews={module.moduleReviews} />
+      </div>
     </div>
   );
 };

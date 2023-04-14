@@ -117,11 +117,11 @@ const StudentProfile = () => {
   };
 
   const navToLikedPUs = () => {
-    navigate("/profile/likedPus");
+    navigate("/student/profile/likedPus");
   };
 
   const navToModulesTaken = () => {
-    navigate("/profile/modulesTaken");
+    navigate("/student/profile/modulesTaken");
   };
 
   return (

@@ -76,7 +76,7 @@ const HomePage = () => {
             onChange={(e) => setSearchTerm(e.target.value)}
             placeholder="  Search for Partner Universities"
           />
-          <Link to={`/university-rankings?search=${searchTerm}`}>
+          <Link to={`/student/university-rankings?search=${searchTerm}`}>
             <img
               src={SearchIcon}
               alt="search"
@@ -86,18 +86,19 @@ const HomePage = () => {
         </div>
 
         <div className="container" style={{border: 'none'}}>
-          <Link to={`/university-rankings-country`}>
+          <Link to={`/student/university-rankings-country`}>
             <Button className="searchbyButton">By Country</Button>
           </Link>
-          <Link to={`/university-rankings-region`}>
+          <Link to={`/student/university-rankings-region`}>
             <Button className="searchbyButton">By Region</Button>
           </Link>
         </div>
+        <br/>
 
         <div className="container" style={{
           backgroundColor: 'rgba(128, 128, 128,0.6)',
           borderRadius: '0.5%',
-          border: 'none'
+          border: 'none',
         }}>
         
           <h2 className="headerDescription">Top 5 Ranking Universities</h2>
@@ -108,7 +109,7 @@ const HomePage = () => {
               .slice(0, 5)
               .map((university) => (
                 <div key={university.puId}>
-                  <Link to={`/university-rankings?search=${university.name}`}>
+                  <Link to={`/student/university-description-page/${university.name}`}>
                     <PUCard pu={university} />
                   </Link>
                 </div>
@@ -116,7 +117,7 @@ const HomePage = () => {
             }
           </div>
         </div>
-
+        <br/>
         <div className="container" style={{
           backgroundColor: 'rgba(128, 128, 128,0.6)',
           borderRadius: '0.5%',
@@ -130,7 +131,7 @@ const HomePage = () => {
               .slice(0, 5)
               .map((university) => (
                 <div key={university.puId}>
-                  <Link to={`/university-rankings?search=${university.name}`}>
+                  <Link to={`/student/university-description-page/${university.name}`}>
                     <PUCard pu={university} />
                   </Link>
                 </div>
@@ -138,6 +139,7 @@ const HomePage = () => {
             }
           </div>
         </div>
+        <br/>
 
         <div className="container" style={{
           backgroundColor: 'rgba(128, 128, 128,0.5)',
@@ -152,7 +154,7 @@ const HomePage = () => {
               .slice(0, 5)
               .map((university) => (
                 <div key={university.puId}>
-                  <Link to={`/university-rankings?search=${university.name}`}>
+                  <Link to={`/student/university-description-page/${university.name}`}>
                     <PUCard pu={university} />
                   </Link>
                 </div>
@@ -160,6 +162,7 @@ const HomePage = () => {
             }
           </div>
         </div>
+        <br/>
 
         <div className="container" style={{
           backgroundColor: 'rgba(128, 128, 128,0.5)',
@@ -174,7 +177,7 @@ const HomePage = () => {
               .slice(0, 5)
               .map((university) => (
                 <div key={university.puId}>
-                  <Link to={`/university-rankings?search=${university.name}`}>
+                  <Link to={`/student/university-description-page/${university.name}`}>
                     <PUCard pu={university} />
                   </Link>
                 </div>
@@ -196,7 +199,7 @@ const HomePage = () => {
               .slice(0, 5)
               .map((university) => (
                 <div key={university.puId}>
-                  <Link to={`/university-rankings?search=${university.name}`}>
+                  <Link to={`/student/university-description-page/${university.name}`}>
                     <PUCard pu={university} />
                   </Link>
                 </div>
@@ -204,6 +207,7 @@ const HomePage = () => {
             }
           </div>
         </div>
+        <br/>
 
         <div className="container" style={{
           backgroundColor: 'rgba(128, 128, 128,0.5)',
@@ -218,7 +222,7 @@ const HomePage = () => {
               .slice(0, 5)
               .map((university) => (
                 <div key={university.puId}>
-                  <Link to={`/university-rankings?search=${university.name}`}>
+                  <Link to={`/student/university-description-page/${university.name}`}>
                     <PUCard pu={university} />
                   </Link>
                 </div>
@@ -226,6 +230,7 @@ const HomePage = () => {
             }
           </div>
         </div>
+        <br/>
 
       </div>
 

@@ -10,6 +10,8 @@ import { fas } from '@fortawesome/free-solid-svg-icons';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import './styles.css';
 import SearchIcon from './homepage/search.svg';
+import NavbarComp from '../student/components/NavbarComp';
+import NotLoggedIn from './components/NotLoggedInPage';
 
 import {
   Table,
@@ -48,6 +50,8 @@ export default function ForumTopics() {
   const [alertVisible, setAlertVisible] = useState(false);
   const [alertMessage, setAlertMessage] = useState('');
   const [alertType, setAlertType] = useState('danger');
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [user, setUser] = useState(null);
 
   const [pageNumber, setPageNumber] = useState(0);
   const itemsPerPage = 5; // Change this value to the number of items you want to display per page
@@ -85,7 +89,7 @@ export default function ForumTopics() {
 
 
   if (!loggedInStudent) {
-    return <h1 style={{ textAlign: 'center', color: 'red', margin: '0 auto', width: '50%', fontWeight: 'bold', fontSize: '2em'}}>You are not logged in.</h1>;
+    return NotLoggedIn();
   }
 
   const searchForumTopic = async (searchQuery) => {
@@ -228,6 +232,7 @@ export default function ForumTopics() {
 
   return (
     <div>
+      <NavbarComp isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} user={user} />
     <Fragment>
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "10px"}}>
           <div>

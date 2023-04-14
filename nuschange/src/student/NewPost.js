@@ -3,6 +3,7 @@ import { useState, useContext, useEffect } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { AuthContext } from '../../src/AuthContext';
+import NavbarComp from '../student/components/NavbarComp';
 
 import {
     Card,
@@ -28,6 +29,9 @@ export default function NewPost() {
     const [alertMessage, setAlertMessage] = useState('');
     const [alertType, setAlertType] = useState('danger');
     const navigate = useNavigate();
+
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const [user, setUser] = useState(null);
 
     useEffect(() => {
         if (loggedInStudent) {
@@ -88,6 +92,7 @@ export default function NewPost() {
 
     return (
         <div>
+                  <NavbarComp isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} user={user} />
         <Card>
             <CardHeader>Create a new post for topic: {topicName}</CardHeader>
             <CardBody>
