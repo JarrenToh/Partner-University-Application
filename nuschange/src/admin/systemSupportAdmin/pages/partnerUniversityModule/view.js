@@ -47,7 +47,7 @@ const PUModuleDetails = () => {
 
     const handleDelete = async () => {
         try {
-            const apiPath = `${apiPaths.listOfPUModules}/deletePUModuleFromPU/${code}?pu=${puName}`;
+            const apiPath = `${apiPaths.listOfPUModules}/deletePUModuleFromPU/${code}?pu=${convertToEncodedTextForUrl(puName)}`;
             await API.delete(apiPath);
 
             setShowDeleteSuccessModal(true);
@@ -58,11 +58,11 @@ const PUModuleDetails = () => {
 
     const handleCancelUpdateSuccessModal = () => {
         setShowUpdateSuccessModal(false);
-        navigate(`../partnerUniversities/${puName}/modules/${code}`);
+        navigate(`../admin/systemSupportAdmin/partnerUniversities/${puName}/modules/${code}`);
     };
 
     const handleCancelDeleteSuccessModal = () => {
-        navigate(`../partnerUniversities/${puName}/modules/`);
+        navigate(`../admin/systemSupportAdmin/partnerUniversities/${puName}/modules/`);
     };
 
     const validate = () => {

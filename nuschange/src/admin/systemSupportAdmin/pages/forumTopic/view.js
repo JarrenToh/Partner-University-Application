@@ -12,18 +12,23 @@ const ForumTopicDetails = () => {
     const navigate = useNavigate();
     const { id } = useParams();
     const [topicName, setTopicName] = useState("");
+    const [puId, setPuId] = useState("");
     const [isInappropriate, setIsInappropriate] = useState(false);
+
+    const [pus, setPUs] = useState([]);
 
     const [showUpdateSuccessModal, setShowUpdateSuccessModal] = useState(false);
     const [showDeleteSuccessModal, setShowDeleteSuccessModal] = useState(false);
 
     const [topicNameError, setTopicNameError] = useState("");
+    const [puIdError, setPuIdError] = useState("");
 
     const handleEdit = async () => {
         if (validate()) {
             try {
                 const updatedForumTopic = {
                     topicName,
+                    puId,
                     isInappropriate
                 };
 
@@ -41,7 +46,7 @@ const ForumTopicDetails = () => {
         try {
             const apiPath = `${apiPaths.listOfForumTopics}/${id}`;
             await API.delete(apiPath);
-            
+
             setShowDeleteSuccessModal(true);
         } catch (error) {
             console.error(error);
@@ -53,7 +58,7 @@ const ForumTopicDetails = () => {
     };
 
     const handleCancelDeleteSuccessModal = () => {
-        navigate('../systemSupportAdmin/forumTopics');
+        navigate('../admin/systemSupportAdmin/forumTopics');
     };
 
     const validate = () => {
@@ -64,21 +69,45 @@ const ForumTopicDetails = () => {
         } else {
             setTopicNameError("");
         }
+        if (puId === "") {
+            setPuIdError("Please select a partner university");
+            isValid = false;
+        } else {
+            setPuIdError("");
+        }
 
         return isValid;
-    }
+    };
 
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const apiPath = `${apiPaths.listOfForumTopics}/${id}`
+                const apiPath = `${apiPaths.listOfPUs}`
+                const response = await API.get(apiPath);
+                const data = response.data;
+
+                setPUs(data);
+            } catch (error) {
+                console.error(error);
+            }
+        };
+
+        fetchData();
+    }, []);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const apiPath = `${apiPaths.listOfAdminForumTopics}/${id}`
                 const response = await API.get(apiPath);
                 const data = response.data;
 
                 const topicName = data.topicName;
+                const puId = data.puId;
                 const isInappropriate = data.isInappropriate;
 
                 setTopicName(topicName);
+                setPuId(puId);
                 setIsInappropriate(isInappropriate);
             } catch (error) {
                 console.error(error);
@@ -100,8 +129,22 @@ const ForumTopicDetails = () => {
                         <div className="card-body">
                             <div className="form-group">
                                 <label htmlFor="inputName">Topic Name</label>
-                                <input type="text" id="inputName" className={`form-control ${topicNameError ? "is-invalid" : ""}`}  value={topicName} onChange={(e) => setTopicName(e.target.value)} />
+                                <input type="text" id="inputName" className={`form-control ${topicNameError ? "is-invalid" : ""}`} value={topicName} onChange={(e) => setTopicName(e.target.value)} />
                                 {topicNameError && <div className="invalid-feedback">{topicNameError}</div>}
+                            </div>
+                            <div className="form-group">
+                                <label htmlFor="inputName">Partner Universities</label>
+                                <select className={`custom-select rounded-0 form-control ${puIdError ? "is-invalid" : ""}`} id="puSelectOption" value={puId} onChange={(e) => setPuId(e.target.value)}>
+                                    <option value="">Select Partner University</option>
+                                    {pus.map((pu, index) => {
+                                        return (
+                                            <option key={index} value={pu.puId}>
+                                                {pu.name}
+                                            </option>
+                                        );
+                                    })}
+                                </select>
+                                {puIdError && <div className="invalid-feedback">{puIdError}</div>}
                             </div>
                             <div className="text-center">
                                 <button className="btn btn-success mr-2" onClick={handleEdit}>Save Changes</button>

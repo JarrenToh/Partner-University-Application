@@ -12,14 +12,16 @@ package util.formRequestEntity;
 public class AdminForumTopicRequest {
     private String topicName;
     private Boolean isInappropriate;
+    private Long puId;
     
     public AdminForumTopicRequest() {
         
     }
 
-    public AdminForumTopicRequest(String topicName, Boolean isInappropriate) {
+    public AdminForumTopicRequest(String topicName, Boolean isInappropriate, Long puId) {
         this.topicName = topicName;
         this.isInappropriate = isInappropriate;
+        this.puId = puId;
     }
 
     public String getTopicName() {
@@ -36,6 +38,14 @@ public class AdminForumTopicRequest {
 
     public void setIsInappropriate(Boolean isInappropriate) {
         this.isInappropriate = isInappropriate;
+    }
+
+    public Long getPuId() {
+        return puId;
+    }
+
+    public void setPuId(Long puId) {
+        this.puId = puId;
     }
     
     

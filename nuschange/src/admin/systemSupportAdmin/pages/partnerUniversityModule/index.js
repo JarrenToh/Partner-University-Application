@@ -17,11 +17,11 @@ const PartnerUuniversityModules = () => {
     const navigate = useNavigate();
 
     const handleButtonClick = (puCode) => {
-        navigate(`${systemSupportAdminPaths.viewPUs}/${puName}/modules/${puCode}`);
+        navigate(`/admin${systemSupportAdminPaths.viewPUs}/${puName}/modules/${puCode}`);
     };
 
     const handleCreatePUModuleButtonClick = () => {
-        navigate(`${systemSupportAdminPaths.viewPUs}/${puName}/modules/create`);
+        navigate(`/admin${systemSupportAdminPaths.viewPUs}/${puName}/modules/create`);
     };
 
     useEffect(() => {

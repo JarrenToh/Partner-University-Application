@@ -20,7 +20,7 @@ const ForumTopic = () => {
     const { loggedInAdmin } = useContext(AuthContext);
 
     const handleButtonClick = (forumTopicId) => {
-        navigate(`${systemSupportAdminPaths.viewForumTopics}/${forumTopicId}`);
+        navigate(`/admin${systemSupportAdminPaths.viewForumTopics}/${forumTopicId}`);
     };
 
     useEffect(() => {

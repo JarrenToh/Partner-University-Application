@@ -57,7 +57,7 @@ const FAQDetails = () => {
     };
 
     const handleCancelDeleteSuccessModal = () => {
-        navigate('../userSupportAdmin/faqs');
+        navigate('../admin/userSupportAdmin/faqs');
     };
 
     const validate = () => {
