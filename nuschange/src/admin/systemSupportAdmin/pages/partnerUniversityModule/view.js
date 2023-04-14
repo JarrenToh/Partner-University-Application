@@ -18,7 +18,9 @@ const PUModuleDetails = () => {
     const { puName, puModuleCode } = useParams();
     const [id, setId] = useState(-1);
     const [name, setName] = useState("");
+    const [currentName, setCurrentName] = useState("");
     const [code, setCode] = useState("");
+    const [currentCode, setCurrentCode] = useState("");
     const [description, setDescription] = useState("");
 
     const [existingModules, setExistingModules] = useState([]);
@@ -81,30 +83,34 @@ const PUModuleDetails = () => {
             setNameError("Please enter a name");
             isValid = false;
         } else {
-            const duplicateName = existingModules.some(
-                (module) => module.name.toLowerCase() === name.toLowerCase()
-            );
+            if (name.trim() !== currentName) {
+                const duplicateName = existingModules.some(
+                    (module) => module.name.toLowerCase() === name.toLowerCase()
+                );
 
-            if (duplicateName) {
-                setNameError("Name already exists");
-                isValid = false;
-            } else {
-                setNameError("");
+                if (duplicateName) {
+                    setNameError("Name already exists");
+                    isValid = false;
+                } else {
+                    setNameError("");
+                }
             }
         }
         if (code.trim() === "") {
             setCodeError("Please enter a code");
             isValid = false;
         } else {
-            const duplicateCode = existingModules.some(
-                (module) => module.code.toLowerCase() === code.toLowerCase()
-            );
+            if (code.trim() !== currentCode) {
+                const duplicateCode = existingModules.some(
+                    (module) => module.code.toLowerCase() === code.toLowerCase()
+                );
 
-            if (duplicateCode) {
-                setCodeError("Code already exists");
-                isValid = false;
-            } else {
-                setCodeError("");
+                if (duplicateCode) {
+                    setCodeError("Code already exists");
+                    isValid = false;
+                } else {
+                    setCodeError("");
+                }
             }
         }
         if (description.trim() === "") {
@@ -133,7 +139,9 @@ const PUModuleDetails = () => {
 
                     setId(id);
                     setName(name);
+                    setCurrentName(name);
                     setCode(code);
+                    setCurrentCode(code);
                     setDescription(description);
                 }
             } catch (error) {
