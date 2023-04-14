@@ -1,7 +1,8 @@
 import React, { useContext, useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import UniversityCard from "../ranking/UniversityCard";
-import { AuthContext } from "../login/AuthContext";
+import { AuthContext } from "../../AuthContext";
+import NavbarComp from '../../student/components/NavbarComp';
 
 const LikedPUs = () => {
   const { loggedInStudent } = useContext(AuthContext);
@@ -22,31 +23,37 @@ const LikedPUs = () => {
     setLikedPUs(data.likedPUs);
   };
 
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [user, setUser] = useState(null);
+
   return (
-    <div style={{ paddingLeft: "5%", paddingRight: "5%" }}>
-      <div className="container" style={{ border: 0 }}>
-        <h1 className="text-center mb-3">Your Liked Universities</h1>
-      </div>
+    <div className="wrapper" >
+      <NavbarComp isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} user={user} />
+      <div style={{ paddingLeft: "5%", paddingRight: "5%" }}>
+        <div className="container" style={{ border: 0 }}>
+          <h1 className="text-center mb-3">Your Liked Universities</h1>
+        </div>
 
-      <div style={{ marginTop: "2.5%" }}>
-        {likedPUs.length > 0 &&
-          likedPUs.map((pu) => (
-            <Link
-              to={`/university-description-page/${pu.name}`}
-              style={{ textDecoration: "none" }}
-            >
-              <UniversityCard university={pu} />
-            </Link>
-          ))}
+        <div style={{ marginTop: "2.5%" }}>
+          {likedPUs.length > 0 &&
+            likedPUs.map((pu) => (
+              <Link
+                to={`/student/university-description-page/${pu.name}`}
+                style={{ textDecoration: "none" }}
+              >
+                <UniversityCard university={pu} />
+              </Link>
+            ))}
 
-        {(likedPUs.length == 0 || likedPUs == null) && (
-          <div style={{ textAlign: "center" }}>
-            <h5>
-              You have not liked any universities! Press the heart button in the
-              university page to like them.
-            </h5>
-          </div>
-        )}
+          {(likedPUs.length == 0 || likedPUs == null) && (
+            <div style={{ textAlign: "center" }}>
+              <h5>
+                You have not liked any universities! Press the heart button in the
+                university page to like them.
+              </h5>
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );

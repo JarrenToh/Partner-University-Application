@@ -1117,41 +1117,42 @@ public class DataInitializationSessionBean {
 //        Long pId5 = pUSessionBean.createNewPu(pu5, cId5, cId5);
 //        Long pId6 = pUSessionBean.createNewPu(pu5, listOfPUModules1);
 
-//        PUReview puReview1 = new PUReview(new Long(5), pId1);
-//        PUReview puReview2 = new PUReview(new Long(4), pId1);
-//        PUReview puReview3 = new PUReview(new Long(3), pId1);
-//        PUReview puReview4 = new PUReview(new Long(5), pId1);
-//        PUReview puReview5 = new PUReview(new Long(5), pId1);
-//
-//        PUReview puReview6 = new PUReview(new Long(5), pId2);
-//        PUReview puReview7 = new PUReview(new Long(4), pId2);
-//        PUReview puReview8 = new PUReview(new Long(4), pId2);
-//        PUReview puReview9 = new PUReview(new Long(3), pId2);
-//        PUReview puReview10 = new PUReview(new Long(3), pId2);
-//
-//        PUReview puReview11 = new PUReview(new Long(3), pId3);
-//        PUReview puReview12 = new PUReview(new Long(3), pId3);
-//        PUReview puReview13 = new PUReview(new Long(4), pId3);
-//        PUReview puReview14 = new PUReview(new Long(3), pId3);
-//        PUReview puReview15 = new PUReview(new Long(3), pId3);
-//
-//        PUReview puReview16 = new PUReview(new Long(4), pId4);
-//        PUReview puReview17 = new PUReview(new Long(4), pId4);
-//        PUReview puReview18 = new PUReview(new Long(5), pId4);
-//        PUReview puReview19 = new PUReview(new Long(5), pId4);
-//        PUReview puReview20 = new PUReview(new Long(5), pId4);
-//
-//        PUReview puReview21 = new PUReview(new Long(2), pId5);
-//        PUReview puReview22 = new PUReview(new Long(2), pId5);
-//        PUReview puReview23 = new PUReview(new Long(5), pId5);
-//        PUReview puReview24 = new PUReview(new Long(5), pId5);
-//        PUReview puReview25 = new PUReview(new Long(5), pId5);
-//        
-//        puReview1.setIsInappropriate(true);
-//        puReview2.setIsInappropriate(true);
-//        puReview3.setIsInappropriate(true);
-//        puReview4.setIsInappropriate(true);
-//        puReview5.setIsInappropriate(true);
+        PUReview puReview1 = new PUReview(new Long(5), pId1);
+        PUReview puReview2 = new PUReview(new Long(4), pId1);
+        PUReview puReview3 = new PUReview(new Long(3), pId1);
+        PUReview puReview4 = new PUReview(new Long(5), pId1);
+        PUReview puReview5 = new PUReview(new Long(5), pId1);
+
+        PUReview puReview6 = new PUReview(new Long(5), pId2);
+        PUReview puReview7 = new PUReview(new Long(4), pId2);
+        PUReview puReview8 = new PUReview(new Long(4), pId2);
+        PUReview puReview9 = new PUReview(new Long(3), pId2);
+        PUReview puReview10 = new PUReview(new Long(3), pId2);
+
+        PUReview puReview11 = new PUReview(new Long(3), pId3);
+        PUReview puReview12 = new PUReview(new Long(3), pId3);
+        PUReview puReview13 = new PUReview(new Long(4), pId3);
+        PUReview puReview14 = new PUReview(new Long(3), pId3);
+        PUReview puReview15 = new PUReview(new Long(3), pId3);
+
+        PUReview puReview16 = new PUReview(new Long(4), pId4);
+        PUReview puReview17 = new PUReview(new Long(4), pId4);
+        PUReview puReview18 = new PUReview(new Long(5), pId4);
+        PUReview puReview19 = new PUReview(new Long(5), pId4);
+        PUReview puReview20 = new PUReview(new Long(5), pId4);
+
+        PUReview puReview21 = new PUReview(new Long(2), pId5);
+        PUReview puReview22 = new PUReview(new Long(2), pId5);
+        PUReview puReview23 = new PUReview(new Long(5), pId5);
+        PUReview puReview24 = new PUReview(new Long(5), pId5);
+        PUReview puReview25 = new PUReview(new Long(5), pId5);
+        
+        puReview1.setIsInappropriate(true);
+        puReview2.setIsInappropriate(true);
+        puReview3.setIsInappropriate(true);
+        puReview4.setIsInappropriate(true);
+        puReview5.setIsInappropriate(true);
+        
         ForumTopic forumTopic1 = new ForumTopic("WTF Topic");
         ForumTopic forumTopic2 = new ForumTopic("CCB Topic");
         ForumTopic forumTopic3 = new ForumTopic("CHAO Topic");

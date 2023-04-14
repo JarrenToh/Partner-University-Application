@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 
 import Header from "../../../components/dashboard/Header";
@@ -7,7 +7,7 @@ import Footer from "../../../components/dashboard/Footer";
 
 import API from "../../../../util/API";
 import apiPaths from "../../../../util/apiPaths";
-import { userSupoortAdminPaths } from "../../../../util/adminRoutes";
+import { AuthContext } from "../../../../AuthContext";
 
 const FAQDetails = () => {
     const { id } = useParams();
@@ -21,6 +21,8 @@ const FAQDetails = () => {
 
     const navigate = useNavigate();
 
+    const { loggedInAdmin } = useContext(AuthContext);
+
     const handleEdit = async () => {
         if (validate()) {
             try {
@@ -29,8 +31,7 @@ const FAQDetails = () => {
                     answer
                 };
 
-                // TODO: Change to get the adminId dynamically
-                const apiPath = `${apiPaths.listOfFaqs}/${id}?adminId=1`;
+                const apiPath = `${apiPaths.listOfFaqs}/${id}?adminId=${loggedInAdmin.adminId}`;
                 await API.put(apiPath, updatedFAQ);
 
                 setShowUpdateSuccessModal(true);
@@ -56,7 +57,7 @@ const FAQDetails = () => {
     };
 
     const handleCancelDeleteSuccessModal = () => {
-        navigate('../faqs');
+        navigate('../admin/userSupportAdmin/faqs');
     };
 
     const validate = () => {

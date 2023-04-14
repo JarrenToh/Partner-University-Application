@@ -25,13 +25,15 @@ public interface PUModuleSessionBeanLocal {
 
     public void updatePUModule(Long moduleId, String code, String description);
     
-    public void deletePUModuleFromPU(Long moduleId, String puName) throws NoResultException;
+    public void deletePUModuleFromPU(String code, String puName) throws NoResultException;
 
     public void deletePUModule(Long moduleId) throws NoResultException;
 
     public PUModule getPUModule(Long moduleId) throws NoResultException;
     
     public void updatePUModule(PUModule p) throws NoResultException;
+    
+    public void updatePUModuleAdmin(Long cId, PUModule puModule) throws NoResultException;
 
     public List<PUModule> searchPUModuleByCode(String code);
 

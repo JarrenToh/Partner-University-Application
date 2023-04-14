@@ -9,22 +9,19 @@ import API from "../../../../util/API";
 import apiPaths from "../../../../util/apiPaths";
 
 import { convertNameToSlug } from "../../../../util/urlTextConverter";
+import { systemSupportAdminPaths } from "../../../../util/adminRoutes";
 
-const PartnerUuniversity = () => {
+const PartnerUniversity = () => {
 
     const [data, setData] = useState([]);
     const navigate = useNavigate();
 
-    const handleCreatePUButtonClick = () => {
-        navigate(`/partnerUniversities/create`);
-    }
-
     const handleViewDetailsButtonClick = (puName) => {
-        navigate(`/partnerUniversities/${convertNameToSlug(puName)}`);
+        navigate(`/admin${systemSupportAdminPaths.viewPUs}/${convertNameToSlug(puName)}`);
     };
 
     const handleViewModulesButtonClick = (puName) => {
-        navigate(`/partnerUniversities/${convertNameToSlug(puName)}/modules`);
+        navigate(`/admin${systemSupportAdminPaths.viewPUs}/${convertNameToSlug(puName)}/modules`);
     };
 
     const handleSort = (data) => {
@@ -41,7 +38,7 @@ const PartnerUuniversity = () => {
             }
         };
         fetchData();
-    }, []);
+    }, [data]);
 
     return (
         <div>
@@ -51,7 +48,6 @@ const PartnerUuniversity = () => {
                 <div className="card">
                     <div className="card-header">
                         <h3 className="card-title">Partner Universities</h3>
-                        <button type="button" className="btn btn-block btn-outline-dark" onClick={() => handleCreatePUButtonClick()}>Create Partner University</button>
                     </div>
                     <div className="card-body">
                         <table id="example1" className="table table-bordered table-striped">
@@ -69,12 +65,14 @@ const PartnerUuniversity = () => {
                                         <td>{item.puId}</td>
                                         <td>{item.name}</td>
                                         <td>{item.description}</td>
-                                        <td style={{ display: 'flex' }}>
-                                            <div>
-                                                <button onClick={() => handleViewDetailsButtonClick(item.name)} type="button" className="btn btn-primary">View Details</button>
-                                            </div>
-                                            <div>
-                                                <button onClick={() => handleViewModulesButtonClick(item.name)} type="button" className="btn btn-primary ml-2">View Modules</button>
+                                        <td>
+                                            <div style={{ display: 'flex', backgroundColor: '#f8f9fa' }}>
+                                                <div>
+                                                    <button onClick={() => handleViewDetailsButtonClick(item.name)} type="button" className="btn btn-primary">View Details</button>
+                                                </div>
+                                                <div>
+                                                    <button onClick={() => handleViewModulesButtonClick(item.name)} type="button" className="btn btn-primary ml-2">View Modules</button>
+                                                </div>
                                             </div>
                                         </td>
                                     </tr>
@@ -97,4 +95,4 @@ const PartnerUuniversity = () => {
     )
 };
 
-export default PartnerUuniversity;
+export default PartnerUniversity;

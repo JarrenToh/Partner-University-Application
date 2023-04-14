@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 
 import Footer from '../../../components/dashboard/Footer';
@@ -7,30 +7,52 @@ import Menu from '../../../components/dashboard/Menu';
 
 import API from '../../../../util/API';
 import apiPaths from '../../../../util/apiPaths';
+import { AuthContext } from '../../../../AuthContext';
 
 const EnquiryDetails = () => {
 
     const { id } = useParams();
     const [title, setTitle] = useState("");
     const [content, setContent] = useState("");
-    const [reply, setReply] = useState("");
+    const [status, setStatus] = useState("");
+    const [response, setResponse] = useState("");
 
     const [showModal, setShowModal] = useState(false);
+    const [buttonText, setButtonText] = useState("Submit");
+    const [successfulText, setSuccessfulText] = useState("");
+    const [successfulResponseText, setSuccessfulResposneText] = useState("");
+
+    const [responseError, setResponseError] = useState("");
 
     const navigate = useNavigate();
+
+    const { loggedInAdmin } = useContext(AuthContext);
 
     useEffect(() => {
         const fetchData = async () => {
             try {
                 const apiPath = `${apiPaths.listOfEnquiries}/${id}`
-                const response = await API.get(apiPath);
-                const data = response.data;
+                const test = await API.get(apiPath);
+                const data = test.data;
 
                 const title = data.title;
                 const content = data.content;
+                const status = data.status;
 
                 setTitle(title);
                 setContent(content);
+                setStatus(status);
+
+                if (status !== "PENDING") {
+                    setResponse(data.response);
+                    setSuccessfulText("Edit of Response");
+                    setSuccessfulResposneText("edited the response");
+                } else {
+                    setSuccessfulText("Reply");
+                    setSuccessfulResposneText("replied");
+                }
+
+                setButtonText(Boolean(data.response) ? "Edit" : "Submit");
             } catch (error) {
                 console.error(error);
             }
@@ -39,25 +61,43 @@ const EnquiryDetails = () => {
     }, [id]);
 
     const handleUpdate = async () => {
-        try {
-            const updatedEnquiry = {
-                title,
-                content,
-                reply
-            };
+        if (validate()) {
+            try {
+                const updatedEnquiry = {
+                    title,
+                    content,
+                    response
+                };
 
-            // TODO: Change to get the adminId dynamically
-            const apiPath = `${apiPaths.listOfEnquiries}/${id}/respond?adminId=1`;
-            await API.put(apiPath, updatedEnquiry);
+                const apiPath = `${apiPaths.listOfEnquiries}/${id}/respond?adminId=${loggedInAdmin.adminId}`;
+                await API.put(apiPath, updatedEnquiry);
 
-            setShowModal(true);
-        } catch (error) {
-            console.error(error);
+                setShowModal(true);
+            } catch (error) {
+                console.error(error);
+            }
         }
     };
 
     const handleCancel = async () => {
-        navigate('../enquiries');
+        if (status === "PENDING") {
+            navigate('../admin/userSupportAdmin/enquiries');
+            return;
+        }
+
+        setShowModal(false);
+    };
+
+    const validate = () => {
+        let isValid = true;
+        if (response.trim() === "") {
+            setResponseError("Please enter a response");
+            isValid = false;
+        } else {
+            setResponseError("");
+        }
+
+        return isValid;
     };
 
     return (
@@ -81,10 +121,11 @@ const EnquiryDetails = () => {
                             </div>
                             <div className="form-group">
                                 <label htmlFor="inputDescription">Response</label>
-                                <textarea id="inputResponse" className="form-control" rows={4} placeholder="Input a response" onChange={(e) => setReply(e.target.value)} />
+                                <textarea id="inputResponse" className={`form-control ${responseError ? "is-invalid" : ""}`} rows={4} placeholder="Input a response" value={response} onChange={(e) => setResponse(e.target.value)} />
+                                {responseError && <div className="invalid-feedback">{responseError}</div>}
                             </div>
                             <div className="text-center">
-                                <button className="btn btn-success mr-2" onClick={handleUpdate}>Submit</button>
+                                <button className="btn btn-success mr-2" onClick={handleUpdate}>{buttonText}</button>
                             </div>
                         </div>
                         <br />
@@ -96,7 +137,7 @@ const EnquiryDetails = () => {
                     <div className="modal-dialog">
                         <div className="modal-content">
                             <div className="modal-header">
-                                <h4 className="modal-title">Successful Reply to Student's Enquiry</h4>
+                                <h4 className="modal-title">Successful {successfulText} to Student's Enquiry</h4>
                                 <button
                                     type="button"
                                     className="close"
@@ -107,7 +148,7 @@ const EnquiryDetails = () => {
                                 </button>
                             </div>
                             <div className="modal-body">
-                                <p>You have successfully replied to a student's enquiry!</p>
+                                <p>You have successfully {successfulResponseText} to a student's enquiry!</p>
                             </div>
                             <div className="modal-footer justify-content-between">
                                 <button

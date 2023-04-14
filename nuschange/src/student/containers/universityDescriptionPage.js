@@ -7,7 +7,8 @@ import apiPaths from '../../util/apiPaths';
 import AlumnusComp from "../components/AlumnusComp";
 import ReviewComp from "../components/ReviewComp";
 import { FaWhatsapp, FaFacebook, FaTelegram, FaLink, FaCheck, FaShareAlt } from "react-icons/fa";
-import { AuthContext } from "../login/AuthContext";
+import { AuthContext } from "../../AuthContext";
+import NavbarComp from '../../student/components/NavbarComp';
 
 
 function UniversityDescriptionPage() {
@@ -201,10 +202,12 @@ function UniversityDescriptionPage() {
         }
     }, [loggedInStudent, toggleLike]);
 
-
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const [user, setUser] = useState(null);
 
     return (
         <div style={{ display: "flex", flexDirection: "column" }}>
+            <NavbarComp isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} user={user} />
             <div style={{ position: "relative", aspectRatio: "16/9", overflow: "visible", width: "50vw", margin: "0 auto" }}>
                 <img src={`${pu.images}`} alt="Profile" style={{ objectFit: "cover", width: "100%", height: "100%", position: "relative", zIndex: 1 }} />
             </div>
@@ -245,7 +248,7 @@ function UniversityDescriptionPage() {
                     <Button tag={Link} to={`/forum-topics/${pu.puId}`} color="primary" className="m-4" size="lg">
                         Forum
                     </Button>
-                    <Link to={`/university-description-page/${pu.name}/mappable-module`}>
+                    <Link to={`/student/university-description-page/${pu.name}/mappable-module`}>
                         <Button color="primary" className="m-4" size="lg">
                             Mappable modules
                         </Button>

@@ -14,6 +14,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import java.util.List;
 import javax.json.bind.annotation.JsonbTransient;
+import javax.persistence.CascadeType;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
@@ -50,32 +51,33 @@ public class Student implements Serializable {
 
     private String password;
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "student")
+    @OneToMany(cascade = {CascadeType.ALL, CascadeType.REMOVE}, orphanRemoval = true, fetch = FetchType.EAGER, mappedBy = "student")
     private List<Enquiry> enquiries;
 
     @ManyToMany(fetch = FetchType.EAGER)
+    @JsonbTransient
     private List<PU> likedPUs;
 
-    @OneToMany(mappedBy = "student")
+    @OneToMany(cascade = {CascadeType.ALL, CascadeType.REMOVE}, orphanRemoval = true, mappedBy = "student")
     private List<PUModuleReview> moduleReviews;
 
     @ManyToOne
     @JoinColumn(nullable = true)
     private PU puEnrolled;
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "student")
+    @OneToMany(cascade = {CascadeType.ALL, CascadeType.REMOVE}, orphanRemoval = true, fetch = FetchType.EAGER, mappedBy = "student")
     private List<ForumPost> posts;
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "student")
+    @OneToMany(cascade = {CascadeType.ALL, CascadeType.REMOVE}, orphanRemoval = true, fetch = FetchType.EAGER, mappedBy = "student")
     private List<ForumTopic> topics;
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "student")
+    @OneToMany(cascade = {CascadeType.ALL, CascadeType.REMOVE}, orphanRemoval = true, fetch = FetchType.EAGER, mappedBy = "student")
     private List<ForumComment> comments;
 
-    @OneToMany
+    @OneToMany(cascade = {CascadeType.ALL, CascadeType.REMOVE}, orphanRemoval = true, fetch = FetchType.EAGER)
     private List<PUModule> modulesTaken;
 
-    @OneToOne(mappedBy = "student")
+    @OneToOne(mappedBy = "student", cascade = {CascadeType.ALL, CascadeType.REMOVE}, orphanRemoval = true, fetch = FetchType.EAGER)
     private PUReview puReview;
 
     @ManyToMany(fetch = FetchType.EAGER)

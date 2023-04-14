@@ -1,11 +1,12 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, useLocation, Link, useRouteMatch } from 'react-router-dom';
 import { createContext, useContext, useState, useEffect } from "react";
+import { Button } from "reactstrap";
 import './App.css';
 import HomePage from './student/homepage/HomePage';
 import UniversityRankings from './student/ranking/UniversityRankings';
 import NavbarComp from './student/components/NavbarComp';
 import StudentLogin from './student/login/StudentLogin';
-import { AuthProvider, useAuth } from './student/login/AuthContext';
+import { AuthProvider, useAuth } from './AuthContext';
 import StudentProfile from './student/studentProfile/StudentProfile';
 import ForumTopics from './student/ForumTopics';
 import TopicPosts from './student/TopicPosts';
@@ -39,22 +40,26 @@ import FAQs from './admin/userSupportAdmin/pages/faq';
 import CreateFAQ from './admin/userSupportAdmin/pages/faq/create';
 import FAQDetails from './admin/userSupportAdmin/pages/faq/view';
 // system support admin
-import CreatePartnerUuniversity from './admin/systemSupportAdmin/pages/partnerUniversity/create';
-import PartnerUuniversityDetails from './admin/systemSupportAdmin/pages/partnerUniversity/view';
+import CreatePartnerUniversity from './admin/systemSupportAdmin/pages/partnerUniversity/create';
+import PartnerUniversityDetails from './admin/systemSupportAdmin/pages/partnerUniversity/view';
 import PartnerUniversityModules from './admin/systemSupportAdmin/pages/partnerUniversityModule';
 import PartnerUniversityModuleDetails from './admin/systemSupportAdmin/pages/partnerUniversityModule/view';
 import CreatePartnerUniversityModule from './admin/systemSupportAdmin/pages/partnerUniversityModule/create';
 import Main from './admin/Main';
-import PartnerUuniversity from './admin/systemSupportAdmin/pages/partnerUniversity';
+import PartnerUniversity from './admin/systemSupportAdmin/pages/partnerUniversity';
 import Inappropriateness from './admin/systemSupportAdmin/pages/inappropriateness';
 import InappropriatenessDetails from './admin/systemSupportAdmin/pages/inappropriateness/view';
 import ForumTopicsSystemSupportAdmin from './admin/systemSupportAdmin/pages/forumTopic/index';
 import CreateForumTopicsSystemSupportAdmin from './admin/systemSupportAdmin/pages/forumTopic/create';
 import ForumTopicsDetailsSystemSupportAdmin from './admin/systemSupportAdmin/pages/forumTopic/view';
+import AdminProfile from './admin/Profile';
+
+import withAdminAuth from './withAdminAuth';
 
 import './student/assets/base.scss';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import ViewEnquiries from './student/enquiries/ViewEnquiries';
+import LandingPage from './LandingPage';
 // import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
 // import Login from './admin/Login';
@@ -65,6 +70,25 @@ const App = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [user, setUser] = useState(null);
   const { loggedInStudent, login, logout } = useAuth();
+
+  const ProtectedMain = withAdminAuth(Main);
+  const ProtectedFAQs = withAdminAuth(FAQs);
+  const ProtectedFAQDetails = withAdminAuth(FAQDetails);
+  const ProtectedCreateFAQ = withAdminAuth(CreateFAQ);
+  const ProtectedEnquiry = withAdminAuth(Enquiry);
+  const ProtectedEnquiryDetails = withAdminAuth(EnquiryDetails);
+  const ProtectedPartnerUniversity = withAdminAuth(PartnerUniversity);
+  const ProtectedPartnerUniversityDetails = withAdminAuth(PartnerUniversityDetails);
+  const ProtectedCreatePartnerUniversity = withAdminAuth(CreatePartnerUniversity);
+  const ProtectedPartnerUniversityModules = withAdminAuth(PartnerUniversityModules);
+  const ProtectedPartnerUniversityModuleDetails = withAdminAuth(PartnerUniversityModuleDetails);
+  const ProtectedCreatePartnerUniversityModule = withAdminAuth(CreatePartnerUniversityModule);
+  const ProtectedInappropriateness = withAdminAuth(Inappropriateness);
+  const ProtectedInappropriatenessDetails = withAdminAuth(InappropriatenessDetails);
+  const ProtectedForumTopicsSystemSupportAdmin = withAdminAuth(ForumTopicsSystemSupportAdmin);
+  const ProtectedCreateForumTopicsSystemSupportAdmin = withAdminAuth(CreateForumTopicsSystemSupportAdmin);
+  const ProtectedForumTopicsDetailsSystemSupportAdmin = withAdminAuth(ForumTopicsDetailsSystemSupportAdmin);
+  const ProtectedAdminProfile = withAdminAuth(AdminProfile);
 
   useEffect(() => {
     searchPUs("");
@@ -87,67 +111,85 @@ const App = () => {
     logout(); // Call logout function from AuthContext
   };
 
+  // const { pathname } = useLocation();
+
+  // const [url, setUrl] = useState(window.location.pathname);
+  // const [showNavbar, setShowNavbar] = useState(false);
+  
+  // useEffect(() => {
+  //   console.log(url);
+  // }, [url]);
+  
+  // useEffect(() => {
+  //   setShowNavbar(url.startsWith('/student'));
+  // }, [url]);
+  
+
   return (
     <AuthProvider> {/* Wrap the app in AuthProvider */}
+
       <div className="App">
-        <NavbarComp isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} user={user} />
-        <Router basename='/student'>
+        
+        <Router>
+          
+          {/* {showNavbar && (
+            <NavbarComp isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} user={user} />
+          )} */}
+
+          {/* student */}
           <Routes>
-            <Route path="/home-page" element={<HomePage />} />
-            <Route path="/profile" element={<StudentProfile user={user} />} />
-            <Route path="/forum-topics/:puId" element={<ForumTopics />} />
-            <Route path="/forum-topics/:id/:topicName" element={<TopicPosts />} />
-            <Route path="/forum-posts/:id/:topicName" element={<NewPost />} />
-            <Route path="/my-topics" element={<MyTopics />} />
-            <Route path="/my-posts/:id/:topicName" element={<MyPosts />} />
-            <Route path="/forum-posts/edit/:topicId/:id/:oldTitle/:oldMessage/:topicName/:number" element={<EditPost />} />
-            <Route path="/new-topic" element={<NewTopic />} />
-            <Route path="/forum-topics/edit/:topicId/:oldTopicName" element={<EditTopic />} />
-            <Route path="/error" element={<Error />} />
-            <Route path="/view-post/:postId/:topicName/:topicId" element={<Post />} />
-            <Route path="/edit-comment/:commentId/:oldCommentMessage/:postId/:topicName/:topicId" element={<EditComment />} />
-            <Route path="/login" element={<StudentLogin onLogin={handleLogin} />} />
-            <Route path="/university-rankings" element={<UniversityRankings universitiesData={pus} />} />
-            <Route path="/university-rankings-country" element={<UniversityRankingsCountry universitiesData={pus} />} />
-            <Route path="/university-rankings-region" element={<UniversityRankingsRegion universitiesData={pus} />} />
-            <Route path="/faq" element={<FAQPage />} />
-            <Route path="/enquiry" element={<StudentEnquiry/>}/>
-            <Route path="/viewEnquiries" element={<ViewEnquiries/>}/>
-            <Route path="/profile/likedPus" element={<LikedPUs/>}/>
-            <Route path="/university-description-page/:puName" element={<UniversityDescriptionPage/>}/>
-            <Route path="/university-description-page/:puName/mappable-module" element={<MappableModule/>}/>
-            <Route path="/university-description-page" element={<UniversityDescriptionPage/>}/>
-            <Route path="/university-description-page/mappable-module" element={<MappableModule/>}/>
-            <Route path="/profile/modulesTaken" element={<ModulesTaken/>}/>
-            <Route path="/module-details/:puName/:modId" element={<ModuleDetail/>}/>
-            <Route path='/other-profile/:studentId' element={<OtherStudentProfile/>}/>
+            <Route path="/" element={<LandingPage />} />
+            <Route path="/student/home-page" element={<HomePage />} />
+            <Route path="/student/profile" element={<StudentProfile user={user} />} />
+            <Route path="/student/forum-topics/:puId" element={<ForumTopics />} />
+            <Route path="/student/forum-topics/:id/:topicName" element={<TopicPosts />} />
+            <Route path="/student/forum-posts/:id/:topicName" element={<NewPost />} />
+            <Route path="/student/my-topics" element={<MyTopics />} />
+            <Route path="/student/my-posts/:id/:topicName" element={<MyPosts />} />
+            <Route path="/student/forum-posts/edit/:topicId/:id/:oldTitle/:oldMessage/:topicName/:number" element={<EditPost />} />
+            <Route path="/student/new-topic" element={<NewTopic />} />
+            <Route path="/student/forum-topics/edit/:topicId/:oldTopicName" element={<EditTopic />} />
+            <Route path="/student/error" element={<Error />} />
+            <Route path="/student/view-post/:postId/:topicName/:topicId" element={<Post />} />
+            <Route path="/student/edit-comment/:commentId/:oldCommentMessage/:postId/:topicName/:topicId" element={<EditComment />} />
+            <Route path="/student/login" element={<StudentLogin onLogin={handleLogin} />} />
+            <Route path="/student/university-rankings" element={<UniversityRankings universitiesData={pus} />} />
+            <Route path="/student/university-rankings-country" element={<UniversityRankingsCountry universitiesData={pus} />} />
+            <Route path="/student/university-rankings-region" element={<UniversityRankingsRegion universitiesData={pus} />} />
+            <Route path="/student/faq" element={<FAQPage />} />
+            <Route path="/student/enquiry" element={<StudentEnquiry />} />
+            <Route path="/student/viewEnquiries" element={<ViewEnquiries />} />
+            <Route path="/student/profile/likedPus" element={<LikedPUs />} />
+            <Route path="/student/university-description-page/:puName" element={<UniversityDescriptionPage />} />
+            <Route path="/student/university-description-page/:puName/mappable-module" element={<MappableModule />} />
+            <Route path="/student/university-description-page" element={<UniversityDescriptionPage />} />
+            <Route path="/student/university-description-page/mappable-module" element={<MappableModule />} />
+            <Route path="/student/profile/modulesTaken" element={<ModulesTaken />} />
+            <Route path="/student/module-reviews" element={<ModuleDetail />} />
+
+            {/* admin */}
+            <Route path="/admin/login" element={<Login />} />
+            <Route path="/admin/:typeOfAdmin/main" element={<ProtectedMain />} />
+            <Route path="/admin/:typeOfAdmin/profile/:usernameFromUrl" element={<ProtectedAdminProfile />} />
+            <Route path="/admin/userSupportAdmin/faqs" element={<ProtectedFAQs />} />
+            <Route path="/admin/userSupportAdmin/faqs/:id" element={<ProtectedFAQDetails />} />
+            <Route path="/admin/userSupportAdmin/faqs/create" element={<ProtectedCreateFAQ />} />
+            <Route path="/admin/userSupportAdmin/enquiries" element={<ProtectedEnquiry />} />
+            <Route path="/admin/userSupportAdmin/enquiries/assigned" element={<ProtectedEnquiry adminId={1} />} />
+            <Route path="/admin/userSupportAdmin/enquiries/:id" element={<ProtectedEnquiryDetails />} />
+            <Route path="/admin/systemSupportAdmin/partnerUniversities" element={<ProtectedPartnerUniversity />} />
+            <Route path="/admin/systemSupportAdmin/partnerUniversities/:nameFromUrl" element={<ProtectedPartnerUniversityDetails />} />
+            <Route path="/admin/systemSupportAdmin/partnerUniversities/create" element={<ProtectedCreatePartnerUniversity />} />
+            <Route path="/admin/systemSupportAdmin/partnerUniversities/:puName/modules" element={<ProtectedPartnerUniversityModules />} />
+            <Route path="/admin/systemSupportAdmin/partnerUniversities/:puName/modules/:puModuleCode" element={<ProtectedPartnerUniversityModuleDetails />} />
+            <Route path="/admin/systemSupportAdmin/partnerUniversities/:puName/modules/create" element={<ProtectedCreatePartnerUniversityModule />} />
+            <Route path="/admin/systemSupportAdmin/inappropriatenessContent" element={<ProtectedInappropriateness />} />
+            <Route path="/admin/systemSupportAdmin/inappropriatenessContent/:typeOfComponent/:id" element={<ProtectedInappropriatenessDetails />} />
+            <Route path="/admin/systemSupportAdmin/forumTopics" element={<ProtectedForumTopicsSystemSupportAdmin />} />
+            <Route path="/admin/systemSupportAdmin/forumTopics/create" element={<ProtectedCreateForumTopicsSystemSupportAdmin />} />
+            <Route path="/admin/systemSupportAdmin/forumTopics/:id" element={<ProtectedForumTopicsDetailsSystemSupportAdmin />} />
           </Routes>
         </Router>
-
-       {/* <Router basename='/admin'>
-          <Routes>
-            <Route path="/login" element={<Login />} />
-            <Route path="/main" element={<Main />} />
-            <Route path="/faqs" element={<FAQs />} />
-            <Route path="/faqs/:id" element={<FAQDetails />} />
-            <Route path="/faqs/create" element={<CreateFAQ />} />
-            <Route path="/enquiries" element={<Enquiry />} />
-            <Route path="/enquiries/assigned" element={<Enquiry adminId={1} />} />
-            <Route path="/enquiries/:id" element={<EnquiryDetails />} />
-            <Route path="/partnerUniversities" element={<PartnerUuniversity />} />
-            <Route path="/partnerUniversities/:nameFromUrl" element={<PartnerUuniversityDetails />} />
-            <Route path="/partnerUniversities/create" element={<CreatePartnerUuniversity />} />
-            <Route path="/partnerUniversities/:puName/modules" element={<PartnerUniversityModules />} />
-            <Route path="/partnerUniversities/:puName/modules/:puModuleCode" element={<PartnerUniversityModuleDetails /> } />
-            <Route path="/partnerUniversities/:puName/modules/create" element={<CreatePartnerUniversityModule /> } />
-            <Route path="/inappropriatenessContent" element={<Inappropriateness /> } />
-            <Route path="/inappropriatenessContent/:typeOfComponent/:id" element={<InappropriatenessDetails />} />
-            <Route path="/forumTopics" element={<ForumTopicsSystemSupportAdmin />} />
-            <Route path="/forumTopics/create" element={<CreateForumTopicsSystemSupportAdmin />} />
-            <Route path="/forumTopics/:id" element={<ForumTopicsDetailsSystemSupportAdmin />} />
-          </Routes>
-
-        </Router> */}
 
         {/* <ForumTopics /> */}
         {/* <TopicPosts /> */}
@@ -181,3 +223,4 @@ const App = () => {
 }
 
 export default App;
+

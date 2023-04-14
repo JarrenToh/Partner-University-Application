@@ -1,7 +1,8 @@
 import React from "react";
 import { useContext, useState, useEffect } from "react";
-import { AuthContext } from "../login/AuthContext";
+import { AuthProvider, useAuth, AuthContext } from "../../../src/AuthContext";
 import { useNavigate } from "react-router-dom";
+import NotLoggedIn from '../components/NotLoggedInPage';
 
 import {
   Image,
@@ -28,6 +29,8 @@ import {
 import SocialMediaModal from "./SocialMediaModal";
 import IconSocialMedia from "./IconSocialMedia";
 import defaultProfilePicture from "../images/housekeeper.png";
+import NavbarComp from '../../student/components/NavbarComp';
+// import { AuthProvider, useAuth } from '../../student/login/AuthContext';
 
 const StudentProfile = () => {
   const { loggedInStudent } = useContext(AuthContext);
@@ -42,6 +45,9 @@ const StudentProfile = () => {
   const [reviewModalShow, setReviewModalShow] = useState(false);
   const [socialMediaModalShow, setSocialMediaModalShow] = useState(false);
   const navigate = useNavigate();
+
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [user, setUser] = useState(null);
 
   useEffect(() => {
     if (loggedInStudent) {
@@ -65,7 +71,7 @@ const StudentProfile = () => {
   };
 
   if (!loggedInStudent) {
-    return <div> Not Logged in</div>;
+    return NotLoggedIn();
   }
 
   // Concat first and last name to make full name
@@ -111,73 +117,68 @@ const StudentProfile = () => {
   };
 
   const navToLikedPUs = () => {
-    navigate("/profile/likedPus");
+    navigate("/student/profile/likedPus");
   };
 
   const navToModulesTaken = () => {
-    navigate("/profile/modulesTaken");
+    navigate("/student/profile/modulesTaken");
   };
 
   return (
-    <div style={{ paddingLeft: "5%", paddingRight: "5%" }}>
-      <div className="container" style={{ border: 0 }}>
-        <h1 className="text-center mb-3">Your Profile</h1>
-      </div>
-      <Row>
-        <Col>
-          <div id="profilePicDiv" style={{ padding: "5%" }}>
-            <Card>
-              <Card.Body style={{ padding: "5%", textAlign: "center" }}>
-                <Image
-                  src={defaultProfilePicture}
-                  roundedCircle
-                  style={{ width: "200px", height: "200px" }}
-                />
-              </Card.Body>
-              <Card.Footer>
-                Last Active: {loggedInStudent.lastActive}
-              </Card.Footer>
-            </Card>
-            <Card>
-              <Card.Header as="h5">Social Media</Card.Header>
-              <ListGroup variant="flush">
-                {socialMedia != null &&
-                  socialMedia.map((link) => (
-                    <ListGroupItem>
-                      <IconSocialMedia linkType={link} /> {"   "}
-                      <a
-                        href={`https://${link}`}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
-                        {link}
-                      </a>
-                    </ListGroupItem>
-                  ))}
+    <div className="wrapper" >
+      <NavbarComp isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} user={user} />
+      <div style={{ paddingLeft: "5%", paddingRight: "5%" }}>
+        <div className="container" style={{ border: 0 }}>
+          <h1 className="text-center mb-3">Your Profile</h1>
+        </div>
+        <Row>
+          <Col>
+            <div id="profilePicDiv" style={{ padding: "5%" }}>
+              <Card>
+                <Card.Body style={{ padding: "5%", textAlign: "center" }}>
+                  <Image
+                    src={defaultProfilePicture}
+                    roundedCircle
+                    style={{ width: "200px", height: "200px" }}
+                  />
+                </Card.Body>
+                <Card.Footer>
+                  Last Active: {loggedInStudent.lastActive}
+                </Card.Footer>
+              </Card>
+              <Card>
+                <Card.Header as="h5">Social Media</Card.Header>
+                <ListGroup variant="flush">
+                  {socialMedia != null &&
+                    socialMedia.map((link) => (
+                      <ListGroupItem>
+                        You do not have any social media links. Add them now!
+                      </ListGroupItem>
+                    ))}
 
-                {socialMedia.length === 0 && (
-                  <ListGroupItem>
-                    You do not have any social media links. Add them now!
-                  </ListGroupItem>
-                )}
-              </ListGroup>
-              <Card.Footer style={{ textAlign: "center" }}>
-                <Button
-                  variant="link"
-                  onClick={() => setSocialMediaModalShow(true)}
-                >
-                  <FontAwesomeIcon icon={faPen} /> {"  "}
-                  Edit Links
+                  {socialMedia.length === 0 && (
+                    <ListGroupItem>
+                      You do not have any social media links. Add them now!
+                    </ListGroupItem>
+                  )}
+                </ListGroup>
+                <Card.Footer style={{ textAlign: "center" }}>
+                  <Button
+                    variant="link"
+                    onClick={() => setSocialMediaModalShow(true)}
+                  >
+                    <FontAwesomeIcon icon={faPen} /> {"  "}
+                    Edit Links
+                  </Button>
+                </Card.Footer>
+              </Card>
+              <div className="d-grid gap-2">
+                <Button variant="danger" onClick={navToLikedPUs}>
+                  <FontAwesomeIcon icon={faHeart} /> {"  "}
+                  View Liked Universities
                 </Button>
-              </Card.Footer>
-            </Card>
-            <div className="d-grid gap-2">
-              <Button variant="danger" onClick={navToLikedPUs}>
-                <FontAwesomeIcon icon={faHeart} /> {"  "}
-                View Liked Universities
-              </Button>
+              </div>
             </div>
-          </div>
         </Col>
 
         <Col>
@@ -226,6 +227,7 @@ const StudentProfile = () => {
         onSocialMediaChange={handleSocialMediaChange}
       />
     </div>
+    </div >
   );
 };
 

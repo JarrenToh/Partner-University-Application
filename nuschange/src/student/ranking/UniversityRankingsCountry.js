@@ -1,9 +1,14 @@
 import React, { useState, useEffect, useCallback } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, Link } from "react-router-dom";
 import { Button, Input, FormGroup } from "reactstrap";
 import UniversityCard from "./UniversityCard";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./UniversityRanking.css";
+import NavbarComp from '../../student/components/NavbarComp';
+import { AuthProvider, useAuth } from '../../../src/AuthContext';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faHeart } from "@fortawesome/free-solid-svg-icons";
+import { faHeart as heartOutline } from "@fortawesome/free-regular-svg-icons";
 
 const UniversityRankings = ({ universitiesData }) => {
 
@@ -18,6 +23,10 @@ const UniversityRankings = ({ universitiesData }) => {
   const [selectedOption, setSelectedOption] = useState("");
   const [selectedCountry, setSelectedCountry] = useState('');
   const [ranking, setRanking] = useState(false);
+  const [puEnrolled, setPuEnrolled] = useState({
+    name: "Dummy Uni",
+    puId: 0,
+  });
 
   useEffect(() => {
     setFilter(searchTerm);
@@ -122,9 +131,15 @@ const UniversityRankings = ({ universitiesData }) => {
     ? sortedUniversities.filter((university) => university.isFavorite)
     : sortedUniversities.slice(0, displayLimit);
 
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [user, setUser] = useState(null);
+  const { loggedInStudent, login, logout } = useAuth();
+
   return (
     <div className="wrapper">
-      <div className="container">
+      <NavbarComp isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} user={user} />
+      <br/>
+      <div className="container" style={{maxWidth : '1300px'}}>
         <div className="universityRankings">
           <div className="universityRankings_description">
             <h1 className="headerRanking">Partner University Rankings</h1>
@@ -136,7 +151,7 @@ const UniversityRankings = ({ universitiesData }) => {
           </div>
           <br />
           <div className="university-rankings__header">
-          <div className="university-rankings__sort-by">
+            <div className="university-rankings__sort-by">
               Sort by:
               <select value={sortBy} onChange={handleSortByChange}>
                 <option value="ranking">Ranking</option>
@@ -162,7 +177,7 @@ const UniversityRankings = ({ universitiesData }) => {
                 onChange={handleFilterChange}
               />
             </div>
-                       {/*
+            {/*
             <div className="university-rankings__favorites">
               <label>
                 <input
@@ -181,16 +196,27 @@ const UniversityRankings = ({ universitiesData }) => {
             <br />
             {displayedUniversities.map((university, index) => (
               <div className="university-card-wrapper" key={university.puId}>
-                <UniversityCard university={university} index={index + 1} ranking={ranking} />
-                {/*<button
-                  className={`university-card__favorite-button ${university.isFavorite
-                    ? "university-card__favorite-button--active"
-                    : ""
-                    }`}
-                  onClick={() => handleToggleFavorite(university.puId)}
+                <Link
+                  to={`/student/university-description-page/${university.name}`}
+                  style={{ textDecoration: "none" }}
                 >
-                  <i className="fas fa-heart"></i>
-                  </button>*/}
+                  <UniversityCard
+                    university={university}
+                    index={index + 1}
+                    ranking={ranking}
+                  />
+                </Link>
+                {(loggedInStudent && puEnrolled.puId !== university.puId) && (
+                  <button
+                    className={`university-card__favorite-button`}
+                    onClick={() => handleToggleFavorite(university)}
+                  >
+                    <FontAwesomeIcon
+                      icon={university.isFavorite ? faHeart : heartOutline}
+                      style={{ color: "#d01b1b" }}
+                    />{" "}
+                  </button>
+                )}
               </div>
             ))}
           </div>

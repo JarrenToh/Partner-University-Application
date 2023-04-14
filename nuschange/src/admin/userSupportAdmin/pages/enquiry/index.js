@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useState, useEffect, useContext } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 
 import Footer from "../../../components/dashboard/Footer";
 import Header from "../../../components/dashboard/Header";
@@ -8,44 +8,50 @@ import Menu from "../../../components/dashboard/Menu";
 import API from "../../../../util/API";
 import apiPaths from "../../../../util/apiPaths";
 import { DateTimeConverter } from "../../../../util/dateTimeConverter";
+import { userSupportAdminPaths } from "../../../../util/adminRoutes";
+import { AuthContext } from "../../../../AuthContext";
 
-const Enquiry = ({adminId}) => {
+const Enquiry = () => {
 
     const [data, setData] = useState([]);
+    const [adminId, setAdminId] = useState(undefined);
     const navigate = useNavigate();
+    const location = useLocation();
 
+    const { loggedInAdmin } = useContext(AuthContext);
+    
     const handleButtonClick = (enquiryId) => {
-        navigate(`/enquiries/${enquiryId}`);
+        navigate(`/admin${userSupportAdminPaths.viewEnquiries}/${enquiryId}`);
     };
 
     useEffect(() => {
+        if (loggedInAdmin === null) return;
+
         const fetchData = async () => {
             try {
 
+                const { pathname } = location;
+                const pathSegments = pathname.split('/');
+                const isLastWordAssigned = pathSegments[pathSegments.length - 1] === 'assigned';
+                
                 let path = "";
 
-                if (adminId === undefined) {
+                if (!isLastWordAssigned) {
                     path = apiPaths.listOfEnquiries;
                 } else {
-                    // TODO: change to adminId dynamically
-                    path = `${apiPaths.listOfEnquiries}/assigned?adminId=${adminId}`;
+                    console.log(loggedInAdmin.adminId);
+                    path = `${apiPaths.listOfEnquiries}/assigned?adminId=${loggedInAdmin.adminId}`;
+                    setAdminId(loggedInAdmin.adminId);
                 }
 
                 const response = await API.get(path);
                 setData(response.data);
-                // if (showAll) {
-                //     setData(response.data);
-                // } else {
-                //     // TODO: need to change this dyanmically later
-                //     const filteredData = response.data.filter(item => item.status === "PENDING"); // assume you have the current user's id stored somewhere
-                //     setData(filteredData);
-                // }
             } catch (error) {
                 console.error(error);
             }
         };
         fetchData();
-    }, [adminId]);
+    }, [loggedInAdmin, location]);
 
     return (
         <div>
@@ -69,18 +75,25 @@ const Enquiry = ({adminId}) => {
                                 </tr>
                             </thead>
                             <tbody>
-                                {data.map((item) => (item.status === 'PENDING' || (item.status === 'RESPONDED' && adminId !== undefined)) && (
-                                    <tr key={item.enquiryId}>
-                                        <td>{item.enquiryId}</td>
-                                        <td>{item.title}</td>
-                                        <td>{item.content}</td>
-                                        <td>{item.status}</td>
-                                        <td>{DateTimeConverter.convertDateForNicerOutput(item.enquiryDate)}</td>
-                                        <td>
-                                            <button onClick={() => handleButtonClick(item.enquiryId)} type="button" className="btn btn-primary">View Details</button>
-                                        </td>
-                                    </tr>
-                                ))}
+                                {(data.filter(item => item.status === "PENDING").length > 0 || (data.filter(item => item.status !== "PENDING").length > 0 && adminId !== undefined)) ? (
+                                    data.map((item, index) => (item.status === "PENDING" || (item.status !== "PENDING" && adminId !== undefined)) && (
+                                        <tr key={index}>
+                                            <td>{item.enquiryId}</td>
+                                            <td>{item.title}</td>
+                                            <td>{item.content}</td>
+                                            <td>{item.status}</td>
+                                            <td>{DateTimeConverter.convertDateForNicerOutput(item.enquiryDate)}</td>
+                                            <td>
+                                                <button onClick={() => handleButtonClick(item.enquiryId)} type="button" className="btn btn-primary">View Details</button>
+                                            </td>
+                                        </tr>
+                                    )
+                                    ))
+                                    : (
+                                        <tr>
+                                            <td colSpan={7} style={{ textAlign: "center" }}>No data available</td>
+                                        </tr>
+                                    )}
                             </tbody>
                             <tfoot>
                                 <tr>

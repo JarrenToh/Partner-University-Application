@@ -12,9 +12,11 @@ import {
   Input,
   Label,
 } from 'reactstrap';
-import { AuthContext } from '../login/AuthContext';
+import { AuthContext } from '../../AuthContext';
 import { Enquiry } from './Enquiry';
 import './ContactForm.css';
+import NotLoggedIn from '../components/NotLoggedInPage';
+import NavbarComp from '../../student/components/NavbarComp';
 
 const ContactForm = () => {
   const { loggedInStudent } = useContext(AuthContext);
@@ -25,6 +27,9 @@ const ContactForm = () => {
   const [alertVisible, setAlertVisible] = useState(false);
   const [alertMessage, setAlertMessage] = useState('');
   const [alertType, setAlertType] = useState('danger');
+
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [user, setUser] = useState(null);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -79,77 +84,80 @@ const ContactForm = () => {
   };
 
   if (!loggedInStudent) {
-    return <div>Not Logged in</div>;
+    return NotLoggedIn();
   }
 
   return (
-    <div className="form-container"
-  style={{
-    display: 'flex',
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    minHeight: '100vh',
-    overflow: 'hidden',
-  }}
->
+    <div className="wrapper" >
+      <NavbarComp isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} user={user} />
+      <div className="form-container"
+        style={{
+          display: 'flex',
+          flexDirection: 'row',
+          alignItems: 'center',
+          justifyContent: 'center',
+          minHeight: '100vh',
+          overflow: 'hidden',
+        }}
+      >
 
-  <div
-    className="background-image"
-    style={{
-      backgroundImage: `url('https://sublimelistings.com/wp-content/uploads/2016/11/background-contact-form-02.jpg')`,
-      backgroundSize: 'cover',
-      minHeight: '100vh',
-      backgroundPosition: 'left',
-      width: '60%',
-      height: '100%',
-      marginRight : '1%',
-    }}
-  />
+        <div
+          className="background-image"
+          style={{
+            backgroundImage: `url('https://sublimelistings.com/wp-content/uploads/2016/11/background-contact-form-02.jpg')`,
+            backgroundSize: 'cover',
+            minHeight: '100vh',
+            backgroundPosition: 'left',
+            width: '60%',
+            height: '100%',
+            marginRight: '1%',
+          }}
+        />
 
-  <Card
-    className="form"
-    style={{
-      ...Enquiry.formStyle,
-      backgroundColor: 'rgba(255,255,255,0.7)',
-      boxShadow: '0 0 10px rgba(0,0,0,0.3)',
-      maxWidth: '1000px',
-      width: '40%',
-      borderRadius: '3%',
-      marginRight : '1%',
-    }}
-  >
-        <CardHeader style={{ fontWeight : 'bold', fontSize : '30px', borderBottom : '1px solid #888'}}>Contact Us</CardHeader>
-        <CardBody>
-          <Form onSubmit={handleSubmit}>
-            <FormGroup>
-              <Label for="title" style={{fontSize : '20px'}}>Title</Label>
-              <Input type="text" id="title" name="title" placeholder="Title" required style={{fontSize : '18px', height : '50px'}}/>
-            </FormGroup>
-            <FormGroup>
-              <Label for="content" style={{fontSize : '20px'}}>Message</Label>
-              <Input
-                type="textarea"
-                id="content"
-                name="content"
-                placeholder="Message"
-                rows="5"
-                required
-                style={{fontSize : '18px', padding : '10px', height : '600px'}}
-              />
-            </FormGroup>
-            <Button className='btnColor' type="submit" disabled={formStatus === 'Submitting...'}>
-              {formStatus}
-            </Button>
-          </Form>
-          {<br/>}
-          {alertVisible && (
-        <Alert color={alertType} toggle={() => setAlertVisible(false)}>
-          {alertMessage}
-        </Alert>
-      )}
-        </CardBody>
-      </Card>
+        <Card
+          className="form"
+          style={{
+            ...Enquiry.formStyle,
+            backgroundColor: 'rgba(255,255,255,0.7)',
+            boxShadow: '0 0 10px rgba(0,0,0,0.3)',
+            maxWidth: '1000px',
+            width: '40%',
+            borderRadius: '3%',
+            marginRight: '1%',
+          }}
+        >
+          <CardHeader style={{ fontWeight: 'bold', fontSize: '30px', borderBottom: '1px solid #888' }}>Contact Us</CardHeader>
+          <CardBody>
+            <Form onSubmit={handleSubmit}>
+              <FormGroup>
+                <Label for="title" style={{ fontSize: '20px' }}>Title</Label>
+                <Input type="text" id="title" name="title" placeholder="Title" required style={{ fontSize: '18px', height: '50px' }} />
+              </FormGroup>
+              <FormGroup>
+                <Label for="content" style={{ fontSize: '20px' }}>Message</Label>
+                <Input
+                  type="textarea"
+                  id="content"
+                  name="content"
+                  placeholder="Message"
+                  rows="5"
+                  required
+                  style={{ fontSize: '18px', padding: '10px', height: '600px' }}
+                />
+              </FormGroup>
+              <Button className='btnColor' type="submit" disabled={formStatus === 'Submitting...'}>
+                {formStatus}
+              </Button>
+            </Form>
+            {<br />}
+            {alertVisible && (
+              <Alert color={alertType} toggle={() => setAlertVisible(false)}>
+                {alertMessage}
+              </Alert>
+            )}
+          </CardBody>
+        </Card>
+      </div>
     </div>
   );
 };

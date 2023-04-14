@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 
 import Header from '../../../components/dashboard/Header';
 import Menu from '../../../components/dashboard/Menu';
@@ -6,25 +6,78 @@ import Footer from '../../../components/dashboard/Footer';
 
 import API from '../../../../util/API';
 import apiPaths from '../../../../util/apiPaths';
+import { AuthContext } from '../../../../AuthContext';
 
 const ForumTopic = () => {
     const [topicName, setTopicName] = useState("");
+    const [puId, setPuId] = useState("");
+
+    const [pus, setPUs] = useState([]);
+
+    const [topicNameError, setTopicNameError] = useState("");
+    const [puIdError, setPuIdError] = useState("");
+
+    const [showModal, setShowModal] = useState(false);
+
+    const { loggedInAdmin } = useContext(AuthContext);
 
     const handleCreate = async () => {
-        try {
-            const createForumTopic = {
-                topicName
-            };
+        if (validate()) {
+            try {
+                const createForumTopic = {
+                    topicName,
+                    puId
+                };
 
-            // TODO: Change to get the adminId dynamically
-            const apiPath = `${apiPaths.listOfAdminForumTopics}?adminId=${1}`;
-            await API.post(apiPath, createForumTopic);
+                const apiPath = `${apiPaths.listOfAdminForumTopics}?adminId=${loggedInAdmin.adminId}`;
+                await API.post(apiPath, createForumTopic);
 
-            alert("Forum Topic has been created successfully");
-        } catch (error) {
-            console.error(error);
+                setShowModal(true);
+            } catch (error) {
+                console.error(error);
+            }
         }
     };
+
+    const handleCancel = async () => {
+        setTopicName("");
+        setPuId("Select Partner University");
+        setShowModal(false);
+    };
+
+    const validate = () => {
+        let isValid = true;
+        if (topicName.trim() === "") {
+            setTopicNameError("Please enter a topic name");
+            isValid = false;
+        } else {
+            setTopicNameError("");
+        }
+        if (puId === "") {
+            setPuIdError("Please select a partner university");
+            isValid = false;
+        } else {
+            setPuIdError("");
+        }
+
+        return isValid;
+    };
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const apiPath = `${apiPaths.listOfPUs}`
+                const response = await API.get(apiPath);
+                const data = response.data;
+
+                setPUs(data);
+            } catch (error) {
+                console.error(error);
+            }
+        };
+
+        fetchData();
+    }, []);
 
     return (
         <div>
@@ -39,13 +92,57 @@ const ForumTopic = () => {
                         <div className="card-body">
                             <div className="form-group">
                                 <label htmlFor="inputName">Topic Name</label>
-                                <input type="text" id="inputName" className="form-control" placeholder="Input a topic Name" onChange={(e) => setTopicName(e.target.value)} />
+                                <input type="text" id="inputName" className={`form-control ${topicNameError ? "is-invalid" : ""}`} value={topicName} placeholder="Input a topic Name" onChange={(e) => setTopicName(e.target.value)} />
+                                {topicNameError && <div className="invalid-feedback">{topicNameError}</div>}
+                            </div>
+                            <div className="form-group">
+                                <label htmlFor="inputName">Partner Universities</label>
+                                <select className={`custom-select rounded-0 form-control ${puIdError ? "is-invalid" : ""}`} id="puSelectOption" value={puId} onChange={(e) => setPuId(e.target.value)}>
+                                    <option value="">Select Partner University</option>
+                                    {pus.map((pu, index) => {
+                                        return (
+                                            <option key={index} value={pu.puId}>
+                                                {pu.name}
+                                            </option>
+                                        );
+                                    })}
+                                </select>
+                                {puIdError && <div className="invalid-feedback">{puIdError}</div>}
                             </div>
                             <div className="text-center">
                                 <button className="btn btn-success mr-2" onClick={handleCreate}>Create</button>
                             </div>
                         </div>
-                        <br />
+                        {showModal && (
+                            <div className="modal fade show" id="modal-default" style={{ display: "block" }}>
+                                <div className="modal-dialog">
+                                    <div className="modal-content">
+                                        <div className="modal-header">
+                                            <h4 className="modal-title">Successful Creation of Forum Topic</h4>
+                                            <button
+                                                type="button"
+                                                className="close"
+                                                data-dismiss="modal"
+                                                aria-label="Close"
+                                                onClick={() => handleCancel()}>
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div className="modal-body">
+                                            <p>You have successfully created the forum topic!</p>
+                                        </div>
+                                        <div className="modal-footer justify-content-between">
+                                            <button
+                                                type="button"
+                                                className="btn btn-default"
+                                                onClick={() => handleCancel()}>
+                                                Close
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        )}
                     </div>
                 </div>
             </div>

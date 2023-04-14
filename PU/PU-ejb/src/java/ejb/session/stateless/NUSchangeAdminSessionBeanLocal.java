@@ -29,4 +29,14 @@ public interface NUSchangeAdminSessionBeanLocal {
     public List<ForumTopic> retrieveAllForumTopicsBySystemSupportAdmin(Long adminId);
     
     public NUSchangeAdmin retrieveAdmin(Long adminId);
+    
+    public NUSchangeAdmin searchAdminByUsername(String adminUsername);
+    
+    public NUSchangeAdmin searchAdminByPassword(String adminUsername, String password);
+    
+    public void editAdminByName(String username, String name);
+    
+    public void editAdminByUsername(String username, String newUsername);
+    
+    public void editAdminByPassword(String username, String password);
 }

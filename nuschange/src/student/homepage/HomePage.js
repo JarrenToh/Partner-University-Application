@@ -8,6 +8,9 @@ import "bootstrap/dist/css/bootstrap.min.css"
 import UniversityRankings from "../ranking/UniversityRankings";
 import universities from "../universitiesData";
 import logo from '../../NUSChange-logoV3.png';
+import NavbarComp from '../../student/components/NavbarComp';
+// import { AuthProvider, useAuth } from '../../student/login/AuthContext';
+import { AuthProvider, useAuth } from '../../../src/AuthContext';
 
 const HomePage = () => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -40,9 +43,14 @@ const HomePage = () => {
     setSearchTerm(searchQuery);
   }, [searchQuery]);
 
-  return (
-    <div className="wrapper" >
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [user, setUser] = useState(null);
+  const { loggedInStudent, login, logout } = useAuth();
 
+  return (
+    
+    <div className="wrapper" >
+      <NavbarComp isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} user={user} />
       <div className="app" style={{
 
         backgroundImage: `url('https://gov-web.s3.ap-northeast-1.amazonaws.com/uploads/2018/04/NUS-ERC.jpg')`,
@@ -68,7 +76,7 @@ const HomePage = () => {
             onChange={(e) => setSearchTerm(e.target.value)}
             placeholder="  Search for Partner Universities"
           />
-          <Link to={`/university-rankings?search=${searchTerm}`}>
+          <Link to={`/student/university-rankings?search=${searchTerm}`}>
             <img
               src={SearchIcon}
               alt="search"
@@ -78,18 +86,19 @@ const HomePage = () => {
         </div>
 
         <div className="container" style={{border: 'none'}}>
-          <Link to={`/university-rankings-country`}>
+          <Link to={`/student/university-rankings-country`}>
             <Button className="searchbyButton">By Country</Button>
           </Link>
-          <Link to={`/university-rankings-region`}>
+          <Link to={`/student/university-rankings-region`}>
             <Button className="searchbyButton">By Region</Button>
           </Link>
         </div>
+        <br/>
 
         <div className="container" style={{
           backgroundColor: 'rgba(128, 128, 128,0.6)',
           borderRadius: '0.5%',
-          border: 'none'
+          border: 'none',
         }}>
         
           <h2 className="headerDescription">Top 5 Ranking Universities</h2>
@@ -100,7 +109,7 @@ const HomePage = () => {
               .slice(0, 5)
               .map((university) => (
                 <div key={university.puId}>
-                  <Link to={`/university-rankings?search=${university.name}`}>
+                  <Link to={`/student/university-description-page/${university.name}`}>
                     <PUCard pu={university} />
                   </Link>
                 </div>
@@ -108,7 +117,7 @@ const HomePage = () => {
             }
           </div>
         </div>
-
+        <br/>
         <div className="container" style={{
           backgroundColor: 'rgba(128, 128, 128,0.6)',
           borderRadius: '0.5%',
@@ -122,7 +131,7 @@ const HomePage = () => {
               .slice(0, 5)
               .map((university) => (
                 <div key={university.puId}>
-                  <Link to={`/university-rankings?search=${university.name}`}>
+                  <Link to={`/student/university-description-page/${university.name}`}>
                     <PUCard pu={university} />
                   </Link>
                 </div>
@@ -130,6 +139,7 @@ const HomePage = () => {
             }
           </div>
         </div>
+        <br/>
 
         <div className="container" style={{
           backgroundColor: 'rgba(128, 128, 128,0.5)',
@@ -144,7 +154,7 @@ const HomePage = () => {
               .slice(0, 5)
               .map((university) => (
                 <div key={university.puId}>
-                  <Link to={`/university-rankings?search=${university.name}`}>
+                  <Link to={`/student/university-description-page/${university.name}`}>
                     <PUCard pu={university} />
                   </Link>
                 </div>
@@ -152,6 +162,7 @@ const HomePage = () => {
             }
           </div>
         </div>
+        <br/>
 
         <div className="container" style={{
           backgroundColor: 'rgba(128, 128, 128,0.5)',
@@ -166,7 +177,7 @@ const HomePage = () => {
               .slice(0, 5)
               .map((university) => (
                 <div key={university.puId}>
-                  <Link to={`/university-rankings?search=${university.name}`}>
+                  <Link to={`/student/university-description-page/${university.name}`}>
                     <PUCard pu={university} />
                   </Link>
                 </div>
@@ -188,7 +199,7 @@ const HomePage = () => {
               .slice(0, 5)
               .map((university) => (
                 <div key={university.puId}>
-                  <Link to={`/university-rankings?search=${university.name}`}>
+                  <Link to={`/student/university-description-page/${university.name}`}>
                     <PUCard pu={university} />
                   </Link>
                 </div>
@@ -196,6 +207,7 @@ const HomePage = () => {
             }
           </div>
         </div>
+        <br/>
 
         <div className="container" style={{
           backgroundColor: 'rgba(128, 128, 128,0.5)',
@@ -210,7 +222,7 @@ const HomePage = () => {
               .slice(0, 5)
               .map((university) => (
                 <div key={university.puId}>
-                  <Link to={`/university-rankings?search=${university.name}`}>
+                  <Link to={`/student/university-description-page/${university.name}`}>
                     <PUCard pu={university} />
                   </Link>
                 </div>
@@ -218,6 +230,7 @@ const HomePage = () => {
             }
           </div>
         </div>
+        <br/>
 
       </div>
 

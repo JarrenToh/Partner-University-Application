@@ -9,6 +9,7 @@ import Footer from "../../../components/dashboard/Footer";
 import API from "../../../../util/API";
 import apiPaths from "../../../../util/apiPaths";
 import { convertToEncodedTextForUrl } from "../../../../util/urlTextConverter";
+import { systemSupportAdminPaths } from "../../../../util/adminRoutes";
 
 const PartnerUuniversityModules = () => {
     const { puName } = useParams();
@@ -16,11 +17,11 @@ const PartnerUuniversityModules = () => {
     const navigate = useNavigate();
 
     const handleButtonClick = (puCode) => {
-        navigate(`/partnerUniversities/${puName}/modules/${puCode}`);
+        navigate(`/admin${systemSupportAdminPaths.viewPUs}/${puName}/modules/${puCode}`);
     };
 
     const handleCreatePUModuleButtonClick = () => {
-        navigate(`/partnerUniversities/${puName}/modules/create`);
+        navigate(`/admin${systemSupportAdminPaths.viewPUs}/${puName}/modules/create`);
     };
 
     useEffect(() => {
@@ -38,7 +39,7 @@ const PartnerUuniversityModules = () => {
             }
         };
         fetchData();
-    }, []);
+    }, [puName]);
 
     return (
         <div>
@@ -61,7 +62,7 @@ const PartnerUuniversityModules = () => {
                                 </tr>
                             </thead>
                             <tbody>
-                                {modules.map((item) => (
+                                {modules.length > 0 ? (modules.map((item) => (
                                     <tr key={item.moduleId}>
                                         <td>{item.moduleId}</td>
                                         <td>{item.code}</td>
@@ -70,7 +71,14 @@ const PartnerUuniversityModules = () => {
                                             <button onClick={() => handleButtonClick(item.code)} type="button" className="btn btn-primary">View Details</button>
                                         </td>
                                     </tr>
-                                ))}
+                                )
+                                ))
+                                    : (
+                                        <tr>
+                                            <td colSpan={4} style={{ textAlign: "center" }}>No data available</td>
+                                        </tr>
+                                    )
+                                }
                             </tbody>
                             <tfoot>
                                 <tr>

@@ -7,9 +7,9 @@ package ejb.session.stateless;
 
 import entity.Country;
 import entity.PU;
-import entity.Region;
 import entity.Student;
 import entity.PUModule;
+import entity.PUModuleReview;
 import entity.PUReview;
 import error.NoResultException;
 import java.util.ArrayList;
@@ -150,32 +150,24 @@ public class PUSessionBean implements PUSessionBeanLocal {
     @Override
     public void updatePU(PU pu) {
         PU oldPu = retrievePuById(pu.getPuId());
-       oldPu.setStudentsLiked(pu.getStudentsLiked());
+        oldPu.setStudentsLiked(pu.getStudentsLiked());
     }
-    
+
+    @Override
+    public void updatePUAdmin(Long puId, String name, String description, String images, Long countryId) {
+        PU pu = retrievePuById(puId);
+
+        pu.setName(name);
+        pu.setDescription(description);
+        pu.setImages(images);
+
+        Country country = countrySessionBean.retrieveCountryById(countryId);
+        pu.setCountry(country);
+    }
+
     @Override
     public void deletePU(Long puId) {
         PU deletedPU = retrievePuById(puId);
-
-        // retrieve all related modules and delete them
-        List<PUModule> modulesToDelete = deletedPU.getModules();
-
-        for (PUModule module : modulesToDelete) {
-            em.remove(module);
-        }
-
-        List<PUReview> pureviews = deletedPU.getPuReviews();
-
-        for (PUReview pureview : pureviews) {
-            em.remove(pureview);
-        }
-        
-        List<Student> students = deletedPU.getStudents();
-
-        for (Student student : students) {
-            em.remove(student);
-        }
-
         em.remove(deletedPU);
     }
 

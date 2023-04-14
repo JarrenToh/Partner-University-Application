@@ -1,12 +1,16 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { Table } from 'reactstrap';
 import moment from 'moment'; // import moment.js
-import { AuthContext } from '../login/AuthContext';
+import { AuthContext } from '../../AuthContext';
 import './ContactForm.css';
+import NotLoggedIn from '../components/NotLoggedInPage';
+import NavbarComp from '../../student/components/NavbarComp';
 
 const ViewEnquiries = () => {
   const [enquiries, setEnquiries] = useState([]);
   const { loggedInStudent } = useContext(AuthContext);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [user, setUser] = useState(null);
 
   useEffect(() => {
     if (!loggedInStudent) {
@@ -23,11 +27,12 @@ const ViewEnquiries = () => {
   }, [loggedInStudent]);
 
   if (!loggedInStudent) {
-    return <div>Not Logged in</div>;
+    return NotLoggedIn();
   }
 
   return (
-    <div>
+    <div className="wrapper" >
+    <NavbarComp isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} user={user} />
       <h1 className="headerEnquiries m-auto">Enquiries</h1>
       <br/>
       <Table striped bordered hover>

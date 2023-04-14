@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback, useContext } from "react";
-import { AuthContext } from "../login/AuthContext";
+import { AuthContext } from "../../AuthContext";
 import { useLocation, Link } from "react-router-dom";
 import { Button } from "reactstrap";
 import UniversityCard from "./UniversityCard";
@@ -8,6 +8,8 @@ import "./UniversityRanking.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeart } from "@fortawesome/free-solid-svg-icons";
 import { faHeart as heartOutline } from "@fortawesome/free-regular-svg-icons";
+import NavbarComp from '../../student/components/NavbarComp';
+import { AuthProvider, useAuth } from '../../../src/AuthContext';
 
 const UniversityRankings = ({ universitiesData }) => {
   const { loggedInStudent } = useContext(AuthContext);
@@ -197,11 +199,20 @@ const UniversityRankings = ({ universitiesData }) => {
     }
   });
 
-  const displayedUniversities = sortedUniversities.slice(0, displayLimit);
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const [user, setUser] = useState(null);
+
+
+
+  const displayedUniversities = favoritesOnly
+    ? sortedUniversities.filter((university) => university.isFavorite)
+    : sortedUniversities.slice(0, displayLimit);
 
   return (
     <div className="wrapper">
-      <div className="container" style={{ border: 0 }}>
+      <NavbarComp isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} user={user} />
+      <br/>
+      <div className="container" style={{maxWidth : '1300px'}}>
         <div className="universityRankings">
           <div className="universityRankings_description">
             <h1 className="headerRanking">Partner University Rankings</h1>
@@ -260,7 +271,7 @@ const UniversityRankings = ({ universitiesData }) => {
             {displayedUniversities.map((university, index) => (
               <div className="university-card-wrapper" key={university.puId}>
                 <Link
-                  to={`/university-rankings?search=${university.name}`}
+                  to={`/student/university-description-page/${university.name}`}
                   style={{ textDecoration: "none" }}
                 >
                   <UniversityCard

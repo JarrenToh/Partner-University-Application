@@ -17,29 +17,36 @@ const PUDetails = () => {
     const [name, setName] = useState("");
     const [description, setDescription] = useState("");
     const [images, setImages] = useState("");
+    const [countryId, setCountryId] = useState("");
 
-    const redirectedUrl = `${`/partnerUniversities`}`;
+    const [countries, setCountries] = useState([]);
 
-    const alertAndNavigate = (keyword) => {
-        alert(`PU has been ${keyword} successfully`);
-        navigate(redirectedUrl);
-    }
+    const [showUpdateSuccessModal, setShowUpdateSuccessModal] = useState(false);
+    const [showDeleteSuccessModal, setShowDeleteSuccessModal] = useState(false);
+
+    const [nameError, setNameError] = useState("");
+    const [descriptionError, setDescriptionError] = useState("");
+    const [imagesError, setImagesError] = useState("");
+    const [countryIdError, setCountryIdError] = useState("");
 
     // TODO: handle edit for image as well once we using the image data
     const handleEdit = async () => {
-        try {
-            const updatedPU = {
-                name,
-                description,
-                images
-            };
-            
-            const apiPath = `${apiPaths.listOfPUs}/${id}`;
-            await API.put(apiPath, updatedPU);
+        if (validate()) {
+            try {
+                const updatedPU = {
+                    name,
+                    description,
+                    images,
+                    countryId
+                };
 
-            alertAndNavigate("updated");
-        } catch (error) {
-            console.error(error);
+                const apiPath = `${apiPaths.listOfPUs}/${id}`;
+                await API.put(apiPath, updatedPU);
+
+                setShowUpdateSuccessModal(true);
+            } catch (error) {
+                console.error(error);
+            }
         }
     };
 
@@ -48,16 +55,54 @@ const PUDetails = () => {
             const apiPath = `${apiPaths.listOfPUs}/${id}`;
             await API.delete(apiPath);
 
-            alertAndNavigate("deleted");
+            setShowDeleteSuccessModal(true);
         } catch (error) {
             console.error(error);
         }
     };
 
+    const handleCancelUpdateSuccessModal = () => {
+        setShowUpdateSuccessModal(false);
+        navigate(`../admin/systemSupportAdmin/partnerUniversities/${convertNameToSlug(name)}`);
+    };
+
+    const handleCancelDeleteSuccessModal = () => {
+        navigate('../admin/systemSupportAdmin/partnerUniversities');
+    };
+
+    const validate = () => {
+        let isValid = true;
+        if (name.trim() === "") {
+            setNameError("Please enter a name");
+            isValid = false;
+        } else {
+            setNameError("");
+        }
+        if (description.trim() === "") {
+            setDescriptionError("Please enter a description");
+            isValid = false;
+        } else {
+            setDescriptionError("");
+        }
+        if (images.trim() === "") {
+            setImagesError("Please enter a image");
+            isValid = false;
+        } else {
+            setImagesError("");
+        }
+        if (countryId === "") {
+            setCountryIdError("Please select a country");
+            isValid = false;
+        } else {
+            setCountryIdError("");
+        }
+        return isValid;
+    };
+
     useEffect(() => {
-        const fetchData = async () => {
+        const fetchPUData = async () => {
             try {
-                const apiPath = `${apiPaths.listOfPUs}/getPUByName/${convertToEncodedTextForUrl(nameFromUrl)}`
+                const apiPath = `${apiPaths.listOfPUs}/getPUByNameAdmin/${convertToEncodedTextForUrl(nameFromUrl)}`
                 const response = await API.get(apiPath);
                 const data = response.data;
 
@@ -65,18 +110,33 @@ const PUDetails = () => {
                 const name = data.name;
                 const description = data.description;
                 const images = data.images;
+                const countryId = data.countryId;
 
                 setId(id);
                 setName(name);
                 setDescription(description);
                 setImages(images);
+                setCountryId(countryId);
             } catch (error) {
                 console.error(error);
             }
         };
-        
-        fetchData();
-    }, [id]);
+
+        const fetchCountriesData = async () => {
+            try {
+                const apiPath = `${apiPaths.listOfCountries}`
+                const response = await API.get(apiPath);
+                const data = response.data;
+
+                setCountries(data);
+            } catch (error) {
+                console.error(error);
+            }
+        }
+
+        fetchPUData();
+        fetchCountriesData();
+    }, [nameFromUrl]);
 
     return (
         <div>
@@ -91,16 +151,32 @@ const PUDetails = () => {
                         <div className="card-body">
                             <div className="form-group">
                                 <label htmlFor="inputName">Name</label>
-                                <input type="text" id="inputName" className="form-control" value={name} onChange={(e) => setName(e.target.value)} />
+                                <input type="text" id="inputName" className={`form-control ${nameError ? "is-invalid" : ""}`} placeholder="Input a name" value={name} onChange={(e) => setName(e.target.value)} />
+                                {nameError && <div className="invalid-feedback">{nameError}</div>}
                             </div>
                             <div className="form-group">
                                 <label htmlFor="inputDescription">Description</label>
-                                <textarea id="inputDescription" className="form-control" rows={4} value={description} onChange={(e) => setDescription(e.target.value)} />
+                                <textarea id="inputDescription" className={`form-control ${descriptionError ? "is-invalid" : ""}`} rows={4} placeholder="Input a description" value={description} onChange={(e) => setDescription(e.target.value)} />
+                                {descriptionError && <div className="invalid-feedback">{descriptionError}</div>}
                             </div>
                             <div className="form-group">
                                 <label htmlFor="inputImage">Image</label>
                                 <br />
-                                <img src={images} alt="PU Image" style={{ maxWidth: "100%" }} />
+                                <img src={images} alt="" style={{ maxWidth: "100%" }} />
+                            </div>
+                            <div className="form-group">
+                                <label htmlFor="inputName">Country</label>
+                                <select className={`custom-select rounded-0 form-control ${countryIdError ? "is-invalid" : ""}`} id="countrySelectOption" value={countryId} onChange={(e) => setCountryId(e.target.value)}>
+                                    <option value="">Select Country</option>
+                                    {countries.map((country, index) => {
+                                        return (
+                                            <option key={index} value={country.countryId}>
+                                                {country.name}
+                                            </option>
+                                        );
+                                    })}
+                                </select>
+                                {countryIdError && <div className="invalid-feedback">{countryIdError}</div>}
                             </div>
                             <div className="text-center">
                                 <button className="btn btn-success mr-2" onClick={handleEdit}>Save Changes</button>
@@ -111,6 +187,66 @@ const PUDetails = () => {
                     </div>
                 </div>
             </div>
+            {showUpdateSuccessModal && (
+                <div className="modal fade show" id="modal-default" style={{ display: "block" }}>
+                    <div className="modal-dialog">
+                        <div className="modal-content">
+                            <div className="modal-header">
+                                <h4 className="modal-title">Successful Update of Partner University</h4>
+                                <button
+                                    type="button"
+                                    className="close"
+                                    data-dismiss="modal"
+                                    aria-label="Close"
+                                    onClick={() => handleCancelUpdateSuccessModal()}>
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div className="modal-body">
+                                <p>You have successfully updated the Partner University!</p>
+                            </div>
+                            <div className="modal-footer justify-content-between">
+                                <button
+                                    type="button"
+                                    className="btn btn-default"
+                                    onClick={() => handleCancelUpdateSuccessModal()}>
+                                    Close
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            )}
+            {showDeleteSuccessModal && (
+                <div className="modal fade show" id="modal-default" style={{ display: "block" }}>
+                    <div className="modal-dialog">
+                        <div className="modal-content">
+                            <div className="modal-header">
+                                <h4 className="modal-title">Successful Deletion of Partner University</h4>
+                                <button
+                                    type="button"
+                                    className="close"
+                                    data-dismiss="modal"
+                                    aria-label="Close"
+                                    onClick={() => handleCancelDeleteSuccessModal()}>
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div className="modal-body">
+                                <p>You have successfully deleted the Partner University!</p>
+                            </div>
+                            <div className="modal-footer justify-content-between">
+                                <button
+                                    type="button"
+                                    className="btn btn-default"
+                                    onClick={() => handleCancelDeleteSuccessModal()}>
+                                    Close
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            )}
             <Footer />
         </div>
     );
