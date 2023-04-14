@@ -7,6 +7,7 @@ package entity;
 
 import java.io.Serializable;
 import javax.json.bind.annotation.JsonbTransient;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -27,6 +28,7 @@ public class PUModuleReview implements Serializable {
     private Long moduleReviewId;
 
     //private attributes
+    @Column(columnDefinition = "VARCHAR(10000)")
     private String review;
     private Long rating;
     private Integer noOfLikes;

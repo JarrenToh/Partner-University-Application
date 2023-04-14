@@ -2,7 +2,7 @@ import React from "react";
 import { useContext, useState, useEffect } from "react";
 import { AuthProvider, useAuth, AuthContext } from "../../../src/AuthContext";
 import { useNavigate } from "react-router-dom";
-import NotLoggedIn from '../components/NotLoggedInPage';
+import NotLoggedIn from "../components/NotLoggedInPage";
 
 import {
   Image,
@@ -29,8 +29,8 @@ import {
 import SocialMediaModal from "./SocialMediaModal";
 import IconSocialMedia from "./IconSocialMedia";
 import defaultProfilePicture from "../images/housekeeper.png";
-import NavbarComp from '../../student/components/NavbarComp';
-// import { AuthProvider, useAuth } from '../../student/login/AuthContext';
+import NavbarComp from "../../student/components/NavbarComp";
+
 
 const StudentProfile = () => {
   const { loggedInStudent } = useContext(AuthContext);
@@ -39,7 +39,7 @@ const StudentProfile = () => {
   const [currentStudent, setCurrentStudent] = useState({ ...loggedInStudent });
   const [puEnrolled, setPuEnrolled] = useState({
     name: "Dummy Uni",
-    puId: 0
+    puId: 0,
   });
   const [socialMedia, setSocialMedia] = useState([]);
   const [reviewModalShow, setReviewModalShow] = useState(false);
@@ -87,10 +87,7 @@ const StudentProfile = () => {
       return (
         <div>
           <InputGroup>
-            <Form.Control
-              readOnly
-              value={puEnrolled.name}
-            />
+            <Form.Control readOnly value={puEnrolled.name} />
             <Button onClick={() => setReviewModalShow(true)}>
               <FontAwesomeIcon icon={faPenToSquare} />
               {currentStudent.puReview != null ? " Edit Review" : " Add Review"}
@@ -125,8 +122,12 @@ const StudentProfile = () => {
   };
 
   return (
-    <div className="wrapper" >
-      <NavbarComp isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} user={user} />
+    <div className="wrapper">
+      <NavbarComp
+        isLoggedIn={isLoggedIn}
+        setIsLoggedIn={setIsLoggedIn}
+        user={user}
+      />
       <div style={{ paddingLeft: "5%", paddingRight: "5%" }}>
         <div className="container" style={{ border: 0 }}>
           <h1 className="text-center mb-3">Your Profile</h1>
@@ -152,7 +153,14 @@ const StudentProfile = () => {
                   {socialMedia != null &&
                     socialMedia.map((link) => (
                       <ListGroupItem>
-                        You do not have any social media links. Add them now!
+                        <IconSocialMedia linkType={link} /> {"   "}
+                        <a
+                          href={`https://${link}`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          {link}
+                        </a>
                       </ListGroupItem>
                     ))}
 
@@ -179,55 +187,56 @@ const StudentProfile = () => {
                 </Button>
               </div>
             </div>
-        </Col>
+          </Col>
 
-        <Col>
-          <div id="formDiv" style={{ padding: "5%" }}>
-            <Form>
-              <Form.Group className="mb-3" controlId="formGroupName">
-                <Form.Label>Full Name</Form.Label>
-                <Form.Control readOnly defaultValue={studentFullName} />
-              </Form.Group>
-              <Form.Group className="mb-3" controlId="formGroupEmail">
-                <Form.Label>Email</Form.Label>
-                <Form.Control readOnly defaultValue={loggedInStudent.email} />
-              </Form.Group>
-              <Form.Group className="mb-3" controlId="formGroupPhone">
-                <Form.Label>Phone Number</Form.Label>
-                <Form.Control
-                  readOnly
-                  defaultValue={loggedInStudent.phoneNumber}
-                />
-              </Form.Group>
-              <Form.Group className="mb-3" controlId="formGroupFaculty">
-                <Form.Label>Faculty</Form.Label>
-                <Form.Control readOnly defaultValue={loggedInStudent.faculty} />
-              </Form.Group>
-              <Form.Group className="mb-3" controlId="formGroupEmail">
-                <Form.Label>Partner University</Form.Label>
-                <EnrolledField
-                  isEnrolled={puEnrolled.puId !== 0}
-                />
-              </Form.Group>
-            </Form>
-          </div>
-        </Col>
-      </Row>
+          <Col>
+            <div id="formDiv" style={{ padding: "5%" }}>
+              <Form>
+                <Form.Group className="mb-3" controlId="formGroupName">
+                  <Form.Label>Full Name</Form.Label>
+                  <Form.Control readOnly defaultValue={studentFullName} />
+                </Form.Group>
+                <Form.Group className="mb-3" controlId="formGroupEmail">
+                  <Form.Label>Email</Form.Label>
+                  <Form.Control readOnly defaultValue={loggedInStudent.email} />
+                </Form.Group>
+                <Form.Group className="mb-3" controlId="formGroupPhone">
+                  <Form.Label>Phone Number</Form.Label>
+                  <Form.Control
+                    readOnly
+                    defaultValue={loggedInStudent.phoneNumber}
+                  />
+                </Form.Group>
+                <Form.Group className="mb-3" controlId="formGroupFaculty">
+                  <Form.Label>Faculty</Form.Label>
+                  <Form.Control
+                    readOnly
+                    defaultValue={loggedInStudent.faculty}
+                  />
+                </Form.Group>
+                <Form.Group className="mb-3" controlId="formGroupEmail">
+                  <Form.Label>Partner University</Form.Label>
+                  <EnrolledField isEnrolled={puEnrolled.puId !== 0} />
+                </Form.Group>
+              </Form>
+            </div>
+          </Col>
+        </Row>
 
-      <ReviewModal
-        show={reviewModalShow}
-        onHide={() => setReviewModalShow(false)}
-        puReview={currentStudent.puReview}
-        studentId={currentStudent.studentId}
-      />
-      <SocialMediaModal
-        show={socialMediaModalShow}
-        onHide={() => setSocialMediaModalShow(false)}
-        socialMedia={socialMedia}
-        onSocialMediaChange={handleSocialMediaChange}
-      />
+        <ReviewModal
+          show={reviewModalShow}
+          onHide={() => setReviewModalShow(false)}
+          puReview={currentStudent.puReview}
+          studentId={currentStudent.studentId}
+        />
+        <SocialMediaModal
+          show={socialMediaModalShow}
+          onHide={() => setSocialMediaModalShow(false)}
+          socialMedia={socialMedia}
+          onSocialMediaChange={handleSocialMediaChange}
+        />
+      </div>
     </div>
-    </div >
   );
 };
 

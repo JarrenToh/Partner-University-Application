@@ -25,7 +25,7 @@ const ModReviewModal = (props) => {
       console.log(modReview);
       setStars(modReview.rating);
       setReview(modReview.review);
-      setEditedModReview({ ...modReview });
+      setEditedModReview({ ...modReview});
     } else {
     }
   }, [modReview]);
@@ -33,6 +33,7 @@ const ModReviewModal = (props) => {
   const puModReviewAPI = (data) => {
     if (editedModReview.moduleReviewId > 0) {
       //edit existing review
+      updatePUModReviewAPI(editedModReview.moduleReviewId, data);
     } else {
       // add fresh review
       createPUModReviewAPI(data);
