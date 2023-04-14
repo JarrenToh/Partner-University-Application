@@ -45,10 +45,7 @@ const PartnerUniversityModule = () => {
     };
 
     const handleCancel = async () => {
-        setName("");
-        setCode("");
-        setDescription("");
-        setShowModal(false);
+        window.location.reload();
     };
 
     const validate = () => {

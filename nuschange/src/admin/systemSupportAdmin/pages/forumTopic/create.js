@@ -42,9 +42,7 @@ const ForumTopic = () => {
     };
 
     const handleCancel = async () => {
-        setTopicName("");
-        setPuId("Select Partner University");
-        setShowModal(false);
+        window.location.reload();
     };
 
     const validate = async () => {

@@ -6,6 +6,7 @@
 package ejb.session.stateless;
 
 import entity.Country;
+import entity.ForumTopic;
 import entity.PU;
 import entity.Student;
 import entity.PUModule;
@@ -40,6 +41,9 @@ public class PUSessionBean implements PUSessionBeanLocal {
 
     @EJB
     private PUModuleSessionBeanLocal puModuleSessionBean;
+    
+    @EJB
+    private ForumTopicSessionBeanLocal forumTopicSessionBean;
 
     @Override
     public Long createNewPu(PU newPu) {
@@ -179,7 +183,7 @@ public class PUSessionBean implements PUSessionBeanLocal {
     @Override
     public void deletePU(Long puId
     ) {
-        PU deletedPU = retrievePuById(puId);
+        PU deletedPU = retrievePuById(puId);            
         em.remove(deletedPU);
     }
 

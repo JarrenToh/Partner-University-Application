@@ -1,4 +1,5 @@
 import React, { useContext, useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import Header from '../../../components/dashboard/Header';
 import Menu from '../../../components/dashboard/Menu';
@@ -11,6 +12,7 @@ import { AuthContext } from '../../../../AuthContext';
 import { Helmet } from 'react-helmet';
 
 const FAQ = () => {
+    const navigate = useNavigate();
     const [question, setQuestion] = useState("");
     const [answer, setAnswer] = useState("");
     const [showModal, setShowModal] = useState(false);
@@ -40,11 +42,8 @@ const FAQ = () => {
         }
     };
 
-
     const handleCancel = async () => {
-        setQuestion("");
-        setAnswer("");
-        setShowModal(false);
+        window.location.reload();
     };
 
     const validate = async () => {

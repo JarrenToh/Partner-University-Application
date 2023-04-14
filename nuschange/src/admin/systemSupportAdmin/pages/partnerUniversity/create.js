@@ -46,11 +46,7 @@ const PartnerUniversity = () => {
     };
 
     const handleCancel = async () => {
-        setName("");
-        setDescription("");
-        setImages("");
-        setCountryId("Select Country");
-        setShowModal(false);
+        window.location.reload();
     };
 
     const validate = () => {

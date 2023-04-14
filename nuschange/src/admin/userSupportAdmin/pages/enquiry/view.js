@@ -93,7 +93,7 @@ const EnquiryDetails = () => {
             return;
         }
 
-        setShowModal(false);
+        window.location.reload();
     };
 
     const validate = () => {

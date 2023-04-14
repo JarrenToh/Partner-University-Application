@@ -59,7 +59,7 @@ const FAQDetails = () => {
     };
 
     const handleCancelUpdateSuccessModal = () => {
-        setShowUpdateSuccessModal(false);
+        window.location.reload();
     };
 
     const handleCancelDeleteSuccessModal = () => {
