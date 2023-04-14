@@ -120,7 +120,7 @@ const ModulesTaken = () => {
                     </Link>
                   </div>
                   <Button onClick={() => setModalWithReview(mod)}>
-                    <FontAwesomeIcon icon={faPenToSquare} />
+                    <FontAwesomeIcon icon={faPenToSquare} /> {" "}
                     {hasCommonReview(mod) ? "Edit Review" : "Add Review"}
                   </Button>
                 </ListGroup.Item>

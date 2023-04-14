@@ -24,6 +24,8 @@ import {
   faPen,
   faHeart,
   faChevronRight,
+  faBook,
+  faHouseChimneyUser
 } from "@fortawesome/free-solid-svg-icons";
 
 import SocialMediaModal from "./SocialMediaModal";
@@ -94,10 +96,16 @@ const StudentProfile = () => {
             </Button>
           </InputGroup>
 
-          <Button variant="link" onClick={navToModulesTaken}>
-            View Modules Taken {"  "}
-            <FontAwesomeIcon icon={faChevronRight} size="2xs" />
+          <Button variant="link" onClick={() => navToUniDetails(puEnrolled.name)}>
+          <FontAwesomeIcon icon={faHouseChimneyUser} size="xs" />{"  "}
+            View University Details 
           </Button>
+
+          <Button variant="link" onClick={navToModulesTaken}>
+          <FontAwesomeIcon icon={faBook} size="xs" />{"  "} 
+            View Modules Allocated 
+          </Button>
+          
         </div>
       );
     } else {
@@ -119,6 +127,10 @@ const StudentProfile = () => {
 
   const navToModulesTaken = () => {
     navigate("/student/profile/modulesTaken");
+  };
+
+  const navToUniDetails = (universityName) => {
+    navigate(`/student/university-description-page/${universityName}`);
   };
 
   return (

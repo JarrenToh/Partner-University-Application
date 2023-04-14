@@ -6,10 +6,11 @@ import UniversityCard from "./UniversityCard";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./UniversityRanking.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faHeart } from "@fortawesome/free-solid-svg-icons";
+import { faHeart, faHouseChimneyUser } from "@fortawesome/free-solid-svg-icons";
 import { faHeart as heartOutline } from "@fortawesome/free-regular-svg-icons";
-import NavbarComp from '../../student/components/NavbarComp';
-import { AuthProvider, useAuth } from '../../../src/AuthContext';
+import NavbarComp from "../../student/components/NavbarComp";
+import { AuthProvider, useAuth } from "../../../src/AuthContext";
+import { Modal } from "react-bootstrap";
 
 const UniversityRankings = ({ universitiesData }) => {
   const { loggedInStudent } = useContext(AuthContext);
@@ -30,6 +31,9 @@ const UniversityRankings = ({ universitiesData }) => {
     name: "Dummy Uni",
     puId: 0,
   });
+  const [showLikedModal, setShowLikedModal] = useState(false);
+  const handleClose = () => setShowLikedModal(false);
+  const handleShow = () => setShowLikedModal(true);
 
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
@@ -83,10 +87,12 @@ const UniversityRankings = ({ universitiesData }) => {
         "http://localhost:8080/PU-war/webresources/pu"
       );
       const data = await response.json();
-      setUniversities(data.map((uni) => ({
-        ...uni,
-        isFavorite: studentLikedPus.some((u) => u.puId === uni.puId),
-      })));
+      setUniversities(
+        data.map((uni) => ({
+          ...uni,
+          isFavorite: studentLikedPus.some((u) => u.puId === uni.puId),
+        }))
+      );
     };
 
     fetchUniversities();
@@ -163,8 +169,6 @@ const UniversityRankings = ({ universitiesData }) => {
     });
   };
 
-  
-
   const handleShowMore = useCallback(() => {
     setDisplayLimit(displayLimit + 10);
   }, [setDisplayLimit, displayLimit]);
@@ -199,20 +203,50 @@ const UniversityRankings = ({ universitiesData }) => {
     }
   });
 
-    const [isLoggedIn, setIsLoggedIn] = useState(false);
-    const [user, setUser] = useState(null);
-
-
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [user, setUser] = useState(null);
 
   const displayedUniversities = favoritesOnly
     ? sortedUniversities.filter((university) => university.isFavorite)
     : sortedUniversities.slice(0, displayLimit);
 
+  const LikeButton = (props) => {
+    const { unEnrolled, university } = props;
+    console.log(unEnrolled);
+    if (unEnrolled) {
+      return (
+        <button
+          className={`university-card__favorite-button`}
+          onClick={() => handleToggleFavorite(university)}
+        >
+          <FontAwesomeIcon
+            icon={university.isFavorite ? faHeart : heartOutline}
+            style={{ color: "#d01b1b" }}
+          />{" "}
+        </button>
+      );
+    } else {
+      return (
+        <button className={`university-card__favorite-button`}
+        onClick={handleShow}
+        >
+          <FontAwesomeIcon
+            icon={faHouseChimneyUser}
+          />{" "}
+        </button>
+      );
+    }
+  };
+
   return (
     <div className="wrapper">
-      <NavbarComp isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} user={user} />
-      <br/>
-      <div className="container" style={{maxWidth : '1300px'}}>
+      <NavbarComp
+        isLoggedIn={isLoggedIn}
+        setIsLoggedIn={setIsLoggedIn}
+        user={user}
+      />
+      <br />
+      <div className="container" style={{ maxWidth: "1300px" }}>
         <div className="universityRankings">
           <div className="universityRankings_description">
             <h1 className="headerRanking">Partner University Rankings</h1>
@@ -280,16 +314,13 @@ const UniversityRankings = ({ universitiesData }) => {
                     ranking={ranking}
                   />
                 </Link>
-                {(loggedInStudent && puEnrolled.puId !== university.puId) && (
-                  <button
-                    className={`university-card__favorite-button`}
-                    onClick={() => handleToggleFavorite(university)}
-                  >
-                    <FontAwesomeIcon
-                      icon={university.isFavorite ? faHeart : heartOutline}
-                      style={{ color: "#d01b1b" }}
-                    />{" "}
-                  </button>
+                {loggedInStudent && (
+                  <LikeButton
+                    unEnrolled={
+                      puEnrolled.puId !== university.puId ? true : false
+                    }
+                    university={university}
+                  />
                 )}
               </div>
             ))}
@@ -306,6 +337,19 @@ const UniversityRankings = ({ universitiesData }) => {
           <Button onClick={handleShowMore}>Show More</Button>
         )}
       </div>
+      <Modal show={showLikedModal} onHide={handleClose}>
+        <Modal.Header closeButton>
+          <Modal.Title>You are Enrolled Here!</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          To easily access your university from your profile page, simply click on the Enrolled University field.
+          </Modal.Body>
+        <Modal.Footer>
+          <Button color="outline-danger" onClick={handleClose}>
+            Close
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </div>
   );
 };
