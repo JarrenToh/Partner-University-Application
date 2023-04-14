@@ -25,6 +25,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import util.dataTransferObject.ResponseObject;
 import util.enumeration.StatusName;
 import util.formRequestEntity.FAQUpdateRequest;
 
@@ -32,7 +33,7 @@ import util.formRequestEntity.FAQUpdateRequest;
  * REST Web Service
  *
  * @author wjahoward
- * 
+ *
  *
  */
 @Path("admin/faqs")
@@ -57,6 +58,11 @@ public class FaqsResource {
     @Produces(MediaType.APPLICATION_JSON)
     public Response retrieveFAQ(@PathParam("id") Long fId) {
         FAQ faq = faqSessionBeanLocal.retrieveFAQ(fId);
+
+        if (faq == null) {
+            return Response.status(200).entity(new ResponseObject("404")).type(MediaType.APPLICATION_JSON).build();
+        }
+
         return Response.status(StatusName.OK.getCode()).entity(faq).build();
     }
 
@@ -76,11 +82,11 @@ public class FaqsResource {
         try {
             String question = faqUpdateRequest.getQuestion();
             String answer = faqUpdateRequest.getAnswer();
-            
+
             FAQ faq = new FAQ();
             faq.setQuestion(question);
             faq.setAnswer(answer);
-                        
+
             faqSessionBeanLocal.createFAQ(faq, adminId);
             return Response.status(Response.Status.CREATED).entity(faq).build();
         } catch (NoResultException e) {
@@ -112,9 +118,9 @@ public class FaqsResource {
     @Path("/{id}")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response editFAQ(@PathParam("id") Long fId, 
-                            @QueryParam("adminId") Long adminId,
-                            FAQUpdateRequest faqUpdateRequest) {
+    public Response editFAQ(@PathParam("id") Long fId,
+            @QueryParam("adminId") Long adminId,
+            FAQUpdateRequest faqUpdateRequest) {
         try {
             String question = faqUpdateRequest.getQuestion();
             String answer = faqUpdateRequest.getAnswer();

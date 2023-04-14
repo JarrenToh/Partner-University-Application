@@ -11,6 +11,8 @@ import { DateTimeConverter } from "../../../../util/dateTimeConverter";
 import { userSupportAdminPaths } from "../../../../util/adminRoutes";
 import { AuthContext } from "../../../../AuthContext";
 
+import { Helmet } from "react-helmet";
+
 const FAQ = () => {
 
     const [data, setData] = useState([]);
@@ -48,6 +50,9 @@ const FAQ = () => {
 
     return (
         <div>
+            <Helmet>
+                <title>View FAQ</title>
+            </Helmet>
             <Header />
             <Menu />
             <div className="content-wrapper">

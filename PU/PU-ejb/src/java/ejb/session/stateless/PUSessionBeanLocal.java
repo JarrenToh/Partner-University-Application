@@ -6,6 +6,7 @@
 package ejb.session.stateless;
 
 import entity.PU;
+import error.NoResultException;
 import java.util.List;
 import javax.ejb.Local;
 
@@ -26,7 +27,7 @@ public interface PUSessionBeanLocal {
 
     public PU retrievePuById(Long puId);
 
-    public PU retrievePuByName(String name);
+    public PU retrievePuByName(String name) throws NoResultException;
 
     List<Object> getMappableModulesGroupedByFaculty(String puName);
 

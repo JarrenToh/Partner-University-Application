@@ -61,6 +61,9 @@ public class PU implements Serializable {
 
     @OneToMany(mappedBy = "puEnrolled", cascade = {CascadeType.ALL, CascadeType.REMOVE}, orphanRemoval = true, fetch = FetchType.EAGER)
     private List<Student> students;
+    
+    @OneToMany(mappedBy = "pu", cascade = {CascadeType.ALL, CascadeType.REMOVE}, orphanRemoval = true, fetch = FetchType.EAGER)
+    private List<ForumTopic> forumTopics;
 
     @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.ALL, CascadeType.REMOVE})
     @JsonbTransient
@@ -229,4 +232,11 @@ public class PU implements Serializable {
         return "entity.PU[ id=" + puId + " ]";
     }
 
+    public List<ForumTopic> getForumTopics() {
+        return forumTopics;
+    }
+
+    public void setForumTopics(List<ForumTopic> forumTopics) {
+        this.forumTopics = forumTopics;
+    }
 }

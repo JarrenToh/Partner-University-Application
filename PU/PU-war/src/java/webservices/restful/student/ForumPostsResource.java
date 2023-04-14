@@ -29,6 +29,7 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.*;
 import java.net.URI;
 import java.util.List;
+import util.dataTransferObject.ResponseObject;
 import util.formRequestEntity.AdminForumPostRequest;
 import util.formRequestEntity.ForumPostRequest;
 
@@ -144,6 +145,11 @@ public class ForumPostsResource {
     @Produces(MediaType.APPLICATION_JSON)
     public Response getForumPost(@PathParam("id") Long pId) {
         ForumPost forumPost = forumPostSessionBeanLocal.retrieveForumPostById(pId);
+        
+        if (forumPost == null) {
+            return Response.status(200).entity(new ResponseObject("404")).type(MediaType.APPLICATION_JSON).build();
+        }
+        
         return Response.status(200).entity(
                 forumPost
         ).type(MediaType.APPLICATION_JSON).build();

@@ -29,6 +29,7 @@ import javax.ws.rs.core.GenericEntity;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import util.dataTransferObject.PUReviewDTO;
+import util.dataTransferObject.ResponseObject;
 
 /**
  *
@@ -77,6 +78,11 @@ public class PUReviewResource {
 
         try {
             PUReview p = puReviewSessionBeanLocal.retrievePUReviewById(id);
+            
+            if (p == null) {
+                return Response.status(200).entity(new ResponseObject("404")).type(MediaType.APPLICATION_JSON).build();
+            }
+            
             Student student = p.getStudent();
 
             PUReviewDTO puReviewDto = new PUReviewDTO(
