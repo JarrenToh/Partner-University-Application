@@ -1,0 +1,36 @@
+version: 1
+frontend:
+  phases:
+    preBuild:
+      commands:
+        - cd nuschange
+        - npm install
+    build:
+      commands:
+        - npm run build
+  artifacts:
+    baseDirectory: nuschange/build
+    files:
+      - '**/*'
+  cache:
+    paths:
+      - node_modules/**/*
+
+backend:
+  phases:
+    preBuild:
+      commands:
+        - cd PU
+        - mvn clean package
+    build:
+      commands:
+        - echo Build started on `date`
+        - echo Building the Java application...
+        - mvn clean install
+  artifacts:
+    baseDirectory: PU/build
+    files:
+      - '**/*'
+  cache:
+    paths:
+      - '$HOME/.m2/repository/**/*'
