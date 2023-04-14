@@ -59,7 +59,7 @@ export default function EditTopic() {
                 setAlertVisible(true);
         
                 setTimeout(() => {
-                    navigate(`/forum-topics/0`);
+                    navigate(`/student/forum-topics/0`);
                 }, 1000);
             })
             .catch((error) => {
@@ -98,7 +98,7 @@ export default function EditTopic() {
                                     Edit topic
                                 </Button>
                                 <Button variant="outline-danger" tag={Link}
-                                    to={`/forum-topics/0`}>
+                                    to={`/student/forum-topics/0`}>
                                     Close
                                 </Button>
                             </div>

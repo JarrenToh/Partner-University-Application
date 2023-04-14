@@ -69,9 +69,9 @@ export default function EditPost() {
 
         setTimeout(() => {
           if (number == 0) {
-            navigate(`/forum-topics/${topicId}/${topicName}`);
+            navigate(`/student/forum-topics/${topicId}/${topicName}`);
           } else if (number == 1) {
-            navigate(`/view-post/${id}/${topicName}/${topicId}`);
+            navigate(`/student/view-post/${id}/${topicName}/${topicId}`);
           }
         }, 1000);
       })
@@ -126,11 +126,11 @@ export default function EditPost() {
                   </Button>
                   {number == 0 ?
                     (<Button variant="outline-danger" tag={Link}
-                      to={`/forum-topics/${topicId}/${topicName}`}>
+                      to={`/student/forum-topics/${topicId}/${topicName}`}>
                       Close
                     </Button>) : (
                       (<Button variant="outline-danger" tag={Link}
-                        to={`/view-post/${id}/${topicName}/${topicId}`}>
+                        to={`/student/view-post/${id}/${topicName}/${topicId}`}>
                         Close
                       </Button>)
                     )

@@ -202,7 +202,7 @@ export default function MyPosts() {
                                                     {item.title}
                                                 </a>
                                             )}
-                                            <Link to={`/other-profile/${item.studentId}`} className="text-black-50 d-block blue-link" style={{ textDecoration: 'none' }}>
+                                            <Link to={`/student/other-profile/${item.studentId}`} className="text-black-50 d-block blue-link" style={{ textDecoration: 'none' }}>
                                                 Author: {item.studentFirstName} {item.studentLastName}
                                             </Link>
                                             {item.isEdited && (
@@ -221,7 +221,7 @@ export default function MyPosts() {
                                         <td className="text-center">
                                             <Button
                                                 tag={Link}
-                                                to={`/view-post/${item.postId}/${topicName}/${id}`}
+                                                to={`/student/view-post/${item.postId}/${topicName}/${id}`}
                                                 size="sm"
                                                 color="link"
                                                 className="text-primary"
@@ -232,7 +232,7 @@ export default function MyPosts() {
 
                                             <Button
                                                 tag={Link}
-                                                to={`/forum-posts/edit/${id}/${item.postId}/${item.title}/${encodeURIComponent(item.message)}/${encodeURIComponent(topicName)}/${0}`}
+                                                to={`/student/forum-posts/edit/${id}/${item.postId}/${item.title}/${encodeURIComponent(item.message)}/${encodeURIComponent(topicName)}/${0}`}
                                                 size="sm"
                                                 color="link"
                                                 className="text-warning ml-2"

@@ -59,7 +59,7 @@ export default function EditComment() {
                 setAlertVisible(true);
         
                 setTimeout(() => {
-                    navigate(`/view-post/${postId}/${topicName}/${topicId}`);
+                    navigate(`/student/view-post/${postId}/${topicName}/${topicId}`);
                 }, 1000);
             })
             .catch((error) => {
@@ -98,7 +98,7 @@ export default function EditComment() {
                                     Edit comment
                                 </Button>
                                 <Button variant="outline-danger" tag={Link}
-                                    to={`/view-post/${postId}/${topicName}/${topicId}`}>
+                                    to={`/student/view-post/${postId}/${topicName}/${topicId}`}>
                                     Close
                                 </Button>
                             </div>

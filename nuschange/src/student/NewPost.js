@@ -75,7 +75,7 @@ export default function NewPost() {
                 setAlertVisible(true);
         
                 setTimeout(() => {
-                    navigate(`/forum-topics/${id}/${topicName}`);
+                    navigate(`/student/forum-topics/${id}/${topicName}`);
                 }, 1000);
             })
             .catch((error) => {
@@ -129,7 +129,7 @@ export default function NewPost() {
                                     Create post
                                 </Button>
                                 <Button variant="outline-danger" tag={Link}
-                                    to={`/forum-topics/${id}/${topicName}`}>
+                                    to={`/student/forum-topics/${id}/${topicName}`}>
                                     Close
                                 </Button>
                             </div>

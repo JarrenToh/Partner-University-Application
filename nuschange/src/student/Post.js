@@ -327,7 +327,7 @@ export default function ViewPost() {
       setAlertVisible(true);
 
       setTimeout(() => {
-        navigate(`/forum-topics/${topicId}/${topicName}`)
+        navigate(`/student/forum-topics/${topicId}/${topicName}`)
       }, 1000);
     })
     .catch(error => {
@@ -395,7 +395,7 @@ export default function ViewPost() {
       setAlertVisible(true);
 
       setTimeout(() => {
-        navigate(`/error`);
+        navigate(`/student/error`);
       }, 0);
     })
     .catch(error => {
@@ -605,12 +605,12 @@ export default function ViewPost() {
             <h4>{forumPost.title}</h4>
             <div className="text-muted">
               {studentId === forumPost.studentId ?
-                (<Link to={`/profile`} style={{ color: "black", textDecoration: "none" }}>
+                (<Link to={`/student/profile`} style={{ color: "black", textDecoration: "none" }}>
                   <h5 className="mb-1 author" style={{ marginLeft: "15px", fontSize: "14px" }}>
                     Posted by {forumPost.studentFirstName} {forumPost.studentLastName}
                   </h5>
                 </Link>) :
-                (<Link to={`/other-profile/${forumPost.studentId}`} style={{ color: "black", textDecoration: "none" }}>
+                (<Link to={`/student/other-profile/${forumPost.studentId}`} style={{ color: "black", textDecoration: "none" }}>
                   <h5 className="mb-1 author" style={{ marginLeft: "15px", fontSize: "14px" }}>
                     Posted by {forumPost.studentFirstName} {forumPost.studentLastName}
                   </h5>
@@ -656,7 +656,7 @@ export default function ViewPost() {
                     (
                       <>
                         <Button className="forumButton" tag={Link}
-                          to={`/forum-posts/edit/${topicId}/${forumPost.postId}/${encodeURIComponent(forumPost.title)}/${encodeURIComponent(forumPost.message)}/${encodeURIComponent(topicName)}/${1}`} title="Edit">
+                          to={`/student/forum-posts/edit/${topicId}/${forumPost.postId}/${encodeURIComponent(forumPost.title)}/${encodeURIComponent(forumPost.message)}/${encodeURIComponent(topicName)}/${1}`} title="Edit">
                          <FontAwesomeIcon icon={['fa', 'edit']}  />
                         </Button>
                         <Button className="forumButton" onClick={() => handlePostDeleteButtonClick(forumPost)} title="Delete">
@@ -771,7 +771,7 @@ export default function ViewPost() {
                             {studentId === comment.studentId ?
                               (
                                 <>
-                                  <Button className="forumButton" tag={Link} to={`/edit-comment/${comment.commentId}/${comment.message}/${forumPost.postId}/${encodeURIComponent(topicName)}/${topicId}`} title="Edit">
+                                  <Button className="forumButton" tag={Link} to={`/student/edit-comment/${comment.commentId}/${comment.message}/${forumPost.postId}/${encodeURIComponent(topicName)}/${topicId}`} title="Edit">
                                     <FontAwesomeIcon icon={['fa', 'edit']}  className="font-size-sm" />
                                   </Button>
                                   <Button className="forumButton" onClick={() => handleCommentDeleteButtonClick(comment)} title="Delete">
@@ -839,12 +839,12 @@ export default function ViewPost() {
                                     <div className="d-flex w-100 justify-content-between">
                                       <div className="d-flex justify-content-between comment-header">
                                         {studentId === reply.studentId ?
-                                          (<Link to={`/profile`} style={{ color: "black", textDecoration: "none" }}>
+                                          (<Link to={`/student/profile`} style={{ color: "black", textDecoration: "none" }}>
                                             <h5 className="mb-1 author" style={{ fontSize: "14px" }}>
                                               {reply.studentFirstName} {reply.studentLastName}
                                             </h5>
                                           </Link>) :
-                                          (<Link to={`/other-profile/${reply.studentId}`} style={{ color: "black", textDecoration: "none" }}>
+                                          (<Link to={`/student/other-profile/${reply.studentId}`} style={{ color: "black", textDecoration: "none" }}>
                                             <h5 className="mb-1 author" style={{ fontSize: "14px" }}>
                                               {reply.studentFirstName} {reply.studentLastName}
                                             </h5>
@@ -858,7 +858,7 @@ export default function ViewPost() {
                                         {studentId === reply.studentId ?
                                           (
                                             <>
-                                              <Button className="forumButton" tag={Link} to={`/edit-comment/${reply.commentId}/${reply.message}/${forumPost.postId}/${encodeURIComponent(topicName)}/${topicId}`} title="Edit">
+                                              <Button className="forumButton" tag={Link} to={`/student/edit-comment/${reply.commentId}/${reply.message}/${forumPost.postId}/${encodeURIComponent(topicName)}/${topicId}`} title="Edit">
                                                 <FontAwesomeIcon icon={['fa', 'edit']} className="font-size-sm"  />
                                               </Button>
                                               <Button className="forumButton" onClick={() => handleCommentDeleteButtonClick(reply)} title="Delete">

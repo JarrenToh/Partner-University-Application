@@ -237,7 +237,7 @@ export default function MyTopics() {
                         </a>
                       )
                       }
-                      <Link to={`/other-profile/${item.studentId}`} className="text-black-50 d-block blue-link" style={{textDecoration: 'none'}}>
+                      <Link to={`/student/other-profile/${item.studentId}`} className="text-black-50 d-block blue-link" style={{textDecoration: 'none'}}>
                         Author: {item.studentFirstName} {item.studentLastName}
                       </Link>
                       {item.isEdited && (
@@ -259,7 +259,7 @@ export default function MyTopics() {
                         <td className="text-center">
                             <Button
                                 tag={Link}
-                                to={`/forum-topics/${item.topicId}/${encodeURIComponent(item.topicName)}`}
+                                to={`/student/forum-topics/${item.topicId}/${encodeURIComponent(item.topicName)}`}
                                 size="sm"
                                 color="link"
                                 className="text-primary"
@@ -270,7 +270,7 @@ export default function MyTopics() {
 
                             <Button
                                 tag={Link}
-                                to={`/forum-topics/edit/${item.topicId}/${item.topicName}`}
+                                to={`/student/forum-topics/edit/${item.topicId}/${item.topicName}`}
                                 size="sm"
                                 color="link"
                                 className="text-warning ml-2"

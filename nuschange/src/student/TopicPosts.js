@@ -236,7 +236,7 @@ export default function TopicPosts() {
           <div className="card-header--actions">
             <Button
               tag={Link}
-              to={`/forum-posts/${id}/${topicName}`}
+              to={`/student/forum-posts/${id}/${topicName}`}
               color="outline-primary"
               title="View details"
               className="mr-2">
@@ -247,7 +247,7 @@ export default function TopicPosts() {
           <div className="card-header--actions">
             <Button
               tag={Link}
-              to={`/my-posts/${id}/${encodeURIComponent(topicName)}`}
+              to={`/student/my-posts/${id}/${encodeURIComponent(topicName)}`}
               color="outline-primary"
               title="View My Posts"
               className="ml-2">
@@ -276,7 +276,7 @@ export default function TopicPosts() {
                       >
                         {item.title}
                       </a>
-                        <Link to={`/other-profile/${item.studentId}`} className="text-black-50 d-block blue-link" style={{ textDecoration: 'none' }}>
+                        <Link to={`/student/other-profile/${item.studentId}`} className="text-black-50 d-block blue-link" style={{ textDecoration: 'none' }}>
                           Author: {item.studentFirstName} {item.studentLastName}
                         </Link>
                       {item.isEdited && (
@@ -296,7 +296,7 @@ export default function TopicPosts() {
                       <td className="text-center">
                         <Button
                           tag={Link}
-                          to={`/view-post/${item.postId}/${topicName}/${id}`}
+                          to={`/student/view-post/${item.postId}/${topicName}/${id}`}
                           size="sm"
                           color="link"
                           className="text-primary"
@@ -307,7 +307,7 @@ export default function TopicPosts() {
 
                         <Button
                           tag={Link}
-                          to={`/forum-posts/edit/${id}/${item.postId}/${item.title}/${encodeURIComponent(item.message)}/${encodeURIComponent(topicName)}/${0}`}
+                          to={`/student/forum-posts/edit/${id}/${item.postId}/${item.title}/${encodeURIComponent(item.message)}/${encodeURIComponent(topicName)}/${0}`}
                           size="sm"
                           color="link"
                           className="text-warning ml-2"
@@ -330,7 +330,7 @@ export default function TopicPosts() {
                       <td className="text-center">
                         <Button
                           tag={Link}
-                          to={`/view-post/${item.postId}/${topicName}/${id}`}
+                          to={`/student/view-post/${item.postId}/${topicName}/${id}`}
                           size="sm"
                           color="link"
                           className="text-primary"
