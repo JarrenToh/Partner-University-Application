@@ -22,7 +22,7 @@ const ForumTopic = () => {
     const { loggedInAdmin } = useContext(AuthContext);
 
     const handleCreate = async () => {
-        if (validate()) {
+        if (await validate()) {
             try {
                 const createForumTopic = {
                     topicName,
@@ -45,13 +45,28 @@ const ForumTopic = () => {
         setShowModal(false);
     };
 
-    const validate = () => {
+    const validate = async () => {
         let isValid = true;
         if (topicName.trim() === "") {
             setTopicNameError("Please enter a topic name");
             isValid = false;
         } else {
-            setTopicNameError("");
+            if (puId !== "") {
+                const apiPath = `${apiPaths.listOfAdminForumTopics}/searchForumTopicsByPuAdmin/${puId}`
+                const response = await API.get(apiPath);
+                const forumTopics = response.data;
+
+                const duplicateTopicName = forumTopics.some(
+                    (forumTopic) => forumTopic.topicName.toLowerCase() === topicName.toLowerCase()
+                );
+    
+                if (duplicateTopicName) {
+                    setTopicNameError("Topic name already exists in this PU");
+                    isValid = false;
+                } else {
+                    setTopicNameError("");
+                }
+            }
         }
         if (puId === "") {
             setPuIdError("Please select a partner university");
@@ -96,7 +111,7 @@ const ForumTopic = () => {
                                 {topicNameError && <div className="invalid-feedback">{topicNameError}</div>}
                             </div>
                             <div className="form-group">
-                                <label htmlFor="inputName">Partner Universities</label>
+                                <label htmlFor="inputName">Partner University</label>
                                 <select className={`custom-select rounded-0 form-control ${puIdError ? "is-invalid" : ""}`} id="puSelectOption" value={puId} onChange={(e) => setPuId(e.target.value)}>
                                     <option value="">Select Partner University</option>
                                     {pus.map((pu, index) => {

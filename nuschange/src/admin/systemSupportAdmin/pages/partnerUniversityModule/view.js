@@ -19,8 +19,11 @@ const PUModuleDetails = () => {
     const [code, setCode] = useState("");
     const [description, setDescription] = useState("");
 
+    const [existingModules, setExistingModules] = useState([]);
+
     const [showUpdateSuccessModal, setShowUpdateSuccessModal] = useState(false);
     const [showDeleteSuccessModal, setShowDeleteSuccessModal] = useState(false);
+    const [showNotFoundModal, setShowNotFoundModal] = useState(false);
 
     const [nameError, setNameError] = useState("");
     const [codeError, setCodeError] = useState("");
@@ -65,19 +68,42 @@ const PUModuleDetails = () => {
         navigate(`../admin/systemSupportAdmin/partnerUniversities/${puName}/modules/`);
     };
 
+    const handleCancelNotFoundModal = () => {
+        setShowNotFoundModal(false);
+        navigate(`../admin/systemSupportAdmin/partnerUniversities/${puName}/modules/`);
+    };
+
     const validate = () => {
         let isValid = true;
         if (name.trim() === "") {
             setNameError("Please enter a name");
             isValid = false;
         } else {
-            setNameError("");
+            const duplicateName = existingModules.some(
+                (module) => module.name.toLowerCase() === name.toLowerCase()
+            );
+
+            if (duplicateName) {
+                setNameError("Name already exists");
+                isValid = false;
+            } else {
+                setNameError("");
+            }
         }
         if (code.trim() === "") {
             setCodeError("Please enter a code");
             isValid = false;
         } else {
-            setCodeError("");
+            const duplicateCode = existingModules.some(
+                (module) => module.code.toLowerCase() === code.toLowerCase()
+            );
+
+            if (duplicateCode) {
+                setCodeError("Code already exists");
+                isValid = false;
+            } else {
+                setCodeError("");
+            }
         }
         if (description.trim() === "") {
             setDescriptionError("Please enter a description");
@@ -95,21 +121,40 @@ const PUModuleDetails = () => {
                 const response = await API.get(apiPath);
                 const data = response.data;
 
-                const id = data.moduleId;
-                const name = data.name;
-                const code = data.code;
-                const description = data.description;
+                if (data.stringStatus === "404") {
+                    setShowNotFoundModal(true);
+                } else {
+                    const id = data.moduleId;
+                    const name = data.name;
+                    const code = data.code;
+                    const description = data.description;
 
-                setId(id);
-                setName(name);
-                setCode(code);
-                setDescription(description);
+                    setId(id);
+                    setName(name);
+                    setCode(code);
+                    setDescription(description);
+                }
+            } catch (error) {
+                console.error(error);
+            }
+        };
+
+        const fetchExistingModules = async () => {
+            try {
+                const encodedPUName = convertToEncodedTextForUrl(puName);
+
+                const apiPath = `${apiPaths.listOfPUs}/getPUByName/${encodedPUName}`;
+
+                const response = await API.get(apiPath);
+
+                setExistingModules(response.data.modules);
             } catch (error) {
                 console.error(error);
             }
         };
 
         fetchData();
+        fetchExistingModules();
     }, [id, puModuleCode, puName]);
 
     return (
@@ -200,6 +245,36 @@ const PUModuleDetails = () => {
                                     type="button"
                                     className="btn btn-default"
                                     onClick={() => handleCancelDeleteSuccessModal()}>
+                                    Close
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            )}
+            {showNotFoundModal && (
+                <div className="modal fade show" id="modal-default" style={{ display: "block" }}>
+                    <div className="modal-dialog">
+                        <div className="modal-content">
+                            <div className="modal-header">
+                                <h4 className="modal-title">PU Module Not Found</h4>
+                                <button
+                                    type="button"
+                                    className="close"
+                                    data-dismiss="modal"
+                                    aria-label="Close"
+                                    onClick={() => handleCancelNotFoundModal()}>
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div className="modal-body">
+                                <p>The requested PU module could not be found!</p>
+                            </div>
+                            <div className="modal-footer justify-content-between">
+                                <button
+                                    type="button"
+                                    className="btn btn-default"
+                                    onClick={() => handleCancelNotFoundModal()}>
                                     Close
                                 </button>
                             </div>

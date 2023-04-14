@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import React, { useState, useEffect, useContext } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 
 import Header from "./components/dashboard/Header";
 import Menu from "./components/dashboard/Menu";
@@ -7,10 +7,14 @@ import Footer from "./components/dashboard/Footer";
 
 import API from "../util/API";
 import apiPaths from "../util/apiPaths";
+import { AuthContext } from "../AuthContext";
 
 const Profile = () => {
     
+    const navigate = useNavigate();
     const { usernameFromUrl } = useParams();
+    const { loggedInAdmin } = useContext(AuthContext);
+
     const [name, setName] = useState("");
     const [username, setUsername] = useState("");
     const [currentPassword, setCurrentPassowrd] = useState("");
@@ -168,6 +172,8 @@ const Profile = () => {
     }
 
     useEffect(() => {
+        if (loggedInAdmin === null) return;
+
         const fetchData = async () => {
             try {
                 const apiPath = `${apiPaths.admin}/searchAdminByUsername/${usernameFromUrl}`;
@@ -183,8 +189,13 @@ const Profile = () => {
                 console.error(error);
             }
         };
-        fetchData();
-    }, [usernameFromUrl]);
+
+        if (loggedInAdmin.username !== usernameFromUrl) {
+            navigate(`/admin/${loggedInAdmin.userGroupEnum === "USER_SUPPORT" ? "userSupportAdmin" : "systemSupportAdmin"}/profile/${loggedInAdmin.username}`);
+        } else {
+            fetchData();
+        }
+    }, [loggedInAdmin, usernameFromUrl, navigate]);
 
     return (
         <div>

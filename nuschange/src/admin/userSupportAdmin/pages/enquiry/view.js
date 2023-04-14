@@ -24,6 +24,8 @@ const EnquiryDetails = () => {
 
     const [responseError, setResponseError] = useState("");
 
+    const [showNotFoundModal, setShowNotFoundModal] = useState(false);
+
     const navigate = useNavigate();
 
     const { loggedInAdmin } = useContext(AuthContext);
@@ -35,24 +37,28 @@ const EnquiryDetails = () => {
                 const test = await API.get(apiPath);
                 const data = test.data;
 
-                const title = data.title;
-                const content = data.content;
-                const status = data.status;
-
-                setTitle(title);
-                setContent(content);
-                setStatus(status);
-
-                if (status !== "PENDING") {
-                    setResponse(data.response);
-                    setSuccessfulText("Edit of Response");
-                    setSuccessfulResposneText("edited the response");
+                if (data.stringStatus === "404") {
+                    setShowNotFoundModal(true);
                 } else {
-                    setSuccessfulText("Reply");
-                    setSuccessfulResposneText("replied");
-                }
+                    const title = data.title;
+                    const content = data.content;
+                    const status = data.status;
 
-                setButtonText(Boolean(data.response) ? "Edit" : "Submit");
+                    setTitle(title);
+                    setContent(content);
+                    setStatus(status);
+
+                    if (status !== "PENDING") {
+                        setResponse(data.response);
+                        setSuccessfulText("Edit of Response");
+                        setSuccessfulResposneText("edited the response");
+                    } else {
+                        setSuccessfulText("Reply");
+                        setSuccessfulResposneText("replied");
+                    }
+
+                    setButtonText(Boolean(data.response) ? "Edit" : "Submit");
+                }
             } catch (error) {
                 console.error(error);
             }
@@ -98,6 +104,11 @@ const EnquiryDetails = () => {
         }
 
         return isValid;
+    };
+
+    const handleCancelNotFoundModal = () => {
+        setShowNotFoundModal(false);
+        navigate('../admin/userSupportAdmin/enquiries');
     };
 
     return (
@@ -155,6 +166,36 @@ const EnquiryDetails = () => {
                                     type="button"
                                     className="btn btn-default"
                                     onClick={() => handleCancel()}>
+                                    Close
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            )}
+            {showNotFoundModal && (
+                <div className="modal fade show" id="modal-default" style={{ display: "block" }}>
+                    <div className="modal-dialog">
+                        <div className="modal-content">
+                            <div className="modal-header">
+                                <h4 className="modal-title">Enquiry Not Found</h4>
+                                <button
+                                    type="button"
+                                    className="close"
+                                    data-dismiss="modal"
+                                    aria-label="Close"
+                                    onClick={() => handleCancelNotFoundModal()}>
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div className="modal-body">
+                                <p>The requested enquiry could not be found!</p>
+                            </div>
+                            <div className="modal-footer justify-content-between">
+                                <button
+                                    type="button"
+                                    className="btn btn-default"
+                                    onClick={() => handleCancelNotFoundModal()}>
                                     Close
                                 </button>
                             </div>

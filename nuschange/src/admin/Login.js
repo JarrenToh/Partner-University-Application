@@ -33,9 +33,7 @@ const Login = () => {
         const admin = response.data;
         const userGroup = admin.userGroupEnum === "SYSTEM_SUPPORT" ? "systemSupportAdmin" : "userSupportAdmin";
         loginAdmin(admin);
-        setTimeout(() => {
-          navigate(`/admin/${userGroup}/main`);
-        }, 2000);
+        navigate(`/admin/${userGroup}/main`);
       }
     } catch (error) {
       alert("Invalid credentials");

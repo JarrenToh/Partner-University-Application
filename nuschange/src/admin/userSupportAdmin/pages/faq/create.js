@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 
 import Header from '../../../components/dashboard/Header';
 import Menu from '../../../components/dashboard/Menu';
@@ -13,13 +13,15 @@ const FAQ = () => {
     const [answer, setAnswer] = useState("");
     const [showModal, setShowModal] = useState(false);
 
+    const [existingFAQs, setExistingFAQs] = useState([]);
+
     const [questionError, setQuestionError] = useState("");
     const [answerError, setAnswerError] = useState("");
 
     const { loggedInAdmin } = useContext(AuthContext);
 
     const handleCreate = async () => {
-        if (validate()) {
+        if (await validate()) {
             try {
                 const createdFAQ = {
                     question,
@@ -43,22 +45,48 @@ const FAQ = () => {
         setShowModal(false);
     };
 
-    const validate = () => {
+    const validate = async () => {
         let isValid = true;
+
         if (question.trim() === "") {
             setQuestionError("Please enter a question");
             isValid = false;
         } else {
-            setQuestionError("");
+            const duplicateQuestion = existingFAQs.some(
+                (faq) => faq.question.toLowerCase() === question.toLowerCase()
+            );
+
+            if (duplicateQuestion) {
+                setQuestionError("Question already exists");
+                isValid = false;
+            } else {
+                setQuestionError("");
+            }
         }
+
         if (answer.trim() === "") {
             setAnswerError("Please enter an answer");
             isValid = false;
         } else {
             setAnswerError("");
         }
+
         return isValid;
     };
+
+    useEffect(() => {
+        const fetchFAQs = async () => {
+            try {
+                const apiPath = `${apiPaths.listOfFaqs}`;
+                const response = await API.get(apiPath);
+                setExistingFAQs(response.data);
+            } catch (error) {
+                console.error(error);
+            }
+        };
+
+        fetchFAQs();
+    }, []);
 
     return (
         <div>

@@ -24,6 +24,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import util.dataTransferObject.DTOUtility;
 import util.dataTransferObject.EnquiryDTO;
+import util.dataTransferObject.ResponseObject;
 import util.enumeration.StatusName;
 import util.formRequestEntity.RespondStudentEnquiryRequest;
 
@@ -38,7 +39,7 @@ public class EnquiriesResource {
 
     @EJB
     private AdminEnquirySessionBeanLocal adminEnquirySessionBeanLocal;
-    
+
     @EJB
     private EnquirySessionBeanLocal enquirySessionBeanLocal;
 
@@ -56,6 +57,10 @@ public class EnquiriesResource {
     @Produces(MediaType.APPLICATION_JSON)
     public Response retrieveEnquiry(@PathParam("id") Long eId) {
         Enquiry enquiry = enquirySessionBeanLocal.retrieveEnquiry(eId);
+
+        if (enquiry == null) {
+            return Response.status(200).entity(new ResponseObject("404")).type(MediaType.APPLICATION_JSON).build();
+        }
 
         EnquiryDTO enquiryDTO = DTOUtility.serializeSingleEnquiry(enquiry);
         return Response.status(StatusName.OK.getCode()).entity(enquiryDTO).build();
@@ -79,9 +84,9 @@ public class EnquiriesResource {
     @Path("/{enquiryId}/respond")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response respondToStudentEnquiry(@PathParam("enquiryId") Long enquiryId, 
-                                            @QueryParam("adminId") Long adminId,
-                                            RespondStudentEnquiryRequest respondStudentEnquiryRequest) {
+    public Response respondToStudentEnquiry(@PathParam("enquiryId") Long enquiryId,
+            @QueryParam("adminId") Long adminId,
+            RespondStudentEnquiryRequest respondStudentEnquiryRequest) {
         try {
             String response = respondStudentEnquiryRequest.getResponse();
             int status = respondStudentEnquiryRequest.getStatus();
