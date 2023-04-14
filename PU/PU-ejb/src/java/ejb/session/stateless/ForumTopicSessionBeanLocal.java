@@ -19,7 +19,7 @@ public interface ForumTopicSessionBeanLocal {
     
     public void createNewForumTopic(ForumTopic forumTopic, Long studentId, Long puId);
     
-    public void createNewForumTopicByAdmin(ForumTopic forumTopic, Long adminId) throws NoResultException;
+    public void createNewForumTopicByAdmin(ForumTopic forumTopic, Long adminId, Long puId) throws NoResultException;
     
     public void updateForumTopic(ForumTopic forumTopic);
     

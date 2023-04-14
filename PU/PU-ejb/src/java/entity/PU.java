@@ -9,6 +9,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import javax.json.bind.annotation.JsonbTransient;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -52,16 +53,16 @@ public class PU implements Serializable {
     @ManyToOne
     private Country country;
 
-    @OneToMany(mappedBy = "pu", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "pu", cascade = {CascadeType.ALL, CascadeType.REMOVE}, orphanRemoval = true, fetch = FetchType.EAGER)
     private List<PUModule> modules;
 
-    @OneToMany(mappedBy = "pu", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "pu", cascade = {CascadeType.ALL, CascadeType.REMOVE}, orphanRemoval = true, fetch = FetchType.EAGER)
     private List<PUReview> puReviews;
 
-    @OneToMany(mappedBy = "puEnrolled", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "puEnrolled", cascade = {CascadeType.ALL, CascadeType.REMOVE}, orphanRemoval = true, fetch = FetchType.EAGER)
     private List<Student> students;
 
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.ALL, CascadeType.REMOVE})
     @JsonbTransient
     private List<Student> studentsLiked;
     

@@ -101,7 +101,7 @@ const InappropriatenessDetails = () => {
                         break;
                 }
 
-                if (selectValue === true) {
+                if (selectValue === "true") {
                     await API.delete(apiPath);
                     setModalTitle("Successful Approval of Removal of Content");
                     setModalDescription("You have approved of removing the content successfully");
@@ -120,7 +120,7 @@ const InappropriatenessDetails = () => {
 
     const handleCancel = async () => {
         setShowModal(false);
-        navigate(`../systemSupportAdmin/inappropriatenessContent`);
+        navigate(`../admin/systemSupportAdmin/inappropriatenessContent`);
     };
 
     const validate = () => {
@@ -266,8 +266,8 @@ const InappropriatenessDetails = () => {
                                 <label htmlFor="inputName">Approved of Inappropriate Content</label>
                                 <select className={`custom-select rounded-0 form-control ${approvalError ? "is-invalid" : ""}`} id="approvalSelectOption" value={selectValue} onChange={(e) => setSelectValue(e.target.value)}>
                                     <option value="">Select Option</option>
-                                    <option value={true}>Yes</option>
-                                    <option value={false}>No</option>
+                                    <option value={Boolean(true)}>Yes</option>
+                                    <option value={Boolean(false)}>No</option>
                                 </select>
                                 {approvalError && <div className="invalid-feedback">{approvalError}</div>}
                             </div>
