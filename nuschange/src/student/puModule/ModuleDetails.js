@@ -1,7 +1,7 @@
-import React, { useEffect, useState, useContext } from "react";
+import React, { useEffect, useState, useContext, useCallback } from "react";
 import { useLocation, useParams } from "react-router-dom";
 import "./PuModule.css";
-import NavbarComp from '../../student/components/NavbarComp';
+import NavbarComp from "../../student/components/NavbarComp";
 import ModReviewComp from "./ModReviewComp";
 import { AuthContext } from "../../AuthContext";
 
@@ -12,7 +12,8 @@ const ModuleDetail = (props) => {
   const [user, setUser] = useState(null);
   const API_URL_MOD = "http://localhost:8080/PU-war/webresources/pumodule";
   const API_URL_STUDENT = "http://localhost:8080/PU-war/webresources/student";
-  const API_URL_MODREVIEW = "http://localhost:8080/PU-war/webresources/pumodulereview"
+  const API_URL_MODREVIEW =
+    "http://localhost:8080/PU-war/webresources/pumodulereview";
   const [module, setModule] = useState({
     code: "AB123",
     moduleId: 1,
@@ -24,8 +25,8 @@ const ModuleDetail = (props) => {
   });
   const [currentStudent, setCurrentStudent] = useState({});
   const [reviews, setReviews] = useState([]);
-  const [studentLikedModReview, setStudentLikedModReview] = useState([])
-  const [studentDislikedModReviews, setStudentDislikedModReview] = useState([])
+  const [studentLikedModReview, setStudentLikedModReview] = useState([]);
+  const [studentDislikedModReviews, setStudentDislikedModReview] = useState([]);
 
   useEffect(() => {
     getPuModApi(modId);
@@ -54,19 +55,31 @@ const ModuleDetail = (props) => {
   };
 
   const getPuModReviewsApi = async (moduleId) => {
-    const response = await fetch(`${API_URL_MODREVIEW}/from-module/${moduleId}`);
+    const response = await fetch(
+      `${API_URL_MODREVIEW}/from-module/${moduleId}`
+    );
     const data = await response.json();
     setReviews(data);
-    return data
+    return data;
   };
 
+  const handleFlagged = (id) => {
+    
+  }
+
+  const toggleLike = useCallback((id) => {});
+
+  const toggleDislike = useCallback((id) => {});
 
   return (
-    <div className="wrapper" >
-      <NavbarComp isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} user={user} />
+    <div className="wrapper">
+      <NavbarComp
+        isLoggedIn={isLoggedIn}
+        setIsLoggedIn={setIsLoggedIn}
+        user={user}
+      />
       <div style={{ paddingLeft: "5%", paddingRight: "5%" }}>
-
-        <div >
+        <div>
           <h1 className="text-center mb-3">{module.code}</h1>
         </div>
         <h3>{module.name}</h3>
@@ -75,7 +88,14 @@ const ModuleDetail = (props) => {
         <p>{module.description}</p>
 
         {/* <ModReviewComp reviews={module.moduleReviews} /> */}
-        <ModReviewComp reviews={reviews} studentLikedModReviews={studentLikedModReview} studentDislikedModReviews={studentDislikedModReviews}/>
+        <ModReviewComp
+          reviews={reviews}
+          studentLikedModReviews={studentLikedModReview}
+          studentDislikedModReviews={studentDislikedModReviews}
+          toggleLike={toggleLike}
+          toggleDislike={toggleDislike}
+          handleFlagged={handleFlagged}
+        />
       </div>
     </div>
   );

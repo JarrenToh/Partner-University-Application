@@ -15,8 +15,14 @@ import PerfectScrollbar from "react-perfect-scrollbar";
 import { Card, ListGroup, ListGroupItem, CardHeader } from "reactstrap";
 import defaultProfilePicture from "../images/housekeeper.png";
 
-
-function ModReviewComp({reviews}) {
+function ModReviewComp({
+  reviews,
+  studentLikedModReviews,
+  studentDislikedModReviews,
+  toggleLike,
+  toggleDislike,
+  handleFlagged,
+}) {
   const { loggedInStudent } = useContext(AuthContext);
   const [isHovered, setIsHovered] = useState({});
   const [tooltipOpenLike, setTooltipOpenLike] = useState(false);
@@ -26,7 +32,7 @@ function ModReviewComp({reviews}) {
   useEffect(() => {
     //console.log(props.reviews[0]);
   }, []);
-  
+
   const toggleTooltipLike = () => {
     setTooltipOpenLike(!tooltipOpenLike);
   };
@@ -42,20 +48,20 @@ function ModReviewComp({reviews}) {
   return (
     <Card className="card-box mb-5">
       <CardHeader style={{ textAlign: "center" }}>
-        <h4 className="font-size-lg mb-0 py-2 font-weight-bold">
-          Reviews
-        </h4>
+        <h4 className="font-size-lg mb-0 py-2 font-weight-bold">Reviews</h4>
       </CardHeader>
       <ListGroup flush>
         <div
           className="scroll-area rounded bg-white shadow-overflow"
           style={{ width: "100%", overflowX: "auto" }}
         >
-          {reviews.length === 0  ? (
+          {reviews.length === 0 ? (
             <div className="text-center py-5">
-              <h4 className="text-muted" style={{ fontSize: '28px' }}>No Review Found</h4>
+              <h4 className="text-muted" style={{ fontSize: "28px" }}>
+                No Review Found
+              </h4>
             </div>
-          ) :
+          ) : (
             <PerfectScrollbar>
               {reviews.map((s) => (
                 <ListGroupItem className="py-3" key={s.studentId}>
@@ -102,10 +108,9 @@ function ModReviewComp({reviews}) {
                       <div className="ml-auto">
                         <>
                           <span
-                            className={`font-weight-bold mr-2 ${s.rating < 3
-                              ? "text-danger"
-                              : "text-success"
-                              }`}
+                            className={`font-weight-bold mr-2 ${
+                              s.rating < 3 ? "text-danger" : "text-success"
+                            }`}
                             style={{ fontSize: "24px" }}
                           >
                             {s.rating}
@@ -123,7 +128,7 @@ function ModReviewComp({reviews}) {
                         <Button
                           color="link"
                           style={{ background: "transparent" }}
-                          onClick={() => toggleTooltipLike()}
+                          onClick={() => toggleLike()}
                           disabled={loggedInStudent === null}
                         >
                           <FontAwesomeIcon
@@ -131,26 +136,31 @@ function ModReviewComp({reviews}) {
                             size="2x"
                             style={{
                               cursor: "pointer",
-                              color:
-                                (loggedInStudent
-                                   ? "green"
-                                  : "#007bff"),
+                              color: (loggedInStudent &&
+                                studentLikedModReviews.some((likedModReview) => {
+                                  return likedModReview.moduleReviewId === s.moduleReviewId;
+                                })) ? "green"
+                                : "#007bff",
                               marginRight: "10px",
                             }}
-
                           />
                         </Button>
-                        {loggedInStudent === null ?
-                          <Tooltip placement="top" isOpen={tooltipOpenLike} target="ReviewLikedButton" toggle={toggleTooltipLike} >Must be signed in to like review</Tooltip>
-                          :
-                          null
-                        }
+                        {loggedInStudent === null ? (
+                          <Tooltip
+                            placement="top"
+                            isOpen={tooltipOpenLike}
+                            target="ReviewLikedButton"
+                            toggle={toggleTooltipLike}
+                          >
+                            Must be signed in to like review
+                          </Tooltip>
+                        ) : null}
                       </div>
                       <div id="ReviewDislikedButton">
                         <Button
                           color="link"
                           style={{ background: "transparent" }}
-                          onClick={() => toggleTooltipDisike()}
+                          onClick={() => toggleDislike()}
                           disabled={loggedInStudent === null}
                           // title={loggedInStudent === null ? "Must be signed in to dislike review" : ""}
                           // data-tip={loggedInStudent === null ? "Must be signed in to dislike review" : ""}
@@ -160,19 +170,29 @@ function ModReviewComp({reviews}) {
                             size="2x"
                             style={{
                               cursor: "pointer",
-                              color:
-                                (loggedInStudent ? "red"
-                                  : "#007bff"),
+                              color: (loggedInStudent &&
+                                studentDislikedModReviews.some((dislikedModReviews) => {
+                                  return dislikedModReviews.moduleReviewId === s.moduleReviewId;
+                                })) ? "red" : "#007bff",
                               marginRight: "10px",
                             }}
-                            title={loggedInStudent === null ? "Must be signed in to flag review" : ""}
+                            title={
+                              loggedInStudent === null
+                                ? "Must be signed in to flag review"
+                                : ""
+                            }
                           />
                         </Button>
-                        {loggedInStudent === null ?
-                          <Tooltip placement="top" isOpen={tooltipOpenDislike} target="ReviewDislikedButton" toggle={toggleTooltipDisike} >Must be signed in to dislike review</Tooltip>
-                          :
-                          null
-                        }
+                        {loggedInStudent === null ? (
+                          <Tooltip
+                            placement="top"
+                            isOpen={tooltipOpenDislike}
+                            target="ReviewDislikedButton"
+                            toggle={toggleTooltipDisike}
+                          >
+                            Must be signed in to dislike review
+                          </Tooltip>
+                        ) : null}
                       </div>
                       <div id="ReviewFlagButton">
                         <Button
@@ -192,9 +212,13 @@ function ModReviewComp({reviews}) {
                               [s.studentId]: false,
                             }))
                           }
-                          // onClick={() => }
+                          onClick={() => handleFlagged()}
                           disabled={loggedInStudent === null}
-                          data-tip={loggedInStudent === null ? "Must be signed in to flag review" : ""}
+                          data-tip={
+                            loggedInStudent === null
+                              ? "Must be signed in to flag review"
+                              : ""
+                          }
                         >
                           <FontAwesomeIcon
                             icon={faFlag}
@@ -205,18 +229,23 @@ function ModReviewComp({reviews}) {
                             }}
                           />
                         </Button>
-                        {loggedInStudent === null ?
-                          <Tooltip placement="top" isOpen={tooltipOpenFlag} target="ReviewFlagButton" toggle={toggleTooltipFlag} >Must be signed in to flag review</Tooltip>
-                          :
-                          null
-                        }
+                        {loggedInStudent === null ? (
+                          <Tooltip
+                            placement="top"
+                            isOpen={tooltipOpenFlag}
+                            target="ReviewFlagButton"
+                            toggle={toggleTooltipFlag}
+                          >
+                            Must be signed in to flag review
+                          </Tooltip>
+                        ) : null}
                       </div>
                     </div>
                   </div>
                 </ListGroupItem>
               ))}
             </PerfectScrollbar>
-          }
+          )}
         </div>
       </ListGroup>
     </Card>
