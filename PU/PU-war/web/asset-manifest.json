@@ -1,0 +1,21 @@
+{
+  "files": {
+    "main.css": "/static/css/main.eef44df6.css",
+    "main.js": "/static/js/main.d9a12197.js",
+    "static/media/housekeeper.png": "/static/media/housekeeper.6557bccafad4b68eb938.png",
+    "static/media/bg2.jpg": "/static/media/bg2.91c3793b037083667127.jpg",
+    "static/media/bg5.jpg": "/static/media/bg5.19d6dba836d18e89c815.jpg",
+    "static/media/bg1.jpg": "/static/media/bg1.49bdec02fb8de546d5c9.jpg",
+    "static/media/bg3.jpg": "/static/media/bg3.ce19ba6626e726fff487.jpg",
+    "static/media/bg4.jpg": "/static/media/bg4.95de6fb8a0ca32ac3cd5.jpg",
+    "static/media/NUSChange-logoV3.png": "/static/media/NUSChange-logoV3.a87873eb3e1c639069a8.png",
+    "index.html": "/index.html",
+    "static/media/search.svg": "/static/media/search.981b582ea232c3cb047eca919deaf9e8.svg",
+    "main.eef44df6.css.map": "/static/css/main.eef44df6.css.map",
+    "main.d9a12197.js.map": "/static/js/main.d9a12197.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.eef44df6.css",
+    "static/js/main.d9a12197.js"
+  ]
+}

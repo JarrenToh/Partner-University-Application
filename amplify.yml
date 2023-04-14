@@ -17,31 +17,31 @@ frontend:
     paths:
       - node_modules/**/*
 
-backend:
-  phases:
-    preBuild:
-      commands:
-        - cd PU/PU-ejb
-        - yum update -y
-        - yum install -y java-1.8.0-openjdk-devel ant
-        - wget https://download.oracle.com/glassfish/5.1.0/release/glassfish-5.1.0.zip
-        - unzip glassfish-5.1.0.zip
-    build:
-      commands:
-        - echo Build started on `date`
-        - echo Building the Java application...
-        - ant -f build.xml
-      finally:
-        - echo Deploying the application to GlassFish...
-        - $JAVA_HOME/bin/asadmin deploy --force=true /<app_server_installation_directory>/glassfish5/glassfish/domains/domain1/autodeploy/PU.ear
-  artifacts:
-    baseDirectory: PU/dist
-    files:
-      - '**/*'
-  cache:
-    paths:
-      - '$HOME/.ant/**/*'
-      - '$HOME/.m2/**/*'
-  env:
-    variables:
-      JAVA_HOME: '/usr/lib/jvm/java-1.8.0-openjdk'
+# backend:
+#   phases:
+#     preBuild:
+#       commands:
+#         - cd PU/PU-ejb
+#         - yum update -y
+#         - yum install -y java-1.8.0-openjdk-devel ant
+#         - wget https://download.oracle.com/glassfish/5.1.0/release/glassfish-5.1.0.zip
+#         - unzip glassfish-5.1.0.zip
+#     build:
+#       commands:
+#         - echo Build started on `date`
+#         - echo Building the Java application...
+#         - ant -f build.xml
+#       finally:
+#         - echo Deploying the application to GlassFish...
+#         - $JAVA_HOME/bin/asadmin deploy --force=true /<app_server_installation_directory>/glassfish5/glassfish/domains/domain1/autodeploy/PU.ear
+#   artifacts:
+#     baseDirectory: PU/dist
+#     files:
+#       - '**/*'
+#   cache:
+#     paths:
+#       - '$HOME/.ant/**/*'
+#       - '$HOME/.m2/**/*'
+#   env:
+#     variables:
+#       JAVA_HOME: '/usr/lib/jvm/java-1.8.0-openjdk'
