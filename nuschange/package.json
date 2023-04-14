@@ -68,5 +68,6 @@
   },
   "devDependencies": {
     "sass": "^1.60.0"
-  }
+  },
+  "homepage": "http://localhost:8080/PU-war"
 }
