@@ -81,11 +81,11 @@ const EnquiryDetails = () => {
 
     const handleCancel = async () => {
         if (status === "PENDING") {
-            navigate('../userSupportAdmin/enquiries');
+            navigate('../admin/userSupportAdmin/enquiries');
             return;
         }
 
-        navigate('../userSupportAdmin/enquiries/assigned');
+        setShowModal(false);
     };
 
     const validate = () => {

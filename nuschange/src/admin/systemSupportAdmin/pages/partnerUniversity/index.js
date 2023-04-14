@@ -17,11 +17,11 @@ const PartnerUniversity = () => {
     const navigate = useNavigate();
 
     const handleViewDetailsButtonClick = (puName) => {
-        navigate(`${systemSupportAdminPaths.viewPUs}/${convertNameToSlug(puName)}`);
+        navigate(`/admin${systemSupportAdminPaths.viewPUs}/${convertNameToSlug(puName)}`);
     };
 
     const handleViewModulesButtonClick = (puName) => {
-        navigate(`${systemSupportAdminPaths.viewPUs}/${convertNameToSlug(puName)}/modules`);
+        navigate(`/admin${systemSupportAdminPaths.viewPUs}/${convertNameToSlug(puName)}/modules`);
     };
 
     const handleSort = (data) => {

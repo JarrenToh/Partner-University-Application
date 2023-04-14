@@ -51,10 +51,13 @@ public class ForumTopicSessionBean implements ForumTopicSessionBeanLocal {
     }
     
     @Override
-    public void createNewForumTopicByAdmin(ForumTopic forumTopic, Long adminId) throws NoResultException {
+    public void createNewForumTopicByAdmin(ForumTopic forumTopic, Long adminId, Long puId) throws NoResultException {
         NUSchangeAdmin nusChangeAdmin = em.find(NUSchangeAdmin.class, adminId);    
+        PU pu = em.find(PU.class, puId);
         nusChangeAdmin.getForumTopics().add(forumTopic);
         forumTopic.setAdmin(nusChangeAdmin);
+        forumTopic.setPu(pu);
+        forumTopic.setPuName(pu.getName());
         em.persist(forumTopic);
         em.flush();
     }

@@ -9,7 +9,7 @@ const Menu = () => {
                 <button className="nav-link">
                     <i className="nav-icon fas fa-question-circle" />
                     <p>
-                        Frequently-Asked-Questions (FAQ)
+                        FAQ
                         <i className="right fas fa-angle-left" />
                     </p>
                 </button>
@@ -32,7 +32,7 @@ const Menu = () => {
                 <button className="nav-link">
                     <i className="nav-icon fas fa-user" />
                     <p>
-                        Student Enquiries
+                        Student Enquiry
                         <i className="right fas fa-angle-left" />
                     </p>
                 </button>

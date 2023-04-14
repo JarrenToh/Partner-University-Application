@@ -7,7 +7,7 @@ import Footer from "../../../components/dashboard/Footer";
 
 import API from "../../../../util/API";
 import apiPaths from "../../../../util/apiPaths";
-import { convertToEncodedTextForUrl } from "../../../../util/urlTextConverter";
+import { convertToEncodedTextForUrl, convertNameToSlug } from "../../../../util/urlTextConverter";
 
 const PUDetails = () => {
     const navigate = useNavigate();
@@ -63,11 +63,11 @@ const PUDetails = () => {
 
     const handleCancelUpdateSuccessModal = () => {
         setShowUpdateSuccessModal(false);
-        navigate(`../partnerUniversities/${name}`);
+        navigate(`../admin/systemSupportAdmin/partnerUniversities/${convertNameToSlug(name)}`);
     };
 
     const handleCancelDeleteSuccessModal = () => {
-        navigate('../partnerUniversities');
+        navigate('../admin/systemSupportAdmin/partnerUniversities');
     };
 
     const validate = () => {

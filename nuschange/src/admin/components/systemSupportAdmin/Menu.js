@@ -8,7 +8,7 @@ const Menu = () => {
                 <button className="nav-link">
                     <i className="nav-icon fas fa-university" />
                     <p>
-                        Partner Universities
+                        Partner University
                         <i className="right fas fa-angle-left" />
                     </p>
                 </button>

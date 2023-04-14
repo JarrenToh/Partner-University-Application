@@ -2,7 +2,7 @@ import React, { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import API from '../util/API';
-import { LoginStyles } from './userSupportAdmin/styles/LoginStyles';
+import { LoginStyles } from '../student/login/LoginStyles';
 import { AuthContext } from '../../src/AuthContext';
 
 const Login = () => {
@@ -34,7 +34,7 @@ const Login = () => {
         const userGroup = admin.userGroupEnum === "SYSTEM_SUPPORT" ? "systemSupportAdmin" : "userSupportAdmin";
         loginAdmin(admin);
         setTimeout(() => {
-          navigate(`/${userGroup}/main`);
+          navigate(`/admin/${userGroup}/main`);
         }, 2000);
       }
     } catch (error) {
