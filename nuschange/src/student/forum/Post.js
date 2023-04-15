@@ -9,6 +9,7 @@ import { AuthContext } from '../../../src/AuthContext';
 import CommentComp from '../forum/CommentComp';
 import NavbarComp from '../../student/components/NavbarComp';
 import NotLoggedIn from '../../student/components/NotLoggedInPage';
+import { Helmet } from "react-helmet";
 
 import {
   Form,
@@ -610,6 +611,11 @@ export default function ViewPost() {
 
   return (
     <>
+      <div>
+        <Helmet>
+          <title>Post</title>
+        </Helmet>
+      </div>
      <NavbarComp isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} user={user} />
       <div className="forum-card">
         <div className="forum-header">

@@ -5,6 +5,7 @@ import { AuthContext } from '../../../src/AuthContext';
 import axios from 'axios';
 import NavbarComp from '../../student/components/NavbarComp';
 import NotLoggedIn from '../../student/components/NotLoggedInPage';
+import { Helmet } from "react-helmet";
 
 import {
     Card,
@@ -101,6 +102,11 @@ export default function NewTopic() {
 
     return (
         <div>
+        <div>
+          <Helmet>
+            <title>Create new forum topic</title>
+          </Helmet>
+        </div>
             <NavbarComp isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} user={user} />
         <Card>
             <CardHeader>Create a new topic</CardHeader>
