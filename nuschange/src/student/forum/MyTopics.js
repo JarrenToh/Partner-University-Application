@@ -10,6 +10,7 @@ import SearchIcon from '../homepage/search.svg';
 import { AuthProvider, useAuth, AuthContext } from '../../../src/AuthContext';
 import NavbarComp from '../../student/components/NavbarComp';
 import NotLoggedIn from '../../student/components/NotLoggedInPage';
+import { Helmet } from "react-helmet";
 
 import {
   Table,
@@ -168,6 +169,11 @@ export default function MyTopics() {
 
   return (
     <div>
+      <div>
+        <Helmet>
+          <title>My topics</title>
+        </Helmet>
+      </div>
       <NavbarComp isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} user={user} />
     <Fragment>
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "3px" }}>

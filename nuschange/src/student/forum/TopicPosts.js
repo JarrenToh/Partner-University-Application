@@ -11,6 +11,7 @@ import { Link } from 'react-router-dom';
 import { AuthContext } from '../../../src/AuthContext';
 import NavbarComp from '../../student/components/NavbarComp';
 import NotLoggedIn from '../../student/components/NotLoggedInPage';
+import { Helmet } from "react-helmet";
 
 import {
   Table,
@@ -195,6 +196,11 @@ export default function TopicPosts() {
 
   return (
     <div>
+      <div>
+        <Helmet>
+          <title>Forum posts</title>
+        </Helmet>
+      </div>
        <NavbarComp isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} user={user} />
     <Fragment>
       <div style={{ display: "flex", justifyContent: "flex-end", alignItems: "center", marginRight: "2px", marginBottom: "3px" }}>

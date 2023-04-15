@@ -12,6 +12,7 @@ import './styles.css';
 import SearchIcon from '../homepage/search.svg';
 import NavbarComp from '../../student/components/NavbarComp';
 import NotLoggedIn from '../../student/components/NotLoggedInPage';
+import { Helmet } from "react-helmet";
 
 import {
   Table,
@@ -232,6 +233,11 @@ export default function ForumTopics() {
 
   return (
     <div>
+      <div>
+        <Helmet>
+          <title>Forum topics</title>
+        </Helmet>
+      </div>
       <NavbarComp isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} user={user} />
     <Fragment>
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "10px"}}>

@@ -125,24 +125,9 @@ public class ForumPostSessionBean implements ForumPostSessionBeanLocal {
     @Override
     public synchronized void deleteForumPost(Long forumPostId) {
         ForumPost forumPost = em.find(ForumPost.class, forumPostId);
-        Student student = em.find(Student.class, forumPost.getStudentId());
-        student.getPosts().remove(forumPost);
-        ForumTopic forumTopic = forumPost.getForumTopic();
+        ForumTopic forumTopic = em.find(ForumTopic.class,forumPost.getForumTopic().getTopicId());
         forumTopic.getForumPosts().remove(forumPost);
-        forumTopicSessionBeanLocal.updateForumTopic(forumTopic);
-        List<ForumComment> forumComments = new ArrayList<>(forumPost.getForumComments());
-
-        synchronized (forumComments) {
-            Iterator<ForumComment> iterator = forumComments.iterator();
-            while (iterator.hasNext()) {
-                ForumComment forumComment = iterator.next();
-                if (!forumComment.getIsAReply()) {
-                    forumCommentSessionBeanLocal.deleteForumComment(forumComment.getCommentId());
-                }
-                iterator.remove();
-            }
-        }
-
+//        forumTopicSessionBeanLocal.updateForumTopic(forumTopic);
         em.remove(forumPost);
         em.flush();
     }

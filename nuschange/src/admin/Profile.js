@@ -35,6 +35,8 @@ const Profile = () => {
     const [passwordError, setPasswordError] = useState("");
     const [confirmPasswordError, setConfirmPasswordError] = useState("");
 
+    const [dataFetched, setDataFetched] = useState(false);
+
     const handleEditName = async () => {
         if (validateName()) {
             try {
@@ -174,7 +176,7 @@ const Profile = () => {
     }
 
     useEffect(() => {
-        if (loggedInAdmin === null) return;
+        if (loggedInAdmin === null || dataFetched) return;
 
         const fetchData = async () => {
             try {
@@ -196,8 +198,9 @@ const Profile = () => {
             navigate(`/admin/${loggedInAdmin.userGroupEnum === "USER_SUPPORT" ? "userSupportAdmin" : "systemSupportAdmin"}/profile/${loggedInAdmin.username}`);
         } else {
             fetchData();
+            setDataFetched(true);
         }
-    }, [loggedInAdmin, usernameFromUrl, navigate]);
+    }, [loggedInAdmin, usernameFromUrl, navigate, dataFetched]);
 
     return (
         <div>

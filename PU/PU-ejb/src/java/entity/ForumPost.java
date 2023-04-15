@@ -62,7 +62,7 @@ public class ForumPost implements Serializable {
     @JsonbTransient
     private Student student;
  
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.REMOVE, orphanRemoval = true, mappedBy = "forumPost")
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "forumPost")
     private List<ForumComment> forumComments;
     
     @Column(nullable = false)

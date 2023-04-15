@@ -53,7 +53,9 @@ import InappropriatenessDetails from './admin/systemSupportAdmin/pages/inappropr
 import ForumTopicsSystemSupportAdmin from './admin/systemSupportAdmin/pages/forumTopic/index';
 import CreateForumTopicsSystemSupportAdmin from './admin/systemSupportAdmin/pages/forumTopic/create';
 import ForumTopicsDetailsSystemSupportAdmin from './admin/systemSupportAdmin/pages/forumTopic/view';
+// general admin
 import AdminProfile from './admin/Profile';
+import NotFound from './admin/NotFound';
 
 import withAdminAuth from './withAdminAuth';
 
@@ -61,9 +63,6 @@ import './student/assets/base.scss';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import ViewEnquiries from './student/enquiries/ViewEnquiries';
 import LandingPage from './LandingPage';
-// import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-
-// import Login from './admin/Login';
 
 const App = () => {
   const API_URL = "http://localhost:8080/PU-war/webresources/pu";
@@ -72,15 +71,14 @@ const App = () => {
   const [user, setUser] = useState(null);
   const { loggedInStudent, login, logout } = useAuth();
 
-  // user support admin routes
   const ProtectedFAQs = withAdminAuth('userSupportAdmin')(FAQs);
   const ProtectedFAQDetails = withAdminAuth('userSupportAdmin')(FAQDetails);
   const ProtectedCreateFAQ = withAdminAuth('userSupportAdmin')(CreateFAQ);
   const ProtectedEnquiry = withAdminAuth('userSupportAdmin')(Enquiry);
   const ProtectedEnquiryDetails = withAdminAuth('userSupportAdmin')(EnquiryDetails);
 
-  // system support admin routes
   const ProtectedMain = withAdminAuth('')(Main);
+  const ProtectedNotFound = withAdminAuth('')(NotFound);
   const ProtectedPartnerUniversity = withAdminAuth('systemSupportAdmin')(PartnerUniversity);
   const ProtectedPartnerUniversityDetails = withAdminAuth('systemSupportAdmin')(PartnerUniversityDetails);
   const ProtectedCreatePartnerUniversity = withAdminAuth('systemSupportAdmin')(CreatePartnerUniversity);
@@ -112,33 +110,15 @@ const App = () => {
   const handleLogout = () => {
     setUser(null);
     setIsLoggedIn(false);
-    logout(); // Call logout function from AuthContext
+    logout(); 
   };
 
-  // const { pathname } = useLocation();
-
-  // const [url, setUrl] = useState(window.location.pathname);
-  // const [showNavbar, setShowNavbar] = useState(false);
-
-  // useEffect(() => {
-  //   console.log(url);
-  // }, [url]);
-
-  // useEffect(() => {
-  //   setShowNavbar(url.startsWith('/student'));
-  // }, [url]);
-
-
   return (
-    <AuthProvider> {/* Wrap the app in AuthProvider */}
+    <AuthProvider>
 
       <div className="App">
 
         <Router>
-
-          {/* {showNavbar && (
-            <NavbarComp isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} user={user} />
-          )} */}
 
           {/* student */}
           <Routes>
@@ -175,6 +155,7 @@ const App = () => {
 
             {/* admin */}
             <Route path="/admin/login" element={<Login />} />
+            <Route path="/admin/:typeOfAdmin/*" element={<ProtectedNotFound />} />
             <Route path="/admin/:typeOfAdmin/main" element={<ProtectedMain />} />
             <Route path="/admin/:typeOfAdmin/profile/:usernameFromUrl" element={<ProtectedAdminProfile />} />
             <Route path="/admin/userSupportAdmin/faqs" element={<ProtectedFAQs />} />
@@ -196,33 +177,8 @@ const App = () => {
             <Route path="/admin/systemSupportAdmin/forumTopics/:id" element={<ProtectedForumTopicsDetailsSystemSupportAdmin />} />
           </Routes>
         </Router>
-
-        {/* <ForumTopics /> */}
-        {/* <TopicPosts /> */}
-        {/* <Router>
-        <Routes>
-          <Route path="/" element={<ForumTopics />} />
-          <Route path="/post/:id" element={<TopicPosts />} />
-        </Routes>
-      </Router> */}
-        {/* <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header> */}
-        {/* <UniversityDescriptionPage/> */}
-        {/* <MappableModule /> */}
+        
       </div>
-      {/* </Router>/*} */}
 
     </AuthProvider>
   );

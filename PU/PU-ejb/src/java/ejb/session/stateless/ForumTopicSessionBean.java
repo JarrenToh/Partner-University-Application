@@ -116,23 +116,23 @@ public class ForumTopicSessionBean implements ForumTopicSessionBeanLocal {
     public void deleteForumTopic(Long forumTopicId) {
         ForumTopic forumTopic = em.find(ForumTopic.class, forumTopicId);
 
-        if (forumTopic.getStudent() != null) {
-            Student student = em.find(Student.class, forumTopic.getStudentId());
-            student.getTopics().remove(forumTopic);
-        } else {
-            NUSchangeAdmin admin = em.find(NUSchangeAdmin.class, forumTopic.getAdmin().getAdminId());
-            admin.getForumTopics().remove(forumTopic);
-        }
-
-        List<ForumPost> forumPosts = forumTopic.getForumPosts();
-
-        synchronized (forumPosts) {
-            List<ForumPost> copyOfForumPosts = new ArrayList<>(forumPosts); // create a copy of the list
-            for (ForumPost forumPost : copyOfForumPosts) {
-                forumPostSessionBeanLocal.deleteForumPost(forumPost.getPostId());
-                forumPosts.remove(forumPost); // remove the forumPost from the original list
-            }
-        }
+//        if (forumTopic.getStudent() != null) {
+//            Student student = em.find(Student.class, forumTopic.getStudentId());
+//            student.getTopics().remove(forumTopic);
+//        } else {
+//            NUSchangeAdmin admin = em.find(NUSchangeAdmin.class, forumTopic.getAdmin().getAdminId());
+//            admin.getForumTopics().remove(forumTopic);
+//        }
+//
+//        List<ForumPost> forumPosts = forumTopic.getForumPosts();
+//
+//        synchronized (forumPosts) {
+//            List<ForumPost> copyOfForumPosts = new ArrayList<>(forumPosts); // create a copy of the list
+//            for (ForumPost forumPost : copyOfForumPosts) {
+//                forumPostSessionBeanLocal.deleteForumPost(forumPost.getPostId());
+//                forumPosts.remove(forumPost); // remove the forumPost from the original list
+//            }
+//        }
 
         em.remove(forumTopic);
         em.flush();

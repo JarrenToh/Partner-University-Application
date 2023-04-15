@@ -42,7 +42,7 @@ public class ForumTopic implements Serializable {
     @Column(nullable = false)
     private LocalDateTime timeOfCreation;
     
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.REMOVE, orphanRemoval = true, mappedBy = "forumTopic")
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "forumTopic")
     private List<ForumPost> forumPosts;
     
     @ManyToOne(optional = true)

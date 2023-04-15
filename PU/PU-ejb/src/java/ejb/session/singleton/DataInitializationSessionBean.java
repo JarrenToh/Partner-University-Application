@@ -1182,6 +1182,336 @@ public class DataInitializationSessionBean {
                 "password"
         );
 
+        Student student138 = new Student(
+                "Karen",
+                "Tan",
+                "90002137",
+                "karentan@comp.nus.edu.sg",
+                "password"
+        );
+        Long studentId138 = studentSessionBean.createStudent(student138);
+
+        Student student139 = new Student(
+                "Lionel",
+                "Lim",
+                "90002138",
+                "lionellim@comp.nus.edu.sg",
+                "password"
+        );
+        Long studentId139 = studentSessionBean.createStudent(student139);
+
+        Student student140 = new Student(
+                "Ahmad",
+                "Wong",
+                "90002110",
+                "ahmadwong@comp.nus.edu.sg",
+                "password"
+        );
+        Long studentId140 = studentSessionBean.createStudent(student140);
+
+        Student student141 = new Student(
+                "Nurul",
+                "Lim",
+                "90002111",
+                "nurullim@comp.nus.edu.sg",
+                "password"
+        );
+        Long studentId141 = studentSessionBean.createStudent(student141);
+
+        Student student142 = new Student(
+                "Syed",
+                "Ng",
+                "90002112",
+                "syedng@comp.nus.edu.sg",
+                "password"
+        );
+        Long studentId142 = studentSessionBean.createStudent(student142);
+
+        Student student143 = new Student(
+                "Fatimah",
+                "Tay",
+                "90002113",
+                "fatimahtay@comp.nus.edu.sg",
+                "password"
+        );
+        Long studentId143 = studentSessionBean.createStudent(student143);
+
+        Student student144 = new Student(
+                "Rahman",
+                "Chen",
+                "90002114",
+                "rahmanchen@comp.nus.edu.sg",
+                "password"
+        );
+        Long studentId144 = studentSessionBean.createStudent(student144);
+
+        Student student145 = new Student(
+                "Nur",
+                "Koh",
+                "90002115",
+                "nurkoh@comp.nus.edu.sg",
+                "password"
+        );
+        Long studentId145 = studentSessionBean.createStudent(student145);
+
+        Student student146 = new Student(
+                "Siti",
+                "Heng",
+                "90002116",
+                "sitiheng@comp.nus.edu.sg",
+                "password"
+        );
+        Long studentId146 = studentSessionBean.createStudent(student146);
+
+        Student student147 = new Student(
+                "Ahmad",
+                "Tan",
+                "90002117",
+                "ahmadtan@comp.nus.edu.sg",
+                "password"
+        );
+        Long studentId147 = studentSessionBean.createStudent(student147);
+
+        Student student148 = new Student(
+                "Nurul",
+                "Kong",
+                "90002118",
+                "nurulkong@comp.nus.edu.sg",
+                "password"
+        );
+        Long studentId148 = studentSessionBean.createStudent(student148);
+
+        Student student149 = new Student(
+                "Syed",
+                "Chua",
+                "90002119",
+                "syedchua@comp.nus.edu.sg",
+                "password"
+        );
+        Long studentId149 = studentSessionBean.createStudent(student149);
+
+        Student student150 = new Student(
+                "Fatimah",
+                "Lim",
+                "90002120",
+                "fatimahlim@comp.nus.edu.sg",
+                "password"
+        );
+
+        Long studentId150 = studentSessionBean.createStudent(student150);
+
+        Student student151 = new Student(
+                "Nadia",
+                "Yap",
+                "90002131",
+                "nadiayap@comp.nus.edu.sg",
+                "password"
+        );
+        Long studentId151 = studentSessionBean.createStudent(student151);
+
+        Student student152 = new Student(
+                "Zoe",
+                "Chong",
+                "90002132",
+                "zoechong@comp.nus.edu.sg",
+                "password"
+        );
+        Long studentId152 = studentSessionBean.createStudent(student152);
+
+        Student student153 = new Student(
+                "Keith",
+                "Ng",
+                "90002133",
+                "keithng@comp.nus.edu.sg",
+                "password"
+        );
+        Long studentId153 = studentSessionBean.createStudent(student153);
+
+        Student student154 = new Student(
+                "Ella",
+                "Loh",
+                "90002134",
+                "ellaloh@comp.nus.edu.sg",
+                "password"
+        );
+        Long studentId154 = studentSessionBean.createStudent(student154);
+
+        Student student155 = new Student(
+                "Marcus",
+                "Tan",
+                "90002135",
+                "marcustan@comp.nus.edu.sg",
+                "password"
+        );
+        Long studentId155 = studentSessionBean.createStudent(student155);
+
+        Student student156 = new Student(
+                "Rachel",
+                "Chua",
+                "90002136",
+                "rachelchua@comp.nus.edu.sg",
+                "password"
+        );
+        Long studentId156 = studentSessionBean.createStudent(student156);
+
+        Student student157 = new Student(
+                "Daryl",
+                "Wong",
+                "90002137",
+                "darylwong@comp.nus.edu.sg",
+                "password"
+        );
+        Long studentId157 = studentSessionBean.createStudent(student157);
+
+        Student student158 = new Student(
+                "Audrey",
+                "Lim",
+                "90002138",
+                "audreylim@comp.nus.edu.sg",
+                "password"
+        );
+        Long studentId158 = studentSessionBean.createStudent(student158);
+
+        Student student159 = new Student(
+                "Leonard",
+                "Tan",
+                "90002139",
+                "leonardtan@comp.nus.edu.sg",
+                "password"
+        );
+        Long studentId159 = studentSessionBean.createStudent(student159);
+
+        Student student160 = new Student(
+                "Grace",
+                "Chen",
+                "90002140",
+                "gracechen@comp.nus.edu.sg",
+                "password"
+        );
+        Long studentId160 = studentSessionBean.createStudent(student160);
+
+        Student student161 = new Student(
+                "Xavier",
+                "Ng",
+                "90002141",
+                "xavierng@comp.nus.edu.sg",
+                "password"
+        );
+        Long studentId161 = studentSessionBean.createStudent(student161);
+
+        Student student162 = new Student(
+                "Hannah",
+                "Lim",
+                "90002142",
+                "hannalim@comp.nus.edu.sg",
+                "password"
+        );
+        Long studentId162 = studentSessionBean.createStudent(student162);
+
+        Student student163 = new Student(
+                "Aiden",
+                "Tan",
+                "90002143",
+                "aiden.tan@comp.nus.edu.sg",
+                "password"
+        );
+        Long studentId163 = studentSessionBean.createStudent(student163);
+
+        Student student164 = new Student(
+                "Audrey",
+                "Koh",
+                "90002144",
+                "audreykoh@comp.nus.edu.sg",
+                "password"
+        );
+        Long studentId164 = studentSessionBean.createStudent(student164);
+
+        Student student165 = new Student(
+                "Maggie",
+                "Ng",
+                "90003048",
+                "maggie.ng@comp.nus.edu.sg",
+                "password"
+        );
+
+        Long studentId165 = studentSessionBean.createStudent(student165);
+
+        Student student166 = new Student(
+                "Avery",
+                "Goh",
+                "90002105",
+                "averygoh@comp.nus.edu.sg",
+                "password"
+        );
+        Long studentId166 = studentSessionBean.createStudent(student166);
+
+        Student student167 = new Student(
+                "Maggie",
+                "Lee",
+                "90002106",
+                "magglee@comp.nus.edu.sg",
+                "password"
+        );
+        Long studentId167 = studentSessionBean.createStudent(student167);
+
+        Student student168 = new Student(
+                "Kevin",
+                "Lim",
+                "90002107",
+                "kevinlim@comp.nus.edu.sg",
+                "password"
+        );
+        Long studentId168 = studentSessionBean.createStudent(student168);
+
+        Student student169 = new Student(
+                "Mia",
+                "Wong",
+                "90002108",
+                "miawong@comp.nus.edu.sg",
+                "password"
+        );
+        Long studentId169 = studentSessionBean.createStudent(student169);
+
+        Student student170 = new Student(
+                "Andy",
+                "Tan",
+                "90002109",
+                "andytan@comp.nus.edu.sg",
+                "password"
+        );
+        Long studentId170 = studentSessionBean.createStudent(student170);
+
+        Student student171 = new Student(
+                "Nina",
+                "Chen",
+                "90003073",
+                "ninachen@comp.nus.edu.sg",
+                "password"
+        );
+
+        Long studentId171 = studentSessionBean.createStudent(student171);
+
+        Student student172 = new Student(
+                "James",
+                "Goh",
+                "90003074",
+                "jamesgoh@comp.nus.edu.sg",
+                "password"
+        );
+
+        Long studentId172 = studentSessionBean.createStudent(student172);
+
+        Student student173 = new Student(
+                "Amanda",
+                "Ng",
+                "90003075",
+                "amandang@comp.nus.edu.sg",
+                "password"
+        );
+
+        Long studentId173 = studentSessionBean.createStudent(student173);
+
+// and so on until student170
         Long studentId1 = studentSessionBean.createStudent(student1);
         Long studentId2 = studentSessionBean.createStudent(student2);
         Long studentId3 = studentSessionBean.createStudent(student3);
@@ -3305,6 +3635,189 @@ public class DataInitializationSessionBean {
                 2l,
                 "I would not recommend this university. The professors seemed uninterested and the facilities were outdated. Save your money and go elsewhere."
         );
+        PUReview review138 = new PUReview(
+4l,
+"My experience at this university was overall positive. The courses were challenging and I was able to get involved in extracurricular activities that helped me grow as a person."
+);
+            PUReview review139 = new PUReview(
+            3l,
+            "This university provided me with a decent education, but I felt like I could have received a better value elsewhere. The campus was nice but I didn't feel like I had many opportunities to get involved."
+    );
+
+    PUReview review140 = new PUReview(
+            5l,
+            "Attending this university was a fantastic decision. The professors were knowledgeable and the facilities were top-notch. I would highly recommend it to anyone looking for a great college experience."
+    );
+
+    PUReview review141 = new PUReview(
+            2l,
+            "I had a negative experience at this university. The professors seemed uninterested and the campus was not as nice as I was expecting. I would not recommend it."
+    );
+
+    PUReview review142 = new PUReview(
+            4l,
+            "Overall, I had a positive experience at this university. The professors were knowledgeable and the campus was nice. I felt like I had many opportunities to get involved and learn."
+    );
+
+    PUReview review143 = new PUReview(
+            3l,
+            "My experience at this university was average. The professors were hit or miss and the campus was not as nice as I was hoping. I would recommend looking elsewhere."
+    );
+
+    PUReview review144 = new PUReview(
+            5l,
+            "I loved attending this university. The professors were passionate and engaging, and the campus was beautiful. I felt like I was challenged and supported throughout my time there."
+    );
+
+    PUReview review145 = new PUReview(
+            2l,
+            "This university was a disappointment. The professors seemed uninterested and the campus was not as nice as I was expecting. I would not recommend it."
+    );
+
+    PUReview review146 = new PUReview(
+            4l,
+            "Attending this university was a great decision. The professors were knowledgeable and the campus was full of opportunities to learn and grow. I would highly recommend it."
+    );
+
+    PUReview review147 = new PUReview(
+            3l,
+            "My experience at this university was mixed. Some of the professors were excellent, but others were not as engaging. The campus was nice but could use some updating."
+    );
+
+    PUReview review148 = new PUReview(
+            5l,
+            "This university exceeded my expectations. The professors were knowledgeable and supportive, and the campus was beautiful. I am proud to be an alumnus."
+    );
+
+    PUReview review149 = new PUReview(
+            2l,
+            "I would not recommend this university. The professors seemed uninterested and the campus was not as nice as I was expecting. I regret my decision to attend."
+    );
+
+    PUReview review150 = new PUReview(
+            4l,
+            "Overall, I had a positive experience at this university. The professors were knowledgeable and the campus was nice. I felt like I had many opportunities to get involved and learn."
+    );
+
+    PUReview review151 = new PUReview(
+            3l,
+            "My experience at this university was average. The professors were hit or miss and the campus was not as nice as I was hoping. I would recommend looking elsewhere."
+    );
+
+    PUReview review152 = new PUReview(
+            5l,
+            "I absolutely loved attending this university. The professors were passionate and engaging, and the campus was full of opportunities to learn and grow."
+    );
+
+       PUReview review153 = new PUReview(
+            2l,
+            "I was disappointed with my experience at this university. The facilities were run-down and the professors seemed uninterested in their students' success."
+    );
+
+    PUReview review154 = new PUReview(
+            3l,
+            "I had a mixed experience at this university. Some of the professors were excellent and supportive, while others seemed disengaged and uninterested."
+    );
+
+    PUReview review155 = new PUReview(
+            5l,
+            "This university exceeded my expectations. The professors were passionate and engaging, and the campus was beautiful and well-maintained. I would highly recommend it."
+    );
+
+    PUReview review156 = new PUReview(
+            4l,
+            "I had a great experience at this university. The classes were challenging but rewarding, and the campus was full of opportunities to get involved and make a difference."
+    );
+
+    PUReview review157 = new PUReview(
+            3l,
+            "Overall, my experience at this university was positive. While there were some administrative challenges, the professors were generally supportive and knowledgeable."
+    );
+
+    PUReview review158 = new PUReview(
+            2l,
+            "I would not recommend this university. The professors seemed disinterested in their students, and the facilities were in need of serious updating."
+    );
+
+    PUReview review159 = new PUReview(
+            4l,
+            "I had a great experience at this university. The professors were engaging and knowledgeable, and the campus was full of opportunities to learn and grow."
+    );
+
+    PUReview review160 = new PUReview(
+            5l,
+            "This university provided me with an exceptional education and prepared me well for my future career. The professors were supportive and challenging, and the campus was beautiful."
+    );
+
+    PUReview review161 = new PUReview(
+            1l,
+            "I regret attending this university. The professors were disengaged and unhelpful, and the facilities were run-down and poorly maintained."
+    );
+
+    PUReview review162 = new PUReview(
+            3l,
+            "My experience at this university was positive overall. The professors were generally supportive and knowledgeable, and the campus was well-maintained."
+    );
+
+    PUReview review163 = new PUReview(
+            4l,
+            "I had a great experience at this university. The professors were passionate and engaging, and the campus was full of opportunities for personal and academic growth."
+    );
+
+    PUReview review164 = new PUReview(
+            2l,
+            "I would not recommend this university. The professors were disengaged and uninterested in their students, and the facilities were outdated and poorly maintained."
+    );
+
+    PUReview review165 = new PUReview(
+            5l,
+            "I loved attending this university. The professors were knowledgeable and passionate, and the campus was full of opportunities for personal and academic growth."
+    );
+
+    PUReview review166 = new PUReview(
+            4l,
+            "I had a great experience at this university. The professors were supportive and challenging, and the campus was full of opportunities to get involved and make a difference."
+    );
+
+    PUReview review167 = new PUReview(
+            3l,
+            "Overall, my experience at this university was positive. The professors were generally knowledgeable and supportive, and the campus was well-maintained."
+    );
+
+
+    PUReview review168 = new PUReview(
+            5l,
+            "I loved attending this university. The professors were knowledgeable and passionate, and the campus was full of opportunities for personal and academic growth."
+    );
+
+    PUReview review169 = new PUReview(
+            4l,
+            "I had a great experience at this university. The professors were supportive and challenging, and the campus was full of opportunities to get involved and make a difference."
+    );
+
+    PUReview review170 = new PUReview(
+            3l,
+            "Overall, my experience at this university was positive. The professors were generally knowledgeable and supportive, and the campus was well-maintained."
+    );
+    
+    
+    PUReview review171 = new PUReview(
+            5l,
+            "I loved attending this university. The professors were knowledgeable and passionate, and the campus was full of opportunities for personal and academic growth."
+    );
+
+    PUReview review172 = new PUReview(
+            4l,
+            "I had a great experience at this university. The professors were supportive and challenging, and the campus was full of opportunities to get involved and make a difference."
+    );
+
+    PUReview review173 = new PUReview(
+            3l,
+            "Overall, my experience at this university was positive. The professors were generally knowledgeable and supportive, and the campus was well-maintained."
+    );
+
+
+        
 
         review1.setIsInappropriate(true);
         review2.setIsInappropriate(true);
@@ -3350,45 +3863,45 @@ public class DataInitializationSessionBean {
         pUReviewSessionBean.createPUReview(review35, pId4, studentId35);
         pUReviewSessionBean.createPUReview(review36, pId4, studentId36);
 
-//        pUReviewSessionBean.createPUReview(review1, pId50, studentId1);
-//        pUReviewSessionBean.createPUReview(review2, pId50, studentId2);
-//        pUReviewSessionBean.createPUReview(review3, pId50, studentId3);
-//        pUReviewSessionBean.createPUReview(review4, pId49, studentId4);
-//        pUReviewSessionBean.createPUReview(review5, pId49, studentId5);
-//        pUReviewSessionBean.createPUReview(review6, pId49, studentId6);
-//        pUReviewSessionBean.createPUReview(review7, pId48, studentId7);
-//        pUReviewSessionBean.createPUReview(review8, pId48, studentId8);
-//        pUReviewSessionBean.createPUReview(review9, pId48, studentId9);
-//        pUReviewSessionBean.createPUReview(review10, pId47, studentId10);
-//        pUReviewSessionBean.createPUReview(review11, pId47, studentId11);
-//        pUReviewSessionBean.createPUReview(review12, pId47, studentId12);
-//        pUReviewSessionBean.createPUReview(review13, pId46, studentId13);
-//        pUReviewSessionBean.createPUReview(review14, pId46, studentId14);
-//        pUReviewSessionBean.createPUReview(review15, pId46, studentId15);
-//        pUReviewSessionBean.createPUReview(review16, pId45, studentId16);
-//        pUReviewSessionBean.createPUReview(review17, pId45, studentId17);
-//        pUReviewSessionBean.createPUReview(review18, pId45, studentId18);
-//
-//        pUReviewSessionBean.createPUReview(review19, pId44, studentId19);
-//        pUReviewSessionBean.createPUReview(review20, pId44, studentId20);
-//        pUReviewSessionBean.createPUReview(review21, pId44, studentId21);
-//        pUReviewSessionBean.createPUReview(review22, pId43, studentId22);
-//        pUReviewSessionBean.createPUReview(review23, pId43, studentId23);
-//        pUReviewSessionBean.createPUReview(review24, pId43, studentId24);
-//        pUReviewSessionBean.createPUReview(review25, pId42, studentId25);
-//        pUReviewSessionBean.createPUReview(review26, pId42, studentId26);
-//        pUReviewSessionBean.createPUReview(review27, pId42, studentId27);
-//        pUReviewSessionBean.createPUReview(review28, pId41, studentId28);
-//        pUReviewSessionBean.createPUReview(review29, pId41, studentId29);
-//        pUReviewSessionBean.createPUReview(review30, pId41, studentId30);
-//        pUReviewSessionBean.createPUReview(review31, pId40, studentId31);
-//        pUReviewSessionBean.createPUReview(review32, pId40, studentId32);
-//        pUReviewSessionBean.createPUReview(review33, pId40, studentId33);
-//        pUReviewSessionBean.createPUReview(review34, pId39, studentId34);
-//        pUReviewSessionBean.createPUReview(review35, pId39, studentId35);
-//        pUReviewSessionBean.createPUReview(review36, pId39, studentId36);
-//
-//        pUReviewSessionBean.createPUReview(review36, pId27, studentId36);
+        pUReviewSessionBean.createPUReview(review138, pId50, studentId137);
+        pUReviewSessionBean.createPUReview(review139, pId50, studentId138);
+        pUReviewSessionBean.createPUReview(review140, pId50, studentId139);
+        pUReviewSessionBean.createPUReview(review141, pId49, studentId140);
+        pUReviewSessionBean.createPUReview(review142, pId49, studentId141);
+        pUReviewSessionBean.createPUReview(review143, pId49, studentId142);
+        pUReviewSessionBean.createPUReview(review144, pId48, studentId143);
+        pUReviewSessionBean.createPUReview(review145, pId48, studentId144);
+        pUReviewSessionBean.createPUReview(review146, pId48, studentId145);
+        pUReviewSessionBean.createPUReview(review147, pId47, studentId146);
+        pUReviewSessionBean.createPUReview(review148, pId47, studentId147);
+        pUReviewSessionBean.createPUReview(review149, pId47, studentId148);
+        pUReviewSessionBean.createPUReview(review150, pId46, studentId149);
+        pUReviewSessionBean.createPUReview(review151, pId46, studentId150);
+        pUReviewSessionBean.createPUReview(review152, pId46, studentId151);
+        pUReviewSessionBean.createPUReview(review153, pId45, studentId152);
+        pUReviewSessionBean.createPUReview(review154, pId45, studentId153);
+        pUReviewSessionBean.createPUReview(review155, pId45, studentId154);
+
+        pUReviewSessionBean.createPUReview(review156, pId44, studentId155);
+        pUReviewSessionBean.createPUReview(review157, pId44, studentId156);
+        pUReviewSessionBean.createPUReview(review158, pId44, studentId157);
+        pUReviewSessionBean.createPUReview(review159, pId43, studentId158);
+        pUReviewSessionBean.createPUReview(review160, pId43, studentId159);
+        pUReviewSessionBean.createPUReview(review161, pId43, studentId160);
+        pUReviewSessionBean.createPUReview(review162, pId42, studentId161);
+        pUReviewSessionBean.createPUReview(review163, pId42, studentId162);
+        pUReviewSessionBean.createPUReview(review164, pId42, studentId163);
+        pUReviewSessionBean.createPUReview(review165, pId41, studentId164);
+        pUReviewSessionBean.createPUReview(review166, pId41, studentId165);
+        pUReviewSessionBean.createPUReview(review167, pId41, studentId166);
+        pUReviewSessionBean.createPUReview(review168, pId40, studentId167);
+        pUReviewSessionBean.createPUReview(review169, pId40, studentId168);
+        pUReviewSessionBean.createPUReview(review170, pId40, studentId169);
+        pUReviewSessionBean.createPUReview(review171, pId39, studentId170);
+        pUReviewSessionBean.createPUReview(review172, pId39, studentId171);
+        pUReviewSessionBean.createPUReview(review173, pId39, studentId172);
+
+        pUReviewSessionBean.createPUReview(review36, pId27, studentId173);
         pUReviewSessionBean.createPUReview(review37, pId27, studentId37);
         pUReviewSessionBean.createPUReview(review38, pId27, studentId38);
         pUReviewSessionBean.createPUReview(review39, pId27, studentId39);
@@ -3637,6 +4150,39 @@ public class DataInitializationSessionBean {
         pUSessionBean.enrollStudent(pId14, studentId135);
         pUSessionBean.enrollStudent(pId14, studentId136);
         pUSessionBean.enrollStudent(pId14, studentId137);
+        pUSessionBean.enrollStudent(pId14, studentId138);
+        pUSessionBean.enrollStudent(pId14, studentId139);
+        pUSessionBean.enrollStudent(pId14, studentId140);
+        pUSessionBean.enrollStudent(pId14, studentId141);
+        pUSessionBean.enrollStudent(pId14, studentId142);
+        pUSessionBean.enrollStudent(pId14, studentId143);
+        pUSessionBean.enrollStudent(pId14, studentId144);
+        pUSessionBean.enrollStudent(pId14, studentId145);
+        pUSessionBean.enrollStudent(pId14, studentId146);
+        pUSessionBean.enrollStudent(pId14, studentId147);
+        pUSessionBean.enrollStudent(pId14, studentId148);
+        pUSessionBean.enrollStudent(pId14, studentId149);
+        pUSessionBean.enrollStudent(pId14, studentId150);
+        pUSessionBean.enrollStudent(pId14, studentId151);
+        pUSessionBean.enrollStudent(pId14, studentId152);
+        pUSessionBean.enrollStudent(pId14, studentId153);
+        pUSessionBean.enrollStudent(pId14, studentId154);
+        pUSessionBean.enrollStudent(pId14, studentId155);
+        pUSessionBean.enrollStudent(pId14, studentId156);
+        pUSessionBean.enrollStudent(pId14, studentId157);
+        pUSessionBean.enrollStudent(pId14, studentId158);
+        pUSessionBean.enrollStudent(pId14, studentId159);
+        pUSessionBean.enrollStudent(pId14, studentId160);
+        pUSessionBean.enrollStudent(pId14, studentId161);
+        pUSessionBean.enrollStudent(pId14, studentId162);
+        pUSessionBean.enrollStudent(pId14, studentId163);
+        pUSessionBean.enrollStudent(pId14, studentId164);
+        pUSessionBean.enrollStudent(pId14, studentId165);
+        pUSessionBean.enrollStudent(pId14, studentId166);
+        pUSessionBean.enrollStudent(pId14, studentId167);
+        pUSessionBean.enrollStudent(pId14, studentId168);
+        pUSessionBean.enrollStudent(pId14, studentId169);
+        pUSessionBean.enrollStudent(pId14, studentId170);
 
         PUModule module1 = new PUModule(
                 "Introduction to Programming",
