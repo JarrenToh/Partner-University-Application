@@ -9,6 +9,7 @@ import { AuthProvider, useAuth } from '../../../src/AuthContext';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeart } from "@fortawesome/free-solid-svg-icons";
 import { faHeart as heartOutline } from "@fortawesome/free-regular-svg-icons";
+import { Modal } from "react-bootstrap";
 
 const UniversityRankings = ({ universitiesData }) => {
 
@@ -27,6 +28,9 @@ const UniversityRankings = ({ universitiesData }) => {
     name: "Dummy Uni",
     puId: 0,
   });
+  const [showLikedModal, setShowLikedModal] = useState(false);
+  const handleClose = () => setShowLikedModal(false);
+  const handleShow = () => setShowLikedModal(true);
 
   useEffect(() => {
     setFilter(searchTerm);
@@ -84,7 +88,7 @@ const UniversityRankings = ({ universitiesData }) => {
 
   const getUniqueCountries = () => {
     const countries = universitiesData.map((university) => university.countryName);
-    const uniqueCountries = Array.from(new Set(countries));
+    const uniqueCountries = Array.from(new Set(countries)).sort();
     return ["All Countries", ...uniqueCountries];
   };
 
@@ -138,8 +142,8 @@ const UniversityRankings = ({ universitiesData }) => {
   return (
     <div className="wrapper">
       <NavbarComp isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} user={user} />
-      <br/>
-      <div className="container" style={{maxWidth : '1300px'}}>
+      <br />
+      <div className="container" style={{ maxWidth: '1300px' }}>
         <div className="universityRankings">
           <div className="universityRankings_description">
             <h1 className="headerRanking">Partner University Rankings</h1>
@@ -229,11 +233,30 @@ const UniversityRankings = ({ universitiesData }) => {
           </div>
         )}
         {sortedUniversities.length > displayLimit && (
-          <Button onClick={handleShowMore}>Show More</Button>
+          <Button onClick={handleShowMore} style={{ backgroundColor: `#1E90FF`, fontSize: `20px`, color: `white` }}>Show More</Button>
         )}
+        <br />
+        <br />
+        <br />
+        <br />
       </div>
-
+      <Modal show={showLikedModal} onHide={handleClose}>
+        <Modal.Header closeButton>
+          <Modal.Title>You are Enrolled Here!</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          To easily access your university from your profile page, simply click on the "View University Details" Link.
+          </Modal.Body>
+        <Modal.Footer>
+          <Button color="outline-danger" onClick={handleClose}>
+            Close
+          </Button>
+        </Modal.Footer>
+      </Modal>
+      <br/>
+      <br/>
     </div>
+
   );
 };
 

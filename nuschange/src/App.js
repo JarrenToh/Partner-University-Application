@@ -8,17 +8,17 @@ import NavbarComp from './student/components/NavbarComp';
 import StudentLogin from './student/login/StudentLogin';
 import { AuthProvider, useAuth } from './AuthContext';
 import StudentProfile from './student/studentProfile/StudentProfile';
-import ForumTopics from './student/ForumTopics';
-import TopicPosts from './student/TopicPosts';
-import NewPost from './student/NewPost';
-import MyTopics from './student/MyTopics';
-import MyPosts from './student/MyPosts';
-import EditPost from './student/EditForumPost';
-import NewTopic from './student/NewTopic';
-import EditTopic from './student/EditTopic';
-import Post from './student/Post';
-import Error from './student/ErrorPage';
-import EditComment from './student/EditComment';
+import ForumTopics from './student/forum/ForumTopics';
+import TopicPosts from './student/forum/TopicPosts';
+import NewPost from './student/forum/NewPost';
+import MyTopics from './student/forum/MyTopics';
+import MyPosts from './student/forum/MyPosts';
+import EditPost from './student/forum/EditForumPost';
+import NewTopic from './student/forum/NewTopic';
+import EditTopic from './student/forum/EditTopic';
+import Post from './student/forum/Post';
+import Error from './student/forum/ErrorPage';
+import EditComment from './student/forum/EditComment';
 import FAQPage from './student/FAQpage';
 import LikedPUs from './student/studentProfile/LikedPUs';
 import UniversityRankingsCountry from './student/ranking/UniversityRankingsCountry';
@@ -29,6 +29,7 @@ import ModulesTaken from './student/studentProfile/ModulesTaken';
 import ModuleDetail from './student/puModule/ModuleDetails';
 import OtherStudentProfile from './student/containers/OtherStudentProfile';
 import StudentEnquiry from './student/enquiries/Enquiries';
+import NotFoundPage from './student/components/NotFoundPage';
 
 
 // admin
@@ -142,6 +143,7 @@ const App = () => {
           {/* student */}
           <Routes>
             <Route path="/" element={<LandingPage />} />
+            <Route path="/student/*" element={<NotFoundPage/>} />
             <Route path="/student/home-page" element={<HomePage />} />
             <Route path="/student/profile" element={<StudentProfile user={user} />} />
             <Route path="/student/forum-topics/:puId" element={<ForumTopics />} />

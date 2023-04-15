@@ -1,10 +1,10 @@
 import React from 'react';
 import { useState, useEffect, useContext } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { AuthContext } from '../../src/AuthContext';
+import { AuthContext } from '../../../src/AuthContext';
 import axios from 'axios';
-import NavbarComp from '../student/components/NavbarComp';
-import NotLoggedIn from './components/NotLoggedInPage';
+import NavbarComp from '../../student/components/NavbarComp';
+import NotLoggedIn from '../../student/components/NotLoggedInPage';
 
 import {
     Card,

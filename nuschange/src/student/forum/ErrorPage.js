@@ -1,5 +1,5 @@
-import NavbarComp from '../student/components/NavbarComp';
-import { AuthContext } from '../../src/AuthContext';
+import NavbarComp from '../../student/components/NavbarComp';
+import { AuthContext } from '../../../src/AuthContext';
 import { useState, useContext, useEffect } from 'react';
 
 function ErrorPage() {

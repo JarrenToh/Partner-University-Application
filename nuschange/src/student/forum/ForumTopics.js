@@ -1,6 +1,6 @@
 import React, { Fragment} from 'react';
 import { Link, useParams, useNavigate } from 'react-router-dom';
-import { AuthContext } from '../../src/AuthContext';
+import { AuthContext } from '../../../src/AuthContext';
 //import NavbarComp from './components/NavbarComp';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -9,9 +9,9 @@ import { far } from '@fortawesome/free-regular-svg-icons';
 import { fas } from '@fortawesome/free-solid-svg-icons';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import './styles.css';
-import SearchIcon from './homepage/search.svg';
-import NavbarComp from '../student/components/NavbarComp';
-import NotLoggedIn from './components/NotLoggedInPage';
+import SearchIcon from '../homepage/search.svg';
+import NavbarComp from '../../student/components/NavbarComp';
+import NotLoggedIn from '../../student/components/NotLoggedInPage';
 
 import {
   Table,
