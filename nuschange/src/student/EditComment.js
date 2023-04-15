@@ -98,7 +98,7 @@ export default function EditComment() {
                     <FormGroup row>
                         <Col sm={{ size: 10, offset: 2 }}>
                             <div className="text-right">
-                                <Button variant="success"
+                                <Button variant="success" style={{marginRight: "10px"}}
                                     disabled={saveButtonDisabled} type="submit">
                                     Edit comment
                                 </Button>

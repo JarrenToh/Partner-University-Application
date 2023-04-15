@@ -99,7 +99,7 @@ export default function EditTopic() {
                         <Col sm={{ size: 10, offset: 2 }}>
                             <div className="text-right">
                                 <Button variant="success"
-                                    disabled={saveButtonDisabled} type="submit">
+                                    disabled={saveButtonDisabled} type="submit" style={{marginRight: "10px"}}>
                                     Edit topic
                                 </Button>
                                 <Button variant="outline-danger" tag={Link}

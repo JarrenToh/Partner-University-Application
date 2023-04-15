@@ -47,10 +47,10 @@ public class ForumPostSessionBean implements ForumPostSessionBeanLocal {
         forumPost.setStudentId(studentId);
         forumPost.setStudentFirstName(student.getFirstName());
         forumPost.setStudentLastName(student.getLastName());
-        //forumPost.setTimeOfCreation(LocalDateTime.now());
-        //forumPost.setLikedStudents(new ArrayList());
-        //forumPost.setDislikedStudents(new ArrayList());
-        //forumPost.setForumComments(new ArrayList());
+        forumPost.setTimeOfCreation(LocalDateTime.now());
+        forumPost.setLikedStudents(new ArrayList());
+        forumPost.setDislikedStudents(new ArrayList());
+        forumPost.setForumComments(new ArrayList());
         em.persist(forumPost);
         em.flush();
     }
@@ -268,11 +268,11 @@ public class ForumPostSessionBean implements ForumPostSessionBeanLocal {
     public List<ForumPost> searchForumPostsByTopicAndStudent(String postTitle, Long topicId, Long studentId) {
        
         List<ForumPost> forumPosts = searchForumPostByTopic(postTitle, topicId);
-        List<ForumPost> searchPosts = forumPosts;
+        List<ForumPost> searchPosts = new ArrayList();
         
-        for(ForumPost forumPost : forumPosts) {
-            if (forumPost.getStudentId() != studentId) {
-                searchPosts.remove(forumPost);
+        for (ForumPost forumPost : forumPosts) {
+            if (forumPost.getStudentId() == studentId) {
+                searchPosts.add(forumPost);
             }
         }
         

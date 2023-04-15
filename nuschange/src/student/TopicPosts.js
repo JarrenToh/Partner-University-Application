@@ -10,6 +10,7 @@ import SearchIcon from './homepage/search.svg';
 import { Link } from 'react-router-dom';
 import { AuthContext } from '../AuthContext';
 import NavbarComp from '../student/components/NavbarComp';
+import NotLoggedIn from './components/NotLoggedInPage';
 
 import {
   Table,
@@ -78,7 +79,7 @@ export default function TopicPosts() {
   }, []);
 
   if (!loggedInStudent) {
-    return <h1 style={{ textAlign: 'center', color: 'red', margin: '0 auto', width: '50%', fontWeight: 'bold', fontSize: '2em'}}>You are not logged in.</h1>;
+    return NotLoggedIn();
   }
 
   const searchForumPost = async (searchQuery) => {
@@ -201,13 +202,13 @@ export default function TopicPosts() {
             placeholder="Search for Forum Post"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            style={{ borderRadius: "15px", padding: "3px", border: "0.5px solid grey", marginRight: "10px" }}
+            style={{borderRadius: "13px", padding: "3px", border: "0.2px solid grey", marginRight: "10px"}}
           />
           <img
             src={SearchIcon}
             alt="search"
             onClick={() => searchForumPost(searchQuery)}
-            style={{ width: "20px", height: "20px", cursor: "pointer" }}
+            style={{ width: "20px", height: "20px", cursor: "pointer", marginRight: "10px"}}
           />
         </div>
       <Card className="card-box mb-5">

@@ -220,15 +220,15 @@ export default function ForumTopics() {
     }
   }
 
-  function calculateTopics(forumTopics) {
-    let count = 0;   
-    forumTopics.forEach((topic) => {
-      if (!topic.isInappropriate) {
-        count = count + 1;
-      }
-    })
-    return count;
-  }
+  // function calculateTopics(forumTopics) {
+  //   let count = 0;   
+  //   forumTopics.forEach((topic) => {
+  //     if (!topic.isInappropriate) {
+  //       count = count + 1;
+  //     }
+  //   })
+  //   return count;
+  // }
 
   return (
     <div>
@@ -248,13 +248,13 @@ export default function ForumTopics() {
               placeholder="Search for Forum Topic"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              style={{ borderRadius: "18px", padding: "2px", border: "0.5px solid grey", marginRight: "10px" }}
+              style={{borderRadius: "13px", padding: "3px", border: "0.2px solid grey", marginRight: "10px"}}
             />
             <img
               src={SearchIcon}
               alt="search"
               onClick={() => searchForumTopic(searchQuery)}
-              style={{ width: "20px", height: "20px", cursor: "pointer" }}
+              style={{ width: "20px", height: "20px", cursor: "pointer", marginRight: "10px"}}
             />
           </div>
         </div>

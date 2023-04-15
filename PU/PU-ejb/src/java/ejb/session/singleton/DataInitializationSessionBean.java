@@ -1155,8 +1155,10 @@ public class DataInitializationSessionBean {
         ForumTopic forumTopic1 = new ForumTopic("WTF Topic");
         ForumTopic forumTopic2 = new ForumTopic("CCB Topic");
         ForumTopic forumTopic3 = new ForumTopic("CHAO Topic");
-        ForumTopic forumTopic4 = new ForumTopic("Fourth Topic");
-        ForumTopic forumTopic5 = new ForumTopic("Fifth Topic");
+        ForumTopic forumTopic4 = new ForumTopic("Harvard University Exchange Programme");
+        ForumTopic forumTopic5 = new ForumTopic("University Of Melbourne Exchange Programme");
+        ForumTopic forumTopic6 = new ForumTopic("Africa University Exchange Programme");
+        ForumTopic forumTopic7 = new ForumTopic("Accomodation");
 
         forumTopic1.setIsInappropriate(true);
         forumTopic2.setIsInappropriate(true);
@@ -1167,10 +1169,16 @@ public class DataInitializationSessionBean {
         forumTopicSessionBeanLocal.createNewForumTopic(forumTopic3, studentId3, pId3);
         forumTopicSessionBeanLocal.createNewForumTopic(forumTopic4, studentId1, pId4);
         forumTopicSessionBeanLocal.createNewForumTopic(forumTopic5, studentId2, pId5);
+        forumTopicSessionBeanLocal.createNewForumTopic(forumTopic6, studentId3, pId1);
+        forumTopicSessionBeanLocal.createNewForumTopic(forumTopic7, studentId3, pId1);
         
         ForumPost forumPost1 = new ForumPost("This is stupid?", "Stupid PU!!");
         ForumPost forumPost2 = new ForumPost("HK nice food?", "What a joke!!");
         ForumPost forumPost3 = new ForumPost("Places to stay?", "I want to stay in Singapore");
+        ForumPost forumPost4 = new ForumPost("Looking for friends to go for the Exchange Programme", "I am from SOC! Planning to go next semester");
+        ForumPost forumPost5 = new ForumPost("Studying culture in University of Melbourne", "How is the study culture over there like? Competitive? Friendly? Relaxing? Stressful?");
+        ForumPost forumPost6 = new ForumPost("Looking for friends to go for the Exchange Programme", "I am from SOC! Planning to go next semester");
+        ForumPost forumPost7 = new ForumPost("Affordable accomodation for Africa University", "Planning to go next semester");
 
         forumPost1.setIsInappropriate(true);
         forumPost2.setIsInappropriate(true);
@@ -1187,10 +1195,21 @@ public class DataInitializationSessionBean {
         forumPostSessionBeanLocal.createNewForumPost(forumPost1, forumTopic2.getTopicId(), student1.getStudentId());
         forumPostSessionBeanLocal.createNewForumPost(forumPost2, forumTopic2.getTopicId(), student3.getStudentId());
         forumPostSessionBeanLocal.createNewForumPost(forumPost3, forumTopic1.getTopicId(), student2.getStudentId());
+        forumPostSessionBeanLocal.createNewForumPost(forumPost4, forumTopic4.getTopicId(), student1.getStudentId());
+        forumPostSessionBeanLocal.createNewForumPost(forumPost5, forumTopic5.getTopicId(), student2.getStudentId());
+        forumPostSessionBeanLocal.createNewForumPost(forumPost6, forumTopic6.getTopicId(), student3.getStudentId());
+        forumPostSessionBeanLocal.createNewForumPost(forumPost7, forumTopic7.getTopicId(), student3.getStudentId());
 
         ForumComment forumComment1 = new ForumComment("Wow this is such a fking shit!", false);
         ForumComment forumComment2 = new ForumComment("fk you uds", false);
         ForumComment forumComment3 = new ForumComment("Marina Bay Sands!", false);
+        ForumComment forumComment4 = new ForumComment("Im going there too!!!", false);
+        ForumComment forumComment5 = new ForumComment("How can I contact you?", true);
+        ForumComment forumComment6 = new ForumComment("They are quite competitive", false);
+        ForumComment forumComment7 = new ForumComment("The lessons are quite long and boring", false);
+        ForumComment forumComment8 = new ForumComment("Same!! I plan to go there next sem too.", false);
+        ForumComment forumComment9 = new ForumComment("I agree with you^", true);
+        ForumComment forumComment10 = new ForumComment("I suggest ABC suits", false);
 
         forumComment1.setIsInappropriate(true);
         forumComment2.setIsInappropriate(true);
@@ -1204,7 +1223,13 @@ public class DataInitializationSessionBean {
         forumCommentSessionBeanLocal.createNewForumComment(forumComment1, forumPost1.getPostId(), student3.getStudentId());
         forumCommentSessionBeanLocal.createNewForumComment(forumComment2, forumPost2.getPostId(), student2.getStudentId());
         forumCommentSessionBeanLocal.createNewForumComment(forumComment3, forumPost3.getPostId(), student1.getStudentId());
-
+        forumCommentSessionBeanLocal.createNewForumComment(forumComment4, forumPost4.getPostId(), student3.getStudentId());
+        forumCommentSessionBeanLocal.createNewForumReply(forumComment5, forumComment4.getCommentId(), forumPost4.getPostId(),student1.getStudentId());
+        forumCommentSessionBeanLocal.createNewForumComment(forumComment6, forumPost5.getPostId(), student6.getStudentId());
+        forumCommentSessionBeanLocal.createNewForumComment(forumComment7, forumPost6.getPostId(), student5.getStudentId());
+        forumCommentSessionBeanLocal.createNewForumReply(forumComment9, forumComment6.getCommentId(), forumPost5.getPostId(), student7.getStudentId());
+        forumCommentSessionBeanLocal.createNewForumComment(forumComment10, forumPost7.getPostId(), student4.getStudentId());
+        
 //        Enquiry enquiry1 = new Enquiry("Hello", "Help");
 //        Enquiry enquiry2 = new Enquiry("Bye", "World");
 //        Enquiry enquiry3 = new Enquiry("Interesting", "Story");

@@ -18,7 +18,7 @@ public interface ForumCommentSessionBeanLocal {
     
     public ForumComment createNewForumComment(ForumComment forumComment, Long forumPostId, Long studentId);
     
-//    public ForumComment createNewForumReply(ForumComment forumReply, Long forumCommentId, Long forumPostId, Long studentId);
+    public ForumComment createNewForumReply(ForumComment forumReply, Long forumCommentId, Long forumPostId, Long studentId);
     
     public void updateShowReply(Long commentId);
     

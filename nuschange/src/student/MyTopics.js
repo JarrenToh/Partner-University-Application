@@ -9,6 +9,7 @@ import './styles.css';
 import SearchIcon from './homepage/search.svg';
 import { AuthProvider, useAuth, AuthContext } from '../../src/AuthContext';
 import NavbarComp from '../student/components/NavbarComp';
+import NotLoggedIn from './components/NotLoggedInPage';
 
 import {
   Table,
@@ -81,7 +82,7 @@ export default function MyTopics() {
   }, [selectedPuId, studentId]);
 
   if (!loggedInStudent) {
-    return <h1 style={{ textAlign: 'center', color: 'red', margin: '0 auto', width: '50%', fontWeight: 'bold', fontSize: '2em'}}>You are not logged in.</h1>;
+    return NotLoggedIn();
   }
 
   const searchForumTopic = async (searchQuery) => {
@@ -183,13 +184,13 @@ export default function MyTopics() {
               placeholder="Search for Forum Topic"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              style={{ borderRadius: "15px", padding: "3px", border: "0.5px solid grey", marginRight: "10px" }}
+              style={{borderRadius: "13px", padding: "3px", border: "0.2px solid grey", marginRight: "10px"}}
             />
             <img
               src={SearchIcon}
               alt="search"
               onClick={() => searchForumTopic(searchQuery)}
-              style={{ width: "20px", height: "20px", cursor: "pointer" }}
+              style={{ width: "20px", height: "20px", cursor: "pointer", marginRight: "10px"}}
             />
           </div>
         </div>

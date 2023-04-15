@@ -125,12 +125,12 @@ export default function EditPost() {
             <FormGroup row>
               <Col sm={{ size: 10, offset: 2 }}>
                 <div className="text-right">
-                  <Button variant="success"
+                  <Button variant="success" style={{marginRight: "10px"}}
                     disabled={saveButtonDisabled} type="submit">
                     Edit post
                   </Button>
                   {number == 0 ?
-                    (<Button variant="outline-danger" tag={Link}
+                    (<Button variant="outline-danger" tag={Link} 
                       to={`/student/forum-topics/${topicId}/${topicName}`}>
                       Close
                     </Button>) : (
