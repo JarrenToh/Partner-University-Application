@@ -178,7 +178,7 @@ function ModReviewComp({
                             }}
                             title={
                               loggedInStudent === null
-                                ? "Must be signed in to flag review"
+                                ? "Must be signed in to dislike review"
                                 : ""
                             }
                           />
@@ -212,7 +212,7 @@ function ModReviewComp({
                               [s.studentId]: false,
                             }))
                           }
-                          onClick={() => handleFlagged()}
+                          onClick={() => handleFlagged(s.moduleReviewId, s)}
                           disabled={loggedInStudent === null}
                           data-tip={
                             loggedInStudent === null

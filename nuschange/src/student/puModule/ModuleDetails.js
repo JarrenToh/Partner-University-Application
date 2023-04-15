@@ -54,11 +54,26 @@ const ModuleDetail = (props) => {
       `${API_URL_MODREVIEW}/from-module/${moduleId}`
     );
     const data = await response.json();
-    setReviews(data);
+    const filteredData = data.filter((review) => review.isInappropriate === false);
+    console.log(filteredData);
+    setReviews(filteredData);
     return data;
   };
 
-  const handleFlagged = (id) => {};
+  const handleFlagged = useCallback((moduleReviewId, data) => {
+    const confirmRemove = window.confirm(
+      "Are you sure you want to flag this review?"
+    );
+
+    if (confirmRemove) {
+      const updatedModReview = {
+        ...data,
+        isInappropriate: true,
+      };
+
+      apiPaths.updateModReview(moduleReviewId, updatedModReview);
+    }
+  });
 
   const toggleLike = useCallback((moduleReviewId, data) => {
     const modReviewLikedCheck = studentLikedModReview.some((likedModReview) => {
@@ -163,7 +178,7 @@ const ModuleDetail = (props) => {
       getStudentAPI(loggedInStudent.studentId);
       getPuModReviewsApi(modId);
     }
-  }, [loggedInStudent, toggleLike, toggleDislike]);
+  }, [loggedInStudent, toggleLike, toggleDislike, handleFlagged]);
 
   return (
     <div className="wrapper">
