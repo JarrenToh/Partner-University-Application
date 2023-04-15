@@ -73,9 +73,9 @@ export default function EditPost() {
 
         setTimeout(() => {
           if (number == 0) {
-            navigate(`/forum-topics/${topicId}/${topicName}`);
+            navigate(`/student/forum-topics/${topicId}/${topicName}`);
           } else if (number == 1) {
-            navigate(`/view-post/${id}/${topicName}/${topicId}`);
+            navigate(`/student/view-post/${id}/${topicName}/${topicId}`);
           }
         }, 1000);
       })
@@ -125,17 +125,17 @@ export default function EditPost() {
             <FormGroup row>
               <Col sm={{ size: 10, offset: 2 }}>
                 <div className="text-right">
-                  <Button variant="success"
+                  <Button variant="success" style={{marginRight: "10px"}}
                     disabled={saveButtonDisabled} type="submit">
                     Edit post
                   </Button>
                   {number == 0 ?
-                    (<Button variant="outline-danger" tag={Link}
-                      to={`/forum-topics/${topicId}/${topicName}`}>
+                    (<Button variant="outline-danger" tag={Link} 
+                      to={`/student/forum-topics/${topicId}/${topicName}`}>
                       Close
                     </Button>) : (
                       (<Button variant="outline-danger" tag={Link}
-                        to={`/view-post/${id}/${topicName}/${topicId}`}>
+                        to={`/student/view-post/${id}/${topicName}/${topicId}`}>
                         Close
                       </Button>)
                     )

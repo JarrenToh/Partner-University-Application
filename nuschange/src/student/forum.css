@@ -8,7 +8,7 @@
   }
 
   .forum-item:hover {
-    background-color: white;
+    background-color: none;
   }
   
   .forum-item h5,
@@ -74,18 +74,20 @@
   .forum-header .text-muted {
     display: flex;
     align-items: center;
-    max-width: 500px; /* adjust as necessary */
+    /* max-width: 500px; */
+    margin-left: auto;
   }
 
   .author {
     display: inline-block;
-    margin-right: 10px;
+    margin-right: 5px;
   }
   
   .time {
     display: inline-block;
     margin-left: 10px;
     vertical-align: middle;
+    color: grey
   }
   
   .comment-header .author {
@@ -122,20 +124,17 @@
   }
 
 .button-container .forumButton {
-  margin-right: 3px !important;
   border: none !important;
-  background-color: transparent !important;
-  outline: none !important;
   background: none !important;
-  border: none !important;
   box-shadow: none !important;
-  color: grey !important;
+  color: black !important;
 }
+
   .button-container .forumButton:hover {
     color: darkblue !important;
     transform: translateY(-3px) !important;
   }
-  
+
   .comment-body .list-group-item button {
     margin-right: 10px;
   }

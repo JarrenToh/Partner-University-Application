@@ -205,11 +205,11 @@ public class ForumTopicSessionBean implements ForumTopicSessionBeanLocal {
         }
 
         List<ForumTopic> forumTopics = q.getResultList();
-        List<ForumTopic> searchTopics = forumTopics;
-
+        List<ForumTopic> searchTopics = new ArrayList();
+        
         for (ForumTopic forumTopic : forumTopics) {
-            if (forumTopic.getStudentId() != studentId) {
-                searchTopics.remove(forumTopic);
+            if (forumTopic.getStudentId() == studentId) {
+                searchTopics.add(forumTopic);
             }
         }
 
@@ -220,12 +220,12 @@ public class ForumTopicSessionBean implements ForumTopicSessionBeanLocal {
     public List<ForumTopic> searchForumTopicsByStudentAndPu(String topicName, Long studentId, Long puId) {
 
         List<ForumTopic> puForumTopics = searchForumTopicsByPu(topicName, puId);
-
-        List<ForumTopic> studentPuForumTopics = puForumTopics;
-
+        
+        List<ForumTopic> studentPuForumTopics = new ArrayList();
+        
         for (ForumTopic forumTopic : puForumTopics) {
-            if (forumTopic.getStudentId() != studentId) {
-                studentPuForumTopics.remove(forumTopic);
+            if (forumTopic.getStudentId() == studentId) {
+                studentPuForumTopics.add(forumTopic);
             }
         }
 

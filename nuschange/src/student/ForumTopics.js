@@ -220,21 +220,21 @@ export default function ForumTopics() {
     }
   }
 
-  function calculateTopics(forumTopics) {
-    let count = 0;   
-    forumTopics.forEach((topic) => {
-      if (!topic.isInappropriate) {
-        count = count + 1;
-      }
-    })
-    return count;
-  }
+  // function calculateTopics(forumTopics) {
+  //   let count = 0;   
+  //   forumTopics.forEach((topic) => {
+  //     if (!topic.isInappropriate) {
+  //       count = count + 1;
+  //     }
+  //   })
+  //   return count;
+  // }
 
   return (
     <div>
       <NavbarComp isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} user={user} />
     <Fragment>
-        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "3px"}}>
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "10px"}}>
           <div>
             <select value={selectedPuId} onChange={handleSortByChange}>
               <option value={0}>All</option>
@@ -248,13 +248,13 @@ export default function ForumTopics() {
               placeholder="Search for Forum Topic"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              style={{ borderRadius: "15px", padding: "3px", border: "0.5px solid grey", marginRight: "10px" }}
+              style={{borderRadius: "13px", padding: "3px", border: "0.2px solid grey", marginRight: "10px"}}
             />
             <img
               src={SearchIcon}
               alt="search"
               onClick={() => searchForumTopic(searchQuery)}
-              style={{ width: "20px", height: "20px", cursor: "pointer" }}
+              style={{ width: "20px", height: "20px", cursor: "pointer", marginRight: "10px"}}
             />
           </div>
         </div>
@@ -287,7 +287,7 @@ export default function ForumTopics() {
           <div className="card-header--actions">
             <Button
               tag={Link}
-              to={`/new-topic`}
+              to={`/student/new-topic`}
               color="outline-primary"
               title="View details"
               className="mr-2">
@@ -298,7 +298,7 @@ export default function ForumTopics() {
           <div className="card-header--actions">
             <Button
               tag={Link}
-              to={`/my-topics`}
+              to={`/student/my-topics`}
               color="outline-primary"
               title="View My Topics"
               className="ml-2">
@@ -327,9 +327,9 @@ export default function ForumTopics() {
                           {item.topicName}
                         </a>
                         {studentId === item.studentId ? 
-                        (<Link to={`/profile`} className="text-black-50 d-block blue-link" style={{ textDecoration: 'none' }}>
+                        (<Link to={`/student/profile`} className="text-black-50 d-block blue-link" style={{ textDecoration: 'none' }}>
                           Author: {item.studentFirstName} {item.studentLastName}
-                        </Link>) : (<Link to={`/other-profile/${item.studentId}`} className="text-black-50 d-block blue-link" style={{ textDecoration: 'none' }}>
+                        </Link>) : (<Link to={`/student/other-profile/${item.studentId}`} className="text-black-50 d-block blue-link" style={{ textDecoration: 'none' }}>
                           Author: {item.studentFirstName} {item.studentLastName}
                         </Link>)}
                         {item.isEdited && (
@@ -352,7 +352,7 @@ export default function ForumTopics() {
                         <td className="text-center">
                           <Button
                             tag={Link}
-                            to={`/forum-topics/${item.topicId}/${encodeURIComponent(item.topicName)}`}
+                            to={`/student/forum-topics/${item.topicId}/${encodeURIComponent(item.topicName)}`}
                             size="sm"
                             color="link"
                             className="text-primary"
@@ -363,7 +363,7 @@ export default function ForumTopics() {
               
                           <Button
                             tag={Link}
-                            to={`/forum-topics/edit/${item.topicId}/${item.topicName}`}
+                            to={`/student/forum-topics/edit/${item.topicId}/${item.topicName}`}
                             size="sm"
                             color="link"
                             className="text-warning ml-2"
@@ -386,7 +386,7 @@ export default function ForumTopics() {
                         <td className="text-center">
                           <Button
                             tag={Link}
-                            to={`/forum-topics/${item.topicId}/${encodeURIComponent(item.topicName)}`}
+                            to={`/student/forum-topics/${item.topicId}/${encodeURIComponent(item.topicName)}`}
                             size="sm"
                             color="link"
                             className="text-primary"

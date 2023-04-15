@@ -4,6 +4,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../src/AuthContext';
 import axios from 'axios';
 import NavbarComp from '../student/components/NavbarComp';
+import NotLoggedIn from './components/NotLoggedInPage';
 
 import {
     Card,
@@ -51,7 +52,7 @@ export default function NewTopic() {
     }, []);
 
     if (!loggedInStudent) {
-      return <h1 style={{ textAlign: 'center', color: 'red', margin: '0 auto', width: '50%', fontWeight: 'bold', fontSize: '2em'}}>You are not logged in.</h1>;
+      return NotLoggedIn();
     }
 
     const handleTopicNameChange = (e) => {
@@ -87,7 +88,7 @@ export default function NewTopic() {
                 setAlertVisible(true);
         
                 setTimeout(() => {
-                    navigate(`/forum-topics/0`);
+                    navigate(`/student/forum-topics/0`);
                 }, 1000);
             })
             .catch((error) => {
@@ -136,11 +137,11 @@ export default function NewTopic() {
                         <FormGroup>
                             <div className="text-right">
                                 <Button variant="success"
-                                    disabled={saveButtonDisabled} type="submit">
+                                    disabled={saveButtonDisabled} type="submit" style={{marginRight: "10px"}}>
                                     Create topic
                                 </Button>
                                 <Button variant="outline-danger" tag={Link}
-                                    to={`/forum-topics/0`}>
+                                    to={`/student/forum-topics/0`}>
                                     Close
                                 </Button>
                             </div>
