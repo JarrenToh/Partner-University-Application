@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useContext, useCallback } from "react";
+import { Helmet } from "react-helmet";
 import "../assets/base.scss";
 import './styles.css';
 import { Row, Col, Popover, PopoverHeader, PopoverBody, Button, InputGroup, Input, Tooltip } from "reactstrap";
@@ -212,6 +213,9 @@ function UniversityDescriptionPage() {
 
     return (
         <div style={{ display: "flex", flexDirection: "column" }}>
+            <Helmet>
+                <title>University Description</title>
+            </Helmet>
             <NavbarComp isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} user={user} />
             <div style={{ position: "relative", aspectRatio: "16/9", overflow: "visible", width: "50vw", margin: "0 auto" }}>
                 <img src={`${pu.images}`} alt="Profile" style={{ objectFit: "cover", width: "100%", height: "100%", position: "relative", zIndex: 1 }} />

@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { Helmet } from "react-helmet";
 import AccordionComp from "../components/AccordionComp";
 import apiPaths from '../../util/apiPaths';
 import React from "react";
@@ -35,7 +36,10 @@ function MappableModule() {
 
   return (
     <>
-     <NavbarComp isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} user={user} />
+      <Helmet>
+        <title>University Mappable Module</title>
+      </Helmet>
+      <NavbarComp isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} user={user} />
       <AccordionComp modules={mappableModules} universityName="NUS University" />
       {mappableModules.length === 0
         ? <div
