@@ -51,7 +51,7 @@ const ModulesTaken = () => {
   const setModalWithReview = async (mod) => {
     const moduleReviewId = hasCommonReview(mod);
     const data = await getModuleReviewAPI(moduleReviewId);
-    if (data.error) {
+    if (data.error || data.stringStatus) {
       setModReview({
         isInappropriate: false,
         moduleReviewId: 0,
