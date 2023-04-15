@@ -218,7 +218,7 @@ function UniversityDescriptionPage() {
                     <h1 style={{ marginTop: 0 }}>{pu.name}</h1>
                     <p>{pu.description}</p>
                 </div>
-                <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-end", justifyContent: "space-between", flex: 1 }}>
+                <div className="d-grid gap-2" style={{ display: "flex", flexDirection: "column", alignItems: "flex-end", justifyContent: "space-between", marginLeft: "10%" }}>
 
                     <Button color="primary" className="m-4" size="lg" onClick={togglePopover} id="share-btn" >
                         Share <FaShareAlt />
@@ -250,7 +250,7 @@ function UniversityDescriptionPage() {
                     </Button>
                     <Link to={`/student/university-description-page/${pu.name}/mappable-module`}>
                         <Button color="primary" className="m-4" size="lg">
-                            Mappable modules
+                            Mappable Modules
                         </Button>
                     </Link>
                 </div>
