@@ -121,14 +121,14 @@ function ModReviewComp({
                           Likes: {s.noOfLikes}
                         </div>
                         <div className="font-weight-bold d-block opacity-20 text-danger">
-                          Dislike {s.noOfDislikes}
+                          Dislike: {s.noOfDislikes}
                         </div>
                       </div>
                       <div className="ml-auto" id="ReviewLikedButton">
                         <Button
                           color="link"
                           style={{ background: "transparent" }}
-                          onClick={() => toggleLike()}
+                          onClick={() => toggleLike(s.moduleReviewId, s)}
                           disabled={loggedInStudent === null}
                         >
                           <FontAwesomeIcon
@@ -160,7 +160,7 @@ function ModReviewComp({
                         <Button
                           color="link"
                           style={{ background: "transparent" }}
-                          onClick={() => toggleDislike()}
+                          onClick={() => toggleDislike(s.moduleReviewId, s)}
                           disabled={loggedInStudent === null}
                           // title={loggedInStudent === null ? "Must be signed in to dislike review" : ""}
                           // data-tip={loggedInStudent === null ? "Must be signed in to dislike review" : ""}

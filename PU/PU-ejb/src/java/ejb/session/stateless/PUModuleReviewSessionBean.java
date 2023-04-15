@@ -147,7 +147,7 @@ public class PUModuleReviewSessionBean implements PUModuleReviewSessionBeanLocal
         PUModuleReview pUModuleReview = em.find(PUModuleReview.class, modReviewId);
         Student student = em.find(Student.class, studentId);
         //choice == 0, set like
-        if (choice.equals(0)) {
+        if (choice.equals(0)) { 
 
             pUModuleReview.getStudentsLiked().add(student);
             student.getLikedModReviews().add(pUModuleReview);
@@ -162,9 +162,9 @@ public class PUModuleReviewSessionBean implements PUModuleReviewSessionBeanLocal
     }
 
     @Override
-    public Long updateModPUReviewDislikedByStudent(Long puReviewId, Long studentId, Integer choice) {
+    public Long updateModPUReviewDislikedByStudent(Long modReviewId, Long studentId, Integer choice) {
 
-        PUModuleReview pUModuleReview = em.find(PUModuleReview.class, puReviewId);
+        PUModuleReview pUModuleReview = em.find(PUModuleReview.class, modReviewId);
         Student student = em.find(Student.class, studentId);
         //choice == 0, set dislike
         if (choice.equals(0)) {

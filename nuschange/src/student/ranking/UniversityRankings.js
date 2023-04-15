@@ -342,7 +342,7 @@ const UniversityRankings = ({ universitiesData }) => {
           <Modal.Title>You are Enrolled Here!</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          To easily access your university from your profile page, simply click on the Enrolled University field.
+          To easily access your university from your profile page, simply click on the "View University Details" Link.
           </Modal.Body>
         <Modal.Footer>
           <Button color="outline-danger" onClick={handleClose}>

@@ -4,6 +4,7 @@ import "./PuModule.css";
 import NavbarComp from "../../student/components/NavbarComp";
 import ModReviewComp from "./ModReviewComp";
 import { AuthContext } from "../../AuthContext";
+import apiPaths from "../../util/apiPaths";
 
 const ModuleDetail = (props) => {
   const { puName, modId } = useParams();
@@ -33,18 +34,12 @@ const ModuleDetail = (props) => {
     getPuModReviewsApi(modId);
   }, []);
 
-  useEffect(() => {
-    if (loggedInStudent) {
-      getStudentAPI(loggedInStudent.studentId);
-    }
-  }, [loggedInStudent]);
-
   const getStudentAPI = async (studentId) => {
     const response = await fetch(`${API_URL_STUDENT}/${studentId}`);
     const data = await response.json();
     setCurrentStudent(data);
-    setStudentDislikedModReview(data.dislikedPUReviews);
-    setStudentLikedModReview(data.likedPUReviews);
+    setStudentDislikedModReview(data.dislikedModReviews);
+    setStudentLikedModReview(data.likedModReviews);
   };
 
   const getPuModApi = async (moduleId) => {
@@ -63,13 +58,112 @@ const ModuleDetail = (props) => {
     return data;
   };
 
-  const handleFlagged = (id) => {
-    
-  }
+  const handleFlagged = (id) => {};
 
-  const toggleLike = useCallback((id) => {});
+  const toggleLike = useCallback((moduleReviewId, data) => {
+    const modReviewLikedCheck = studentLikedModReview.some((likedModReview) => {
+      return likedModReview.moduleReviewId === moduleReviewId;
+    });
 
-  const toggleDislike = useCallback((id) => {});
+    let updatedModReview = {};
+
+    if (modReviewLikedCheck) {
+      //currently liked -> unlike review
+      apiPaths.updateLikedModReview(
+        currentStudent.studentId,
+        moduleReviewId,
+        1
+      );
+      updatedModReview = { ...data, noOfLikes: data.noOfLikes - 1 };
+    } else {
+      //not liked yet -> like review
+      apiPaths.updateLikedModReview(
+        currentStudent.studentId,
+        moduleReviewId,
+        0
+      );
+
+      // edit number of likes
+      updatedModReview = { ...data, noOfLikes: data.noOfLikes + 1 };
+
+      // Need to check if disliked or not
+      const modReviewDislikedCheck = studentDislikedModReviews.some(
+        (dislikedModReview) => {
+          return dislikedModReview.moduleReviewId === moduleReviewId;
+        }
+      );
+
+      if (modReviewDislikedCheck) {
+        //currently disliked -> undislike review
+        apiPaths.updateDislikedModReview(
+          currentStudent.studentId,
+          moduleReviewId,
+          1
+        );
+        updatedModReview.noOfDislikes -= 1;
+      }
+    }
+
+    apiPaths.updateModReview(moduleReviewId, updatedModReview);
+  });
+
+  const toggleDislike = useCallback((moduleReviewId, data) => {
+    const modReviewDislikedCheck = studentDislikedModReviews.some(
+      (dislikedModReview) => {
+        return dislikedModReview.moduleReviewId === moduleReviewId;
+      }
+    );
+
+    let updatedModReview = {};
+
+    if (modReviewDislikedCheck) {
+      //currently disliked -> undislike review
+      apiPaths.updateDislikedModReview(
+        currentStudent.studentId,
+        moduleReviewId,
+        1
+      );
+      updatedModReview = { ...data, noOfDislikes: data.noOfDislikes - 1 };
+      apiPaths.updateModReview(moduleReviewId, updatedModReview);
+    } else {
+      //not disliked yet -> dislike review
+      apiPaths.updateDislikedModReview(
+        currentStudent.studentId,
+        moduleReviewId,
+        0
+      );
+
+      // edit number of dislikes
+      updatedModReview = { ...data, noOfDislikes: data.noOfDislikes + 1 };
+      apiPaths.updateModReview(moduleReviewId, updatedModReview);
+
+      // Need to check if liked or not
+      const modReviewLikedCheck = studentLikedModReview.some(
+        (likedModReview) => {
+          return likedModReview.moduleReviewId === moduleReviewId;
+        }
+      );
+
+      if (modReviewLikedCheck) {
+        //currently liked -> unlike review
+        apiPaths.updateLikedModReview(
+          currentStudent.studentId,
+          moduleReviewId,
+          1
+        );
+        updatedModReview.noOfLikes -= 1;
+      }
+    }
+
+    apiPaths.updateModReview(moduleReviewId, updatedModReview);
+  });
+
+  useEffect(() => {
+    if (loggedInStudent) {
+      getStudentAPI(loggedInStudent.studentId);
+      getPuModReviewsApi(modId);
+    }
+  }, [loggedInStudent, toggleLike, toggleDislike]);
 
   return (
     <div className="wrapper">
@@ -87,7 +181,6 @@ const ModuleDetail = (props) => {
         <hr></hr>
         <p>{module.description}</p>
 
-        {/* <ModReviewComp reviews={module.moduleReviews} /> */}
         <ModReviewComp
           reviews={reviews}
           studentLikedModReviews={studentLikedModReview}

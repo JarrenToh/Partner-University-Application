@@ -97,7 +97,7 @@ public class PUModuleReviewResource {
                         puModuleReview.getRating(),
                         puModuleReview.getReview(),
                         puModuleReview.getNoOfLikes(),
-                        puModuleReview.getNoOfLikes(),
+                        puModuleReview.getNoOfDislikes(),
                         puModuleReview.getIsInappropriate(),
                         student.getStudentId(),
                         student.getFirstName(),
@@ -254,11 +254,11 @@ public class PUModuleReviewResource {
         }
     }
 
-    @PUT
+    @PUT 
     @Path("/dislike/")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response editModReviewdislike(@QueryParam("studentId") Long studentId, @QueryParam("puReviewId") Long modReviewId, @QueryParam("choice") Integer choice) {
+    public Response editModReviewdislike(@QueryParam("studentId") Long studentId, @QueryParam("modReviewId") Long modReviewId, @QueryParam("choice") Integer choice) {
         try {
             puModuleReviewSessionBeanLocal.updateModPUReviewDislikedByStudent(modReviewId, studentId, choice);
             return Response.status(204).build();
