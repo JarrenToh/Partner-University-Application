@@ -11,6 +11,7 @@ import { Link } from 'react-router-dom';
 import { AuthProvider, useAuth, AuthContext } from '../../../src/AuthContext';
 import NavbarComp from '../../student/components/NavbarComp';
 import NotLoggedIn from '../../student/components/NotLoggedInPage';
+import { Helmet } from "react-helmet";
 
 import {
     Table,
@@ -144,6 +145,11 @@ export default function MyPosts() {
 
   return (
     <div>
+      <div>
+        <Helmet>
+          <title>My posts</title>
+        </Helmet>
+      </div>
         <NavbarComp isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} user={user} />
     <Fragment>
       <div>

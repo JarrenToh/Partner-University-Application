@@ -5,6 +5,7 @@ import axios from 'axios';
 import { AuthContext } from '../../../src/AuthContext';
 import NavbarComp from '../../student/components/NavbarComp';
 import NotLoggedIn from '../../student/components/NotLoggedInPage';
+import { Helmet } from "react-helmet";
 
 import {
     Card,
@@ -76,6 +77,11 @@ export default function EditTopic() {
 
     return (
         <div>
+        <div>
+          <Helmet>
+            <title>Edit topic</title>
+          </Helmet>
+        </div>
             <NavbarComp isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} user={user} />
         <Card>
             <CardHeader>Edit topic</CardHeader>

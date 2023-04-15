@@ -5,6 +5,7 @@ import axios from 'axios';
 import { AuthContext } from '../../../src/AuthContext';
 import NavbarComp from '../../student/components/NavbarComp';
 import NotLoggedIn from '../../student/components/NotLoggedInPage';
+import { Helmet } from "react-helmet";
 
 import {
     Card,
@@ -93,6 +94,11 @@ export default function NewPost() {
 
     return (
         <div>
+        <div>
+          <Helmet>
+            <title>Create new forum post</title>
+          </Helmet>
+        </div>
         <NavbarComp isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} user={user} />
         <Card>
             <CardHeader>Create a new post for topic: {topicName}</CardHeader>
