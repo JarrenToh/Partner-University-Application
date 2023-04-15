@@ -88,18 +88,18 @@ public class ForumPostSessionBean implements ForumPostSessionBeanLocal {
         oldPost.setMessage(forumPost.getMessage());
         oldPost.setIsEdited(true);
         oldPost.setLastEdit(LocalDateTime.now());
-        oldPost.setNoOfLikes(forumPost.getNoOfLikes());
-        oldPost.setNoOfDislikes(forumPost.getNoOfDislikes());
-        oldPost.setIsInappropriate(forumPost.getIsInappropriate());
-        oldPost.setTimeOfCreation(forumPost.getTimeOfCreation());
-        oldPost.setForumTopic(forumPost.getForumTopic());
-        oldPost.setStudent(forumPost.getStudent());
-        oldPost.setStudentId(forumPost.getStudentId());
-        oldPost.setStudentFirstName(forumPost.getStudentFirstName());
-        oldPost.setStudentLastName(forumPost.getStudentLastName());
-        oldPost.setForumComments(forumPost.getForumComments());
-        oldPost.setLikedStudents(forumPost.getLikedStudents());
-        oldPost.setDislikedStudents(forumPost.getDislikedStudents());
+//        oldPost.setNoOfLikes(forumPost.getNoOfLikes());
+//        oldPost.setNoOfDislikes(forumPost.getNoOfDislikes());
+//        oldPost.setIsInappropriate(forumPost.getIsInappropriate());
+//        oldPost.setTimeOfCreation(forumPost.getTimeOfCreation());
+//        oldPost.setForumTopic(forumPost.getForumTopic());
+//        oldPost.setStudent(forumPost.getStudent());
+//        oldPost.setStudentId(forumPost.getStudentId());
+//        oldPost.setStudentFirstName(forumPost.getStudentFirstName());
+//        oldPost.setStudentLastName(forumPost.getStudentLastName());
+//        oldPost.setForumComments(forumPost.getForumComments());
+//        oldPost.setLikedStudents(forumPost.getLikedStudents());
+//        oldPost.setDislikedStudents(forumPost.getDislikedStudents());
     }
     
     @Override

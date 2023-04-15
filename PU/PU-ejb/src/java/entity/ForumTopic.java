@@ -33,13 +33,13 @@ public class ForumTopic implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long topicId;
     
-    @Column(nullable = false)
+    @Column(nullable = true)
     private String topicName;
     
-    @Column(nullable = false)
+    @Column(nullable = true)
     private Boolean isInappropriate;
     
-    @Column(nullable = false)
+    @Column(nullable = true)
     private LocalDateTime timeOfCreation;
     
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "forumTopic")
@@ -64,10 +64,10 @@ public class ForumTopic implements Serializable {
     @Column(nullable = true)
     private String studentLastName;
     
-    @Column(nullable = false)
+    @Column(nullable = true)
     private String puName;
     
-    @Column(nullable = false)
+    @Column(nullable = true)
     private Boolean isEdited;
     
     @Column(nullable = true)

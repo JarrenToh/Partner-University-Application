@@ -103,20 +103,20 @@ public class ForumCommentSessionBean implements ForumCommentSessionBeanLocal {
         oldComment.setMessage(forumComment.getMessage());
         oldComment.setIsEdited(true);
         oldComment.setLastEdit(LocalDateTime.now());
-        oldComment.setNoOfLikes(forumComment.getNoOfLikes());
-        oldComment.setNoOfDislikes(forumComment.getNoOfDislikes());
-        oldComment.setIsInappropriate(forumComment.getIsInappropriate());
-        oldComment.setTimeOfCreation(forumComment.getTimeOfCreation());
-        oldComment.setForumPost(forumComment.getForumPost());
-        oldComment.setStudent(forumComment.getStudent());
-        oldComment.setStudentId(forumComment.getStudentId());
-        oldComment.setStudentFirstName(forumComment.getStudentFirstName());
-        oldComment.setStudentLastName(forumComment.getStudentLastName());
-        oldComment.setLikedStudents(forumComment.getLikedStudents());
-        oldComment.setDislikedStudents(forumComment.getDislikedStudents());
-        oldComment.setReplies(forumComment.getReplies());
-        oldComment.setIsAReply(forumComment.getIsAReply());
-        oldComment.setParentComment(forumComment.getParentComment());
+//        oldComment.setNoOfLikes(forumComment.getNoOfLikes());
+//        oldComment.setNoOfDislikes(forumComment.getNoOfDislikes());
+//        oldComment.setIsInappropriate(forumComment.getIsInappropriate());
+//        oldComment.setTimeOfCreation(forumComment.getTimeOfCreation());
+//        oldComment.setForumPost(forumComment.getForumPost());
+//        oldComment.setStudent(forumComment.getStudent());
+//        oldComment.setStudentId(forumComment.getStudentId());
+//        oldComment.setStudentFirstName(forumComment.getStudentFirstName());
+//        oldComment.setStudentLastName(forumComment.getStudentLastName());
+//        oldComment.setLikedStudents(forumComment.getLikedStudents());
+//        oldComment.setDislikedStudents(forumComment.getDislikedStudents());
+//        oldComment.setReplies(forumComment.getReplies());
+//        oldComment.setIsAReply(forumComment.getIsAReply());
+//        oldComment.setParentComment(forumComment.getParentComment());
     }
     
     @Override

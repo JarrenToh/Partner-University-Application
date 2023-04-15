@@ -81,19 +81,19 @@ public class ForumTopicSessionBean implements ForumTopicSessionBeanLocal {
 
     @Override
     public void editForumTopic(ForumTopic forumTopic) {
-        ForumTopic oldTopic = retrieveForumTopicById(forumTopic.getTopicId());
+        ForumTopic oldTopic = em.find(ForumTopic.class,forumTopic.getTopicId());
 
         oldTopic.setTopicName(forumTopic.getTopicName());
         oldTopic.setIsEdited(true);
         oldTopic.setLastEdit(LocalDateTime.now());
-        oldTopic.setIsInappropriate(forumTopic.getIsInappropriate());
-        oldTopic.setTimeOfCreation(forumTopic.getTimeOfCreation());
-        oldTopic.setForumPosts(forumTopic.getForumPosts());
-        oldTopic.setStudent(forumTopic.getStudent());
-        oldTopic.setStudentId(forumTopic.getStudentId());
-        oldTopic.setStudentFirstName(forumTopic.getStudentFirstName());
-        oldTopic.setStudentLastName(forumTopic.getStudentLastName());
-        oldTopic.setPu(forumTopic.getPu());
+//        oldTopic.setIsInappropriate(forumTopic.getIsInappropriate());
+//        oldTopic.setTimeOfCreation(forumTopic.getTimeOfCreation());
+//        oldTopic.setForumPosts(forumTopic.getForumPosts());
+//        oldTopic.setStudent(forumTopic.getStudent());
+//        oldTopic.setStudentId(forumTopic.getStudentId());
+//        oldTopic.setStudentFirstName(forumTopic.getStudentFirstName());
+//        oldTopic.setStudentLastName(forumTopic.getStudentLastName());
+//        oldTopic.setPu(forumTopic.getPu());
     }
 
     @Override

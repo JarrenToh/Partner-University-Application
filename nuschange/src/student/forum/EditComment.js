@@ -77,11 +77,11 @@ export default function EditComment() {
 
     return (
         <div>
-        <div>
+        {/* <div> */}
           <Helmet>
             <title>Edit Comment</title>
           </Helmet>
-        </div>
+        {/* </div> */}
             <NavbarComp isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} user={user} />
         <Card>
             <CardHeader>Edit comment</CardHeader>

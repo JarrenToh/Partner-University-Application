@@ -158,6 +158,7 @@ public class ForumTopicsResource {
     @Produces(MediaType.APPLICATION_JSON)
     public Response editForumTopic(@PathParam("id") Long tId, ForumTopicRequest forumTopicRequest) {
         ForumTopic forumTopic = forumTopicSessionBeanLocal.retrieveForumTopicById(tId);
+
         forumTopic.setTopicName(forumTopicRequest.getTopicName());
         forumTopicSessionBeanLocal.editForumTopic(forumTopic);
         return Response.status(204).build();
