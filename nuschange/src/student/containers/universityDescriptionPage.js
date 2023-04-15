@@ -1,7 +1,7 @@
-import React, { useState, useEffect, useContext,useCallback } from "react";
+import React, { useState, useEffect, useContext, useCallback } from "react";
 import "../assets/base.scss";
 import './styles.css';
-import { Row, Col, Popover, PopoverHeader, PopoverBody, Button, InputGroup, Input } from "reactstrap";
+import { Row, Col, Popover, PopoverHeader, PopoverBody, Button, InputGroup, Input, Tooltip } from "reactstrap";
 import { Link, useParams } from 'react-router-dom';
 import apiPaths from '../../util/apiPaths';
 import AlumnusComp from "../components/AlumnusComp";
@@ -23,6 +23,11 @@ function UniversityDescriptionPage() {
     const togglePopover = () => setPopoverOpen(!popoverOpen);
     const [studentLikedPUReview, setStudentLikedPUReview] = useState([])
     const [studentDislikedPUReview, setStudentDislikedPUReview] = useState([])
+    const [tooltipOpenForum, setTooltipOpenForum] = useState(false);
+
+    const toggleTooltipForum = () => {
+        setTooltipOpenForum(!tooltipOpenForum);
+    };
 
     const handleFlagged = (id) => {
         const confirmRemove = window.confirm("Are you sure you want to flag this review?");
@@ -57,7 +62,7 @@ function UniversityDescriptionPage() {
         //currently Liked
         if (puReviewLikedCheck) {
             //unlike
-            apiPaths.updateStudentLikedReview(currentStudent.studentId,studentsWithReview[studentsWithReviewIndex].puReview.puReviewId, 1);
+            apiPaths.updateStudentLikedReview(currentStudent.studentId, studentsWithReview[studentsWithReviewIndex].puReview.puReviewId, 1);
 
             if (studentsWithReview[studentsWithReviewIndex].puReview.noOfLikes === 0) {
                 return;
@@ -69,7 +74,7 @@ function UniversityDescriptionPage() {
             };
         } else {
             //like
-            apiPaths.updateStudentLikedReview(currentStudent.studentId,studentsWithReview[studentsWithReviewIndex].puReview.puReviewId, 0);
+            apiPaths.updateStudentLikedReview(currentStudent.studentId, studentsWithReview[studentsWithReviewIndex].puReview.puReviewId, 0);
 
             updatedReview = {
                 ...studentsWithReview[studentsWithReviewIndex].puReview,
@@ -84,7 +89,7 @@ function UniversityDescriptionPage() {
             if (puReviewDislikedCheck) {
 
                 // "unDislike"
-                apiPaths.updateStudentDislikedReview(currentStudent.studentId,studentsWithReview[studentsWithReviewIndex].puReview.puReviewId, 1);
+                apiPaths.updateStudentDislikedReview(currentStudent.studentId, studentsWithReview[studentsWithReviewIndex].puReview.puReviewId, 1);
                 updatedReview.noOfDislikes -= 1;
             }
 
@@ -109,7 +114,7 @@ function UniversityDescriptionPage() {
         if (puReviewDislikedCheck) {
 
             // "unDislike"
-            apiPaths.updateStudentDislikedReview(currentStudent.studentId,studentsWithReview[studentsWithReviewIndex].puReview.puReviewId, 1);
+            apiPaths.updateStudentDislikedReview(currentStudent.studentId, studentsWithReview[studentsWithReviewIndex].puReview.puReviewId, 1);
 
             if (studentsWithReview[studentsWithReviewIndex].puReview.noOfDislikes === 0) {
                 return;
@@ -123,7 +128,7 @@ function UniversityDescriptionPage() {
         } else {
 
             // Dislike
-            apiPaths.updateStudentDislikedReview(currentStudent.studentId,studentsWithReview[studentsWithReviewIndex].puReview.puReviewId, 0)
+            apiPaths.updateStudentDislikedReview(currentStudent.studentId, studentsWithReview[studentsWithReviewIndex].puReview.puReviewId, 0)
 
             updatedReview = {
                 ...studentsWithReview[studentsWithReviewIndex].puReview,
@@ -136,9 +141,9 @@ function UniversityDescriptionPage() {
 
             // currently liked
             if (puReviewLikedCheck) {
-                
+
                 // unlike
-                apiPaths.updateStudentLikedReview(currentStudent.studentId,studentsWithReview[studentsWithReviewIndex].puReview.puReviewId, 1);
+                apiPaths.updateStudentLikedReview(currentStudent.studentId, studentsWithReview[studentsWithReviewIndex].puReview.puReviewId, 1);
                 updatedReview.noOfLikes -= 1;
             }
         }
@@ -220,7 +225,7 @@ function UniversityDescriptionPage() {
                 </div>
                 <div className="d-grid gap-2" style={{ display: "flex", flexDirection: "column", alignItems: "flex-end", justifyContent: "space-between", marginLeft: "10%" }}>
 
-                    <Button color="primary" className="m-4" size="lg" onClick={togglePopover} id="share-btn" >
+                    <Button color="primary" className="m-4" size="lg" onClick={togglePopover} id="share-btn" title="Click to share!">
                         Share <FaShareAlt />
                     </Button>
                     <Popover placement="left" isOpen={popoverOpen} target="share-btn" toggle={togglePopover}>
@@ -245,9 +250,17 @@ function UniversityDescriptionPage() {
                             </InputGroup>
                         </PopoverBody>
                     </Popover>
-                    <Button tag={Link} to={`/forum-topics/${pu.puId}`} color="primary" className="m-4" size="lg">
-                        Forum
-                    </Button>
+                    <div id="ForumButton" className="m-4">
+                        <Button tag={Link} to={`/student/forum-topics/${pu.puId}`} color="primary" size="lg" className="w-100" disabled={loggedInStudent === null}>
+                            Forum
+                        </Button>
+                        {loggedInStudent === null ?
+                            <Tooltip placement="top" isOpen={tooltipOpenForum} target="ForumButton" toggle={toggleTooltipForum} >Must be signed in to view forum</Tooltip>
+                            :
+                            null
+                        }
+                    </div>
+
                     <Link to={`/student/university-description-page/${pu.name}/mappable-module`}>
                         <Button color="primary" className="m-4" size="lg">
                             Mappable Modules
@@ -258,7 +271,7 @@ function UniversityDescriptionPage() {
             <div style={{ display: "flex", flexDirection: "column", margin: "0 2vw 0 2vw" }}>
                 <Row className="justify-content-between">
                     <Col xs="12" md="12" lg="9">
-                        <ReviewComp student={studentsWithReview} toggleLike={toggleLike} toggleDislike={toggleDislike} handleFlagged={handleFlagged} loggedInStudent={loggedInStudent} studentLikedPUReviews={studentLikedPUReview} studentDislikedPUReviews={studentDislikedPUReview}/>
+                        <ReviewComp student={studentsWithReview} toggleLike={toggleLike} toggleDislike={toggleDislike} handleFlagged={handleFlagged} loggedInStudent={loggedInStudent} studentLikedPUReviews={studentLikedPUReview} studentDislikedPUReviews={studentDislikedPUReview} />
                     </Col>
                     <Col xs="12" md="12" lg="3">
                         <AlumnusComp alumnus={alumnus} />
