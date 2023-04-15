@@ -9,6 +9,7 @@ import { AuthProvider, useAuth } from '../../../src/AuthContext';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeart } from "@fortawesome/free-solid-svg-icons";
 import { faHeart as heartOutline } from "@fortawesome/free-regular-svg-icons";
+import { Modal } from "react-bootstrap";
 
 const UniversityRankings = ({ universitiesData }) => {
 
@@ -27,6 +28,9 @@ const UniversityRankings = ({ universitiesData }) => {
     name: "Dummy Uni",
     puId: 0,
   });
+  const [showLikedModal, setShowLikedModal] = useState(false);
+  const handleClose = () => setShowLikedModal(false);
+  const handleShow = () => setShowLikedModal(true);
 
   useEffect(() => {
     setFilter(searchTerm);
@@ -236,6 +240,19 @@ const UniversityRankings = ({ universitiesData }) => {
         <br />
         <br />
       </div>
+      <Modal show={showLikedModal} onHide={handleClose}>
+        <Modal.Header closeButton>
+          <Modal.Title>You are Enrolled Here!</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          To easily access your university from your profile page, simply click on the "View University Details" Link.
+          </Modal.Body>
+        <Modal.Footer>
+          <Button color="outline-danger" onClick={handleClose}>
+            Close
+          </Button>
+        </Modal.Footer>
+      </Modal>
       <br/>
       <br/>
     </div>
