@@ -2,9 +2,9 @@ import React from 'react';
 import { useState, useContext, useEffect } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import { AuthContext } from '../../src/AuthContext';
-import NavbarComp from '../student/components/NavbarComp';
-import NotLoggedIn from './components/NotLoggedInPage';
+import { AuthContext } from '../../../src/AuthContext';
+import NavbarComp from '../../student/components/NavbarComp';
+import NotLoggedIn from '../../student/components/NotLoggedInPage';
 
 import {
     Card,
@@ -19,10 +19,10 @@ import {
     Alert
 } from 'reactstrap';
 
-export default function EditTopic() {
+export default function EditComment() {
     const { loggedInStudent } = useContext(AuthContext);
-    const { topicId, oldTopicName } = useParams();
-    const [ topicName, setTopicName ] = useState(oldTopicName);
+    const { commentId, oldCommentMessage, postId, topicName, topicId } = useParams();
+    const [ commentMessage, setCommentMessage ] = useState(oldCommentMessage);
     const [ saveButtonDisabled, setSaveButtonDisabled ] = useState(true);
     const [alertVisible, setAlertVisible] = useState(false);
     const [alertMessage, setAlertMessage] = useState('');
@@ -36,40 +36,40 @@ export default function EditTopic() {
         return NotLoggedIn();
     }
 
-    const handleTopicNameChange = (e) => {
-        const newTopicName = e.target.value;
+    const handleCommentMessageChange = (e) => {
+        const newCommentMessage = e.target.value;
       
-        if (newTopicName.trim() !== oldTopicName.trim()) {
+        if (newCommentMessage.trim() !== oldCommentMessage.trim()) {
           setSaveButtonDisabled(false);
         } else {
           setSaveButtonDisabled(true);
         }
       
-        setTopicName(newTopicName);
+        setCommentMessage(newCommentMessage);
     };
 
     const handleSubmit = (e) => {
         e.preventDefault();
 
-        const createdForumTopic = {
-            topicName
+        const createdForumComment = {
+            message: commentMessage
         };
 
-        axios.put(`http://localhost:8080/PU-war/webresources/forumTopics/${topicId}`, createdForumTopic)
+        axios.put(`http://localhost:8080/PU-war/webresources/forumComments/${commentId}`, createdForumComment)
             .then((response) => {
                 console.log(response.data);
                 setAlertType('success');
-                setAlertMessage('The topic was edited successfully!');
+                setAlertMessage('The comment was edited successfully!');
                 setAlertVisible(true);
         
                 setTimeout(() => {
-                    navigate(`/forum-topics/0`);
+                    navigate(`/student/view-post/${postId}/${topicName}/${topicId}`);
                 }, 1000);
             })
             .catch((error) => {
                 console.error(error);
                 setAlertType('danger');
-                setAlertMessage('Error editing the topic. Please try again.');
+                setAlertMessage('Error editing the comment. Please try again.');
                 setAlertVisible(true);
             });
     };
@@ -78,32 +78,32 @@ export default function EditTopic() {
         <div>
             <NavbarComp isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} user={user} />
         <Card>
-            <CardHeader>Edit topic</CardHeader>
+            <CardHeader>Edit comment</CardHeader>
             <CardBody>
                 <Form onSubmit={handleSubmit}>
                     <FormGroup row>
-                        <Label for="topicName" sm={2}>
-                            Topic Name
+                        <Label for="message" sm={2}>
+                            Message
                         </Label>
                         <Col sm={10}>
                             <Input
                                 type="text"
-                                name="topicName"
-                                id="topicName"
-                                value={topicName}
-                                onChange={handleTopicNameChange}
+                                name="message"
+                                id="message"
+                                value={commentMessage}
+                                onChange={handleCommentMessageChange}
                             />
                         </Col>
                     </FormGroup>
                     <FormGroup row>
                         <Col sm={{ size: 10, offset: 2 }}>
                             <div className="text-right">
-                                <Button variant="success"
+                                <Button variant="success" style={{marginRight: "10px"}}
                                     disabled={saveButtonDisabled} type="submit">
-                                    Edit topic
+                                    Edit comment
                                 </Button>
                                 <Button variant="outline-danger" tag={Link}
-                                    to={`/forum-topics/0`}>
+                                    to={`/student/view-post/${postId}/${topicName}/${topicId}`}>
                                     Close
                                 </Button>
                             </div>
@@ -113,10 +113,10 @@ export default function EditTopic() {
             </CardBody>
         </Card>
         {alertVisible && (
-                <Alert color={alertType} toggle={() => setAlertVisible(false)}>
-                    {alertMessage}
-                </Alert>
-            )}
+          <Alert color={alertType} toggle={() => setAlertVisible(false)}>
+            {alertMessage}
+          </Alert>
+        )}
         </div>
     );
 }

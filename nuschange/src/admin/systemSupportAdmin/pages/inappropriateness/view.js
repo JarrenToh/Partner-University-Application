@@ -8,6 +8,8 @@ import Footer from "../../../components/dashboard/Footer";
 import API from "../../../../util/API";
 import apiPaths from "../../../../util/apiPaths";
 
+import { Helmet } from "react-helmet";
+
 const InappropriatenessDetails = () => {
     const navigate = useNavigate();
     const { typeOfComponent, id } = useParams();
@@ -34,9 +36,12 @@ const InappropriatenessDetails = () => {
     const [selectValue, setSelectValue] = useState("");
     const [approvalError, setApprovalError] = useState("");
 
+    const [showAppropriateModal, setShowAppropriateModal] = useState(false);
+    const [showNotFoundModal, setShowNotFoundModal] = useState(false);
     const [showModal, setShowModal] = useState(false);
     const [modalTitle, setModalTitle] = useState("");
     const [modalDescription, setModalDescription] = useState("");
+
 
     const handleResponse = async () => {
         if (validate()) {
@@ -123,6 +128,11 @@ const InappropriatenessDetails = () => {
         navigate(`../admin/systemSupportAdmin/inappropriatenessContent`);
     };
 
+    const handleCancelNotFoundModal = () => {
+        setShowNotFoundModal(false);
+        navigate('../admin/systemSupportAdmin/inappropriatenessContent');
+    };
+
     const validate = () => {
         let isValid = true;
         if (selectValue === "") {
@@ -171,9 +181,13 @@ const InappropriatenessDetails = () => {
                 const response = await API.get(apiPath);
                 const data = response.data;
 
+                if (data.stringStatus === "404") {
+                    setShowNotFoundModal(true);
+                    return;
+                }
+
                 if (!data.isInappropriate) {
-                    alert("This review is appropriate.");
-                    // TODO: navigate to where it belong
+                    setShowAppropriateModal(true);
                     return;
                 }
 
@@ -239,6 +253,9 @@ const InappropriatenessDetails = () => {
 
     return (
         <div>
+            <Helmet>
+                <title>View Inappropriate Content Details</title>
+            </Helmet>
             <Header />
             <Menu />
             <div className="content-wrapper">
@@ -298,6 +315,66 @@ const InappropriatenessDetails = () => {
                                                 type="button"
                                                 className="btn btn-default"
                                                 onClick={() => handleCancel()}>
+                                                Close
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        )}
+                        {showNotFoundModal && (
+                            <div className="modal fade show" id="modal-default" style={{ display: "block" }}>
+                                <div className="modal-dialog">
+                                    <div className="modal-content">
+                                        <div className="modal-header">
+                                            <h4 className="modal-title">Resource Not Found</h4>
+                                            <button
+                                                type="button"
+                                                className="close"
+                                                data-dismiss="modal"
+                                                aria-label="Close"
+                                                onClick={() => handleCancelNotFoundModal()}>
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div className="modal-body">
+                                            <p>The requested resource could not be found!</p>
+                                        </div>
+                                        <div className="modal-footer justify-content-between">
+                                            <button
+                                                type="button"
+                                                className="btn btn-default"
+                                                onClick={() => handleCancelNotFoundModal()}>
+                                                Close
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        )}
+                        {showAppropriateModal && (
+                            <div className="modal fade show" id="modal-default" style={{ display: "block" }}>
+                                <div className="modal-dialog">
+                                    <div className="modal-content">
+                                        <div className="modal-header">
+                                            <h4 className="modal-title">Appropriate Resource</h4>
+                                            <button
+                                                type="button"
+                                                className="close"
+                                                data-dismiss="modal"
+                                                aria-label="Close"
+                                                onClick={() => handleCancelNotFoundModal()}>
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div className="modal-body">
+                                            <p>The requested resource is appropriate and not inappropriate!</p>
+                                        </div>
+                                        <div className="modal-footer justify-content-between">
+                                            <button
+                                                type="button"
+                                                className="btn btn-default"
+                                                onClick={() => handleCancelNotFoundModal()}>
                                                 Close
                                             </button>
                                         </div>

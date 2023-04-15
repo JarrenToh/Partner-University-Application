@@ -2,8 +2,9 @@ import React from 'react';
 import { useState, useContext, useEffect } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import { AuthContext } from '../../src/AuthContext';
-import NavbarComp from '../student/components/NavbarComp';
+import { AuthContext } from '../../../src/AuthContext';
+import NavbarComp from '../../student/components/NavbarComp';
+import NotLoggedIn from '../../student/components/NotLoggedInPage';
 
 import {
     Card,
@@ -60,7 +61,7 @@ export default function NewPost() {
       }, [title, content]);
 
     if (!loggedInStudent) {
-      return <h1 style={{ textAlign: 'center', color: 'red', margin: '0 auto', width: '50%', fontWeight: 'bold', fontSize: '2em'}}>You are not logged in.</h1>;
+      return NotLoggedIn();
     }
 
     const handleSubmit = (e) => {
@@ -79,7 +80,7 @@ export default function NewPost() {
                 setAlertVisible(true);
         
                 setTimeout(() => {
-                    navigate(`/forum-topics/${id}/${topicName}`);
+                    navigate(`/student/forum-topics/${id}/${topicName}`);
                 }, 1000);
             })
             .catch((error) => {
@@ -92,7 +93,7 @@ export default function NewPost() {
 
     return (
         <div>
-                  <NavbarComp isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} user={user} />
+        <NavbarComp isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} user={user} />
         <Card>
             <CardHeader>Create a new post for topic: {topicName}</CardHeader>
             <CardBody>
@@ -121,6 +122,7 @@ export default function NewPost() {
                                 type="textarea"
                                 name="content"
                                 id="postContent"
+                                placeholder="Enter content for post"
                                 value={content}
                                 onChange={handleContentChange}
                             />
@@ -130,11 +132,11 @@ export default function NewPost() {
                         <Col sm={{ size: 10, offset: 1 }}>
                             <div className="text-right">
                             <Button variant="success"
-                                    disabled={saveButtonDisabled} type="submit">
+                                    disabled={saveButtonDisabled} type="submit" style={{marginRight: "10px"}}>
                                     Create post
                                 </Button>
                                 <Button variant="outline-danger" tag={Link}
-                                    to={`/forum-topics/${id}/${topicName}`}>
+                                    to={`/student/forum-topics/${id}/${topicName}`}>
                                     Close
                                 </Button>
                             </div>

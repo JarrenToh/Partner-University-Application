@@ -1,20 +1,5 @@
 import { React, Fragment } from 'react';
 import { Link } from 'react-router-dom';
-import { useEffect, useState, useContext } from 'react';
-import axios from 'axios';
-
-import {
-  Form,
-  Col,
-  Input,
-  Button,
-  Row,
-  Modal,
-  ModalHeader,
-  ModalBody,
-  ModalFooter,
-  Alert
-} from 'reactstrap';
 import './forum.css';
 
 function getTimeDifference(timeOfCreation) {
@@ -43,12 +28,12 @@ function CommentComp({comment, studentId}) {
    <>
       <div className="d-flex comment-header align-items-center">
         {studentId === comment.studentId ?
-          (<Link to={`/profile`} style={{ color: "black", textDecoration: "none" }}>
+          (<Link to={`/student/profile`} style={{ textDecoration: "none" }}>
             <h5 className="mb-1 author" style={{ fontSize: "14px" }}>
               {comment.studentFirstName} {comment.studentLastName}
             </h5>
           </Link>) :
-          (<Link to={`/other-profile/${comment.studentId}`} style={{ color: "black", textDecoration: "none" }}>
+          (<Link to={`/student/other-profile/${comment.studentId}`} style={{ vtextDecoration: "none" }}>
             <h5 className="mb-1 author" style={{ fontSize: "14px" }}>
               {comment.studentFirstName} {comment.studentLastName}
             </h5>

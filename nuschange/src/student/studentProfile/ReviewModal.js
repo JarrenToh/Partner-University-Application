@@ -46,7 +46,7 @@ const ReviewModal = (props) => {
     } else if (review.length === 0) {
       setFormStatus("Save Changes");
       setAlertType("danger");
-      setAlertMessage("Your Review of a University cannot be empty!");
+      setAlertMessage("Your Review of a University cannot be empty! Please fill in your review.");
       setAlertVisible(true);
       setReview(puReview.review);
       return;

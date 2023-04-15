@@ -61,7 +61,7 @@ function ReviewComp({
                 <ListGroupItem className="py-3" key={s.studentId}>
                   <div className="d-flex align-items-center">
                     <Link
-                      to={`/other-profile/${s.studentId}`}
+                      to={`/student/other-profile/${s.studentId}`}
                       style={{ color: "black", textDecoration: "none" }}
                     >
                       <div className="mr-4">
@@ -78,7 +78,7 @@ function ReviewComp({
                       style={{ width: "60%" }}
                     >
                       <Link
-                        to={`/other-profile/${s.studentId}`}
+                        to={`/student/other-profile/${s.studentId}`}
                         style={{ color: "black", textDecoration: "none" }}
                       >
                         <div className="font-weight-bold d-block opacity-8">

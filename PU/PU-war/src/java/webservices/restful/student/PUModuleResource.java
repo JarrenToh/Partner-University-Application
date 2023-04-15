@@ -20,6 +20,7 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.GenericEntity;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import util.dataTransferObject.ResponseObject;
 import util.formRequestEntity.PUModuleRequest;
 
 @Path("pumodule")
@@ -73,6 +74,10 @@ public class PUModuleResource {
 
         if (code != null) {
             PUModule puModule = puModuleSessionBeanLocal.searchPUModuleByCodeAndPUName(code, puName);
+            
+            if (puModule == null) {
+                return Response.status(200).entity(new ResponseObject("404")).type(MediaType.APPLICATION_JSON).build();
+            }
 
             return Response.status(200).entity(
                     puModule

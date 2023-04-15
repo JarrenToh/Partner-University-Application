@@ -5,9 +5,10 @@ import axios from 'axios';
 import { useParams } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faComments } from '@fortawesome/free-solid-svg-icons'
-import { AuthContext } from '../../src/AuthContext';
-import CommentComp from './CommentComp';
-import NavbarComp from '../student/components/NavbarComp';
+import { AuthContext } from '../../../src/AuthContext';
+import CommentComp from '../forum/CommentComp';
+import NavbarComp from '../../student/components/NavbarComp';
+import NotLoggedIn from '../../student/components/NotLoggedInPage';
 
 import {
   Form,
@@ -22,7 +23,7 @@ import {
   Alert
 } from 'reactstrap';
 import './forum.css';
-import SearchIcon from './homepage/search.svg';
+import SearchIcon from '../homepage/search.svg';
 
 export default function ViewPost() {
   const { loggedInStudent } = useContext(AuthContext);
@@ -72,11 +73,35 @@ export default function ViewPost() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        console.log(studentId);
-        if (searchQuery == "") {
           const response = await axios.get(`http://localhost:8080/PU-war/webresources/forumPosts/${postId}`);
           setForumPost(response.data);
+         
+          const isLikedByUser = response.data.likedStudents.includes(studentId);
+          console.log("Liked by user: " + isLikedByUser);
+          const isDislikedByUser = response.data.dislikedStudents.includes(studentId);
+          console.log("Disliked by user: " + isDislikedByUser);
+      
+          if (isLikedByUser) {
+            setPostLikedByUser(true);
+            setPostDislikedByUser(false);
+          } else if (isDislikedByUser) {
+            setPostDislikedByUser(true);
+            setPostLikedByUser(false);
+          }
+        if (searchQuery == "") {
           setForumComments(response.data.forumComments);
+
+          const initialCommentsLikeInitialized = {};
+          const initialCommentsDislikeInitialized = {};
+          response.data.forumComments.forEach(comment => {
+            if (comment.likedStudents.includes(studentId)) {
+              initialCommentsLikeInitialized[comment.commentId] = true;
+            } else if (comment.dislikedStudents.includes(studentId)) {
+              initialCommentsDislikeInitialized[comment.commentId] = true;
+            }
+          });
+          setCommentLikedByUser(initialCommentsLikeInitialized);
+          setCommentDislikedByUser(initialCommentsDislikeInitialized);
         } else {
           searchForumComment(searchQuery);
         }
@@ -97,33 +122,7 @@ export default function ViewPost() {
       setIsInitialReplyButtonsDisabledInitialized(true);
     }
 
-    if (!isInitialCommentsLikeInitialized && forumComments.length > 0) {
-      const initialCommentsLikeInitialized = {};
-      const initialCommentsDislikeInitialized = {};
-      forumComments.forEach(comment => {
-        if (comment.likedStudents.includes(studentId)) {
-          initialCommentsLikeInitialized[comment.commentId] = true;
-        } else if (comment.dislikedStudents.includes(studentId)) {
-          initialCommentsDislikeInitialized[comment.commentId] = true;
-        }
-      });
-      setCommentLikedByUser(initialCommentsLikeInitialized);
-      setCommentDislikedByUser(initialCommentsDislikeInitialized);
-    }
   }, [forumComments, isInitialReplyButtonsDisabledInitialized, isInitialCommentsLikeInitialized]);
-
-  useEffect(() => {
-    if (forumPost && forumPost.likedStudents && forumPost.dislikedStudents) {
-      const isLikedByUser = forumPost.likedStudents.includes(studentId);
-      const isDislikedByUser = forumPost.dislikedStudents.includes(studentId);
-  
-      if (isLikedByUser) {
-        setPostLikedByUser(true);
-      } else if (isDislikedByUser) {
-        setPostDislikedByUser(true);
-      }
-    }
-  }, [forumPost, forumComments, studentId]);
 
   const searchForumComment = async (searchQuery) => {
     const fetchData = async () => {
@@ -131,6 +130,18 @@ export default function ViewPost() {
         let response;
         response = await axios.get(`http://localhost:8080/PU-war/webresources/forumComments/query/${postId}/?searchQuery=${searchQuery}`);
         setForumComments(response.data);
+
+         const initialCommentsLikeInitialized = {};
+          const initialCommentsDislikeInitialized = {};
+          response.data.forumComments.forEach(comment => {
+            if (comment.likedStudents.includes(studentId)) {
+              initialCommentsLikeInitialized[comment.commentId] = true;
+            } else if (comment.dislikedStudents.includes(studentId)) {
+              initialCommentsDislikeInitialized[comment.commentId] = true;
+            }
+          });
+          setCommentLikedByUser(initialCommentsLikeInitialized);
+          setCommentDislikedByUser(initialCommentsDislikeInitialized);
       } catch (error) {
         console.error(error);
       }
@@ -247,7 +258,6 @@ export default function ViewPost() {
         console.error('Like failed: ', error);
       });
       setPostLikedByUser(true);
-      // Check if the user already disliked the post, and remove the dislike if necessary
       if (postDislikedByUser) {
         setPostDislikedByUser(false);
       }
@@ -259,11 +269,9 @@ export default function ViewPost() {
       // The user already disliked the post, so we need to undislike it
       await axios.put(`http://localhost:8080/PU-war/webresources/forumPosts/undislike/${postId}/${studentId}`)
       .then(response => {
-        // Handle successful response here
         console.log('Undislike successful');
       })
       .catch(error => {
-        // Handle error response here
         console.error('Undislike failed: ', error);
       });
       setPostDislikedByUser(false);
@@ -279,7 +287,6 @@ export default function ViewPost() {
         console.error('Dislike failed: ', error);
       });
       setPostDislikedByUser(true);
-      // Check if the user already liked the post, and remove the like if necessary
       if (postLikedByUser) {
         setPostLikedByUser(false);
       }
@@ -287,7 +294,7 @@ export default function ViewPost() {
   };
 
   if (!loggedInStudent) {
-    return <h1 style={{ textAlign: 'center', color: 'red', margin: '0 auto', width: '50%', fontWeight: 'bold', fontSize: '2em'}}>You are not logged in.</h1>;
+    return NotLoggedIn();
   }
 
   function getTimeDifference(timeOfCreation) {
@@ -331,7 +338,7 @@ export default function ViewPost() {
       setAlertVisible(true);
 
       setTimeout(() => {
-        navigate(`/forum-topics/${topicId}/${topicName}`)
+        navigate(`/student/forum-topics/${topicId}/${topicName}`)
       }, 1000);
     })
     .catch(error => {
@@ -399,7 +406,7 @@ export default function ViewPost() {
       setAlertVisible(true);
 
       setTimeout(() => {
-        navigate(`/error`);
+        navigate(`/student/error`);
       }, 0);
     })
     .catch(error => {
@@ -606,25 +613,25 @@ export default function ViewPost() {
      <NavbarComp isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} user={user} />
       <div className="forum-card">
         <div className="forum-header">
-          <div className="d-flex justify-content-between align-items-center">
+          <div className="d-flex justify-content-between align-items-center" style={{flex: 1}}>
             <h4>{forumPost.title}</h4>
             <div className="text-muted">
               {studentId === forumPost.studentId ?
-                (<Link to={`/profile`} style={{ color: "black", textDecoration: "none" }}>
+                (<Link to={`/student/profile`} style={{ textDecoration: "none" }}>
                   <h5 className="mb-1 author" style={{ marginLeft: "15px", fontSize: "14px" }}>
                     Posted by {forumPost.studentFirstName} {forumPost.studentLastName}
                   </h5>
                 </Link>) :
-                (<Link to={`/other-profile/${forumPost.studentId}`} style={{ color: "black", textDecoration: "none" }}>
+                (<Link to={`/student/other-profile/${forumPost.studentId}`} style={{ textDecoration: "none" }}>
                   <h5 className="mb-1 author" style={{ marginLeft: "15px", fontSize: "14px" }}>
                     Posted by {forumPost.studentFirstName} {forumPost.studentLastName}
                   </h5>
                 </Link>)}
-              <small className="time" style={{ fontSize: "13px" }}>
+              <small className="time" style={{ fontSize: "13px"}}>
                 {getTimeDifference(forumPost.timeOfCreation)}
               </small>
               {forumPost.isEdited && (
-                <small className="time" style={{ fontSize: "13px" }}>
+                <small className="time" style={{ fontSize: "13px"}}>
                   Last Edited: {getTimeDifference(forumPost.lastEdit)}
                 </small>
               )}
@@ -661,7 +668,7 @@ export default function ViewPost() {
                     (
                       <>
                         <Button className="forumButton" tag={Link}
-                          to={`/forum-posts/edit/${topicId}/${forumPost.postId}/${encodeURIComponent(forumPost.title)}/${encodeURIComponent(forumPost.message)}/${encodeURIComponent(topicName)}/${1}`} title="Edit">
+                          to={`/student/forum-posts/edit/${topicId}/${forumPost.postId}/${encodeURIComponent(forumPost.title)}/${encodeURIComponent(forumPost.message)}/${encodeURIComponent(topicName)}/${1}`} title="Edit">
                          <FontAwesomeIcon icon={['fa', 'edit']}  />
                         </Button>
                         <Button className="forumButton" onClick={() => handlePostDeleteButtonClick(forumPost)} title="Delete">
@@ -776,8 +783,8 @@ export default function ViewPost() {
                             {studentId === comment.studentId ?
                               (
                                 <>
-                                  <Button className="forumButton" tag={Link} to={`/edit-comment/${comment.commentId}/${comment.message}/${forumPost.postId}/${encodeURIComponent(topicName)}/${topicId}`} title="Edit">
-                                    <FontAwesomeIcon icon={['fa', 'edit']}  className="font-size-sm" />
+                                  <Button className="forumButton" tag={Link} to={`/student/edit-comment/${comment.commentId}/${comment.message}/${forumPost.postId}/${encodeURIComponent(topicName)}/${topicId}`} title="Edit">
+                                    <FontAwesomeIcon icon={['fa', 'edit']}  className="font-size-sm"/>
                                   </Button>
                                   <Button className="forumButton" onClick={() => handleCommentDeleteButtonClick(comment)} title="Delete">
                                     <FontAwesomeIcon icon={['fa', 'trash']} className="font-size-sm"  />
@@ -842,20 +849,7 @@ export default function ViewPost() {
                                 !reply.isInappropriate && (
                                   <div className="forum-item" key={reply.commentId}>
                                     <div className="d-flex w-100 justify-content-between">
-                                      <div className="d-flex justify-content-between comment-header">
-                                        {studentId === reply.studentId ?
-                                          (<Link to={`/profile`} style={{ color: "black", textDecoration: "none" }}>
-                                            <h5 className="mb-1 author" style={{ fontSize: "14px" }}>
-                                              {reply.studentFirstName} {reply.studentLastName}
-                                            </h5>
-                                          </Link>) :
-                                          (<Link to={`/other-profile/${reply.studentId}`} style={{ color: "black", textDecoration: "none" }}>
-                                            <h5 className="mb-1 author" style={{ fontSize: "14px" }}>
-                                              {reply.studentFirstName} {reply.studentLastName}
-                                            </h5>
-                                          </Link>)}
-                                        <small className="time">{getTimeDifference(reply.timeOfCreation)}</small>
-                                      </div>
+                                    <CommentComp key={reply.commentId} comment={reply} studentId={studentId}/>
                                     </div>
                                     <div className="comment-body">
                                       <p className="mb-1">{reply.message}</p>
@@ -863,7 +857,7 @@ export default function ViewPost() {
                                         {studentId === reply.studentId ?
                                           (
                                             <>
-                                              <Button className="forumButton" tag={Link} to={`/edit-comment/${reply.commentId}/${reply.message}/${forumPost.postId}/${encodeURIComponent(topicName)}/${topicId}`} title="Edit">
+                                              <Button className="forumButton" tag={Link} to={`/student/edit-comment/${reply.commentId}/${reply.message}/${forumPost.postId}/${encodeURIComponent(topicName)}/${topicId}`} title="Edit">
                                                 <FontAwesomeIcon icon={['fa', 'edit']} className="font-size-sm"  />
                                               </Button>
                                               <Button className="forumButton" onClick={() => handleCommentDeleteButtonClick(reply)} title="Delete">
@@ -874,11 +868,11 @@ export default function ViewPost() {
                                             <>
                                               <Button className={`forumButton ${commentLikedByUser[reply.commentId] ? 'liked' : ''}`} onClick={() => handleCommentLike(reply.commentId)}>
                                                 <FontAwesomeIcon icon="fa-regular fa-thumbs-up" className="font-size-sm" style={{marginRight: "5px"}}/>
-                                                {comment.noOfLikes}
+                                                {reply.noOfLikes}
                                               </Button>
                                               <Button className={`forumButton ${commentDislikedByUser[reply.commentId] ? 'disliked' : ''}`} onClick={() => handleCommentDislike(reply.commentId)}>
                                                 <FontAwesomeIcon icon="fa-regular fa-thumbs-down" className="font-size-sm" style={{marginRight: "5px"}}/>
-                                                {comment.noOfDislikes}
+                                                {reply.noOfDislikes}
                                               </Button>
                                               <Button className="forumButton" onClick={() => handleReportCommentButtonClick(reply)}>
                                                 <FontAwesomeIcon icon="fa-regular fa-flag" className="font-size-sm" />

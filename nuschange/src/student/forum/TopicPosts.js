@@ -6,10 +6,11 @@ import { far } from '@fortawesome/free-regular-svg-icons';
 import { fas } from '@fortawesome/free-solid-svg-icons';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import './styles.css';
-import SearchIcon from './homepage/search.svg';
+import SearchIcon from '../homepage/search.svg';
 import { Link } from 'react-router-dom';
-import { AuthContext } from '../AuthContext';
-import NavbarComp from '../student/components/NavbarComp';
+import { AuthContext } from '../../../src/AuthContext';
+import NavbarComp from '../../student/components/NavbarComp';
+import NotLoggedIn from '../../student/components/NotLoggedInPage';
 
 import {
   Table,
@@ -78,7 +79,7 @@ export default function TopicPosts() {
   }, []);
 
   if (!loggedInStudent) {
-    return <h1 style={{ textAlign: 'center', color: 'red', margin: '0 auto', width: '50%', fontWeight: 'bold', fontSize: '2em'}}>You are not logged in.</h1>;
+    return NotLoggedIn();
   }
 
   const searchForumPost = async (searchQuery) => {
@@ -201,13 +202,13 @@ export default function TopicPosts() {
             placeholder="Search for Forum Post"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            style={{ borderRadius: "15px", padding: "3px", border: "0.5px solid grey", marginRight: "10px" }}
+            style={{borderRadius: "13px", padding: "3px", border: "0.2px solid grey", marginRight: "10px"}}
           />
           <img
             src={SearchIcon}
             alt="search"
             onClick={() => searchForumPost(searchQuery)}
-            style={{ width: "20px", height: "20px", cursor: "pointer" }}
+            style={{ width: "20px", height: "20px", cursor: "pointer", marginRight: "10px"}}
           />
         </div>
       <Card className="card-box mb-5">
@@ -240,7 +241,7 @@ export default function TopicPosts() {
           <div className="card-header--actions">
             <Button
               tag={Link}
-              to={`/forum-posts/${id}/${topicName}`}
+              to={`/student/forum-posts/${id}/${topicName}`}
               color="outline-primary"
               title="View details"
               className="mr-2">
@@ -251,7 +252,7 @@ export default function TopicPosts() {
           <div className="card-header--actions">
             <Button
               tag={Link}
-              to={`/my-posts/${id}/${encodeURIComponent(topicName)}`}
+              to={`/student/my-posts/${id}/${encodeURIComponent(topicName)}`}
               color="outline-primary"
               title="View My Posts"
               className="ml-2">
@@ -280,7 +281,7 @@ export default function TopicPosts() {
                       >
                         {item.title}
                       </a>
-                        <Link to={`/other-profile/${item.studentId}`} className="text-black-50 d-block blue-link" style={{ textDecoration: 'none' }}>
+                        <Link to={`/student/other-profile/${item.studentId}`} className="text-black-50 d-block blue-link" style={{ textDecoration: 'none' }}>
                           Author: {item.studentFirstName} {item.studentLastName}
                         </Link>
                       {item.isEdited && (
@@ -300,7 +301,7 @@ export default function TopicPosts() {
                       <td className="text-center">
                         <Button
                           tag={Link}
-                          to={`/view-post/${item.postId}/${topicName}/${id}`}
+                          to={`/student/view-post/${item.postId}/${topicName}/${id}`}
                           size="sm"
                           color="link"
                           className="text-primary"
@@ -311,7 +312,7 @@ export default function TopicPosts() {
 
                         <Button
                           tag={Link}
-                          to={`/forum-posts/edit/${id}/${item.postId}/${item.title}/${encodeURIComponent(item.message)}/${encodeURIComponent(topicName)}/${0}`}
+                          to={`/student/forum-posts/edit/${id}/${item.postId}/${item.title}/${encodeURIComponent(item.message)}/${encodeURIComponent(topicName)}/${0}`}
                           size="sm"
                           color="link"
                           className="text-warning ml-2"
@@ -334,7 +335,7 @@ export default function TopicPosts() {
                       <td className="text-center">
                         <Button
                           tag={Link}
-                          to={`/view-post/${item.postId}/${topicName}/${id}`}
+                          to={`/student/view-post/${item.postId}/${topicName}/${id}`}
                           size="sm"
                           color="link"
                           className="text-primary"
