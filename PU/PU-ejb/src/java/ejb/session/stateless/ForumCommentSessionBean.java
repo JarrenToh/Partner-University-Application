@@ -142,23 +142,23 @@ public class ForumCommentSessionBean implements ForumCommentSessionBeanLocal {
     public void deleteForumComment(Long forumCommentId) {
         ForumComment forumComment = em.find(ForumComment.class, forumCommentId);
         // remove all replies
-        System.out.println("The number of replies:" + forumComment.getReplies().size());
-        List<ForumComment> forumReplies = new ArrayList<>(forumComment.getReplies());
-        System.out.println("Hi");
-        for (ForumComment reply : forumReplies) {
-            deleteForumComment(reply.getCommentId());
-            System.out.println("deleted");
-        }
-        // remove forum comment from post and student
-        Student student = em.find(Student.class, forumComment.getStudentId());
-        System.out.println("find student " + student);
-        student.getComments().remove(forumComment);
-        System.out.println("remove comment from student");
-        ForumPost forumPost = forumComment.getForumPost();
-        System.out.println("find forumPost");
+//        System.out.println("The number of replies:" + forumComment.getReplies().size());
+//        List<ForumComment> forumReplies = new ArrayList<>(forumComment.getReplies());
+//        System.out.println("Hi");
+//        for (ForumComment reply : forumReplies) {
+//            deleteForumComment(reply.getCommentId());
+//            System.out.println("deleted");
+//        }
+//        // remove forum comment from post and student
+//        Student student = em.find(Student.class, forumComment.getStudentId());
+//        System.out.println("find student " + student);
+//        student.getComments().remove(forumComment);
+//        System.out.println("remove comment from student");
+        ForumPost forumPost = em.find(ForumPost.class,forumComment.getForumPost().getPostId());
+//        System.out.println("find forumPost");
         forumPost.getForumComments().remove(forumComment);
-        System.out.println("remove comment from post");
-        forumPostSessionBeanLocal.updateForumPost(forumPost);
+//        System.out.println("remove comment from post");
+//        forumPostSessionBeanLocal.updateForumPost(forumPost);
         if (forumComment.getParentComment() != null) {
             ForumComment parentComment = forumComment.getParentComment();
             System.out.println("find parent comment");

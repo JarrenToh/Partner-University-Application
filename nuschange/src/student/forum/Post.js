@@ -442,7 +442,7 @@ export default function ViewPost() {
       setAlertVisible(true);
 
       setTimeout(() => {
-        //window.location.href = window.location.href;
+        window.location.href = window.location.href;
       }, 1000);
     })
     .catch(error => {

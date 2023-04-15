@@ -27,11 +27,12 @@ function AlumnusComp(props) {
               {props.alumnus.map((alumni) => (
                 <>
                   <ListGroupItem className="py-3 border-0" key={alumni.studentId}>
-                    <Link
-                      to={`/student/other-profile/${alumni.studentId}`}
-                      style={{ color: "black", textDecoration: "none" }}
-                    >
-                      <div className="align-box-row w-100">
+
+                    <div className="align-box-row w-100">
+                      <Link
+                        to={`/student/other-profile/${alumni.studentId}`}
+                        style={{ color: "black", textDecoration: "none" }}
+                      >
                         <div className="mr-2">
                           <img
                             src={defaultProfilePicture}
@@ -40,20 +41,20 @@ function AlumnusComp(props) {
                             style={{ width: "40px", height: "40px" }}
                           />
                         </div>
-
-                        <div>
-                          <div className="font-weight-bold d-block opacity-8">
-                            {alumni.firstName} {alumni.lastName}
-                          </div>
-                          <div
-                            className="text-dark opacity-50"
-                            style={{ color: "#111111" }}
-                          >
-                            <a href={`mailto:${alumni.email}`}>{alumni.email}</a>
-                          </div>
+                      </Link>
+                      <div>
+                        <div className="font-weight-bold d-block opacity-8">
+                          {alumni.firstName} {alumni.lastName}
+                        </div>
+                        <div
+                          className="text-dark opacity-50"
+                          style={{ color: "#111111" }}
+                        >
+                          <a href={`mailto:${alumni.email}`}>{alumni.email}</a>
                         </div>
                       </div>
-                    </Link>
+                    </div>
+
                   </ListGroupItem>
                   <div className="divider" />
                 </>
