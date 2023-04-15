@@ -1,4 +1,5 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import Header from '../../../components/dashboard/Header';
 import Menu from '../../../components/dashboard/Menu';
@@ -8,10 +9,15 @@ import API from '../../../../util/API';
 import apiPaths from '../../../../util/apiPaths';
 import { AuthContext } from '../../../../AuthContext';
 
+import { Helmet } from 'react-helmet';
+
 const FAQ = () => {
+    const navigate = useNavigate();
     const [question, setQuestion] = useState("");
     const [answer, setAnswer] = useState("");
     const [showModal, setShowModal] = useState(false);
+
+    const [existingFAQs, setExistingFAQs] = useState([]);
 
     const [questionError, setQuestionError] = useState("");
     const [answerError, setAnswerError] = useState("");
@@ -19,7 +25,7 @@ const FAQ = () => {
     const { loggedInAdmin } = useContext(AuthContext);
 
     const handleCreate = async () => {
-        if (validate()) {
+        if (await validate()) {
             try {
                 const createdFAQ = {
                     question,
@@ -36,32 +42,58 @@ const FAQ = () => {
         }
     };
 
-
     const handleCancel = async () => {
-        setQuestion("");
-        setAnswer("");
-        setShowModal(false);
+        window.location.reload();
     };
 
-    const validate = () => {
+    const validate = async () => {
         let isValid = true;
+
         if (question.trim() === "") {
             setQuestionError("Please enter a question");
             isValid = false;
         } else {
-            setQuestionError("");
+            const duplicateQuestion = existingFAQs.some(
+                (faq) => faq.question.toLowerCase() === question.toLowerCase()
+            );
+
+            if (duplicateQuestion) {
+                setQuestionError("Question already exists");
+                isValid = false;
+            } else {
+                setQuestionError("");
+            }
         }
+
         if (answer.trim() === "") {
             setAnswerError("Please enter an answer");
             isValid = false;
         } else {
             setAnswerError("");
         }
+
         return isValid;
     };
 
+    useEffect(() => {
+        const fetchFAQs = async () => {
+            try {
+                const apiPath = `${apiPaths.listOfFaqs}`;
+                const response = await API.get(apiPath);
+                setExistingFAQs(response.data);
+            } catch (error) {
+                console.error(error);
+            }
+        };
+
+        fetchFAQs();
+    }, []);
+
     return (
         <div>
+            <Helmet>
+                <title>Create FAQ</title>
+            </Helmet>
             <Header />
             <Menu />
             <div className="content-wrapper">

@@ -2,8 +2,10 @@ import React, { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import API from '../util/API';
-import { LoginStyles } from './userSupportAdmin/styles/LoginStyles';
+import { LoginStyles } from '../student/login/LoginStyles';
 import { AuthContext } from '../../src/AuthContext';
+
+import { Helmet } from 'react-helmet';
 
 const Login = () => {
 
@@ -33,9 +35,7 @@ const Login = () => {
         const admin = response.data;
         const userGroup = admin.userGroupEnum === "SYSTEM_SUPPORT" ? "systemSupportAdmin" : "userSupportAdmin";
         loginAdmin(admin);
-        setTimeout(() => {
-          navigate(`/${userGroup}/main`);
-        }, 2000);
+        navigate(`/admin/${userGroup}/main`);
       }
     } catch (error) {
       alert("Invalid credentials");
@@ -44,6 +44,9 @@ const Login = () => {
 
   return (
     <div className="form" style={LoginStyles.formContainerStyle}>
+      <Helmet>
+        <title>Login</title>
+      </Helmet>
       <div className="card card-primary" style={LoginStyles.formStyle}>
         <div className="card-header">
           <h3 className="card-title">NUSchange Admin</h3>

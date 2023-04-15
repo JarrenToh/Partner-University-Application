@@ -11,6 +11,8 @@ import { DateTimeConverter } from "../../../../util/dateTimeConverter";
 import { userSupportAdminPaths } from "../../../../util/adminRoutes";
 import { AuthContext } from "../../../../AuthContext";
 
+import { Helmet } from "react-helmet";
+
 const Enquiry = () => {
 
     const [data, setData] = useState([]);
@@ -19,9 +21,9 @@ const Enquiry = () => {
     const location = useLocation();
 
     const { loggedInAdmin } = useContext(AuthContext);
-    
+
     const handleButtonClick = (enquiryId) => {
-        navigate(`/${userSupportAdminPaths.viewEnquiries}/${enquiryId}`);
+        navigate(`/admin${userSupportAdminPaths.viewEnquiries}/${enquiryId}`);
     };
 
     useEffect(() => {
@@ -33,7 +35,7 @@ const Enquiry = () => {
                 const { pathname } = location;
                 const pathSegments = pathname.split('/');
                 const isLastWordAssigned = pathSegments[pathSegments.length - 1] === 'assigned';
-                
+
                 let path = "";
 
                 if (!isLastWordAssigned) {
@@ -51,10 +53,13 @@ const Enquiry = () => {
             }
         };
         fetchData();
-    }, [loggedInAdmin]);
+    }, [loggedInAdmin, location]);
 
     return (
         <div>
+            <Helmet>
+                <title>View Student Enquiry</title>
+            </Helmet>
             <Header />
             <Menu />
             <div className="content-wrapper">

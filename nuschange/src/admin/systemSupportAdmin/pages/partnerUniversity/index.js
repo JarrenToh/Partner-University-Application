@@ -11,17 +11,19 @@ import apiPaths from "../../../../util/apiPaths";
 import { convertNameToSlug } from "../../../../util/urlTextConverter";
 import { systemSupportAdminPaths } from "../../../../util/adminRoutes";
 
+import { Helmet } from "react-helmet";
+
 const PartnerUniversity = () => {
 
     const [data, setData] = useState([]);
     const navigate = useNavigate();
 
     const handleViewDetailsButtonClick = (puName) => {
-        navigate(`${systemSupportAdminPaths.viewPUs}/${convertNameToSlug(puName)}`);
+        navigate(`/admin${systemSupportAdminPaths.viewPUs}/${convertNameToSlug(puName)}`);
     };
 
     const handleViewModulesButtonClick = (puName) => {
-        navigate(`${systemSupportAdminPaths.viewPUs}/${convertNameToSlug(puName)}/modules`);
+        navigate(`/admin${systemSupportAdminPaths.viewPUs}/${convertNameToSlug(puName)}/modules`);
     };
 
     const handleSort = (data) => {
@@ -42,6 +44,9 @@ const PartnerUniversity = () => {
 
     return (
         <div>
+            <Helmet>
+                <title>View PU</title>
+            </Helmet>
             <Header />
             <Menu />
             <div className="content-wrapper">

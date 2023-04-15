@@ -11,6 +11,8 @@ import { DateTimeConverter } from "../../../../util/dateTimeConverter";
 import { userSupportAdminPaths } from "../../../../util/adminRoutes";
 import { AuthContext } from "../../../../AuthContext";
 
+import { Helmet } from "react-helmet";
+
 const FAQ = () => {
 
     const [data, setData] = useState([]);
@@ -20,7 +22,7 @@ const FAQ = () => {
     const { loggedInAdmin } = useContext(AuthContext);
 
     const handleButtonClick = (faqId) => {
-        navigate(`/${userSupportAdminPaths.viewFaqs}/${faqId}`);
+        navigate(`/admin${userSupportAdminPaths.viewFaqs}/${faqId}`);
     };
 
     useEffect(() => {
@@ -48,12 +50,15 @@ const FAQ = () => {
 
     return (
         <div>
+            <Helmet>
+                <title>View FAQ</title>
+            </Helmet>
             <Header />
             <Menu />
             <div className="content-wrapper">
                 <div className="card">
                     <div className="card-header">
-                        <h3 className="card-title">Frequently-Asked-Questions (FAQs)</h3>
+                        <h3 className="card-title">Frequently-Asked-Question (FAQ)</h3>
                         <button type="button" className="btn btn-block btn-outline-dark" onClick={handleToggle}>{showAll ? 'Show only my FAQs' : 'Show all FAQs'}</button>
                     </div>
                     <div className="card-body">

@@ -11,17 +11,19 @@ import apiPaths from "../../../../util/apiPaths";
 import { convertToEncodedTextForUrl } from "../../../../util/urlTextConverter";
 import { systemSupportAdminPaths } from "../../../../util/adminRoutes";
 
+import { Helmet } from "react-helmet";
+
 const PartnerUuniversityModules = () => {
     const { puName } = useParams();
     const [modules, setModules] = useState([]);
     const navigate = useNavigate();
 
     const handleButtonClick = (puCode) => {
-        navigate(`${systemSupportAdminPaths.viewPUs}/${puName}/modules/${puCode}`);
+        navigate(`/admin${systemSupportAdminPaths.viewPUs}/${puName}/modules/${puCode}`);
     };
 
     const handleCreatePUModuleButtonClick = () => {
-        navigate(`${systemSupportAdminPaths.viewPUs}/${puName}/modules/create`);
+        navigate(`/admin${systemSupportAdminPaths.viewPUs}/${puName}/modules/create`);
     };
 
     useEffect(() => {
@@ -43,6 +45,9 @@ const PartnerUuniversityModules = () => {
 
     return (
         <div>
+            <Helmet>
+                <title>View PU Module</title>
+            </Helmet>
             <Header />
             <Menu />
             <div className="content-wrapper">

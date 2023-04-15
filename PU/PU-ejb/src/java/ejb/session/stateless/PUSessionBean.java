@@ -6,9 +6,11 @@
 package ejb.session.stateless;
 
 import entity.Country;
+import entity.ForumTopic;
 import entity.PU;
 import entity.Student;
 import entity.PUModule;
+import entity.PUModuleReview;
 import entity.PUReview;
 import error.NoResultException;
 import java.util.ArrayList;
@@ -39,6 +41,9 @@ public class PUSessionBean implements PUSessionBeanLocal {
 
     @EJB
     private PUModuleSessionBeanLocal puModuleSessionBean;
+    
+    @EJB
+    private ForumTopicSessionBeanLocal forumTopicSessionBean;
 
     @Override
     public Long createNewPu(PU newPu) {
@@ -116,16 +121,21 @@ public class PUSessionBean implements PUSessionBeanLocal {
     @Override
     public PU retrievePuByName(String name) {
 
-        Query query = em.createQuery("SELECT p FROM PU p WHERE LOWER(p.name) = :name");
-        query.setParameter("name", name.toLowerCase().trim());
+        try {
+            Query query = em.createQuery("SELECT p FROM PU p WHERE LOWER(p.name) = :name");
+            query.setParameter("name", name.toLowerCase().trim());
 
-        PU pu = (PU) query.getSingleResult();
+            PU pu = (PU) query.getSingleResult();
 
-        return pu;
+            return pu;
+        } catch (javax.persistence.NoResultException e) {
+            return null;
+        }
     }
 
     @Override
-    public List<Object> getMappableModulesGroupedByFaculty(String puName) {
+    public List<Object> getMappableModulesGroupedByFaculty(String puName
+    ) {
         Query query = em.createQuery("SELECT m, m.faculty.name \n"
                 + "FROM NUSModule m \n"
                 + "JOIN m.puModules p \n"
@@ -138,7 +148,9 @@ public class PUSessionBean implements PUSessionBeanLocal {
     }
 
     @Override
-    public void updatePU(Long puId, String name, String description, String images) {
+    public void updatePU(Long puId, String name,
+             String description, String images
+    ) {
         PU pu = retrievePuById(puId);
 
         pu.setName(name);
@@ -147,51 +159,37 @@ public class PUSessionBean implements PUSessionBeanLocal {
     }
 
     @Override
-    public void updatePU(PU pu) {
+    public void updatePU(PU pu
+    ) {
         PU oldPu = retrievePuById(pu.getPuId());
-       oldPu.setStudentsLiked(pu.getStudentsLiked());
+        oldPu.setStudentsLiked(pu.getStudentsLiked());
     }
-    
+
     @Override
-    public void updatePUAdmin(Long puId, String name, String description, String images, Long countryId) {
+    public void updatePUAdmin(Long puId, String name,
+             String description, String images,
+             Long countryId
+    ) {
         PU pu = retrievePuById(puId);
-        
+
         pu.setName(name);
         pu.setDescription(description);
         pu.setImages(images);
-        
+
         Country country = countrySessionBean.retrieveCountryById(countryId);
         pu.setCountry(country);
     }
-    
+
     @Override
-    public void deletePU(Long puId) {
-        PU deletedPU = retrievePuById(puId);
-
-        // retrieve all related modules and delete them
-        List<PUModule> modulesToDelete = deletedPU.getModules();
-
-        for (PUModule module : modulesToDelete) {
-            em.remove(module);
-        }
-
-        List<PUReview> pureviews = deletedPU.getPuReviews();
-
-        for (PUReview pureview : pureviews) {
-            em.remove(pureview);
-        }
-        
-        List<Student> students = deletedPU.getStudents();
-
-        for (Student student : students) {
-            em.remove(student);
-        }
-
+    public void deletePU(Long puId
+    ) {
+        PU deletedPU = retrievePuById(puId);            
         em.remove(deletedPU);
     }
 
     @Override
-    public Long enrollStudent(Long puId, Long studentId) {
+    public Long enrollStudent(Long puId, Long studentId
+    ) {
         PU pu = em.find(PU.class, puId);
         Student student = em.find(Student.class, studentId);
         pu.getStudents().add(student);

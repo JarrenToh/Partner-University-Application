@@ -13,8 +13,6 @@ import entity.Student;
 import error.NoResultException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.Iterator;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
@@ -33,7 +31,7 @@ public class ForumTopicSessionBean implements ForumTopicSessionBeanLocal {
     private ForumPostSessionBeanLocal forumPostSessionBeanLocal;
 
     @PersistenceContext(unitName = "PU-ejbPU")
-    private EntityManager em;   
+    private EntityManager em;
 
     @Override
     public void createNewForumTopic(ForumTopic forumTopic, Long studentId, Long puId) {
@@ -49,19 +47,22 @@ public class ForumTopicSessionBean implements ForumTopicSessionBeanLocal {
         em.persist(forumTopic);
         em.flush();
     }
-    
+
     @Override
-    public void createNewForumTopicByAdmin(ForumTopic forumTopic, Long adminId) throws NoResultException {
-        NUSchangeAdmin nusChangeAdmin = em.find(NUSchangeAdmin.class, adminId);    
+    public void createNewForumTopicByAdmin(ForumTopic forumTopic, Long adminId, Long puId) throws NoResultException {
+        NUSchangeAdmin nusChangeAdmin = em.find(NUSchangeAdmin.class, adminId);
+        PU pu = em.find(PU.class, puId);
         nusChangeAdmin.getForumTopics().add(forumTopic);
         forumTopic.setAdmin(nusChangeAdmin);
+        forumTopic.setPu(pu);
+        forumTopic.setPuName(pu.getName());
         em.persist(forumTopic);
         em.flush();
     }
 
     @Override
-    public void updateForumTopic(ForumTopic forumTopic) {     
-        
+    public void updateForumTopic(ForumTopic forumTopic) {
+
         ForumTopic oldTopic = retrieveForumTopicById(forumTopic.getTopicId());
 
         oldTopic.setTopicName(forumTopic.getTopicName());
@@ -75,9 +76,9 @@ public class ForumTopicSessionBean implements ForumTopicSessionBeanLocal {
         oldTopic.setStudentFirstName(forumTopic.getStudentFirstName());
         oldTopic.setStudentLastName(forumTopic.getStudentLastName());
         oldTopic.setPu(forumTopic.getPu());
-        
+
     }
-    
+
     @Override
     public void editForumTopic(ForumTopic forumTopic) {
         ForumTopic oldTopic = retrieveForumTopicById(forumTopic.getTopicId());
@@ -94,7 +95,7 @@ public class ForumTopicSessionBean implements ForumTopicSessionBeanLocal {
         oldTopic.setStudentLastName(forumTopic.getStudentLastName());
         oldTopic.setPu(forumTopic.getPu());
     }
-    
+
     @Override
     public void editForumTopicByAdmin(ForumTopic forumTopic) {
         ForumTopic oldTopic = retrieveForumTopicById(forumTopic.getTopicId());
@@ -114,7 +115,7 @@ public class ForumTopicSessionBean implements ForumTopicSessionBeanLocal {
     @Override
     public void deleteForumTopic(Long forumTopicId) {
         ForumTopic forumTopic = em.find(ForumTopic.class, forumTopicId);
-        
+
         if (forumTopic.getStudent() != null) {
             Student student = em.find(Student.class, forumTopic.getStudentId());
             student.getTopics().remove(forumTopic);
@@ -122,7 +123,7 @@ public class ForumTopicSessionBean implements ForumTopicSessionBeanLocal {
             NUSchangeAdmin admin = em.find(NUSchangeAdmin.class, forumTopic.getAdmin().getAdminId());
             admin.getForumTopics().remove(forumTopic);
         }
-        
+
         List<ForumPost> forumPosts = forumTopic.getForumPosts();
 
         synchronized (forumPosts) {
@@ -148,13 +149,13 @@ public class ForumTopicSessionBean implements ForumTopicSessionBeanLocal {
         ForumTopic forumTopic = em.find(ForumTopic.class, forumTopicId);
         return forumTopic;
     }
-    
+
     @Override
     public List<ForumTopic> retrieveForumTopicsByStudentId(Long studentId) {
         Student student = em.find(Student.class, studentId);
         return student.getTopics();
     }
-    
+
     @Override
     public List<ForumTopic> retrievePUForumTopicsByStudentId(Long puId, Long studentId) {
 
@@ -169,7 +170,7 @@ public class ForumTopicSessionBean implements ForumTopicSessionBeanLocal {
         }
         return puStudentTopics;
     }
-    
+
     @Override
     public List<ForumTopic> retrieveForumTopicsByPuId(Long puId) {
         Query query = em.createQuery("SELECT t FROM ForumTopic t WHERE t.pu.puId = :puId");
@@ -191,7 +192,7 @@ public class ForumTopicSessionBean implements ForumTopicSessionBeanLocal {
         }
         return q.getResultList();
     }
-    
+
     @Override
     public List<ForumTopic> searchForumTopicsByStudent(String topicName, Long studentId) {
         Query q;
@@ -202,7 +203,7 @@ public class ForumTopicSessionBean implements ForumTopicSessionBeanLocal {
         } else {
             q = em.createQuery("SELECT ft FROM ForumTopic ft");
         }
-        
+
         List<ForumTopic> forumTopics = q.getResultList();
         List<ForumTopic> searchTopics = new ArrayList();
         
@@ -211,13 +212,13 @@ public class ForumTopicSessionBean implements ForumTopicSessionBeanLocal {
                 searchTopics.add(forumTopic);
             }
         }
-        
+
         return searchTopics;
     }
-    
+
     @Override
     public List<ForumTopic> searchForumTopicsByStudentAndPu(String topicName, Long studentId, Long puId) {
-        
+
         List<ForumTopic> puForumTopics = searchForumTopicsByPu(topicName, puId);
         
         List<ForumTopic> studentPuForumTopics = new ArrayList();
@@ -230,7 +231,7 @@ public class ForumTopicSessionBean implements ForumTopicSessionBeanLocal {
 
         return studentPuForumTopics;
     }
-    
+
     @Override
     public List<ForumTopic> searchForumTopicsByPu(String topicName, Long puId) {
         Query q;
@@ -257,7 +258,7 @@ public class ForumTopicSessionBean implements ForumTopicSessionBeanLocal {
     @Override
     public void reportForumTopic(Long forumTopicId) {
         ForumTopic forumTopic = em.find(ForumTopic.class, forumTopicId);
-        
+
         forumTopic.setIsInappropriate(true);
     }
 }

@@ -26,6 +26,7 @@ import javax.ws.rs.core.GenericEntity;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import util.dataTransferObject.PUDTO;
+import util.dataTransferObject.ResponseObject;
 import util.enumeration.StatusName;
 import util.formRequestEntity.PUUpdateRequest;
 
@@ -101,6 +102,10 @@ public class PUResource {
         try {            
             PU pu = pUSessionBeanLocal.retrievePuByName(puName);
             
+            if (pu == null) {
+                return Response.status(200).entity(new ResponseObject("404")).type(MediaType.APPLICATION_JSON).build();
+            }
+            
             Country country = pu.getCountry();
             
             PUDTO puDTO = new PUDTO(
@@ -115,9 +120,8 @@ public class PUResource {
             JsonObject exception = Json.createObjectBuilder()
                     .add("error", "Not found")
                     .build();
-
-            return Response.status(404).entity(exception)
-                    .type(MediaType.APPLICATION_JSON).build();
+            
+            return Response.status(200).entity(new ResponseObject("404")).type(MediaType.APPLICATION_JSON).build();
         }
     }
 

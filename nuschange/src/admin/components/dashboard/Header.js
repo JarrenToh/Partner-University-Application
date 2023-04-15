@@ -12,7 +12,7 @@ const Header = () => {
 
     const handleLogout = () => {
         logoutAdmin();
-        navigate('../login');
+        navigate('/admin/login');
     };
 
     return (

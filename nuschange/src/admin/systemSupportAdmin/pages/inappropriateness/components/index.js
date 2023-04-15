@@ -79,7 +79,7 @@ const InappropriatenessComponent = ({ type, typeOfComponent, apiPath, selectedBu
                     return -1;
             }
 
-            navigate(`${systemSupportAdminPaths.viewInappropriatenessContent}/${component}/${selectedId}`);
+            navigate(`/admin${systemSupportAdminPaths.viewInappropriatenessContent}/${component}/${selectedId}`);
         }
     }, [selectedId, typeOfComponent, navigate]);
 

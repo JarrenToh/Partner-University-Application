@@ -9,10 +9,11 @@ import {
   faThumbsDown,
   faFlag,
 } from "@fortawesome/free-regular-svg-icons";
-import { Button } from "reactstrap";
+import { Button, Tooltip } from "reactstrap";
 import PerfectScrollbar from "react-perfect-scrollbar";
 import { Card, ListGroup, ListGroupItem, CardHeader } from "reactstrap";
 import defaultProfilePicture from "../images/housekeeper.png";
+
 
 function ReviewComp({
   student,
@@ -24,6 +25,20 @@ function ReviewComp({
   studentDislikedPUReviews
 }) {
   const [isHovered, setIsHovered] = useState({});
+  const [tooltipOpenLike, setTooltipOpenLike] = useState(false);
+  const [tooltipOpenDislike, setTooltipOpenDislike] = useState(false);
+  const [tooltipOpenFlag, setTooltipOpenFlag] = useState(false);
+
+  const toggleTooltipLike = () => {
+    setTooltipOpenLike(!tooltipOpenLike);
+  };
+  const toggleTooltipDisike = () => {
+    setTooltipOpenDislike(!tooltipOpenDislike);
+  };
+  const toggleTooltipFlag = () => {
+    setTooltipOpenFlag(!tooltipOpenFlag);
+  };
+
   return (
     <Card className="card-box mb-5">
       <CardHeader style={{ textAlign: "center" }}>
@@ -104,7 +119,7 @@ function ReviewComp({
                           Dislike {s.puReview.noOfDislikes}
                         </div>
                       </div>
-                      <div className="ml-auto">
+                      <div className="ml-auto" id="ReviewLikedButton">
                         <Button
                           color="link"
                           style={{ background: "transparent" }}
@@ -124,15 +139,23 @@ function ReviewComp({
                                   : "#007bff",
                               marginRight: "10px",
                             }}
+
                           />
                         </Button>
+                        {loggedInStudent === null ?
+                          <Tooltip placement="top" isOpen={tooltipOpenLike} target="ReviewLikedButton" toggle={toggleTooltipLike} >Must be signed in to like review</Tooltip>
+                          :
+                          null
+                        }
                       </div>
-                      <div>
+                      <div id="ReviewDislikedButton">
                         <Button
                           color="link"
                           style={{ background: "transparent" }}
                           onClick={() => toggleDislike(s.studentId)}
                           disabled={loggedInStudent === null}
+                          // title={loggedInStudent === null ? "Must be signed in to dislike review" : ""}
+                          // data-tip={loggedInStudent === null ? "Must be signed in to dislike review" : ""}
                         >
                           <FontAwesomeIcon
                             icon={faThumbsDown}
@@ -147,10 +170,16 @@ function ReviewComp({
                                   : "#007bff",
                               marginRight: "10px",
                             }}
+                            title={loggedInStudent === null ? "Must be signed in to flag review" : ""}
                           />
                         </Button>
+                        {loggedInStudent === null ?
+                          <Tooltip placement="top" isOpen={tooltipOpenDislike} target="ReviewDislikedButton" toggle={toggleTooltipDisike} >Must be signed in to dislike review</Tooltip>
+                          :
+                          null
+                        }
                       </div>
-                      <div>
+                      <div id="ReviewFlagButton">
                         <Button
                           color="link"
                           style={{
@@ -170,6 +199,7 @@ function ReviewComp({
                           }
                           onClick={() => handleFlagged(s.studentId)}
                           disabled={loggedInStudent === null}
+                          data-tip={loggedInStudent === null ? "Must be signed in to flag review" : ""}
                         >
                           <FontAwesomeIcon
                             icon={faFlag}
@@ -180,6 +210,11 @@ function ReviewComp({
                             }}
                           />
                         </Button>
+                        {loggedInStudent === null ?
+                          <Tooltip placement="top" isOpen={tooltipOpenFlag} target="ReviewFlagButton" toggle={toggleTooltipFlag} >Must be signed in to flag review</Tooltip>
+                          :
+                          null
+                        }
                       </div>
                     </div>
                   </div>

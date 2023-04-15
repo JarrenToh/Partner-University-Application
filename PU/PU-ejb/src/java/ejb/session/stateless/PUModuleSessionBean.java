@@ -46,12 +46,16 @@ public class PUModuleSessionBean implements PUModuleSessionBeanLocal {
 
     @Override
     public void createModuleForPU(String puName, PUModule module) {
-        PU pu = puSessionBean.retrievePuByName(puName);
-
-        pu.getModules().add(module);
-        module.setPu(pu);
-        
-        em.persist(module);
+        try {
+            PU pu = puSessionBean.retrievePuByName(puName);
+            
+            pu.getModules().add(module);
+            module.setPu(pu);
+            
+            em.persist(module);
+        } catch (NoResultException ex) {
+            Logger.getLogger(PUModuleSessionBean.class.getName()).log(Level.SEVERE, null, ex);
+        }
 
     }
 
@@ -102,14 +106,18 @@ public class PUModuleSessionBean implements PUModuleSessionBeanLocal {
 
     @Override
     public PUModule searchPUModuleByCodeAndPUName(String pmCode, String puName) {
-        Query q = null;
-        if (pmCode != null && puName != null) {
-            q = em.createQuery("SELECT pm FROM PUModule pm JOIN pm.pu pUni WHERE pm.code = :pmCode AND pUni.name = :puName")
-                    .setParameter("pmCode", pmCode)
-                    .setParameter("puName", puName);
-        }
+        try {
+            Query q = null;
+            if (pmCode != null && puName != null) {
+                q = em.createQuery("SELECT pm FROM PUModule pm JOIN pm.pu pUni WHERE pm.code = :pmCode AND pUni.name = :puName")
+                        .setParameter("pmCode", pmCode)
+                        .setParameter("puName", puName);
+            }
 
-        return (PUModule) q.getSingleResult();
+            return (PUModule) q.getSingleResult();
+        } catch (javax.persistence.NoResultException e) {
+            return null;
+        }
     }
 
     @Override
@@ -132,7 +140,7 @@ public class PUModuleSessionBean implements PUModuleSessionBeanLocal {
         oldP.setDescription(p.getDescription());
 
     } //end updateCustomer
-    
+
     @Override
     public void updatePUModuleAdmin(Long cId, PUModule puModule) throws NoResultException {
         PUModule oldP = getPUModule(cId);
@@ -158,14 +166,13 @@ public class PUModuleSessionBean implements PUModuleSessionBeanLocal {
 
 //        System.err.println("PUMODID : " + puModId);
 //        System.err.println("NUSMODID : " + nusModId);
-
         PUModule pUModule = em.find(PUModule.class, puModId);
         NUSModule nUSModule = em.find(NUSModule.class, nusModId);
 
         pUModule.getMappableModules().add(nUSModule);
         nUSModule.getPuModules().add(pUModule);
     }
-    
+
     @Override
     public void associatePUModuleStudent(Long puModId, Long studentId) {
 

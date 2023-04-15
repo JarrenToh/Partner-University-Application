@@ -34,6 +34,7 @@ const App = () => {
           width: '80%',
           height: '100%',
           marginRight: '1%',
+          minHeight : '1500px',
         }}
       />
 
