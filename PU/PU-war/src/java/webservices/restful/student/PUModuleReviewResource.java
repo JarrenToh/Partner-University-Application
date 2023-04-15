@@ -1,17 +1,23 @@
 package webservices.restful.student;
 
 import ejb.session.stateless.PUModuleReviewSessionBeanLocal;
+import ejb.session.stateless.PUModuleSessionBeanLocal;
 import ejb.session.stateless.StudentSessionBeanLocal;
 import entity.PUModuleReview;
 import entity.Student;
 import error.NoResultException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.ejb.EJB;
 import javax.ws.rs.Path;
 import javax.enterprise.context.RequestScoped;
 import javax.json.Json;
 import javax.json.JsonObject;
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -36,6 +42,9 @@ public class PUModuleReviewResource {
     @EJB
     private PUModuleReviewSessionBeanLocal puModuleReviewSessionBeanLocal;
 
+    @EJB
+    private PUModuleSessionBeanLocal pUModuleSessionBeanLocal;
+
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public Response getAllPUModuleReviews() {
@@ -52,7 +61,10 @@ public class PUModuleReviewResource {
 
             PUModuleReviewDTO puModuleReviewDto = new PUModuleReviewDTO(
                     puModuleReview.getModuleReviewId(),
+                    puModuleReview.getRating(),
                     puModuleReview.getReview(),
+                    puModuleReview.getNoOfLikes(),
+                    puModuleReview.getNoOfLikes(),
                     puModuleReview.getIsInappropriate(),
                     student.getStudentId(),
                     student.getFirstName(),
@@ -62,6 +74,47 @@ public class PUModuleReviewResource {
         }
 
         return Response.status(200).entity(puReviewDtos).build();
+    }
+
+    @GET
+    @Path("from-module/{moduleId}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getPUModuleReviewsFromModule(@PathParam("moduleId") long moduleId) {
+
+        try {
+            List<PUModuleReview> puModuleReviews = pUModuleSessionBeanLocal.getPUModule(moduleId).getModuleReviews();
+            List<PUModuleReviewDTO> puReviewDtos = new ArrayList<>();
+
+            for (PUModuleReview puModuleReview : puModuleReviews) {
+
+                Student student = puModuleReview.getStudent();
+
+                if (student == null) {
+                    continue;
+                }
+
+                PUModuleReviewDTO puModuleReviewDto = new PUModuleReviewDTO(
+                        puModuleReview.getModuleReviewId(),
+                        puModuleReview.getRating(),
+                        puModuleReview.getReview(),
+                        puModuleReview.getNoOfLikes(),
+                        puModuleReview.getNoOfDislikes(),
+                        puModuleReview.getIsInappropriate(),
+                        student.getStudentId(),
+                        student.getFirstName(),
+                        student.getLastName()
+                );
+                puReviewDtos.add(puModuleReviewDto);
+            }
+
+            return Response.status(200).entity(puReviewDtos).build();
+        } catch (NoResultException ex) {
+            JsonObject exception = Json.createObjectBuilder()
+                    .add("error", "No query conditions")
+                    .build();
+            
+            return Response.status(400).entity(exception).build();
+        }
     }
 
     @GET
@@ -148,24 +201,14 @@ public class PUModuleReviewResource {
         }
     } //end getPUModuleReview
 
-//    @GET
-//    @Path("/getByStudent/{studentId}/{id}")
-//    @Produces(MediaType.APPLICATION_JSON)
-//    public Response getPUModuleReview(@PathParam("id") Long modId, @PathParam("studentId") Long studentId) {
-//        try {
-//            Student c = studentSessionLocal.getStudent(studentId);
-//            return Response.status(200).entity(
-//                    c
-//            ).type(MediaType.APPLICATION_JSON).build();
-//        } catch (NoResultException e) {
-//            JsonObject exception = Json.createObjectBuilder()
-//                    .add("error", "Not found")
-//                    .build();
-//
-//            return Response.status(404).entity(exception)
-//                    .type(MediaType.APPLICATION_JSON).build();
-//        }
-//    } //end getStudent
+    @POST
+    @Path("/{studentId}/{moduleId}")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public PUModuleReview createPUModuleReview(PUModuleReview s, @PathParam("studentId") Long studentId, @PathParam("moduleId") Long moduleId) {
+        puModuleReviewSessionBeanLocal.createPUModuleReview(s, studentId, moduleId);
+        return s;
+    } //end createPUModuleReview
 
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
@@ -193,6 +236,42 @@ public class PUModuleReviewResource {
                     .type(MediaType.APPLICATION_JSON).build();
         }
     } //end editPUModuleReview
+    
+    @PUT
+    @Path("/like/")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response editModReviewLike(@QueryParam("studentId") Long studentId, @QueryParam("modReviewId") Long modReviewId, @QueryParam("choice") Integer choice) {
+        try {
+            puModuleReviewSessionBeanLocal.updatePUModReviewLikedByStudent(modReviewId, studentId, choice);
+            return Response.status(204).build();
+        } catch (Exception e) {
+            JsonObject exception = Json.createObjectBuilder()
+                    .add("error", "Not found")
+                    .build();
+
+            return Response.status(404).entity(exception)
+                    .type(MediaType.APPLICATION_JSON).build();
+        }
+    }
+
+    @PUT 
+    @Path("/dislike/")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response editModReviewdislike(@QueryParam("studentId") Long studentId, @QueryParam("modReviewId") Long modReviewId, @QueryParam("choice") Integer choice) {
+        try {
+            puModuleReviewSessionBeanLocal.updateModPUReviewDislikedByStudent(modReviewId, studentId, choice);
+            return Response.status(204).build();
+        } catch (Exception e) {
+            JsonObject exception = Json.createObjectBuilder()
+                    .add("error", "Not found")
+                    .build();
+
+            return Response.status(404).entity(exception)
+                    .type(MediaType.APPLICATION_JSON).build();
+        }
+    }
 
     @DELETE
     @Path("/{id}")
