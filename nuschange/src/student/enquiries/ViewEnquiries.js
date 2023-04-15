@@ -46,15 +46,21 @@ const ViewEnquiries = () => {
           </tr>
         </thead>
         <tbody>
-          {enquiries.map((enquiry, index) => (
-            <tr key={enquiry.enquiryId}>
-              <td>{enquiry.enquiryId}</td>
-              <td>{enquiry.title}</td>
-              <td>{enquiry.content}</td>
-              <td>{moment(enquiry.enquiryDate).format('MMMM Do YYYY, h:mm:ss a')}</td> {/* convert the date using moment.js */}
-              <td>{enquiry.response || 'Please wait 2-3 working days from the Enquiry Date'}</td>
+          {enquiries.length > 0 ? (
+            enquiries.map((enquiry, index) => (
+              <tr key={enquiry.enquiryId}>
+                <td>{enquiry.enquiryId}</td>
+                <td>{enquiry.title}</td>
+                <td>{enquiry.content}</td>
+                <td>{moment(enquiry.enquiryDate).format('MMMM Do YYYY, h:mm:ss a')}</td> {/* convert the date using moment.js */}
+                <td>{enquiry.response || 'Please wait 2-3 working days from the Enquiry Date'}</td>
+              </tr>
+            ))
+          ) : (
+            <tr>
+              <td colSpan={5} style={{textAlign: 'center'}}>No enquiries found.</td>
             </tr>
-          ))}
+          )}
         </tbody>
       </Table>
       <style>{`

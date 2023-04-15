@@ -29,6 +29,7 @@ import ModulesTaken from './student/studentProfile/ModulesTaken';
 import ModuleDetail from './student/puModule/ModuleDetails';
 import OtherStudentProfile from './student/containers/OtherStudentProfile';
 import StudentEnquiry from './student/enquiries/Enquiries';
+import NotFoundPage from './student/components/NotFoundPage';
 
 
 // admin
@@ -142,6 +143,7 @@ const App = () => {
           {/* student */}
           <Routes>
             <Route path="/" element={<LandingPage />} />
+            <Route path="/student/*" element={<NotFoundPage/>} />
             <Route path="/student/home-page" element={<HomePage />} />
             <Route path="/student/profile" element={<StudentProfile user={user} />} />
             <Route path="/student/forum-topics/:puId" element={<ForumTopics />} />

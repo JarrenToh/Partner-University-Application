@@ -175,9 +175,7 @@ const UniversityRankings = ({ universitiesData }) => {
 
   const filteredUniversities = universities.filter(
     (university) =>
-      university.name.toLowerCase().includes(filter.toLowerCase()) ||
-      university.regionName.toLowerCase().includes(filter.toLowerCase()) ||
-      university.countryName.toLowerCase().includes(filter.toLowerCase())
+      university.name.toLowerCase().includes(filter.toLowerCase()) 
   );
 
   useEffect(() => {
@@ -334,9 +332,15 @@ const UniversityRankings = ({ universitiesData }) => {
           </div>
         )}
         {sortedUniversities.length > displayLimit && (
-          <Button onClick={handleShowMore}>Show More</Button>
+          <Button onClick={handleShowMore} style={{ backgroundColor: `#1E90FF`, fontSize : `20px`, color: `white` }}>Show More</Button>
         )}
+        <br/>
+        <br/>
+        <br/>
+        <br/>
       </div>
+      <br/>
+      <br/>
       <Modal show={showLikedModal} onHide={handleClose}>
         <Modal.Header closeButton>
           <Modal.Title>You are Enrolled Here!</Modal.Title>
