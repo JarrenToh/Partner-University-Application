@@ -4887,9 +4887,9 @@ public class DataInitializationSessionBean {
         puReview4.setIsInappropriate(true);
         puReview5.setIsInappropriate(true);
 
-        ForumTopic forumTopic1 = new ForumTopic("WTF Topic");
-        ForumTopic forumTopic2 = new ForumTopic("CCB Topic");
-        ForumTopic forumTopic3 = new ForumTopic("CHAO Topic");
+        ForumTopic forumTopic1 = new ForumTopic("Bad modules in Africa University");
+        ForumTopic forumTopic2 = new ForumTopic("Bad modules in Oxford University");
+        ForumTopic forumTopic3 = new ForumTopic("Bad modules in University of Tokyo");
         ForumTopic forumTopic4 = new ForumTopic("Harvard University Exchange Programme");
         ForumTopic forumTopic5 = new ForumTopic("University Of Melbourne Exchange Programme");
         ForumTopic forumTopic6 = new ForumTopic("Africa University Exchange Programme");
@@ -4907,9 +4907,9 @@ public class DataInitializationSessionBean {
         forumTopicSessionBeanLocal.createNewForumTopic(forumTopic6, studentId3, pId1);
         forumTopicSessionBeanLocal.createNewForumTopic(forumTopic7, studentId3, pId1);
 
-        ForumPost forumPost1 = new ForumPost("This is stupid?", "Stupid PU!!");
-        ForumPost forumPost2 = new ForumPost("HK nice food?", "What a joke!!");
-        ForumPost forumPost3 = new ForumPost("Places to stay?", "I want to stay in Singapore");
+        ForumPost forumPost1 = new ForumPost("Bad modules?", "Everything!");
+        ForumPost forumPost2 = new ForumPost("Oxford University?", "What a joke!!");
+        ForumPost forumPost3 = new ForumPost("University of Tokyo", "RUDE PEOPLE");
         ForumPost forumPost4 = new ForumPost("Looking for friends to go for the Exchange Programme", "I am from SOC! Planning to go next semester");
         ForumPost forumPost5 = new ForumPost("Studying culture in University of Melbourne", "How is the study culture over there like? Competitive? Friendly? Relaxing? Stressful?");
         ForumPost forumPost6 = new ForumPost("Looking for friends to go for the Exchange Programme", "I am from SOC! Planning to go next semester");
@@ -4936,10 +4936,10 @@ public class DataInitializationSessionBean {
         forumPostSessionBeanLocal.createNewForumPost(forumPost7, forumTopic7.getTopicId(), student3.getStudentId());
 
         ForumComment forumComment1 = new ForumComment(
-                "Wow this is such a fking shit!",
+                "stop being an attention seeker",
                 false
         );
-        ForumComment forumComment2 = new ForumComment("fk you uds", false);
+        ForumComment forumComment2 = new ForumComment("stop posting lol", false);
         ForumComment forumComment3 = new ForumComment("Marina Bay Sands!", false);
         ForumComment forumComment4 = new ForumComment("Im going there too!!!", false);
         ForumComment forumComment5 = new ForumComment("How can I contact you?", true);
