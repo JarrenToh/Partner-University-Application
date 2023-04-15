@@ -7,6 +7,8 @@ import Footer from '../../../components/dashboard/Footer';
 import API from '../../../../util/API';
 import apiPaths from '../../../../util/apiPaths';
 
+import { Helmet } from 'react-helmet';
+
 const PartnerUniversity = () => {
     const [name, setName] = useState("");
     const [description, setDescription] = useState("");
@@ -14,6 +16,7 @@ const PartnerUniversity = () => {
     const [countryId, setCountryId] = useState("");
 
     const [countries, setCountries] = useState([]);
+    const [existingPUs, setExistingPUs] = useState([]);
 
     const [nameError, setNameError] = useState("");
     const [descriptionError, setDescriptionError] = useState("");
@@ -43,11 +46,7 @@ const PartnerUniversity = () => {
     };
 
     const handleCancel = async () => {
-        setName("");
-        setDescription("");
-        setImages("");
-        setCountryId("Select Country");
-        setShowModal(false);
+        window.location.reload();
     };
 
     const validate = () => {
@@ -56,7 +55,16 @@ const PartnerUniversity = () => {
             setNameError("Please enter a name");
             isValid = false;
         } else {
-            setNameError("");
+            const duplicateName = existingPUs.some(
+                (pu) => pu.name.toLowerCase() === name.toLowerCase()
+            );
+
+            if (duplicateName) {
+                setNameError("PU Name already exists");
+                isValid = false;
+            } else {
+                setNameError("");
+            }
         }
         if (description.trim() === "") {
             setDescriptionError("Please enter a description");
@@ -80,7 +88,7 @@ const PartnerUniversity = () => {
     };
 
     useEffect(() => {
-        const fetchData = async () => {
+        const fetchCountries = async () => {
             try {
                 const apiPath = `${apiPaths.listOfCountries}`
                 const response = await API.get(apiPath);
@@ -92,11 +100,27 @@ const PartnerUniversity = () => {
             }
         };
 
-        fetchData();
+        const fetchPUs = async () => {
+            try {
+                const apiPath = `${apiPaths.listOfPUs}`
+                const response = await API.get(apiPath);
+                const data = response.data;
+
+                setExistingPUs(data);
+            } catch (error) {
+                console.error(error);
+            }
+        };
+
+        fetchCountries();
+        fetchPUs();
     }, []);
 
     return (
         <div>
+            <Helmet>
+                <title>Create PU</title>
+            </Helmet>
             <Header />
             <Menu />
             <div className="content-wrapper">

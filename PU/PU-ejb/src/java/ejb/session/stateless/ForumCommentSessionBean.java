@@ -42,25 +42,26 @@ public class ForumCommentSessionBean implements ForumCommentSessionBeanLocal {
         forumComment.setStudentLastName(student.getLastName());
         forumPost.getForumComments().add(forumComment);
         forumComment.setForumPost(forumPost);
-        //forumComment.setTimeOfCreation(LocalDateTime.now());
-        //forumComment.setLikedStudents(new ArrayList());
-        //forumComment.setDislikedStudents(new ArrayList());
-        //forumComment.setReplies(new ArrayList());
+        forumComment.setTimeOfCreation(LocalDateTime.now());
+        forumComment.setLikedStudents(new ArrayList());
+        forumComment.setDislikedStudents(new ArrayList());
+        forumComment.setReplies(new ArrayList());
         em.persist(forumComment);
         em.flush();
         
         return forumComment;
     }
     
-//    @Override
-//    public ForumComment createNewForumReply(ForumComment forumReply, Long forumCommentId, Long forumPostId, Long studentId) {
-//        ForumComment forumComment = em.find(ForumComment.class, forumCommentId);
-//        ForumComment reply = createNewForumComment(forumReply, forumPostId, studentId);
-//        forumComment.getReplies().add(reply);
-//        
-//        return reply;
-//    }
-//    
+    @Override
+    public ForumComment createNewForumReply(ForumComment forumReply, Long forumCommentId, Long forumPostId, Long studentId) {
+        ForumComment forumComment = em.find(ForumComment.class, forumCommentId);
+        forumReply.setParentComment(forumComment);
+        ForumComment reply = createNewForumComment(forumReply, forumPostId, studentId);
+        forumComment.getReplies().add(reply);
+        
+        return reply;
+    }
+    
     @Override
     public void updateShowReply(Long forumCommentId) {
         ForumComment forumComment = em.find(ForumComment.class, forumCommentId);

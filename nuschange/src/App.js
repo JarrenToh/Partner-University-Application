@@ -71,24 +71,27 @@ const App = () => {
   const [user, setUser] = useState(null);
   const { loggedInStudent, login, logout } = useAuth();
 
-  const ProtectedMain = withAdminAuth(Main);
-  const ProtectedFAQs = withAdminAuth(FAQs);
-  const ProtectedFAQDetails = withAdminAuth(FAQDetails);
-  const ProtectedCreateFAQ = withAdminAuth(CreateFAQ);
-  const ProtectedEnquiry = withAdminAuth(Enquiry);
-  const ProtectedEnquiryDetails = withAdminAuth(EnquiryDetails);
-  const ProtectedPartnerUniversity = withAdminAuth(PartnerUniversity);
-  const ProtectedPartnerUniversityDetails = withAdminAuth(PartnerUniversityDetails);
-  const ProtectedCreatePartnerUniversity = withAdminAuth(CreatePartnerUniversity);
-  const ProtectedPartnerUniversityModules = withAdminAuth(PartnerUniversityModules);
-  const ProtectedPartnerUniversityModuleDetails = withAdminAuth(PartnerUniversityModuleDetails);
-  const ProtectedCreatePartnerUniversityModule = withAdminAuth(CreatePartnerUniversityModule);
-  const ProtectedInappropriateness = withAdminAuth(Inappropriateness);
-  const ProtectedInappropriatenessDetails = withAdminAuth(InappropriatenessDetails);
-  const ProtectedForumTopicsSystemSupportAdmin = withAdminAuth(ForumTopicsSystemSupportAdmin);
-  const ProtectedCreateForumTopicsSystemSupportAdmin = withAdminAuth(CreateForumTopicsSystemSupportAdmin);
-  const ProtectedForumTopicsDetailsSystemSupportAdmin = withAdminAuth(ForumTopicsDetailsSystemSupportAdmin);
-  const ProtectedAdminProfile = withAdminAuth(AdminProfile);
+  // user support admin routes
+  const ProtectedFAQs = withAdminAuth('userSupportAdmin')(FAQs);
+  const ProtectedFAQDetails = withAdminAuth('userSupportAdmin')(FAQDetails);
+  const ProtectedCreateFAQ = withAdminAuth('userSupportAdmin')(CreateFAQ);
+  const ProtectedEnquiry = withAdminAuth('userSupportAdmin')(Enquiry);
+  const ProtectedEnquiryDetails = withAdminAuth('userSupportAdmin')(EnquiryDetails);
+
+  // system support admin routes
+  const ProtectedMain = withAdminAuth('')(Main);
+  const ProtectedPartnerUniversity = withAdminAuth('systemSupportAdmin')(PartnerUniversity);
+  const ProtectedPartnerUniversityDetails = withAdminAuth('systemSupportAdmin')(PartnerUniversityDetails);
+  const ProtectedCreatePartnerUniversity = withAdminAuth('systemSupportAdmin')(CreatePartnerUniversity);
+  const ProtectedPartnerUniversityModules = withAdminAuth('systemSupportAdmin')(PartnerUniversityModules);
+  const ProtectedPartnerUniversityModuleDetails = withAdminAuth('systemSupportAdmin')(PartnerUniversityModuleDetails);
+  const ProtectedCreatePartnerUniversityModule = withAdminAuth('systemSupportAdmin')(CreatePartnerUniversityModule);
+  const ProtectedInappropriateness = withAdminAuth('systemSupportAdmin')(Inappropriateness);
+  const ProtectedInappropriatenessDetails = withAdminAuth('systemSupportAdmin')(InappropriatenessDetails);
+  const ProtectedForumTopicsSystemSupportAdmin = withAdminAuth('systemSupportAdmin')(ForumTopicsSystemSupportAdmin);
+  const ProtectedCreateForumTopicsSystemSupportAdmin = withAdminAuth('systemSupportAdmin')(CreateForumTopicsSystemSupportAdmin);
+  const ProtectedForumTopicsDetailsSystemSupportAdmin = withAdminAuth('systemSupportAdmin')(ForumTopicsDetailsSystemSupportAdmin);
+  const ProtectedAdminProfile = withAdminAuth('')(AdminProfile);
 
   useEffect(() => {
     searchPUs("");
@@ -115,23 +118,23 @@ const App = () => {
 
   // const [url, setUrl] = useState(window.location.pathname);
   // const [showNavbar, setShowNavbar] = useState(false);
-  
+
   // useEffect(() => {
   //   console.log(url);
   // }, [url]);
-  
+
   // useEffect(() => {
   //   setShowNavbar(url.startsWith('/student'));
   // }, [url]);
-  
+
 
   return (
     <AuthProvider> {/* Wrap the app in AuthProvider */}
 
       <div className="App">
-        
+
         <Router>
-          
+
           {/* {showNavbar && (
             <NavbarComp isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} user={user} />
           )} */}
@@ -176,7 +179,7 @@ const App = () => {
             <Route path="/admin/userSupportAdmin/faqs/:id" element={<ProtectedFAQDetails />} />
             <Route path="/admin/userSupportAdmin/faqs/create" element={<ProtectedCreateFAQ />} />
             <Route path="/admin/userSupportAdmin/enquiries" element={<ProtectedEnquiry />} />
-            <Route path="/admin/userSupportAdmin/enquiries/assigned" element={<ProtectedEnquiry adminId={1} />} />
+            <Route path="/admin/userSupportAdmin/enquiries/assigned" element={<ProtectedEnquiry />} />
             <Route path="/admin/userSupportAdmin/enquiries/:id" element={<ProtectedEnquiryDetails />} />
             <Route path="/admin/systemSupportAdmin/partnerUniversities" element={<ProtectedPartnerUniversity />} />
             <Route path="/admin/systemSupportAdmin/partnerUniversities/:nameFromUrl" element={<ProtectedPartnerUniversityDetails />} />
@@ -217,8 +220,8 @@ const App = () => {
         {/* <UniversityDescriptionPage/> */}
         {/* <MappableModule /> */}
       </div>
-        {/* </Router>/*} */}
-        
+      {/* </Router>/*} */}
+
     </AuthProvider>
   );
 }

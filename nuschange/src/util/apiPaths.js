@@ -1,20 +1,19 @@
 const path = "http://localhost:8080/PU-war/webresources";
 
 const apiPaths = {
-  listOfFaqs: `${path}/admin/faqs`,
-  listOfEnquiries: `${path}/admin/enquiries`,
-  listOfPUs: `${path}/pu`,
-  listOfCountries: `${path}/country`,
-  listOfPUModules: `${path}/pumodule`,
-  listOfPUReviews: `${path}/pureview`,
-  listOfForumComments: `${path}/forumComments`,
-  listOfForumPosts: `${path}/forumPosts`,
-  listOfForumTopics: `${path}/forumTopics`,
-  listOfAdminForumTopics: `${path}/admin/forumTopics`,
-  listOfPUModuleReview: `${path}/pumodulereview`,
-  listOfAdminForumTopics: `${path}/admin/forumTopics`,
-  admin: `${path}/admin`,
-  listOfLikedPUs: `${path}/admin/likedPUs`,
+    listOfFaqs: `${path}/admin/faqs`,
+    listOfEnquiries: `${path}/admin/enquiries`,
+    listOfPUs: `${path}/pu`,
+    listOfCountries: `${path}/country`,
+    listOfPUModules: `${path}/pumodule`,
+    listOfPUReviews: `${path}/pureview`,
+    listOfForumComments: `${path}/forumComments`,
+    listOfForumPosts: `${path}/forumPosts`,
+    listOfForumTopics: `${path}/forumTopics`,
+    listOfPUModuleReview: `${path}/pumodulereview`,
+    listOfAdminForumTopics: `${path}/admin/forumTopics`,
+    admin: `${path}/admin`,
+    listOfLikedPUs: `${path}/admin/likedPUs`,
 
   getPUbyName(puName) {
     return fetch(`${path}/pu/getPUByName/${puName}`);

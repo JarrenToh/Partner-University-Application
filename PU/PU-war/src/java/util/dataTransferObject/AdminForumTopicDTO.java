@@ -9,17 +9,19 @@ package util.dataTransferObject;
  *
  * @author wjahoward
  */
-public class ForumTopicDTO {
+public class AdminForumTopicDTO {
     private Long topicId;
     private String topicName;
     private Long puId;
     private boolean isInappropriate;
+    private Long adminId;
 
-    public ForumTopicDTO(Long topicId, String topicName, Long puId, boolean isInappropriate) {
+    public AdminForumTopicDTO(Long topicId, String topicName, Long puId, boolean isInappropriate, Long adminId) {
         this.topicId = topicId;
         this.topicName = topicName;
         this.puId = puId;
         this.isInappropriate = isInappropriate;
+        this.adminId = adminId;
     }
 
     public Long getTopicId() {
@@ -53,6 +55,12 @@ public class ForumTopicDTO {
     public void setIsInappropriate(boolean isInappropriate) {
         this.isInappropriate = isInappropriate;
     }
-    
-    
+
+    public Long getAdminId() {
+        return adminId;
+    }
+
+    public void setAdminId(Long adminId) {
+        this.adminId = adminId;
+    }
 }

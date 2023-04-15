@@ -28,6 +28,7 @@ import javax.ws.rs.core.GenericEntity;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriBuilder;
+import util.dataTransferObject.ResponseObject;
 import util.formRequestEntity.AdminForumTopicRequest;
 import util.formRequestEntity.ForumTopicRequest;
 
@@ -40,7 +41,7 @@ import util.formRequestEntity.ForumTopicRequest;
 @RequestScoped
 public class ForumTopicsResource {
 
-    @EJB 
+    @EJB
     private ForumTopicSessionBeanLocal forumTopicSessionBeanLocal;
 
     @POST
@@ -48,39 +49,39 @@ public class ForumTopicsResource {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Response createForumTopic(ForumTopic t, @PathParam("studentId") Long studentId, @PathParam("puId") Long puId, @Context UriInfo uriInfo) {
-        
+
         forumTopicSessionBeanLocal.createNewForumTopic(t, studentId, puId);
-        
+
         URI createdUri = uriInfo.getAbsolutePathBuilder()
                 .path(t.getTopicId().toString())
                 .build();
-        
+
         return Response.created(createdUri)
                 .entity(t)
                 .build();
     }
-    
+
     @POST
     @Path("/user/student/{studentId}")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Response userCreateForumTopic(@PathParam("studentId") Long studentId,
-                                    ForumTopicRequest request) {
-        
+            ForumTopicRequest request) {
+
         ForumTopic forumTopic = new ForumTopic();
         forumTopic.setTopicName(request.getTopicName());
         forumTopic.setIsInappropriate(false);
         forumTopic.setIsEdited(false);
 
         forumTopicSessionBeanLocal.createNewForumTopic(forumTopic, studentId, request.getPuId());
-        
+
         URI createdUri = UriBuilder.fromResource(ForumTopicsResource.class)
-                                   .path(forumTopic.getTopicId().toString())
-                                   .build();
-        
+                .path(forumTopic.getTopicId().toString())
+                .build();
+
         return Response.created(createdUri).entity(forumTopic).build();
     }
-    
+
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public Response getAllForumTopics() {
@@ -93,7 +94,7 @@ public class ForumTopicsResource {
                 entity
         ).build();
     }
-    
+
     @GET
     @Path("/pu/{puId}")
     @Produces(MediaType.APPLICATION_JSON)
@@ -107,23 +108,28 @@ public class ForumTopicsResource {
                 entity
         ).build();
     }
-    
+
     @GET
     @Path("/{id}")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getForumTopic(@PathParam("id") Long tId) {
         ForumTopic forumTopic = forumTopicSessionBeanLocal.retrieveForumTopicById(tId);
+
+        if (forumTopic == null) {
+            return Response.status(200).entity(new ResponseObject("404")).type(MediaType.APPLICATION_JSON).build();
+        }
+
         return Response.status(200).entity(
                 forumTopic
         ).type(MediaType.APPLICATION_JSON).build();
     }
-    
+
     @GET
     @Path("/student/{studentId}")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getForumTopicsByStudentId(@PathParam("studentId") Long sId) {
         List<ForumTopic> forumTopics = forumTopicSessionBeanLocal.retrieveForumTopicsByStudentId(sId);
-        
+
         GenericEntity<List<ForumTopic>> entity = new GenericEntity<List<ForumTopic>>(forumTopics) {
         };
 
@@ -131,13 +137,13 @@ public class ForumTopicsResource {
                 entity
         ).build();
     }
-    
+
     @GET
     @Path("/pu/{puId}/student/{studentId}")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getPuForumTopicsByStudentId(@PathParam("puId") Long puId, @PathParam("studentId") Long sId) {
         List<ForumTopic> forumTopics = forumTopicSessionBeanLocal.retrievePUForumTopicsByStudentId(puId, sId);
-        
+
         GenericEntity<List<ForumTopic>> entity = new GenericEntity<List<ForumTopic>>(forumTopics) {
         };
 
@@ -145,7 +151,7 @@ public class ForumTopicsResource {
                 entity
         ).build();
     }
-    
+
     @PUT
     @Path("/{id}")
     @Consumes(MediaType.APPLICATION_JSON)
@@ -156,7 +162,7 @@ public class ForumTopicsResource {
         forumTopicSessionBeanLocal.editForumTopic(forumTopic);
         return Response.status(204).build();
     }
-        
+
     @DELETE
     @Path("/{id}")
     @Produces(MediaType.APPLICATION_JSON)
@@ -164,7 +170,7 @@ public class ForumTopicsResource {
         forumTopicSessionBeanLocal.deleteForumTopic(tId);
         return Response.status(204).build();
     }
-    
+
     @GET
     @Path("/query")
     @Produces(MediaType.APPLICATION_JSON)
@@ -180,7 +186,7 @@ public class ForumTopicsResource {
             return Response.status(400).entity(exception).build();
         }
     }
-    
+
     @GET
     @Path("/query/pu/{id}")
     @Produces(MediaType.APPLICATION_JSON)
@@ -196,7 +202,7 @@ public class ForumTopicsResource {
             return Response.status(400).entity(exception).build();
         }
     }
-    
+
     @GET
     @Path("/query/student/{id}")
     @Produces(MediaType.APPLICATION_JSON)
@@ -212,7 +218,7 @@ public class ForumTopicsResource {
             return Response.status(400).entity(exception).build();
         }
     }
-    
+
     @GET
     @Path("/query/student/{id}/pu/{puId}")
     @Produces(MediaType.APPLICATION_JSON)
@@ -238,6 +244,6 @@ public class ForumTopicsResource {
         forumTopicSessionBeanLocal.reportForumTopic(tId);
         return Response.status(204).build();
 
-    }   
-    
+    }
+
 }

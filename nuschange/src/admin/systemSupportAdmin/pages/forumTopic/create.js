@@ -8,6 +8,8 @@ import API from '../../../../util/API';
 import apiPaths from '../../../../util/apiPaths';
 import { AuthContext } from '../../../../AuthContext';
 
+import { Helmet } from 'react-helmet';
+
 const ForumTopic = () => {
     const [topicName, setTopicName] = useState("");
     const [puId, setPuId] = useState("");
@@ -22,7 +24,7 @@ const ForumTopic = () => {
     const { loggedInAdmin } = useContext(AuthContext);
 
     const handleCreate = async () => {
-        if (validate()) {
+        if (await validate()) {
             try {
                 const createForumTopic = {
                     topicName,
@@ -40,18 +42,31 @@ const ForumTopic = () => {
     };
 
     const handleCancel = async () => {
-        setTopicName("");
-        setPuId("Select Partner University");
-        setShowModal(false);
+        window.location.reload();
     };
 
-    const validate = () => {
+    const validate = async () => {
         let isValid = true;
         if (topicName.trim() === "") {
             setTopicNameError("Please enter a topic name");
             isValid = false;
         } else {
-            setTopicNameError("");
+            if (puId !== "") {
+                const apiPath = `${apiPaths.listOfAdminForumTopics}/searchForumTopicsByPuAdmin/${puId}`
+                const response = await API.get(apiPath);
+                const forumTopics = response.data;
+
+                const duplicateTopicName = forumTopics.some(
+                    (forumTopic) => forumTopic.topicName.toLowerCase() === topicName.toLowerCase()
+                );
+
+                if (duplicateTopicName) {
+                    setTopicNameError("Topic name already exists in this PU");
+                    isValid = false;
+                } else {
+                    setTopicNameError("");
+                }
+            }
         }
         if (puId === "") {
             setPuIdError("Please select a partner university");
@@ -81,6 +96,9 @@ const ForumTopic = () => {
 
     return (
         <div>
+            <Helmet>
+                <title>Create Forum Topic</title>
+            </Helmet>
             <Header />
             <Menu />
             <div className="content-wrapper">
@@ -96,7 +114,7 @@ const ForumTopic = () => {
                                 {topicNameError && <div className="invalid-feedback">{topicNameError}</div>}
                             </div>
                             <div className="form-group">
-                                <label htmlFor="inputName">Partner Universities</label>
+                                <label htmlFor="inputName">Partner University</label>
                                 <select className={`custom-select rounded-0 form-control ${puIdError ? "is-invalid" : ""}`} id="puSelectOption" value={puId} onChange={(e) => setPuId(e.target.value)}>
                                     <option value="">Select Partner University</option>
                                     {pus.map((pu, index) => {

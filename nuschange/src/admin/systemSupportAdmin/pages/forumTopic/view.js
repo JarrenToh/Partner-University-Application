@@ -8,6 +8,8 @@ import Footer from "../../../components/dashboard/Footer";
 import API from "../../../../util/API";
 import apiPaths from "../../../../util/apiPaths";
 
+import { Helmet } from "react-helmet";
+
 const ForumTopicDetails = () => {
     const navigate = useNavigate();
     const { id } = useParams();
@@ -19,12 +21,14 @@ const ForumTopicDetails = () => {
 
     const [showUpdateSuccessModal, setShowUpdateSuccessModal] = useState(false);
     const [showDeleteSuccessModal, setShowDeleteSuccessModal] = useState(false);
+    const [showNotFoundModal, setShowNotFoundModal] = useState(false);
+    const [showNotAdminModal, setShowNotAdminModal] = useState(false);
 
     const [topicNameError, setTopicNameError] = useState("");
     const [puIdError, setPuIdError] = useState("");
 
     const handleEdit = async () => {
-        if (validate()) {
+        if (await validate()) {
             try {
                 const updatedForumTopic = {
                     topicName,
@@ -61,13 +65,33 @@ const ForumTopicDetails = () => {
         navigate('../admin/systemSupportAdmin/forumTopics');
     };
 
-    const validate = () => {
+    const handleCancelNotFoundModal = () => {
+        setShowNotFoundModal(false);
+        navigate('../admin/systemSupportAdmin/forumTopics');
+    };
+
+    const validate = async () => {
         let isValid = true;
         if (topicName.trim() === "") {
             setTopicNameError("Please enter a topic name");
             isValid = false;
         } else {
-            setTopicNameError("");
+            if (puId !== "") {
+                const apiPath = `${apiPaths.listOfAdminForumTopics}/searchForumTopicsByPuAdmin/${puId}`
+                const response = await API.get(apiPath);
+                const forumTopics = response.data;
+
+                const duplicateTopicName = forumTopics.some(
+                    (forumTopic) => forumTopic.topicName.toLowerCase() === topicName.toLowerCase()
+                );
+
+                if (duplicateTopicName) {
+                    setTopicNameError("Topic name already exists in this PU");
+                    isValid = false;
+                } else {
+                    setTopicNameError("");
+                }
+            }
         }
         if (puId === "") {
             setPuIdError("Please select a partner university");
@@ -80,7 +104,31 @@ const ForumTopicDetails = () => {
     };
 
     useEffect(() => {
-        const fetchData = async () => {
+        const fetchAdminTopicData = async () => {
+            try {
+                const apiPath = `${apiPaths.listOfAdminForumTopics}/${id}`
+                const response = await API.get(apiPath);
+                const data = response.data;
+
+                if (data.stringStatus === "404") {
+                    setShowNotFoundModal(true);
+                } else if (data.adminId === -1) {
+                    setShowNotAdminModal(true);
+                } else {
+                    const topicName = data.topicName;
+                    const puId = data.puId;
+                    const isInappropriate = data.isInappropriate;
+
+                    setTopicName(topicName);
+                    setPuId(puId);
+                    setIsInappropriate(isInappropriate);
+                }
+            } catch (error) {
+                console.error(error);
+            }
+        };
+
+        const fetchPUsData = async () => {
             try {
                 const apiPath = `${apiPaths.listOfPUs}`
                 const response = await API.get(apiPath);
@@ -92,32 +140,15 @@ const ForumTopicDetails = () => {
             }
         };
 
-        fetchData();
-    }, []);
-
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const apiPath = `${apiPaths.listOfAdminForumTopics}/${id}`
-                const response = await API.get(apiPath);
-                const data = response.data;
-
-                const topicName = data.topicName;
-                const puId = data.puId;
-                const isInappropriate = data.isInappropriate;
-
-                setTopicName(topicName);
-                setPuId(puId);
-                setIsInappropriate(isInappropriate);
-            } catch (error) {
-                console.error(error);
-            }
-        };
-        fetchData();
+        fetchAdminTopicData();
+        fetchPUsData();
     }, [id]);
 
     return (
         <div>
+            <Helmet>
+                <title>View Forum Topic Details</title>
+            </Helmet>
             <Header />
             <Menu />
             <div className="content-wrapper">
@@ -208,6 +239,66 @@ const ForumTopicDetails = () => {
                                     type="button"
                                     className="btn btn-default"
                                     onClick={() => handleCancelDeleteSuccessModal()}>
+                                    Close
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            )}
+            {showNotFoundModal && (
+                <div className="modal fade show" id="modal-default" style={{ display: "block" }}>
+                    <div className="modal-dialog">
+                        <div className="modal-content">
+                            <div className="modal-header">
+                                <h4 className="modal-title">Forum Topic Not Found</h4>
+                                <button
+                                    type="button"
+                                    className="close"
+                                    data-dismiss="modal"
+                                    aria-label="Close"
+                                    onClick={() => handleCancelNotFoundModal()}>
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div className="modal-body">
+                                <p>The requested forum topic could not be found!</p>
+                            </div>
+                            <div className="modal-footer justify-content-between">
+                                <button
+                                    type="button"
+                                    className="btn btn-default"
+                                    onClick={() => handleCancelNotFoundModal()}>
+                                    Close
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            )}
+            {showNotAdminModal && (
+                <div className="modal fade show" id="modal-default" style={{ display: "block" }}>
+                    <div className="modal-dialog">
+                        <div className="modal-content">
+                            <div className="modal-header">
+                                <h4 className="modal-title">Forum Topic by Student</h4>
+                                <button
+                                    type="button"
+                                    className="close"
+                                    data-dismiss="modal"
+                                    aria-label="Close"
+                                    onClick={() => handleCancelNotFoundModal()}>
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div className="modal-body">
+                                <p>The requested forum topic is created by student!</p>
+                            </div>
+                            <div className="modal-footer justify-content-between">
+                                <button
+                                    type="button"
+                                    className="btn btn-default"
+                                    onClick={() => handleCancelNotFoundModal()}>
                                     Close
                                 </button>
                             </div>

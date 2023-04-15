@@ -7,6 +7,8 @@ import Footer from "../../../components/dashboard/Footer";
 import InappropriatenessComponent from "./components";
 import apiPaths from "../../../../util/apiPaths";
 
+import { Helmet } from "react-helmet";
+
 const Inappropriateness = () => {
   const [selectedButton, setSelectedButton] = useState("PUReview");
 
@@ -58,6 +60,9 @@ const Inappropriateness = () => {
 
   return (
     <div>
+      <Helmet>
+        <title>View Inappropriate Content</title>
+      </Helmet>
       <Header />
       <Menu />
       <div className="content-wrapper">
@@ -69,11 +74,10 @@ const Inappropriateness = () => {
                 <button
                   key={category}
                   type="button"
-                  className={`btn ${
-                    category === selectedButton
+                  className={`btn ${category === selectedButton
                       ? "btn-primary"
                       : "btn-outline-dark"
-                  }`}
+                    }`}
                   onClick={() => handleButtonClicks(category)}
                 >
                   {label}

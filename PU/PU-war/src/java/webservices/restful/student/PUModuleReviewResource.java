@@ -30,6 +30,7 @@ import javax.ws.rs.core.GenericEntity;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import util.dataTransferObject.PUModuleReviewDTO;
+import util.dataTransferObject.ResponseObject;
 
 @Path("pumodulereview")
 @RequestScoped
@@ -173,6 +174,7 @@ public class PUModuleReviewResource {
     public Response getPUModuleReview(@PathParam("id") Long cId) {
         try {
             PUModuleReview c = puModuleReviewSessionBeanLocal.getPUModuleReview(cId);
+                        
             Student student = c.getStudent();
 
             PUModuleReviewDTO puModuleReviewDto = new PUModuleReviewDTO(
@@ -195,8 +197,7 @@ public class PUModuleReviewResource {
                     .add("error", "Not found")
                     .build();
 
-            return Response.status(404).entity(exception)
-                    .type(MediaType.APPLICATION_JSON).build();
+            return Response.status(200).entity(new ResponseObject("404")).type(MediaType.APPLICATION_JSON).build();
         }
     } //end getPUModuleReview
 

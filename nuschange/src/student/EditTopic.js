@@ -63,7 +63,7 @@ export default function EditTopic() {
                 setAlertVisible(true);
         
                 setTimeout(() => {
-                    navigate(`/forum-topics/0`);
+                    navigate(`/student/forum-topics/0`);
                 }, 1000);
             })
             .catch((error) => {
@@ -99,11 +99,11 @@ export default function EditTopic() {
                         <Col sm={{ size: 10, offset: 2 }}>
                             <div className="text-right">
                                 <Button variant="success"
-                                    disabled={saveButtonDisabled} type="submit">
+                                    disabled={saveButtonDisabled} type="submit" style={{marginRight: "10px"}}>
                                     Edit topic
                                 </Button>
                                 <Button variant="outline-danger" tag={Link}
-                                    to={`/forum-topics/0`}>
+                                    to={`/student/forum-topics/0`}>
                                     Close
                                 </Button>
                             </div>

@@ -63,7 +63,7 @@ export default function EditComment() {
                 setAlertVisible(true);
         
                 setTimeout(() => {
-                    navigate(`/view-post/${postId}/${topicName}/${topicId}`);
+                    navigate(`/student/view-post/${postId}/${topicName}/${topicId}`);
                 }, 1000);
             })
             .catch((error) => {
@@ -98,12 +98,12 @@ export default function EditComment() {
                     <FormGroup row>
                         <Col sm={{ size: 10, offset: 2 }}>
                             <div className="text-right">
-                                <Button variant="success"
+                                <Button variant="success" style={{marginRight: "10px"}}
                                     disabled={saveButtonDisabled} type="submit">
                                     Edit comment
                                 </Button>
                                 <Button variant="outline-danger" tag={Link}
-                                    to={`/view-post/${postId}/${topicName}/${topicId}`}>
+                                    to={`/student/view-post/${postId}/${topicName}/${topicId}`}>
                                     Close
                                 </Button>
                             </div>

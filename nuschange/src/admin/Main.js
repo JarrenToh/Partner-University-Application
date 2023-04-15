@@ -5,12 +5,17 @@ import Menu from '../admin/components/dashboard/Menu';
 import Dashboard from "../admin/components/dashboard/Dashboard";
 import Footer from "../admin/components/dashboard/Footer";
 
+import { Helmet } from 'react-helmet';
+
 const Main = () => {
     return (
         <div>
-            <Header/>
+            <Helmet>
+                <title>Home</title>
+            </Helmet>
+            <Header />
             <Menu />
-            <Dashboard/>
+            <Dashboard />
             <Footer />
         </div>
     )
