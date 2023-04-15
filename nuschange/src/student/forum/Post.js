@@ -5,10 +5,10 @@ import axios from 'axios';
 import { useParams } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faComments } from '@fortawesome/free-solid-svg-icons'
-import { AuthContext } from '../../src/AuthContext';
-import CommentComp from './CommentComp';
-import NavbarComp from '../student/components/NavbarComp';
-import NotLoggedIn from './components/NotLoggedInPage';
+import { AuthContext } from '../../../src/AuthContext';
+import CommentComp from '../forum/CommentComp';
+import NavbarComp from '../../student/components/NavbarComp';
+import NotLoggedIn from '../../student/components/NotLoggedInPage';
 
 import {
   Form,
@@ -23,7 +23,7 @@ import {
   Alert
 } from 'reactstrap';
 import './forum.css';
-import SearchIcon from './homepage/search.svg';
+import SearchIcon from '../homepage/search.svg';
 
 export default function ViewPost() {
   const { loggedInStudent } = useContext(AuthContext);
