@@ -65,7 +65,7 @@ const PartnerUniversity = () => {
                                 </tr>
                             </thead>
                             <tbody>
-                                {data.map((item) => (
+                                {data.length > 0 ? (data.map((item) => (
                                     <tr key={item.puId}>
                                         <td>{item.puId}</td>
                                         <td>{item.name}</td>
@@ -81,7 +81,12 @@ const PartnerUniversity = () => {
                                             </div>
                                         </td>
                                     </tr>
-                                ))}
+                                )
+                                )) : (
+                                    <tr>
+                                        <td colSpan={4} style={{ textAlign: "center" }}>No data available</td>
+                                    </tr>
+                                )}
                             </tbody>
                             <tfoot>
                                 <tr>
