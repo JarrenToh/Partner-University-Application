@@ -10,6 +10,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import javax.json.bind.annotation.JsonbTransient;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -41,7 +42,7 @@ public class ForumTopic implements Serializable {
     @Column(nullable = false)
     private LocalDateTime timeOfCreation;
     
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "forumTopic")
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.REMOVE, orphanRemoval = true, mappedBy = "forumTopic")
     private List<ForumPost> forumPosts;
     
     @ManyToOne(optional = true)

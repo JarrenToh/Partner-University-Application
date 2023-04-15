@@ -11,6 +11,8 @@ import { DateTimeConverter } from "../../../../util/dateTimeConverter";
 import { systemSupportAdminPaths } from "../../../../util/adminRoutes";
 import { AuthContext } from "../../../../AuthContext";
 
+import { Helmet } from "react-helmet";
+
 const ForumTopic = () => {
 
     const [data, setData] = useState([]);
@@ -20,7 +22,7 @@ const ForumTopic = () => {
     const { loggedInAdmin } = useContext(AuthContext);
 
     const handleButtonClick = (forumTopicId) => {
-        navigate(`${systemSupportAdminPaths.viewForumTopics}/${forumTopicId}`);
+        navigate(`/admin${systemSupportAdminPaths.viewForumTopics}/${forumTopicId}`);
     };
 
     useEffect(() => {
@@ -51,6 +53,9 @@ const ForumTopic = () => {
 
     return (
         <div>
+            <Helmet>
+                <title>View Forum Topic</title>
+            </Helmet>
             <Header />
             <Menu />
             <div className="content-wrapper">

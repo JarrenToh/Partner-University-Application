@@ -10,17 +10,24 @@ import apiPaths from "../../../../util/apiPaths";
 
 import { convertToEncodedTextForUrl } from "../../../../util/urlTextConverter";
 
+import { Helmet } from "react-helmet";
+
 const PUModuleDetails = () => {
     const navigate = useNavigate();
 
     const { puName, puModuleCode } = useParams();
     const [id, setId] = useState(-1);
     const [name, setName] = useState("");
+    const [currentName, setCurrentName] = useState("");
     const [code, setCode] = useState("");
+    const [currentCode, setCurrentCode] = useState("");
     const [description, setDescription] = useState("");
+
+    const [existingModules, setExistingModules] = useState([]);
 
     const [showUpdateSuccessModal, setShowUpdateSuccessModal] = useState(false);
     const [showDeleteSuccessModal, setShowDeleteSuccessModal] = useState(false);
+    const [showNotFoundModal, setShowNotFoundModal] = useState(false);
 
     const [nameError, setNameError] = useState("");
     const [codeError, setCodeError] = useState("");
@@ -47,7 +54,7 @@ const PUModuleDetails = () => {
 
     const handleDelete = async () => {
         try {
-            const apiPath = `${apiPaths.listOfPUModules}/deletePUModuleFromPU/${code}?pu=${puName}`;
+            const apiPath = `${apiPaths.listOfPUModules}/deletePUModuleFromPU/${code}?pu=${convertToEncodedTextForUrl(puName)}`;
             await API.delete(apiPath);
 
             setShowDeleteSuccessModal(true);
@@ -58,11 +65,16 @@ const PUModuleDetails = () => {
 
     const handleCancelUpdateSuccessModal = () => {
         setShowUpdateSuccessModal(false);
-        navigate(`../partnerUniversities/${puName}/modules/${code}`);
+        navigate(`../admin/systemSupportAdmin/partnerUniversities/${puName}/modules/${code}`);
     };
 
     const handleCancelDeleteSuccessModal = () => {
-        navigate(`../partnerUniversities/${puName}/modules/`);
+        navigate(`../admin/systemSupportAdmin/partnerUniversities/${puName}/modules/`);
+    };
+
+    const handleCancelNotFoundModal = () => {
+        setShowNotFoundModal(false);
+        navigate(`../admin/systemSupportAdmin/partnerUniversities/${puName}/modules/`);
     };
 
     const validate = () => {
@@ -71,13 +83,35 @@ const PUModuleDetails = () => {
             setNameError("Please enter a name");
             isValid = false;
         } else {
-            setNameError("");
+            if (name.trim() !== currentName) {
+                const duplicateName = existingModules.some(
+                    (module) => module.name.toLowerCase() === name.toLowerCase()
+                );
+
+                if (duplicateName) {
+                    setNameError("Name already exists");
+                    isValid = false;
+                } else {
+                    setNameError("");
+                }
+            }
         }
         if (code.trim() === "") {
             setCodeError("Please enter a code");
             isValid = false;
         } else {
-            setCodeError("");
+            if (code.trim() !== currentCode) {
+                const duplicateCode = existingModules.some(
+                    (module) => module.code.toLowerCase() === code.toLowerCase()
+                );
+
+                if (duplicateCode) {
+                    setCodeError("Code already exists");
+                    isValid = false;
+                } else {
+                    setCodeError("");
+                }
+            }
         }
         if (description.trim() === "") {
             setDescriptionError("Please enter a description");
@@ -95,32 +129,56 @@ const PUModuleDetails = () => {
                 const response = await API.get(apiPath);
                 const data = response.data;
 
-                const id = data.moduleId;
-                const name = data.name;
-                const code = data.code;
-                const description = data.description;
+                if (data.stringStatus === "404") {
+                    setShowNotFoundModal(true);
+                } else {
+                    const id = data.moduleId;
+                    const name = data.name;
+                    const code = data.code;
+                    const description = data.description;
 
-                setId(id);
-                setName(name);
-                setCode(code);
-                setDescription(description);
+                    setId(id);
+                    setName(name);
+                    setCurrentName(name);
+                    setCode(code);
+                    setCurrentCode(code);
+                    setDescription(description);
+                }
+            } catch (error) {
+                console.error(error);
+            }
+        };
+
+        const fetchExistingModules = async () => {
+            try {
+                const encodedPUName = convertToEncodedTextForUrl(puName);
+
+                const apiPath = `${apiPaths.listOfPUs}/getPUByName/${encodedPUName}`;
+
+                const response = await API.get(apiPath);
+
+                setExistingModules(response.data.modules);
             } catch (error) {
                 console.error(error);
             }
         };
 
         fetchData();
+        fetchExistingModules();
     }, [id, puModuleCode, puName]);
 
     return (
         <div>
+            <Helmet>
+                <title>View PU Module Details</title>
+            </Helmet>
             <Header />
             <Menu />
             <div className="content-wrapper">
                 <div className="card">
                     <div className="card card-primary">
                         <div className="card-header">
-                            <h3 className="card-title">View PU Module Details</h3>
+                            <h3 className="card-title">View Partner University Module Details</h3>
                         </div>
                         <div className="card-body">
                             <div className="form-group">
@@ -200,6 +258,36 @@ const PUModuleDetails = () => {
                                     type="button"
                                     className="btn btn-default"
                                     onClick={() => handleCancelDeleteSuccessModal()}>
+                                    Close
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            )}
+            {showNotFoundModal && (
+                <div className="modal fade show" id="modal-default" style={{ display: "block" }}>
+                    <div className="modal-dialog">
+                        <div className="modal-content">
+                            <div className="modal-header">
+                                <h4 className="modal-title">PU Module Not Found</h4>
+                                <button
+                                    type="button"
+                                    className="close"
+                                    data-dismiss="modal"
+                                    aria-label="Close"
+                                    onClick={() => handleCancelNotFoundModal()}>
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div className="modal-body">
+                                <p>The requested PU module could not be found!</p>
+                            </div>
+                            <div className="modal-footer justify-content-between">
+                                <button
+                                    type="button"
+                                    className="btn btn-default"
+                                    onClick={() => handleCancelNotFoundModal()}>
                                     Close
                                 </button>
                             </div>

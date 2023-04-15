@@ -47,10 +47,7 @@ public class FAQSessionBean implements FAQSessionBeanLocal {
     }
 
     private FAQ getFAQ(Long faqId) {
-        Query q = em.createQuery("SELECT f FROM FAQ f WHERE f.faqId = :faqId");
-        q.setParameter("faqId", faqId);
-
-        return (FAQ)q.getSingleResult();
+        return em.find(FAQ.class, faqId);
     }
 
     @Override

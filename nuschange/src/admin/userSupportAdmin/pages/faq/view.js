@@ -9,12 +9,19 @@ import API from "../../../../util/API";
 import apiPaths from "../../../../util/apiPaths";
 import { AuthContext } from "../../../../AuthContext";
 
+import { Helmet } from "react-helmet";
+
 const FAQDetails = () => {
     const { id } = useParams();
     const [question, setQuestion] = useState("");
+    const [currentQuestion, setCurrentQuestion] = useState("");
     const [answer, setAnswer] = useState("");
+
+    const [existingFAQs, setExistingFAQs] = useState([]);
+
     const [showUpdateSuccessModal, setShowUpdateSuccessModal] = useState(false);
     const [showDeleteSuccessModal, setShowDeleteSuccessModal] = useState(false);
+    const [showNotFoundModal, setShowNotFoundModal] = useState(false);
 
     const [questionError, setQuestionError] = useState("");
     const [answerError, setAnswerError] = useState("");
@@ -45,7 +52,7 @@ const FAQDetails = () => {
         try {
             const apiPath = `${apiPaths.listOfFaqs}/${id}`;
             await API.delete(apiPath);
-            
+
             setShowDeleteSuccessModal(true);
         } catch (error) {
             console.error(error);
@@ -53,11 +60,16 @@ const FAQDetails = () => {
     };
 
     const handleCancelUpdateSuccessModal = () => {
-        setShowUpdateSuccessModal(false);
+        window.location.reload();
     };
 
     const handleCancelDeleteSuccessModal = () => {
-        navigate('../userSupportAdmin/faqs');
+        navigate('../admin/userSupportAdmin/faqs');
+    };
+
+    const handleCancelNotFoundModal = () => {
+        setShowNotFoundModal(false);
+        navigate('../admin/userSupportAdmin/faqs');
     };
 
     const validate = () => {
@@ -66,7 +78,18 @@ const FAQDetails = () => {
             setQuestionError("Please enter a question");
             isValid = false;
         } else {
-            setQuestionError("");
+            if (question.trim() !== currentQuestion) {
+                const duplicateQuestion = existingFAQs.some(
+                    (faq) => faq.question.toLowerCase() === question.toLowerCase()
+                );
+
+                if (duplicateQuestion) {
+                    setQuestionError("Question already exists");
+                    isValid = false;
+                } else {
+                    setQuestionError("");
+                }
+            }
         }
         if (answer.trim() === "") {
             setAnswerError("Please enter an answer");
@@ -84,20 +107,40 @@ const FAQDetails = () => {
                 const response = await API.get(apiPath);
                 const data = response.data;
 
-                const question = data.question;
-                const answer = data.answer;
+                if (data.stringStatus === "404") {
+                    setShowNotFoundModal(true);
+                } else {
+                    const question = data.question;
+                    const answer = data.answer;
 
-                setQuestion(question);
-                setAnswer(answer);
+                    setQuestion(question);
+                    setCurrentQuestion(question);
+                    setAnswer(answer);
+                }
             } catch (error) {
                 console.error(error);
             }
         };
+
+        const fetchFAQs = async () => {
+            try {
+                const apiPath = `${apiPaths.listOfFaqs}`;
+                const response = await API.get(apiPath);
+                setExistingFAQs(response.data);
+            } catch (error) {
+                console.error(error);
+            }
+        };
+
         fetchData();
+        fetchFAQs();
     }, [id]);
 
     return (
         <div>
+            <Helmet>
+                <title>View FAQ Details</title>
+            </Helmet>
             <Header />
             <Menu />
             <div className="content-wrapper">
@@ -178,6 +221,36 @@ const FAQDetails = () => {
                                     type="button"
                                     className="btn btn-default"
                                     onClick={() => handleCancelDeleteSuccessModal()}>
+                                    Close
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            )}
+            {showNotFoundModal && (
+                <div className="modal fade show" id="modal-default" style={{ display: "block" }}>
+                    <div className="modal-dialog">
+                        <div className="modal-content">
+                            <div className="modal-header">
+                                <h4 className="modal-title">FAQ Not Found</h4>
+                                <button
+                                    type="button"
+                                    className="close"
+                                    data-dismiss="modal"
+                                    aria-label="Close"
+                                    onClick={() => handleCancelNotFoundModal()}>
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div className="modal-body">
+                                <p>The requested FAQ could not be found!</p>
+                            </div>
+                            <div className="modal-footer justify-content-between">
+                                <button
+                                    type="button"
+                                    className="btn btn-default"
+                                    onClick={() => handleCancelNotFoundModal()}>
                                     Close
                                 </button>
                             </div>

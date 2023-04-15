@@ -28,7 +28,7 @@ function AlumnusComp(props) {
                 <>
                   <ListGroupItem className="py-3 border-0" key={alumni.studentId}>
                     <Link
-                      to={`/other-profile/${alumni.studentId}`}
+                      to={`/student/other-profile/${alumni.studentId}`}
                       style={{ color: "black", textDecoration: "none" }}
                     >
                       <div className="align-box-row w-100">

@@ -28,6 +28,7 @@ import javax.ws.rs.core.GenericEntity;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriBuilder;
+import util.dataTransferObject.ResponseObject;
 import util.formRequestEntity.AdminForumCommentRequest;
 import util.formRequestEntity.ForumCommentRequest;
 
@@ -172,6 +173,11 @@ public class ForumCommentsResource {
     @Produces(MediaType.APPLICATION_JSON)
     public Response getForumComment(@PathParam("id") Long cId) {
         ForumComment forumComment = forumCommentSessionBeanLocal.retrieveForumCommentById(cId);
+        
+        if (forumComment == null) {
+            return Response.status(200).entity(new ResponseObject("404")).type(MediaType.APPLICATION_JSON).build();
+        }
+        
         return Response.status(200).entity(
                 forumComment
         ).type(MediaType.APPLICATION_JSON).build();

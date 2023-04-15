@@ -14,6 +14,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import java.util.List;
 import javax.json.bind.annotation.JsonbTransient;
+import javax.persistence.CascadeType;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
@@ -50,33 +51,32 @@ public class Student implements Serializable {
 
     private String password;
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "student")
+    @OneToMany(cascade = {CascadeType.ALL, CascadeType.REMOVE}, orphanRemoval = true, fetch = FetchType.EAGER, mappedBy = "student")
     private List<Enquiry> enquiries;
 
     @ManyToMany(fetch = FetchType.EAGER)
-    @JsonbTransient
     private List<PU> likedPUs;
 
-    @OneToMany(mappedBy = "student")
+    @OneToMany(cascade = {CascadeType.ALL, CascadeType.REMOVE}, orphanRemoval = true, mappedBy = "student")
     private List<PUModuleReview> moduleReviews;
 
     @ManyToOne
     @JoinColumn(nullable = true)
     private PU puEnrolled;
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "student")
+    @OneToMany(cascade = {CascadeType.ALL, CascadeType.REMOVE}, orphanRemoval = true, fetch = FetchType.EAGER, mappedBy = "student")
     private List<ForumPost> posts;
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "student")
+    @OneToMany(cascade = {CascadeType.ALL, CascadeType.REMOVE}, orphanRemoval = true, fetch = FetchType.EAGER, mappedBy = "student")
     private List<ForumTopic> topics;
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "student")
+    @OneToMany(cascade = {CascadeType.ALL, CascadeType.REMOVE}, orphanRemoval = true, fetch = FetchType.EAGER, mappedBy = "student")
     private List<ForumComment> comments;
 
-    @OneToMany
+    @OneToMany(cascade = {CascadeType.ALL, CascadeType.REMOVE}, orphanRemoval = true, fetch = FetchType.EAGER)
     private List<PUModule> modulesTaken;
 
-    @OneToOne(mappedBy = "student")
+    @OneToOne(mappedBy = "student", cascade = {CascadeType.ALL, CascadeType.REMOVE}, orphanRemoval = true, fetch = FetchType.EAGER)
     private PUReview puReview;
 
     @ManyToMany(fetch = FetchType.EAGER)
@@ -94,6 +94,22 @@ public class Student implements Serializable {
             inverseJoinColumns = @JoinColumn(name = "PUREVIEW_ID")
     )
     private List<PUReview> dislikedPUReviews;
+    
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "STUDENT_MODREVIEW_LIKED",
+            joinColumns = @JoinColumn(name = "STUDENT_ID"),
+            inverseJoinColumns = @JoinColumn(name = "MODREVIEW_ID")
+    )
+    private List<PUModuleReview> likedModReviews;
+    
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "STUDENT_MODREVIEW_DISLIKED",
+            joinColumns = @JoinColumn(name = "STUDENT_ID"),
+            inverseJoinColumns = @JoinColumn(name = "MODREVIEW_ID")
+    )
+    private List<PUModuleReview> dislikedModReviews;
 
     public Student() {
         this.socialMedia = new ArrayList<>();
@@ -106,6 +122,8 @@ public class Student implements Serializable {
         this.modulesTaken = new ArrayList<>();
         this.likedPUReviews = new ArrayList<>();
         this.dislikedPUReviews = new ArrayList<>();
+        this.likedModReviews = new ArrayList<>();
+        this.dislikedModReviews = new ArrayList<>();
     }
 
     public Student(String firstName, String lastName, String phoneNumber, String email, String password, String faculty) {
@@ -426,4 +444,24 @@ public class Student implements Serializable {
     public void setDislikedPUReviews(List<PUReview> dislikedPUReviews) {
         this.dislikedPUReviews = dislikedPUReviews;
     }
+
+    public List<PUModuleReview> getLikedModReviews() {
+        return likedModReviews;
+    }
+
+    public void setLikedModReviews(List<PUModuleReview> likedModReviews) {
+        this.likedModReviews = likedModReviews;
+    }
+
+    public List<PUModuleReview> getDislikedModReviews() {
+        return dislikedModReviews;
+    }
+
+    public void setDislikedModReviews(List<PUModuleReview> dislikedModReviews) {
+        this.dislikedModReviews = dislikedModReviews;
+    }
+
+   
+    
+    
 }

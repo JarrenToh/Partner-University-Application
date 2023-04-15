@@ -55,6 +55,7 @@ public class EnquiriesResource {
     public Response createEnquiry(@QueryParam("studentId") Long studentId,
                                   StudentEnquiryRequest enquiryRequest, 
                                   @Context UriInfo uriInfo) {
+        
         String title = enquiryRequest.getTitle();
         String content = enquiryRequest.getContent();
 

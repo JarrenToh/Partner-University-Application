@@ -15,12 +15,15 @@ import {
 
 import defaultProfilePicture from "../images/housekeeper.png";
 import IconSocialMedia from "../studentProfile/IconSocialMedia";
+import NavbarComp from '../../student/components/NavbarComp';
 
 const OtherStudentProfile = () => {
   const { studentId } = useParams();
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [user, setUser] = useState(null);
   const API_URL_STUDENT = "http://localhost:8080/PU-war/webresources/student";
   const [currentStudent, setCurrentStudent] = useState({
-    email: "jessicawong@comp.nus.edu.sg", 
+    email: "jessicawong@comp.nus.edu.sg",
     firstName: "Dummy",
     lastName: "Student",
     moduleReviews: [],
@@ -41,7 +44,7 @@ const OtherStudentProfile = () => {
   const [socialMedia, setSocialMedia] = useState([]);
   const [puEnrolled, setPuEnrolled] = useState({
     name: "Dummy Uni",
-    puId: 0
+    puId: 0,
   });
   useEffect(() => {
     console.log(studentId);
@@ -77,10 +80,7 @@ const OtherStudentProfile = () => {
       return (
         <div>
           <InputGroup>
-            <Form.Control
-              readOnly
-              value={puEnrolled.name}
-            />
+            <Form.Control readOnly value={puEnrolled.name} />
           </InputGroup>
         </div>
       );
@@ -93,86 +93,89 @@ const OtherStudentProfile = () => {
     }
   };
 
-
   return (
-    <div style={{ paddingLeft: "5%", paddingRight: "5%" }}>
-      <div className="container" style={{ border: 0 }}>
-        <h1 className="text-center mb-3">{currentStudent.firstName}'s Profile</h1>
-      </div>
-      <Row>
-        <Col>
-          <div id="profilePicDiv" style={{ padding: "5%" }}>
-            <Card>
-              <Card.Body style={{ padding: "5%", textAlign: "center" }}>
-                <Image
-                  src={defaultProfilePicture}
-                  roundedCircle
-                  style={{ width: "200px", height: "200px" }}
-                />
-              </Card.Body>
-              <Card.Footer>
-                Last Active: {currentStudent.lastActive}
-              </Card.Footer>
-            </Card>
-            <Card>
-              <Card.Header as="h5">Social Media</Card.Header>
-              <ListGroup variant="flush">
-                {socialMedia != null &&
-                  socialMedia.map((link) => (
+    <div className="wrapper">
+      <NavbarComp
+        isLoggedIn={isLoggedIn}
+        setIsLoggedIn={setIsLoggedIn}
+        user={user}
+      />
+      <div style={{ paddingLeft: "5%", paddingRight: "5%" }}>
+        <div className="container" style={{ border: 0 }}>
+          <h1 className="text-center mb-3">
+            {currentStudent.firstName}'s Profile
+          </h1>
+        </div>
+        <Row>
+          <Col>
+            <div id="profilePicDiv" style={{ padding: "5%" }}>
+              <Card>
+                <Card.Body style={{ padding: "5%", textAlign: "center" }}>
+                  <Image
+                    src={defaultProfilePicture}
+                    roundedCircle
+                    style={{ width: "200px", height: "200px" }}
+                  />
+                </Card.Body>
+                <Card.Footer>
+                  Last Active: {currentStudent.lastActive}
+                </Card.Footer>
+              </Card>
+              <Card>
+                <Card.Header as="h5">Social Media</Card.Header>
+                <ListGroup variant="flush">
+                  {socialMedia != null &&
+                    socialMedia.map((link) => (
+                      <ListGroupItem>
+                        <IconSocialMedia linkType={link} /> {"   "}
+                        <a
+                          href={`https://${link}`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          {link}
+                        </a>
+                      </ListGroupItem>
+                    ))}
+
+                  {socialMedia.length === 0 && (
                     <ListGroupItem>
-                      <IconSocialMedia linkType={link} /> {"   "}
-                      <a
-                        href={`https://${link}`}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
-                        {link}
-                      </a>
+                      This user has not added any social media links.
                     </ListGroupItem>
-                  ))}
+                  )}
+                </ListGroup>
+              </Card>
+            </div>
+          </Col>
 
-                {socialMedia.length === 0 && (
-                  <ListGroupItem>
-                    This user has not added any social media links.
-                  </ListGroupItem>
-                )}
-              </ListGroup>
-            </Card>
-          </div>
-        </Col>
-
-        <Col>
-          <div id="formDiv" style={{ padding: "5%" }}>
-            <Form>
-              <Form.Group className="mb-3" controlId="formGroupName">
-                <Form.Label>Full Name</Form.Label>
-                <Form.Control readOnly value={studentFullName} />
-              </Form.Group>
-              <Form.Group className="mb-3" controlId="formGroupEmail">
-                <Form.Label>Email</Form.Label>
-                <Form.Control readOnly value={currentStudent.email} />
-              </Form.Group>
-              <Form.Group className="mb-3" controlId="formGroupPhone">
-                <Form.Label>Phone Number</Form.Label>
-                <Form.Control
-                  readOnly
-                  value={currentStudent.phoneNumber}
-                />
-              </Form.Group>
-              <Form.Group className="mb-3" controlId="formGroupFaculty">
-                <Form.Label>Faculty</Form.Label>
-                <Form.Control readOnly value={currentStudent.faculty} />
-              </Form.Group>
-              <Form.Group className="mb-3" controlId="formGroupEmail">
-                <Form.Label>Partner University</Form.Label>
-                <EnrolledField
-                  isEnrolled={puEnrolled.puId !== 0}
-                />
-              </Form.Group>
-            </Form>
-          </div>
-        </Col>
-      </Row>
+          <Col>
+            <div id="formDiv" style={{ padding: "5%" }}>
+              <Form>
+                <Form.Group className="mb-3" controlId="formGroupName">
+                  <Form.Label>Full Name</Form.Label>
+                  <Form.Control readOnly value={studentFullName} />
+                </Form.Group>
+                <Form.Group className="mb-3" controlId="formGroupEmail">
+                  <Form.Label>Email</Form.Label>
+                  <Form.Control readOnly value={currentStudent.email} />
+                </Form.Group>
+                <Form.Group className="mb-3" controlId="formGroupPhone">
+                  <Form.Label>Phone Number</Form.Label>
+                  <Form.Control readOnly value={currentStudent.phoneNumber} />
+                </Form.Group>
+                <Form.Group className="mb-3" controlId="formGroupFaculty">
+                  <Form.Label>Faculty</Form.Label>
+                  <Form.Control readOnly value={currentStudent.faculty} />
+                </Form.Group>
+                <Form.Group className="mb-3" controlId="formGroupEmail">
+                  <Form.Label>Partner University</Form.Label>
+                  <EnrolledField isEnrolled={puEnrolled.puId !== 0} />
+                </Form.Group>
+              </Form>
+            </div>
+          </Col>
+        </Row>
+      </div>
     </div>
   );
 };

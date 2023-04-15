@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 
 import Header from '../../../components/dashboard/Header';
@@ -9,11 +9,15 @@ import API from '../../../../util/API';
 import apiPaths from '../../../../util/apiPaths';
 import { convertToEncodedTextForUrl } from '../../../../util/urlTextConverter';
 
+import { Helmet } from 'react-helmet';
+
 const PartnerUniversityModule = () => {
     const { puName } = useParams();
     const [name, setName] = useState("");
     const [code, setCode] = useState("");
     const [description, setDescription] = useState("");
+
+    const [existingModules, setExistingModules] = useState([]);
 
     const [nameError, setNameError] = useState("");
     const [codeError, setCodeError] = useState("");
@@ -41,10 +45,7 @@ const PartnerUniversityModule = () => {
     };
 
     const handleCancel = async () => {
-        setName("");
-        setCode("");
-        setDescription("");
-        setShowModal(false);
+        window.location.reload();
     };
 
     const validate = () => {
@@ -53,13 +54,31 @@ const PartnerUniversityModule = () => {
             setNameError("Please enter a name");
             isValid = false;
         } else {
-            setNameError("");
+            const duplicateName = existingModules.some(
+                (module) => module.name.toLowerCase() === name.toLowerCase()
+            );
+
+            if (duplicateName) {
+                setNameError("Name already exists");
+                isValid = false;
+            } else {
+                setNameError("");
+            }
         }
         if (code.trim() === "") {
             setCodeError("Please enter a code");
             isValid = false;
         } else {
-            setCodeError("");
+            const duplicateCode = existingModules.some(
+                (module) => module.code.toLowerCase() === code.toLowerCase()
+            );
+
+            if (duplicateCode) {
+                setCodeError("Code already exists");
+                isValid = false;
+            } else {
+                setCodeError("");
+            }
         }
         if (description.trim() === "") {
             setDescriptionError("Please enter a description");
@@ -70,8 +89,29 @@ const PartnerUniversityModule = () => {
         return isValid;
     };
 
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const encodedPUName = convertToEncodedTextForUrl(puName);
+
+                const apiPath = `${apiPaths.listOfPUs}/getPUByName/${encodedPUName}`;
+
+                const response = await API.get(apiPath);
+
+                setExistingModules(response.data.modules);
+            } catch (error) {
+                console.error(error);
+            }
+        };
+
+        fetchData();
+    }, [puName])
+
     return (
         <div>
+            <Helmet>
+                <title>Create PU Module</title>
+            </Helmet>
             <Header />
             <Menu />
             <div className="content-wrapper">
