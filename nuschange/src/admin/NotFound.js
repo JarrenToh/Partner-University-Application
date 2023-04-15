@@ -4,14 +4,16 @@ import Header from "./components/dashboard/Header";
 import Menu from "./components/dashboard/Menu";
 import Footer from "./components/dashboard/Footer";
 
+import { Helmet } from "react-helmet";
+
 const NotFound = () => {
     return (
         <div>
+            <Helmet>
+                <title>Not Found</title>
+            </Helmet>
             <Header />
             <Menu />
-            <div>
-
-            </div>
             <div className="content-wrapper">
                 <div className="card">
                     <div className="card card-primary">
