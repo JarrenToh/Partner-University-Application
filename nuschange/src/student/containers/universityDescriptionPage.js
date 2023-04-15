@@ -215,7 +215,7 @@ function UniversityDescriptionPage() {
 
             <div style={{ display: "flex", flexDirection: "row", margin: "2vw 2vw" }}>
                 <div style={{ textAlign: "left", flex: 1 }}>
-                    <h1 style={{ marginTop: 0 }}>{pu.name}</h1>
+                    <h1 style={{ marginTop: 0, textAlign: "left" }}>{pu.name}</h1>
                     <p>{pu.description}</p>
                 </div>
                 <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-end", justifyContent: "space-between", flex: 1 }}>

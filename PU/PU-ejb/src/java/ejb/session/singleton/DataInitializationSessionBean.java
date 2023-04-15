@@ -750,7 +750,7 @@ public class DataInitializationSessionBean {
                 "alexanderchen@comp.nus.edu.sg",
                 "password"
         );
-        
+
         Student student82 = new Student(
                 "Jason",
                 "Ong",
@@ -3532,6 +3532,112 @@ public class DataInitializationSessionBean {
         pUSessionBean.enrollStudent(pId4, studentId35);
         pUSessionBean.enrollStudent(pId4, studentId36);
 
+        pUSessionBean.enrollStudent(pId27, studentId37);
+        pUSessionBean.enrollStudent(pId27, studentId38);
+        pUSessionBean.enrollStudent(pId27, studentId39);
+        pUSessionBean.enrollStudent(pId28, studentId40);
+        pUSessionBean.enrollStudent(pId28, studentId41);
+        pUSessionBean.enrollStudent(pId28, studentId42);
+        pUSessionBean.enrollStudent(pId29, studentId43);
+        pUSessionBean.enrollStudent(pId29, studentId44);
+        pUSessionBean.enrollStudent(pId29, studentId45);
+        pUSessionBean.enrollStudent(pId30, studentId46);
+        pUSessionBean.enrollStudent(pId30, studentId47);
+        pUSessionBean.enrollStudent(pId30, studentId48);
+        pUSessionBean.enrollStudent(pId31, studentId49);
+        pUSessionBean.enrollStudent(pId31, studentId50);
+        pUSessionBean.enrollStudent(pId31, studentId51);
+        pUSessionBean.enrollStudent(pId32, studentId52);
+        pUSessionBean.enrollStudent(pId32, studentId53);
+
+        pUSessionBean.enrollStudent(pId32, studentId54);
+        pUSessionBean.enrollStudent(pId33, studentId55);
+        pUSessionBean.enrollStudent(pId33, studentId56);
+        pUSessionBean.enrollStudent(pId33, studentId57);
+        pUSessionBean.enrollStudent(pId34, studentId58);
+        pUSessionBean.enrollStudent(pId34, studentId59);
+        pUSessionBean.enrollStudent(pId34, studentId60);
+        pUSessionBean.enrollStudent(pId35, studentId61);
+        pUSessionBean.enrollStudent(pId35, studentId62);
+        pUSessionBean.enrollStudent(pId35, studentId63);
+        pUSessionBean.enrollStudent(pId36, studentId64);
+        pUSessionBean.enrollStudent(pId36, studentId65);
+        pUSessionBean.enrollStudent(pId36, studentId66);
+        pUSessionBean.enrollStudent(pId37, studentId67);
+        pUSessionBean.enrollStudent(pId37, studentId68);
+        pUSessionBean.enrollStudent(pId37, studentId69);
+        pUSessionBean.enrollStudent(pId38, studentId70);
+        pUSessionBean.enrollStudent(pId38, studentId71);
+        pUSessionBean.enrollStudent(pId38, studentId72);
+        pUSessionBean.enrollStudent(pId26, studentId73);
+        pUSessionBean.enrollStudent(pId26, studentId74);
+        pUSessionBean.enrollStudent(pId26, studentId75);
+        pUSessionBean.enrollStudent(pId25, studentId76);
+        pUSessionBean.enrollStudent(pId25, studentId77);
+        pUSessionBean.enrollStudent(pId25, studentId78);
+        pUSessionBean.enrollStudent(pId24, studentId79);
+        pUSessionBean.enrollStudent(pId24, studentId80);
+        pUSessionBean.enrollStudent(pId24, studentId81);
+        pUSessionBean.enrollStudent(pId23, studentId82);
+        pUSessionBean.enrollStudent(pId23, studentId83);
+        pUSessionBean.enrollStudent(pId23, studentId84);
+        pUSessionBean.enrollStudent(pId22, studentId85);
+        pUSessionBean.enrollStudent(pId22, studentId86);
+        pUSessionBean.enrollStudent(pId22, studentId87);
+        pUSessionBean.enrollStudent(pId21, studentId88);
+
+        pUSessionBean.enrollStudent(pId21, studentId89);
+        pUSessionBean.enrollStudent(pId21, studentId90);
+        pUSessionBean.enrollStudent(pId20, studentId91);
+        pUSessionBean.enrollStudent(pId20, studentId92);
+        pUSessionBean.enrollStudent(pId20, studentId93);
+        pUSessionBean.enrollStudent(pId19, studentId94);
+        pUSessionBean.enrollStudent(pId19, studentId95);
+        pUSessionBean.enrollStudent(pId19, studentId96);
+        pUSessionBean.enrollStudent(pId18, studentId97);
+        pUSessionBean.enrollStudent(pId18, studentId98);
+        pUSessionBean.enrollStudent(pId18, studentId99);
+        pUSessionBean.enrollStudent(pId17, studentId100);
+        pUSessionBean.enrollStudent(pId17, studentId101);
+        pUSessionBean.enrollStudent(pId17, studentId102);
+        pUSessionBean.enrollStudent(pId16, studentId103);
+        pUSessionBean.enrollStudent(pId16, studentId104);
+        pUSessionBean.enrollStudent(pId16, studentId105);
+        pUSessionBean.enrollStudent(pId15, studentId106);
+
+        pUSessionBean.enrollStudent(pId15, studentId107);
+        pUSessionBean.enrollStudent(pId15, studentId108);
+        pUSessionBean.enrollStudent(pId5, studentId109);
+        pUSessionBean.enrollStudent(pId5, studentId110);
+        pUSessionBean.enrollStudent(pId6, studentId111);
+        pUSessionBean.enrollStudent(pId6, studentId112);
+        pUSessionBean.enrollStudent(pId6, studentId113);
+        pUSessionBean.enrollStudent(pId7, studentId114);
+        pUSessionBean.enrollStudent(pId7, studentId115);
+        pUSessionBean.enrollStudent(pId7, studentId116);
+        pUSessionBean.enrollStudent(pId8, studentId117);
+        pUSessionBean.enrollStudent(pId8, studentId118);
+        pUSessionBean.enrollStudent(pId8, studentId119);
+        pUSessionBean.enrollStudent(pId9, studentId120);
+        pUSessionBean.enrollStudent(pId9, studentId121);
+        pUSessionBean.enrollStudent(pId10, studentId122);
+        pUSessionBean.enrollStudent(pId10, studentId123);
+        pUSessionBean.enrollStudent(pId10, studentId124);
+
+        pUSessionBean.enrollStudent(pId11, studentId125);
+        pUSessionBean.enrollStudent(pId11, studentId126);
+        pUSessionBean.enrollStudent(pId11, studentId127);
+        pUSessionBean.enrollStudent(pId12, studentId128);
+        pUSessionBean.enrollStudent(pId12, studentId129);
+        pUSessionBean.enrollStudent(pId12, studentId130);
+        pUSessionBean.enrollStudent(pId12, studentId131);
+        pUSessionBean.enrollStudent(pId13, studentId132);
+        pUSessionBean.enrollStudent(pId13, studentId133);
+        pUSessionBean.enrollStudent(pId13, studentId134);
+        pUSessionBean.enrollStudent(pId14, studentId135);
+        pUSessionBean.enrollStudent(pId14, studentId136);
+        pUSessionBean.enrollStudent(pId14, studentId137);
+
         PUModule module1 = new PUModule(
                 "Introduction to Programming",
                 "CS101",
@@ -4246,7 +4352,7 @@ public class DataInitializationSessionBean {
         forumTopic1.setIsInappropriate(true);
         forumTopic2.setIsInappropriate(true);
         forumTopic3.setIsInappropriate(true);
-        
+
         forumTopicSessionBeanLocal.createNewForumTopic(forumTopic1, studentId1, pId1);
         forumTopicSessionBeanLocal.createNewForumTopic(forumTopic2, studentId2, pId2);
         forumTopicSessionBeanLocal.createNewForumTopic(forumTopic3, studentId3, pId3);
@@ -4254,7 +4360,7 @@ public class DataInitializationSessionBean {
         forumTopicSessionBeanLocal.createNewForumTopic(forumTopic5, studentId2, pId5);
         forumTopicSessionBeanLocal.createNewForumTopic(forumTopic6, studentId3, pId1);
         forumTopicSessionBeanLocal.createNewForumTopic(forumTopic7, studentId3, pId1);
-        
+
         ForumPost forumPost1 = new ForumPost("This is stupid?", "Stupid PU!!");
         ForumPost forumPost2 = new ForumPost("HK nice food?", "What a joke!!");
         ForumPost forumPost3 = new ForumPost("Places to stay?", "I want to stay in Singapore");
@@ -4310,12 +4416,12 @@ public class DataInitializationSessionBean {
         forumCommentSessionBeanLocal.createNewForumComment(forumComment2, forumPost2.getPostId(), student2.getStudentId());
         forumCommentSessionBeanLocal.createNewForumComment(forumComment3, forumPost3.getPostId(), student1.getStudentId());
         forumCommentSessionBeanLocal.createNewForumComment(forumComment4, forumPost4.getPostId(), student3.getStudentId());
-        forumCommentSessionBeanLocal.createNewForumReply(forumComment5, forumComment4.getCommentId(), forumPost4.getPostId(),student1.getStudentId());
+        forumCommentSessionBeanLocal.createNewForumReply(forumComment5, forumComment4.getCommentId(), forumPost4.getPostId(), student1.getStudentId());
         forumCommentSessionBeanLocal.createNewForumComment(forumComment6, forumPost5.getPostId(), student6.getStudentId());
         forumCommentSessionBeanLocal.createNewForumComment(forumComment7, forumPost6.getPostId(), student5.getStudentId());
         forumCommentSessionBeanLocal.createNewForumReply(forumComment9, forumComment6.getCommentId(), forumPost5.getPostId(), student7.getStudentId());
         forumCommentSessionBeanLocal.createNewForumComment(forumComment10, forumPost7.getPostId(), student4.getStudentId());
-        
+
 //        Enquiry enquiry1 = new Enquiry("Hello", "Help");
 //        Enquiry enquiry2 = new Enquiry("Bye", "World");
 //        Enquiry enquiry3 = new Enquiry("Interesting", "Story");
