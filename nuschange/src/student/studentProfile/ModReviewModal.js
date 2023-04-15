@@ -12,7 +12,7 @@ const ModReviewModal = (props) => {
     isInappropriate: false,
     moduleReviewId: 0,
     noOfDislikes: 0,
-    noOfLikes: 1,
+    noOfLikes: 0,
     rating: 2,
     review: "Dummy Review",
   });
@@ -50,7 +50,9 @@ const ModReviewModal = (props) => {
     } else if (review.length === 0) {
       setFormStatus("Save Changes");
       setAlertType("danger");
-      setAlertMessage("Your Review of a Module cannot be empty! Please fill in your review.");
+      setAlertMessage(
+        "Your Review of a Module cannot be empty! Please fill in your review."
+      );
       setAlertVisible(true);
       setReview(modReview.review);
       return;

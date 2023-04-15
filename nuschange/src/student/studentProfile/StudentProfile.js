@@ -219,13 +219,6 @@ const StudentProfile = () => {
                     defaultValue={loggedInStudent.phoneNumber}
                   />
                 </Form.Group>
-                <Form.Group className="mb-3" controlId="formGroupFaculty">
-                  <Form.Label>Faculty</Form.Label>
-                  <Form.Control
-                    readOnly
-                    defaultValue={loggedInStudent.faculty}
-                  />
-                </Form.Group>
                 <Form.Group className="mb-3" controlId="formGroupEmail">
                   <Form.Label>Partner University</Form.Label>
                   <EnrolledField isEnrolled={puEnrolled.puId !== 0} />
