@@ -122,7 +122,7 @@ const Profile = () => {
     const handleCancelUpdateSuccessModal = () => {
         setShowUpdateSuccessModal(false);
         console.log("username " + username);
-        window.location.reload(`../profile/${username}`);
+        // window.location.reload(`../profile/${username}`);
     };
 
     const validateName = () => {
