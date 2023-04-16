@@ -35,3 +35,6 @@ If you would like to contribute to this project, please follow the steps below:
  3. Make your changes and commit them using descriptive commit messages
  4. Push your changes to your forked repository using git push origin feature/yourfeaturename
  5. Create a pull request and describe your changes in detail
+ 
+ ## Deployment
+ The React application has been deployed on AWS Amplify: https://main.d3in4nrpf8ri32.amplifyapp.com/
